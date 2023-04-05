@@ -20,13 +20,13 @@
                </font>
             </Label>
             <Label text="Usuario" />
-            <TextField />
+            <TextField fx:id="txtuser" />
             <Label text="Contraseña" />
-            <TextField />
+            <TextField fx:id="txtpassword" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" text="Entrar como invitado" />
-                  <Button mnemonicParsing="false" text="Entrar" />
+                  <Button mnemonicParsing="false" onAction="#IngresarLogin" text="Entrar como invitado" />
+                  <Button mnemonicParsing="false" onAction="#IngresarLogin" text="Entrar" />
                </children>
             </HBox>
          </children>

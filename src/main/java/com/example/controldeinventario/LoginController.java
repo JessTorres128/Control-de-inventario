@@ -17,6 +17,10 @@ public class LoginController {
 @FXML TextField txtpassword;
 Conexion conexion;
 
+@FXML protected void initialize(){
+    conexion=new Conexion();
+}
+
 @FXML private void IngresarLogin(ActionEvent event) throws IOException, SQLException {
     String user = txtuser.getText();
     String pass = txtpassword.getText();
