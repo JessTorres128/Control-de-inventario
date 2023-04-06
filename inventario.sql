@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2023 at 02:20 AM
+-- Generation Time: Apr 06, 2023 at 02:33 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -116,7 +116,7 @@ CREATE TABLE `pedido_material` (
 
 CREATE TABLE `tipo_usuario` (
   `id_rol` int(10) NOT NULL,
-  `nombre_rol` int(100) NOT NULL,
+  `nombre_rol` varchar(100) NOT NULL,
   `crud_articulo` tinyint(1) NOT NULL,
   `crud_material` tinyint(1) NOT NULL,
   `crud_pedido` tinyint(1) NOT NULL,
@@ -124,6 +124,13 @@ CREATE TABLE `tipo_usuario` (
   `restaurar_bd` tinyint(1) NOT NULL,
   `respaldar_bd` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tipo_usuario`
+--
+
+INSERT INTO `tipo_usuario` (`id_rol`, `nombre_rol`, `crud_articulo`, `crud_material`, `crud_pedido`, `crud_user`, `restaurar_bd`, `respaldar_bd`) VALUES
+(1, 'Administrador', 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -137,6 +144,13 @@ CREATE TABLE `usuario` (
   `password` varchar(50) NOT NULL,
   `nombre_rol` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `usuario`
+--
+
+INSERT INTO `usuario` (`id_user`, `username`, `password`, `nombre_rol`) VALUES
+(1, 'admin', 'admin', 'Administrador');
 
 --
 -- Indexes for dumped tables
@@ -228,13 +242,13 @@ ALTER TABLE `pedido_material`
 -- AUTO_INCREMENT for table `tipo_usuario`
 --
 ALTER TABLE `tipo_usuario`
-  MODIFY `id_rol` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_rol` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
