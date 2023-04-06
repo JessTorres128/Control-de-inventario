@@ -25,7 +25,7 @@ Conexion conexion;
     String user = txtuser.getText();
     String pass = txtpassword.getText();
 
-    ResultSet resultado = conexion.consultar("select * from usuarios where username='"+user+"' and password='"+pass+"'");
+    ResultSet resultado = conexion.consultar("select * from usuario where username='"+user+"' and password='"+pass+"'");
     if (resultado != null){
         int cont =0;
         if (resultado.next()){cont++;}
