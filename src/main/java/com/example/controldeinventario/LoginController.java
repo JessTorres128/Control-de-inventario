@@ -36,13 +36,14 @@ Conexion conexion;
             alert.setContentText("Datos incorrectos");
             alert.show();
         }else{
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("principal.fxml"));
+            System.out.println("ENCONTRO");
+          /*  FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("principal.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 550, 400);
             HelloApplication.primarystage.setX(100);
             HelloApplication.primarystage.setY(50);
             HelloApplication.primarystage.setTitle("Pantalla principal");
             HelloApplication.primarystage.setScene(scene);
-            HelloApplication.primarystage.setResizable(false);
+            HelloApplication.primarystage.setResizable(false); */
         }
 
     }
