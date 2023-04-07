@@ -33,17 +33,17 @@ Conexion conexion;
         if(cont==0){
             Alert alert=new Alert(Alert.AlertType.ERROR);
             alert.setTitle("error");
-            alert.setContentText("Datos incorrectos");
+            alert.setContentText("Datos incorrectos, compruebe los datos insertados");
             alert.show();
         }else{
             System.out.println("ENCONTRO");
-          /*  FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("principal.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 550, 400);
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Principal.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
             HelloApplication.primarystage.setX(100);
             HelloApplication.primarystage.setY(50);
             HelloApplication.primarystage.setTitle("Pantalla principal");
             HelloApplication.primarystage.setScene(scene);
-            HelloApplication.primarystage.setResizable(false); */
+            HelloApplication.primarystage.setResizable(false);
         }
 
     }

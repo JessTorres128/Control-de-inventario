@@ -17,6 +17,7 @@ public class HelloApplication extends Application {
         stage.setTitle("Inventario");
         stage.setScene(scene);
         stage.show();
+
         stage.setResizable(false);
     }
 
