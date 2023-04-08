@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 06, 2023 at 02:33 AM
+-- Generation Time: Apr 09, 2023 at 12:53 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `herramienta` (
   `id_herramienta` int(10) NOT NULL,
+  `herramienta` varchar(50) NOT NULL,
   `tipo` varchar(50) NOT NULL,
   `caracteristicas` varchar(60) NOT NULL,
   `frecuencia_de_uso` varchar(40) NOT NULL,
