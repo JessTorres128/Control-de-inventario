@@ -9,32 +9,40 @@
    <children>
       <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="1280.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Materiales">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Pedidos">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#ingresarPedidos" text="Ver pedidos" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Articulos">
+            <Menu mnemonicParsing="false" text="Archivo">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Iniciar sesión" />
+                  <MenuItem mnemonicParsing="false" text="Cerrar sesión" />
+                  <MenuItem mnemonicParsing="false" text="Salir de la aplicación" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Almacén">
             <items>
               <MenuItem mnemonicParsing="false" text="Materiales" />
                   <MenuItem mnemonicParsing="false" text="Herramientas" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Mantenimiento">
+          <Menu mnemonicParsing="false" text="Pedidos">
+            <items>
+              <MenuItem fx:id="menuItemB" mnemonicParsing="false" onAction="#ingresarPedidos" text="Ver pedidos" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Tipos">
               <items>
-                <MenuItem mnemonicParsing="false" text="Empleados" />
-                  <MenuItem mnemonicParsing="false" text="Tipos de usuario" />
+                  <MenuItem mnemonicParsing="false" text="Articulo" />
+                <MenuItem mnemonicParsing="false" text="Herramienta" />
               </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Herramientas">
+          <Menu mnemonicParsing="false" text="Usuarios">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Roles" />
+                  <MenuItem mnemonicParsing="false" text="Empleados" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Mantenimiento">
               <items>
-                  <MenuItem mnemonicParsing="false" text="Respaldar BD" />
                 <MenuItem mnemonicParsing="false" text="Restaurar BD" />
+                  <MenuItem mnemonicParsing="false" text="Respaldar BD" />
               </items>
             </Menu>
         </menus>

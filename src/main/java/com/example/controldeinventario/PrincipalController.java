@@ -5,13 +5,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class PrincipalController {
+    @FXML MenuItem menuItemB;
 
+    @FXML protected void initialize(){
+        Image imgSearch= new Image("",25,25,false,true);
+        menuItemB.setGraphic(new ImageView(imgSearch));
+    }
 
 
 
