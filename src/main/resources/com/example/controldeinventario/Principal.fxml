@@ -11,20 +11,20 @@
         <menus>
             <Menu mnemonicParsing="false" text="Archivo">
               <items>
-                <MenuItem mnemonicParsing="false" text="Iniciar sesión" />
-                  <MenuItem mnemonicParsing="false" text="Cerrar sesión" />
+                <MenuItem mnemonicParsing="false" onAction="#IngresarLogin" text="Iniciar sesión" />
+                  <MenuItem mnemonicParsing="false" onAction="#IngresarLogin" text="Cerrar sesión" />
                   <MenuItem mnemonicParsing="false" text="Salir de la aplicación" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Almacén">
             <items>
-              <MenuItem mnemonicParsing="false" text="Materiales" />
-                  <MenuItem mnemonicParsing="false" text="Herramientas" />
+              <MenuItem mnemonicParsing="false" onAction="#IngresarArticulos" text="Materiales" />
+                  <MenuItem mnemonicParsing="false" onAction="#IngresarHerramientas" text="Herramientas" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Pedidos">
             <items>
-              <MenuItem fx:id="menuItemB" mnemonicParsing="false" onAction="#ingresarPedidos" text="Ver pedidos" />
+              <MenuItem mnemonicParsing="false" onAction="#IngresarPedidos" text="Ver pedidos" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Tipos">
@@ -35,8 +35,8 @@
             </Menu>
           <Menu mnemonicParsing="false" text="Usuarios">
             <items>
-              <MenuItem mnemonicParsing="false" text="Roles" />
-                  <MenuItem mnemonicParsing="false" text="Empleados" />
+              <MenuItem mnemonicParsing="false" onAction="#IngresarRoles" text="Roles" />
+                  <MenuItem mnemonicParsing="false" onAction="#IngresarEmpleados" text="Empleados" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Mantenimiento">
