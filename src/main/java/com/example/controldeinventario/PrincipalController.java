@@ -27,7 +27,7 @@ public class PrincipalController {
 
     //Controles del menú
     @FXML private void IngresarArticulos(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Pedidos.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Articulos.fxml"));
         Parent root = fxmlLoader.load();
         AbrirVentana(root);
 
