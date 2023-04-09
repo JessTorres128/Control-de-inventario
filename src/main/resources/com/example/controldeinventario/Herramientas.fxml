@@ -15,6 +15,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 
 <HBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.HerramientasController">
@@ -57,7 +58,7 @@
                               <Label text="Se cargaron x registros" />
                            </children>
                            <VBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                              <Insets />
                            </VBox.margin>
                         </VBox>
                      </children>
@@ -95,20 +96,26 @@
                               <Insets bottom="20.0" left="20.0" right="20.0" />
                            </VBox.margin>
                         </HBox>
+                        <Label text="Caracteristicas">
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Bold" size="21.0" />
+                           </font>
+                        </Label>
                         <JFXTextArea prefHeight="123.0" prefWidth="523.0">
                            <VBox.margin>
                               <Insets bottom="10.0" left="20.0" right="20.0" />
                            </VBox.margin>
                         </JFXTextArea>
-                        <Label text="Caracteristicas">
-                           <VBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" />
-                           </VBox.margin>
-                        </Label>
                         <Label text="Frecuencia de uso">
                            <VBox.margin>
                               <Insets bottom="5.0" left="20.0" right="20.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
                         </Label>
                         <HBox prefHeight="32.0" prefWidth="523.0" spacing="20.0">
                            <children>
