@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
 import java.io.IOException;
 
 public class HelloApplication extends Application {
@@ -13,7 +14,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         primarystage =stage;
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 350, 350);
+        Scene scene = new Scene(fxmlLoader.load(), 700, 500);
         stage.setTitle("Inventario");
         stage.setScene(scene);
         stage.show();

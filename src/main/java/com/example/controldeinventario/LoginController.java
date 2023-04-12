@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 public class LoginController {
 @FXML TextField txtuser;
 @FXML TextField txtpassword;
+
 Conexion conexion;
 
 @FXML protected void initialize(){
