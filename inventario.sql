@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2023 at 12:53 AM
+-- Generation Time: Apr 13, 2023 at 06:31 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -61,7 +61,7 @@ CREATE TABLE `material` (
   `sub_compartimento` varchar(30) NOT NULL,
   `id_material` int(10) NOT NULL,
   `tipo` varchar(60) NOT NULL,
-  `nuero_parte` varchar(60) NOT NULL,
+  `numero_parte` varchar(60) NOT NULL,
   `valor` float NOT NULL,
   `unidad_de_medida` varchar(10) NOT NULL,
   `caracteristicas` varchar(200) NOT NULL,
@@ -80,6 +80,14 @@ CREATE TABLE `materiales` (
   `id_material` int(10) NOT NULL,
   `material` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `materiales`
+--
+
+INSERT INTO `materiales` (`id_material`, `material`) VALUES
+(1, 'Diodo'),
+(2, 'Resistencia');
 
 -- --------------------------------------------------------
 
@@ -225,7 +233,7 @@ ALTER TABLE `herramientas`
 -- AUTO_INCREMENT for table `materiales`
 --
 ALTER TABLE `materiales`
-  MODIFY `id_material` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_material` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pedido`

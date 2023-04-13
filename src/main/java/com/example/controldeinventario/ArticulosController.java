@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.Random;
 
 public class ArticulosController {
-    @FXML ComboBox cbMaterial;
+    @FXML ComboBox<String> cbMaterial = new ComboBox<>();
     @FXML TextArea txtCaracteristicas;
     @FXML TextField txtCodigoBarras, txtArmario,txtGaveta,txtSubCompartimento,txtTipo,txtNumParte,txtValor,txtUnidadMedida,txtStock,txtStockMin;
     Conexion conexion;
@@ -20,8 +20,15 @@ public class ArticulosController {
     @FXML
     Tab tabSearch, tabNew;
 
-    @FXML protected void initialize(){
+    @FXML protected void initialize() throws SQLException {
         conexion = new Conexion();
+        ResultSet resultSet = conexion.consultar("SELECT `material` FROM `materiales`");
+            while (resultSet.next()){
+                cbMaterial.getItems().add((String) resultSet.getObject("material"));
+            }
+
+
+
  /*   btnNew.setGraphic(new ImageView(new Image("",25,25,false,true)));
     btnSave.setGraphic(new ImageView(new Image("",25,25,false,true)));
     btnEdit.setGraphic(new ImageView(new Image("",25,25,false,true)));
@@ -40,9 +47,17 @@ public class ArticulosController {
         txtCodigoBarras.setText(String.valueOf(cb));
         CleanTextFields();
     }
-    @FXML private void SaveArticulo(ActionEvent event){
+    @FXML private void SaveArticulo(ActionEvent event) throws SQLException {
         boolean sp= VerifyTxt(txtCaracteristicas, cbMaterial,txtArmario,txtCodigoBarras,txtGaveta,txtSubCompartimento,txtStock,txtStockMin,txtNumParte,txtTipo,txtValor,txtUnidadMedida);
         if (sp){
+            ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `materiales` WHERE `material`='"+cbMaterial.getSelectionModel().getSelectedItem()+"' LIMIT 1");
+            int id = (int) resultado.getObject("id_material");
+            conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, " +
+                    "`id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, " +
+                    "`frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+txtCodigoBarras.getText()+"','"+txtArmario+"','"+txtGaveta.getText()+"'," +
+                    "'"+txtSubCompartimento.getText()+"','"+id+"','"+txtTipo.getText()+"','"+txtNumParte.getText()+"','"+txtValor.getText()+"','"+txtUnidadMedida.getText()+"','"+txtCaracteristicas.getText()+"','Medio'," +
+                    "'"+txtStock+"','"+txtStockMin+"')");
+            Exito("Lo logro señor");
             System.out.println("Todo correcto");
         }else {
             Error("Faltan campos por rellenar");
