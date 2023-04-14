@@ -10,15 +10,16 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <HBox prefHeight="750.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ArticulosController">
    <children>
-      <TabPane prefHeight="710.0" prefWidth="596.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabV" prefHeight="710.0" prefWidth="596.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Buscar">
+          <Tab fx:id="tabSearch" text="Buscar">
             <content>
                   <VBox>
                      <children>
@@ -31,9 +32,9 @@
                               </Label>
                               <HBox prefHeight="22.0" prefWidth="453.0" spacing="20.0">
                                  <children>
-                                    <JFXRadioButton text="Código de barras" />
-                                    <JFXRadioButton text="Armario" />
-                                    <JFXRadioButton text="Material" />
+                                    <JFXRadioButton fx:id="rbCodigoBarras" selected="true" text="Código de barras" />
+                                    <JFXRadioButton fx:id="rbArmario" text="Armario" />
+                                    <JFXRadioButton fx:id="rbMaterial" text="Material" />
                                  </children>
                                  <VBox.margin>
                                     <Insets left="15.0" />
@@ -51,7 +52,7 @@
                         </VBox>
                         <VBox prefHeight="558.0" prefWidth="578.0">
                            <children>
-                              <TableView prefHeight="540.0" prefWidth="578.0" />
+                              <TableView fx:id="tableViewArticulos" prefHeight="540.0" prefWidth="578.0" />
                               <Label text="Se cargarion x registros" />
                            </children>
                         </VBox>
@@ -59,7 +60,7 @@
                   </VBox>
             </content>
           </Tab>
-          <Tab text="Nuevo / Modificar">
+          <Tab fx:id="tabNew" closable="false" disable="true" text="Nuevo / Modificar">
             <content>
                   <VBox alignment="TOP_CENTER" prefHeight="682.0" prefWidth="574.0">
                      <children>
@@ -67,7 +68,10 @@
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="265.0">
                                  <children>
-                                    <TextField />
+                                    <TextField fx:id="txtCodigoBarras">
+                                       <tooltip>
+                                          <Tooltip text="El código de barras debe de ser un número de 10 digitos" />
+                                       </tooltip></TextField>
                                     <Label text="Código de barras" />
                                  </children>
                                  <HBox.margin>
@@ -76,7 +80,7 @@
                               </VBox>
                               <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="278.0">
                                  <children>
-                                    <TextField />
+                                    <TextField fx:id="txtArmario" />
                                     <Label text="Armario" />
                                  </children>
                                  <HBox.margin>
@@ -95,7 +99,7 @@
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="265.0">
                                  <children>
-                                    <TextField />
+                                    <TextField fx:id="txtGaveta" />
                                     <Label text="Gaveta" />
                                  </children>
                                  <HBox.margin>
@@ -104,7 +108,7 @@
                               </VBox>
                               <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="265.0">
                                  <children>
-                                    <TextField />
+                                    <TextField fx:id="txtSubCompartimento" />
                                     <Label text="Sub Compartimiento" />
                                  </children>
                                  <HBox.margin>
@@ -123,7 +127,7 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                                  <children>
-                                    <ComboBox prefHeight="26.0" prefWidth="198.0" />
+                                    <ComboBox fx:id="cbMaterial" prefHeight="26.0" prefWidth="198.0" />
                                     <Label text="Material" />
                                  </children>
                               </VBox>
@@ -132,7 +136,7 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                                  <children>
-                                    <TextField />
+                                    <TextField fx:id="txtTipo" />
                                     <Label text="Tipo" />
                                  </children>
                               </VBox>
@@ -143,7 +147,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" />
                            </VBox.margin>
                            <children>
-                              <TextField prefHeight="26.0" prefWidth="474.0">
+                              <TextField fx:id="txtNumParte" prefHeight="26.0" prefWidth="474.0">
                                  <VBox.margin>
                                     <Insets left="70.0" right="70.0" />
                                  </VBox.margin>
@@ -161,7 +165,7 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                                  <children>
-                                    <TextField />
+                                    <TextField fx:id="txtValor" />
                                     <Label text="Valor" />
                                  </children>
                               </VBox>
@@ -170,13 +174,13 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                                  <children>
-                                    <TextField />
+                                    <TextField fx:id="txtUnidadMedida" />
                                     <Label text="Unidad de medida" />
                                  </children>
                               </VBox>
                            </children>
                         </HBox>
-                        <JFXTextArea prefHeight="54.0" prefWidth="527.0" />
+                        <JFXTextArea fx:id="txtCaracteristicas" prefHeight="54.0" prefWidth="527.0" />
                         <Label text="Caracteristicas">
                            <VBox.margin>
                               <Insets top="5.0" />
@@ -187,9 +191,9 @@
                               <Insets left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                            <children>
-                              <JFXRadioButton text="Bajo" />
-                              <JFXRadioButton text="Medio" />
-                              <JFXRadioButton text="Alto" />
+                              <JFXRadioButton fx:id="rbBajo" text="Bajo" />
+                              <JFXRadioButton fx:id="rbMedio" selected="true" text="Medio" />
+                              <JFXRadioButton fx:id="rbAlto" text="Alto" />
                            </children>
                         </HBox>
                         <Label text="Frecuencia de uso">
@@ -204,9 +208,9 @@
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="172.0" prefWidth="294.0">
                                  <children>
-                                    <TextField />
+                                    <TextField fx:id="txtStock" />
                                     <Label text="Stock" />
-                                    <TextField />
+                                    <TextField fx:id="txtStockMin" />
                                     <Label text="Stock Min" />
                                  </children>
                                  <HBox.margin>
@@ -242,11 +246,11 @@
                   <Insets bottom="20.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <JFXButton prefHeight="100.0" prefWidth="100.0" text="Nuevo" />
-            <JFXButton prefHeight="100.0" prefWidth="100.0" text="Guardar" />
-            <JFXButton prefHeight="100.0" prefWidth="100.0" text="Modificar" />
-            <JFXButton prefHeight="100.0" prefWidth="100.0" text="Cancelar" />
-            <JFXButton prefHeight="100.0" prefWidth="100.0" text="Salir" />
+            <JFXButton fx:id="btnNew" onAction="#NewArticulo" prefHeight="100.0" prefWidth="100.0" text="Nuevo" />
+            <JFXButton fx:id="btnSave" disable="true" onAction="#SaveArticulo" prefHeight="100.0" prefWidth="100.0" text="Guardar" />
+            <JFXButton fx:id="btnEdit" onAction="#EditArticulo" prefHeight="100.0" prefWidth="100.0" text="Modificar" />
+            <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelArticulo" prefHeight="100.0" prefWidth="100.0" text="Cancelar" />
+            <JFXButton fx:id="btnExit" prefHeight="100.0" prefWidth="100.0" text="Salir" />
          </children>
          <HBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

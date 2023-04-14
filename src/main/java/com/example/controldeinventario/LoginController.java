@@ -35,7 +35,7 @@ Conexion conexion;
         if(cont==0){
             Alert alert=new Alert(Alert.AlertType.ERROR);
             alert.setTitle("error");
-            alert.setContentText("Datos incorrectos, compruebe los datos insertados");
+            alert.setContentText("com.example.controldeinventario.Datos incorrectos, compruebe los datos insertados");
             alert.show();
         }else{
             System.out.println("ENCONTRO");

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2023 at 12:53 AM
+-- Generation Time: Apr 14, 2023 at 05:24 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -61,7 +61,7 @@ CREATE TABLE `material` (
   `sub_compartimento` varchar(30) NOT NULL,
   `id_material` int(10) NOT NULL,
   `tipo` varchar(60) NOT NULL,
-  `nuero_parte` varchar(60) NOT NULL,
+  `numero_parte` varchar(60) NOT NULL,
   `valor` float NOT NULL,
   `unidad_de_medida` varchar(10) NOT NULL,
   `caracteristicas` varchar(200) NOT NULL,
@@ -69,6 +69,15 @@ CREATE TABLE `material` (
   `cantidad` int(10) NOT NULL,
   `cantidad_min` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `material`
+--
+
+INSERT INTO `material` (`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES
+('1234567890', 'D', 'D6', 'B', 2, 'Diodo', '432432AJD', 0, 'N/A', '7W / 9V', 'Medio', 100, 20),
+('1592483282', 'd', 'd2', 'a', 1, 'tttt', '5432fdfsd', 23, 'fdsfdfds', 'gfdgdfgdfgdfgdf', 'Alto', 32, 54),
+('4737075182', 'D', 'D5', 'B', 2, 'Grande', '543543', 100, 'Ohms', 'aaaaaaaaaaaaaaaaa', 'Medio', 100, 20);
 
 -- --------------------------------------------------------
 
@@ -80,6 +89,14 @@ CREATE TABLE `materiales` (
   `id_material` int(10) NOT NULL,
   `material` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `materiales`
+--
+
+INSERT INTO `materiales` (`id_material`, `material`) VALUES
+(1, 'Diodo'),
+(2, 'Resistencia');
 
 -- --------------------------------------------------------
 
@@ -225,7 +242,7 @@ ALTER TABLE `herramientas`
 -- AUTO_INCREMENT for table `materiales`
 --
 ALTER TABLE `materiales`
-  MODIFY `id_material` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_material` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pedido`

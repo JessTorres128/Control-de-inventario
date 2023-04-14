@@ -3,7 +3,7 @@ module com.example.controldeinventario {
     requires javafx.fxml;
     requires java.sql;
 
-
+    opens com.example.controldeinventario.Datos to javafx.base;
     opens com.example.controldeinventario to javafx.fxml;
     exports com.example.controldeinventario;
 }
