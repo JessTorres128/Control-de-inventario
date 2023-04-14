@@ -42,23 +42,35 @@ public class ArticulosController {
 
 
     @FXML private void NewArticulo(ActionEvent event) throws SQLException {
+        ActivateBtn(false,false,false,false,false);
         Long cb = GenerateNumber();
         tabV.getSelectionModel().select(tabNew);
+        tabNew.setDisable(false);
+        tabSearch.setDisable(true);
         txtCodigoBarras.setText(String.valueOf(cb));
         CleanTextFields();
     }
     @FXML private void SaveArticulo(ActionEvent event) throws SQLException {
         boolean sp= VerifyTxt(txtCaracteristicas, cbMaterial,txtArmario,txtCodigoBarras,txtGaveta,txtSubCompartimento,txtStock,txtStockMin,txtNumParte,txtTipo,txtValor,txtUnidadMedida);
         if (sp){
-            ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `materiales` WHERE `material`='"+cbMaterial.getSelectionModel().getSelectedItem()+"' LIMIT 1");
-            int id = (int) resultado.getObject("id_material");
-            conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, " +
-                    "`id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, " +
-                    "`frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+txtCodigoBarras.getText()+"','"+txtArmario+"','"+txtGaveta.getText()+"'," +
-                    "'"+txtSubCompartimento.getText()+"','"+id+"','"+txtTipo.getText()+"','"+txtNumParte.getText()+"','"+txtValor.getText()+"','"+txtUnidadMedida.getText()+"','"+txtCaracteristicas.getText()+"','Medio'," +
-                    "'"+txtStock+"','"+txtStockMin+"')");
-            Exito("Lo logro señor");
-            System.out.println("Todo correcto");
+            ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `materiales` WHERE `material`='"+cbMaterial.getSelectionModel().getSelectedItem().toString()+"' LIMIT 1");
+            System.out.println(cbMaterial.getSelectionModel().getSelectedItem());
+            if (resultado.next()){
+                int id = resultado.getInt("id_material");
+                System.out.println(id);
+                conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, " +
+                        "`id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, " +
+                        "`frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+txtCodigoBarras.getText()+"','"+txtArmario.getText()+"','"+txtGaveta.getText()+"'," +
+                        "'"+txtSubCompartimento.getText()+"','"+id+"','"+txtTipo.getText()+"','"+txtNumParte.getText()+"','"+txtValor.getText()+"','"+txtUnidadMedida.getText()+"','"+txtCaracteristicas.getText()+"','Medio'," +
+                        "'"+txtStock.getText()+"','"+txtStockMin.getText()+"')");
+                Exito("Lo logro señor");
+                System.out.println("Todo correcto");
+                tabV.getSelectionModel().select(tabSearch);
+                tabSearch.setDisable(false);
+                tabNew.setDisable(true);
+            }
+
+
         }else {
             Error("Faltan campos por rellenar");
         }
@@ -73,6 +85,13 @@ public class ArticulosController {
             bd= VerifyCB(numero);
         }
         return numero;
+    }
+    private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit){
+        btnNew.setDisable(New);
+        btnSave.setDisable(save);
+        btnEdit.setDisable(edit);
+        btnCancel.setDisable(cancel);
+        btnExit.setDisable(exit);
     }
     private boolean VerifyCB(long num) throws SQLException {
         ResultSet resultSet = conexion.consultar("SELECT `cb_material` FROM `material` WHERE `cb_material`='"+num+"'");
