@@ -5,13 +5,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 
 public class ArticulosController {
-
+@FXML TextField txtBusqueda;
     @FXML ComboBox<String> cbMaterial = new ComboBox<>();
     @FXML TextArea txtCaracteristicas;
     @FXML TextField txtCodigoBarras, txtArmario,txtGaveta,txtSubCompartimento,txtTipo,txtNumParte,txtValor,txtUnidadMedida,txtStock,txtStockMin;
@@ -74,16 +75,7 @@ public class ArticulosController {
             }
 
             ResultSet rsArticulos= conexion.consultar("SELECT * FROM `material`");
-            while (rsArticulos.next()){
-                ResultSet rsMaterial = conexion.consultar("SELECT `material` FROM `materiales` WHERE `id_material`='"+rsArticulos.getInt("id_material")+"' LIMIT 1");
-                if (rsMaterial.next()){
-                    Articulo a=new Articulo(rsArticulos.getLong("cb_material"), rsArticulos.getString("tipo_de_armario"), rsArticulos.getString("gaveta"), rsArticulos.getString("sub_compartimento"), rsMaterial.getString("material"),
-                            rsArticulos.getString("tipo"), rsArticulos.getString("numero_parte"), rsArticulos.getDouble("valor"), rsArticulos.getString("unidad_de_medida"), rsArticulos.getString("caracteristicas"), rsArticulos.getString("frecuencia_de_uso"),
-                            rsArticulos.getInt("cantidad"), rsArticulos.getInt("cantidad_min"));
-                    tableViewArticulos.getItems().add(a);
-                }
-
-            }
+            ActualizarTabla(rsArticulos);
 
 
 
@@ -98,10 +90,22 @@ public class ArticulosController {
 
 
 
+    private void ActualizarTabla(ResultSet rsArticulos) throws SQLException {
+        tableViewArticulos.getItems().clear();
+        while (rsArticulos.next()){
+            ResultSet rsMaterial = conexion.consultar("SELECT `material` FROM `materiales` WHERE `id_material`='"+rsArticulos.getInt("id_material")+"' LIMIT 1");
+            if (rsMaterial.next()){
+                Articulo a=new Articulo(rsArticulos.getLong("cb_material"), rsArticulos.getString("tipo_de_armario"), rsArticulos.getString("gaveta"), rsArticulos.getString("sub_compartimento"), rsMaterial.getString("material"),
+                        rsArticulos.getString("tipo"), rsArticulos.getString("numero_parte"), rsArticulos.getDouble("valor"), rsArticulos.getString("unidad_de_medida"), rsArticulos.getString("caracteristicas"), rsArticulos.getString("frecuencia_de_uso"),
+                        rsArticulos.getInt("cantidad"), rsArticulos.getInt("cantidad_min"));
+                tableViewArticulos.getItems().add(a);
+            }
 
+        }
+    }
     @FXML private void NewArticulo(ActionEvent event) throws SQLException {
         txtCodigoBarras.setDisable(false);
-        ActivateBtn(false,false,false,false,false);
+        ActivateBtn(false,false,true,false,false);
         Long cb = GenerateNumber();
         tabV.getSelectionModel().select(tabNew);
         tabNew.setDisable(false);
@@ -214,5 +218,18 @@ public class ArticulosController {
         alert.setContentText(mensaje);
         alert.setTitle("Exito");
         alert.show();
+    }
+    @FXML private void Busqueda(KeyEvent event){
+        String busqueda= txtBusqueda.getText();
+        String criterio="";
+        String consulta="";
+        if (rbCodigoBarras.isSelected() && !busqueda.equals("")){
+            criterio="cb_material";
+        } else if (rbArmario.isSelected() && !busqueda.equals("")) {
+            criterio="tipo_de_armario";
+        } else if (rbMaterial.isSelected() && !busqueda.equals("")) {
+            criterio="material";
+        }
+
     }
 }
