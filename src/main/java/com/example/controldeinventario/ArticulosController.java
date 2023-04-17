@@ -219,10 +219,10 @@ public class ArticulosController {
         alert.setTitle("Exito");
         alert.show();
     }
-    @FXML private void Busqueda(KeyEvent event){
+    @FXML private void Busqueda(KeyEvent event) throws SQLException {
         String busqueda= txtBusqueda.getText();
         String criterio="";
-        String consulta="";
+
         if (rbCodigoBarras.isSelected() && !busqueda.equals("")){
             criterio="cb_material";
         } else if (rbArmario.isSelected() && !busqueda.equals("")) {
@@ -230,6 +230,14 @@ public class ArticulosController {
         } else if (rbMaterial.isSelected() && !busqueda.equals("")) {
             criterio="material";
         }
-
+        if (!busqueda.equals("")){
+            if (criterio.equals("material")){
+                ActualizarTabla(conexion.consultar("SELECT m.* FROM material m INNER JOIN materiales ma ON m.id_material = ma.id_material WHERE ma.material LIKE '%"+busqueda+"%'"));
+           }else {
+                ActualizarTabla(conexion.consultar("SELECT * FROM `material` WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
+            }
+        }else {
+            ActualizarTabla(conexion.consultar("SELECT * FROM `material`"));
+        }
     }
 }
