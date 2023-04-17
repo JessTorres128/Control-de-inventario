@@ -250,7 +250,7 @@
             <JFXButton fx:id="btnSave" disable="true" onAction="#SaveArticulo" prefHeight="100.0" prefWidth="100.0" text="Guardar" />
             <JFXButton fx:id="btnEdit" onAction="#EditArticulo" prefHeight="100.0" prefWidth="100.0" text="Modificar" />
             <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelArticulo" prefHeight="100.0" prefWidth="100.0" text="Cancelar" />
-            <JFXButton fx:id="btnExit" prefHeight="100.0" prefWidth="100.0" text="Salir" />
+            <JFXButton fx:id="btnExit" onAction="#ExitArticulo" prefHeight="100.0" prefWidth="100.0" text="Salir" />
          </children>
          <HBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

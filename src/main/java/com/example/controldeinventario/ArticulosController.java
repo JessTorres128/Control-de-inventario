@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.Random;
 
 public class ArticulosController {
+    boolean edit=false;
 @FXML TextField txtBusqueda;
     @FXML ComboBox<String> cbMaterial = new ComboBox<>();
     @FXML TextArea txtCaracteristicas;
@@ -114,36 +115,70 @@ public class ArticulosController {
         CleanTextFields();
     }
     @FXML private void SaveArticulo(ActionEvent event) throws SQLException {
-        boolean sp= VerifyTxt(txtCaracteristicas, cbMaterial,txtArmario,txtCodigoBarras,txtGaveta,txtSubCompartimento,txtStock,txtStockMin,txtNumParte,txtTipo,txtValor,txtUnidadMedida);
-        if (sp){
-            ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `materiales` WHERE `material`='"+cbMaterial.getSelectionModel().getSelectedItem().toString()+"' LIMIT 1");
-            System.out.println(cbMaterial.getSelectionModel().getSelectedItem());
-            if (resultado.next()){
-                int id = resultado.getInt("id_material");
-                System.out.println(id);
-                conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, " +
-                        "`id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, " +
-                        "`frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+txtCodigoBarras.getText()+"','"+txtArmario.getText()+"','"+txtGaveta.getText()+"'," +
-                        "'"+txtSubCompartimento.getText()+"','"+id+"','"+txtTipo.getText()+"','"+txtNumParte.getText()+"','"+txtValor.getText()+"','"+txtUnidadMedida.getText()+"','"+txtCaracteristicas.getText()+"','"+((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText()+"'," +
-                        "'"+txtStock.getText()+"','"+txtStockMin.getText()+"')");
-                Exito("Lo logro señor");
-                System.out.println("Todo correcto");
-                tabV.getSelectionModel().select(tabSearch);
-                tabSearch.setDisable(false);
-                tabNew.setDisable(true);
-                ActivateBtn(false,true,false,true,false);
-                txtCodigoBarras.setDisable(false);
-            }else {
-                Error("Selecciona el material");
-            }
+        try {
+            if (VerifyTxt(txtCaracteristicas, cbMaterial,txtArmario,txtCodigoBarras,txtGaveta,txtSubCompartimento,txtStock,txtStockMin,txtNumParte,txtTipo,txtValor,txtUnidadMedida)){
+                    ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `materiales` WHERE `material`='"+cbMaterial.getSelectionModel().getSelectedItem().toString()+"' LIMIT 1");
+                    System.out.println(cbMaterial.getSelectionModel().getSelectedItem());
+                    if (resultado.next()){
+                        int id = resultado.getInt("id_material");
+                        ResultSet resultado2 = conexion.consultar("SELECT * FROM `material` WHERE `cb_material`='"+txtCodigoBarras.getText()+"' LIMIT 1");
+                        if (resultado2.next()){
+                            conexion.insmodelim("UPDATE `material` SET `tipo_de_armario`='" + txtArmario.getText() + "', `gaveta`='" + txtGaveta.getText() + "', `sub_compartimento`='" + txtSubCompartimento.getText() + "', `tipo`='" + txtTipo.getText() + "', `numero_parte`='" + txtNumParte.getText() + "', `valor`='" + txtValor.getText() + "', `unidad_de_medida`='" + txtUnidadMedida.getText() + "', `caracteristicas`='" + txtCaracteristicas.getText() + "', `frecuencia_de_uso`='" + ((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText() + "', `cantidad`='" + txtStock.getText() + "', `cantidad_min`='" + txtStockMin.getText() + "' WHERE `cb_material`='"+txtCodigoBarras.getText()+"'");
+                            Exito("Actualizado con exito");
 
+                        }else {
+                            conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, " +
+                                    "`id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, " +
+                                    "`frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+txtCodigoBarras.getText()+"','"+txtArmario.getText()+"','"+txtGaveta.getText()+"'," +
+                                    "'"+txtSubCompartimento.getText()+"','"+id+"','"+txtTipo.getText()+"','"+txtNumParte.getText()+"','"+txtValor.getText()+"','"+txtUnidadMedida.getText()+"','"+txtCaracteristicas.getText()+"','"+((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText()+"'," +
+                                    "'"+txtStock.getText()+"','"+txtStockMin.getText()+"'");
+                            Exito("Lo logro señor");
+                        }
+                        tabV.getSelectionModel().select(tabSearch);
+                        tabSearch.setDisable(false);
+                        tabNew.setDisable(true);
+                        ActivateBtn(false,true,false,true,false);
+                        txtCodigoBarras.setDisable(false);
+                        ActualizarTabla(conexion.consultar("SELECT * FROM `material`"));
+                    }else {
+                        Error("Selecciona el material");
+                    }
+                }
 
-        }else {
+        }catch (Exception e){
             Error("Faltan campos por rellenar");
         }
+
     }
     @FXML private void EditArticulo(ActionEvent event){
-
+        if (tableViewArticulos.getSelectionModel().getSelectedItem() != null){
+            Articulo articulo = (Articulo) tableViewArticulos.getSelectionModel().getSelectedItem();
+            tabV.getSelectionModel().select(tabNew);
+            tabSearch.setDisable(true);
+            tabNew.setDisable(false);
+            txtCodigoBarras.setText(String.valueOf(articulo.getCodigo_barras()));
+            txtArmario.setText(articulo.getTipo_de_armario());
+            txtGaveta.setText(articulo.getGaveta());
+            txtSubCompartimento.setText(articulo.getSub_compartimento());
+            cbMaterial.getSelectionModel().select(articulo.getMaterial());
+            txtTipo.setText(articulo.getTipo());
+            txtNumParte.setText(articulo.getNumero_parte());
+            txtValor.setText(String.valueOf(articulo.getValor()));
+            txtUnidadMedida.setText(articulo.getUnidad_medida());
+            txtCaracteristicas.setText(articulo.getCaracteristicas());
+            switch (articulo.getF_uso()){
+                case "Bajo":
+                    toggleGroupFrecuencia.selectToggle(rbBajo);break;
+                case "Medio":
+                    toggleGroupFrecuencia.selectToggle(rbMedio);break;
+                case "Alto":
+                    toggleGroupFrecuencia.selectToggle(rbAlto);break;
+            }
+            txtStock.setText(String.valueOf(articulo.getCantidad()));
+                    txtStockMin.setText(String.valueOf(articulo.getCantidad_min()));
+            txtCodigoBarras.setDisable(true);
+            ActivateBtn(true,false,true,false,false);
+        }else {Error("Selecciona un registro pa");}
     }
     @FXML private void CancelArticulo(ActionEvent event){
         txtCodigoBarras.setText("");
@@ -154,7 +189,9 @@ public class ArticulosController {
         tabSearch.setDisable(false);
         tabNew.setDisable(true);
     }
+    @FXML private void ExitArticulo(ActionEvent event){
 
+    }
     private Long GenerateNumber() throws SQLException {
         boolean bd=false;
         Random random=new Random();
