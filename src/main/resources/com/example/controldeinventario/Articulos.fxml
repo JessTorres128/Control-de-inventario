@@ -219,10 +219,10 @@
                               </VBox>
                               <VBox alignment="TOP_CENTER" prefHeight="172.0" prefWidth="284.0">
                                  <children>
-                                    <ImageView fitHeight="92.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="imgCodeBar" fitHeight="92.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true" />
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                                        <children>
-                                          <JFXButton text="Generar" />
+                                          <JFXButton onAction="#GenerateCodeBar" text="Generar" />
                                           <JFXButton text="Imprimir" />
                                        </children>
                                     </HBox>

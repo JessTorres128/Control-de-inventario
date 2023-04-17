@@ -1,17 +1,24 @@
 package com.example.controldeinventario;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import org.krysalis.barcode4j.impl.code39.Code39Bean;
+import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import com.example.controldeinventario.Datos.Articulo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import org.krysalis.barcode4j.tools.UnitConv;
+import java.awt.image.BufferedImage;
 
+import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 
 public class ArticulosController {
+    @FXML ImageView imgCodeBar = new ImageView();
     @FXML Label lblContador;
 @FXML TextField txtBusqueda;
     @FXML ComboBox<String> cbMaterial = new ComboBox<>();
@@ -187,6 +194,26 @@ public class ArticulosController {
         tabNew.setDisable(true);
     }
     @FXML private void ExitArticulo(ActionEvent event){
+
+    }
+    @FXML private void GenerateCodeBar(ActionEvent event) throws IOException {
+        Code39Bean code39Bean = new Code39Bean();
+        final int dpi = 150;
+        code39Bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi));
+        code39Bean.setWideFactor(3);
+        code39Bean.doQuietZone(true);
+        OutputStream out = new  FileOutputStream("code39.png");
+        BitmapCanvasProvider canvas = new BitmapCanvasProvider(out, "image/png", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+        code39Bean.generateBarcode(canvas, txtCodigoBarras.getText());
+        canvas.finish();
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream("code39.png"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        imgCodeBar.setImage(image);
 
     }
     private Long GenerateNumber() throws SQLException {
