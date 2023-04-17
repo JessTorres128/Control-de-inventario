@@ -53,7 +53,7 @@
                         <VBox prefHeight="558.0" prefWidth="578.0">
                            <children>
                               <TableView fx:id="tableViewArticulos" prefHeight="540.0" prefWidth="578.0" />
-                              <Label text="Se cargarion x registros" />
+                              <Label fx:id="lblContador" text="Se cargarion x registros" />
                            </children>
                         </VBox>
                      </children>

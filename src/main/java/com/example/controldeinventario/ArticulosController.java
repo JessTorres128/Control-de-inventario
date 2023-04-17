@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Random;
 
 public class ArticulosController {
-    boolean edit=false;
+    @FXML Label lblContador;
 @FXML TextField txtBusqueda;
     @FXML ComboBox<String> cbMaterial = new ComboBox<>();
     @FXML TextArea txtCaracteristicas;
@@ -70,13 +70,13 @@ public class ArticulosController {
 
 
         conexion = new Conexion();
+        cbMaterial.getItems().clear();
         ResultSet resultSet = conexion.consultar("SELECT `material` FROM `materiales`");
             while (resultSet.next()){
                 cbMaterial.getItems().add((String) resultSet.getObject("material"));
             }
 
-            ResultSet rsArticulos= conexion.consultar("SELECT * FROM `material`");
-            ActualizarTabla(rsArticulos);
+            ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material;"));
 
 
 
@@ -92,17 +92,16 @@ public class ArticulosController {
 
 
     private void ActualizarTabla(ResultSet rsArticulos) throws SQLException {
+        int cont=0;
         tableViewArticulos.getItems().clear();
         while (rsArticulos.next()){
-            ResultSet rsMaterial = conexion.consultar("SELECT `material` FROM `materiales` WHERE `id_material`='"+rsArticulos.getInt("id_material")+"' LIMIT 1");
-            if (rsMaterial.next()){
-                Articulo a=new Articulo(rsArticulos.getLong("cb_material"), rsArticulos.getString("tipo_de_armario"), rsArticulos.getString("gaveta"), rsArticulos.getString("sub_compartimento"), rsMaterial.getString("material"),
+            cont++;
+                Articulo a=new Articulo(rsArticulos.getLong("cb_material"), rsArticulos.getString("tipo_de_armario"), rsArticulos.getString("gaveta"), rsArticulos.getString("sub_compartimento"), rsArticulos.getString("material"),
                         rsArticulos.getString("tipo"), rsArticulos.getString("numero_parte"), rsArticulos.getDouble("valor"), rsArticulos.getString("unidad_de_medida"), rsArticulos.getString("caracteristicas"), rsArticulos.getString("frecuencia_de_uso"),
                         rsArticulos.getInt("cantidad"), rsArticulos.getInt("cantidad_min"));
                 tableViewArticulos.getItems().add(a);
-            }
-
         }
+        lblContador.setText("Se cargaron "+cont+" articulos");
     }
     @FXML private void NewArticulo(ActionEvent event) throws SQLException {
         txtCodigoBarras.setDisable(false);
@@ -115,7 +114,7 @@ public class ArticulosController {
         CleanTextFields();
     }
     @FXML private void SaveArticulo(ActionEvent event) throws SQLException {
-        try {
+
             if (VerifyTxt(txtCaracteristicas, cbMaterial,txtArmario,txtCodigoBarras,txtGaveta,txtSubCompartimento,txtStock,txtStockMin,txtNumParte,txtTipo,txtValor,txtUnidadMedida)){
                     ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `materiales` WHERE `material`='"+cbMaterial.getSelectionModel().getSelectedItem().toString()+"' LIMIT 1");
                     System.out.println(cbMaterial.getSelectionModel().getSelectedItem());
@@ -139,15 +138,13 @@ public class ArticulosController {
                         tabNew.setDisable(true);
                         ActivateBtn(false,true,false,true,false);
                         txtCodigoBarras.setDisable(false);
-                        ActualizarTabla(conexion.consultar("SELECT * FROM `material`"));
+                        ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material"));
                     }else {
                         Error("Selecciona el material");
                     }
-                }
+                }else {Error("Faltan campos por rellenar");}
 
-        }catch (Exception e){
-            Error("Faltan campos por rellenar");
-        }
+
 
     }
     @FXML private void EditArticulo(ActionEvent event){
@@ -268,13 +265,9 @@ public class ArticulosController {
             criterio="material";
         }
         if (!busqueda.equals("")){
-            if (criterio.equals("material")){
-                ActualizarTabla(conexion.consultar("SELECT m.* FROM material m INNER JOIN materiales ma ON m.id_material = ma.id_material WHERE ma.material LIKE '%"+busqueda+"%'"));
-           }else {
-                ActualizarTabla(conexion.consultar("SELECT * FROM `material` WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
-            }
+          ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
         }else {
-            ActualizarTabla(conexion.consultar("SELECT * FROM `material`"));
+            ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material;"));
         }
     }
 }
