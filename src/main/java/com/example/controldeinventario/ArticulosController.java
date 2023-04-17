@@ -208,11 +208,11 @@ public class ArticulosController {
     }
     private boolean VerifyCB(long num) throws SQLException {
         ResultSet resultSet = conexion.consultar("SELECT `cb_material` FROM `material` WHERE `cb_material`='"+num+"'");
-        boolean bd;
+        boolean bd=false;
         if (resultSet.next()){
             bd=true;
         }else {
-            bd=false;
+            return bd;
         }
         return bd;
     }
