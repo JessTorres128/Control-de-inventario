@@ -234,9 +234,22 @@ public class ArticulosController {
         btnExit.setDisable(exit);
     }
     private boolean VerifyCB(long num) throws SQLException {
-        ResultSet resultSet = conexion.consultar("SELECT `cb_material` FROM `material` WHERE `cb_material`='"+num+"'");
+        ResultSet res= conexion.consultar("SELECT herramienta.id_herramienta\n" +
+                "FROM herramienta\n" +
+                "LEFT JOIN material\n" +
+                "ON herramienta.id_herramienta = material.cb_material\n" +
+                "WHERE herramienta.id_herramienta = '"+num+"' OR material.cb_material = '"+num+"'\n" +
+                "UNION\n" +
+                "SELECT material.cb_material\n" +
+                "FROM material\n" +
+                "LEFT JOIN herramienta\n" +
+                "ON herramienta.id_herramienta = material.cb_material\n" +
+                "WHERE herramienta.id_herramienta = '"+num+"' OR material.cb_material = '"+num+"'\n" +
+                "AND herramienta.id_herramienta IS NULL;");
+
+       // ResultSet resultSet = conexion.consultar("SELECT `cb_material` FROM `material` WHERE `cb_material`='"+num+"'");
         boolean bd=false;
-        if (resultSet.next()){
+        if (res.next()){
             bd=true;
         }else {
             return bd;
