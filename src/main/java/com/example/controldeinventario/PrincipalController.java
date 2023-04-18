@@ -31,6 +31,7 @@ public class PrincipalController {
         Parent root = fxmlLoader.load();
         AbrirVentana(root);
 
+
     }
     @FXML private void IngresarHerramientas(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Herramientas.fxml"));

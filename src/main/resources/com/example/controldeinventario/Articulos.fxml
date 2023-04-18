@@ -17,9 +17,10 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="750.0" prefWidth="850.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ArticulosController">
+
+<HBox prefHeight="750.0" prefWidth="1159.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ArticulosController">
    <children>
-      <TabPane fx:id="tabV" prefHeight="710.0" prefWidth="596.0" style="-fx-background-color: #543383;" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabV" prefHeight="710.0" prefWidth="1137.0" style="-fx-background-color: #543383;" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="tabSearch" text="Buscar">
             <content>
@@ -40,21 +41,24 @@
                                        </unSelectedColor>
                                        <selectedColor>
                                           <Color red="1.0" green="1.0" blue="1.0" />
-                                       </selectedColor></JFXRadioButton>
+                                       </selectedColor>
+                                    </JFXRadioButton>
                                     <JFXRadioButton fx:id="rbArmario" text="Armario" textFill="WHITE">
                                        <selectedColor>
                                           <Color red="1.0" green="1.0" blue="1.0" />
                                        </selectedColor>
                                        <unSelectedColor>
                                           <Color red="1.0" green="1.0" blue="1.0" />
-                                       </unSelectedColor></JFXRadioButton>
+                                       </unSelectedColor>
+                                    </JFXRadioButton>
                                     <JFXRadioButton fx:id="rbMaterial" text="Material" textFill="WHITE">
                                        <selectedColor>
                                           <Color red="1.0" green="1.0" blue="1.0" />
                                        </selectedColor>
                                        <unSelectedColor>
                                           <Color red="1.0" green="1.0" blue="1.0" />
-                                       </unSelectedColor></JFXRadioButton>
+                                       </unSelectedColor>
+                                    </JFXRadioButton>
                                  </children>
                                  <VBox.margin>
                                     <Insets left="15.0" />
@@ -72,11 +76,12 @@
                         </VBox>
                         <VBox prefHeight="558.0" prefWidth="578.0">
                            <children>
-                              <TableView fx:id="tableViewArticulos" prefHeight="540.0" prefWidth="578.0" />
+                              <TableView fx:id="tableViewArticulos" prefHeight="540.0" prefWidth="500.0" />
                               <Label fx:id="lblContador" text="Se cargaron x registros" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="13.0" />
-                                 </font></Label>
+                                 </font>
+                              </Label>
                            </children>
                         </VBox>
                      </children>
@@ -85,26 +90,25 @@
           </Tab>
           <Tab fx:id="tabNew" closable="false" disable="true" text="Nuevo / Modificar">
             <content>
-                  <VBox alignment="TOP_CENTER" prefHeight="682.0" prefWidth="574.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="682.0" prefWidth="970.0" style="-fx-background-color: white;">
                      <children>
                         <HBox prefHeight="55.0" prefWidth="527.0">
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="265.0">
                                  <children>
-                                    <TextField fx:id="txtCodigoBarras">
+                                    <TextField fx:id="txtCodigoBarras" prefHeight="28.0" prefWidth="168.0" promptText="Código de barras" style="-fx-background-color: transparent; -fx-border-color: #3C005F; -fx-border-width: 0px 0px 2px 0px;">
                                        <tooltip>
                                           <Tooltip text="El código de barras debe de ser un número de 10 digitos" />
-                                       </tooltip></TextField>
-                                    <Label text="Código de barras" />
-                                 </children>
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </HBox.margin>
-                              </VBox>
-                              <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="278.0">
-                                 <children>
-                                    <TextField fx:id="txtArmario" />
-                                    <Label text="Armario" />
+                                       </tooltip>
+                                       <VBox.margin>
+                                          <Insets right="100.0" top="8.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="txtArmario" promptText="Armario" style="-fx-background-color: transparent; -fx-border-color: #3C005F; -fx-border-width: 0px 0px 2px 0px;">
+                                       <VBox.margin>
+                                          <Insets right="100.0" top="22.0" />
+                                       </VBox.margin>
+                                    </TextField>
                                  </children>
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -122,17 +126,21 @@
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="265.0">
                                  <children>
-                                    <TextField fx:id="txtGaveta" />
-                                    <Label text="Gaveta" />
-                                 </children>
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </HBox.margin>
-                              </VBox>
-                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="265.0">
-                                 <children>
-                                    <TextField fx:id="txtSubCompartimento" />
-                                    <Label text="Sub Compartimiento" />
+                                    <TextField fx:id="txtGaveta" promptText="Gaveta" style="-fx-background-color: transparent; -fx-border-color: #3C005F; -fx-border-width: 0px 0px 2px 0px;">
+                                       <VBox.margin>
+                                          <Insets right="100.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="txtSubCompartimento" promptText="Sub Compartimiento" style="-fx-background-color: transparent; -fx-border-color: #3C005F; -fx-border-width: 0px 0px 2px 0px;">
+                                       <VBox.margin>
+                                          <Insets right="100.0" top="8.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="txtTipo" promptText="Tipo" style="-fx-background-color: transparent; -fx-border-color: #3C005F; -fx-border-width: 0px 0px 2px 0px;">
+                                       <VBox.margin>
+                                          <Insets right="100.0" top="8.0" />
+                                       </VBox.margin>
+                                    </TextField>
                                  </children>
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -145,42 +153,43 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                            <children>
-                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="265.0">
+                              <ComboBox fx:id="cbMaterial" prefHeight="28.0" prefWidth="184.0" promptText="Material" style="-fx-border-color: #543383; -fx-background-color: transparent; -fx-border-width: 0px 0px 2px 0px;">
                                  <HBox.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    <Insets left="10.0" right="80.0" top="8.0" />
                                  </HBox.margin>
-                                 <children>
-                                    <ComboBox fx:id="cbMaterial" prefHeight="26.0" prefWidth="198.0" />
-                                    <Label text="Material" />
-                                 </children>
-                              </VBox>
-                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="265.0">
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </HBox.margin>
-                                 <children>
-                                    <TextField fx:id="txtTipo" />
-                                    <Label text="Tipo" />
-                                 </children>
-                              </VBox>
+                              </ComboBox>
                            </children>
                         </HBox>
-                        <VBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="507.0">
+                        <HBox prefHeight="66.0" prefWidth="831.0">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" />
                            </VBox.margin>
                            <children>
-                              <TextField fx:id="txtNumParte" prefHeight="26.0" prefWidth="474.0">
-                                 <VBox.margin>
-                                    <Insets left="70.0" right="70.0" />
-                                 </VBox.margin>
-                              </TextField>
-                              <Label text="Número de parte" />
+                              <VBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="507.0">
+                                 <children>
+                                    <TextField fx:id="txtNumParte" prefHeight="28.0" prefWidth="410.0" promptText="Número de parte" style="-fx-background-color: transparent; -fx-border-color: #3C005F; -fx-border-width: 0px 0px 2px 0px;">
+                                       <VBox.margin>
+                                          <Insets right="400.0" top="5.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets top="8.0" />
+                                       </padding>
+                                    </TextField>
+                                    <TextField fx:id="txtValor" promptText="Valor" style="-fx-background-color: transparent; -fx-border-color: #3C005F; -fx-border-width: 0px 0px 2px 0px;">
+                                       <VBox.margin>
+                                          <Insets right="400.0" top="5.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets top="8.0" />
+                                       </padding>
+                                    </TextField>
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </HBox>
                         <HBox prefHeight="57.0" prefWidth="527.0">
                            <VBox.margin>
-                              <Insets bottom="10.0" />
+                              <Insets bottom="10.0" right="800.0" />
                            </VBox.margin>
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="265.0">
@@ -188,40 +197,58 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                                  <children>
-                                    <TextField fx:id="txtValor" />
-                                    <Label text="Valor" />
-                                 </children>
-                              </VBox>
-                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="265.0">
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </HBox.margin>
-                                 <children>
-                                    <TextField fx:id="txtUnidadMedida" />
-                                    <Label text="Unidad de medida" />
+                                    <TextField fx:id="txtUnidadMedida" promptText="Unidad de medida" style="-fx-background-color: transparent; -fx-border-color: #3C005F; -fx-border-width: 0px 0px 2px 0px;">
+                                       <VBox.margin>
+                                          <Insets right="120.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets top="8.0" />
+                                       </padding>
+                                    </TextField>
                                  </children>
                               </VBox>
                            </children>
                         </HBox>
-                        <JFXTextArea fx:id="txtCaracteristicas" prefHeight="54.0" prefWidth="527.0" />
+                        <JFXTextArea fx:id="txtCaracteristicas" prefHeight="54.0" prefWidth="527.0" unFocusColor="#3c005f" />
                         <Label text="Caracteristicas">
                            <VBox.margin>
-                              <Insets top="5.0" />
+                              <Insets right="150.0" top="5.0" />
                            </VBox.margin>
                         </Label>
                         <HBox alignment="TOP_CENTER" prefHeight="22.0" prefWidth="507.0" spacing="30.0">
                            <VBox.margin>
-                              <Insets left="10.0" right="10.0" top="10.0" />
+                              <Insets left="10.0" right="750.0" top="10.0" />
                            </VBox.margin>
                            <children>
-                              <JFXRadioButton fx:id="rbBajo" text="Bajo" />
-                              <JFXRadioButton fx:id="rbMedio" selected="true" text="Medio" />
-                              <JFXRadioButton fx:id="rbAlto" text="Alto" />
+                              <JFXRadioButton fx:id="rbBajo" text="Bajo">
+                                 <unSelectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </unSelectedColor>
+                                 <selectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </selectedColor>
+                              </JFXRadioButton>
+                              <JFXRadioButton fx:id="rbMedio" selected="true" text="Medio">
+                                 <unSelectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </unSelectedColor>
+                                 <selectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </selectedColor>
+                              </JFXRadioButton>
+                              <JFXRadioButton fx:id="rbAlto" text="Alto">
+                                 <unSelectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </unSelectedColor>
+                                 <selectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </selectedColor>
+                              </JFXRadioButton>
                            </children>
                         </HBox>
                         <Label text="Frecuencia de uso">
                            <VBox.margin>
-                              <Insets top="5.0" />
+                              <Insets right="750.0" top="5.0" />
                            </VBox.margin>
                         </Label>
                         <HBox prefHeight="172.0" prefWidth="578.0">
@@ -231,10 +258,16 @@
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="172.0" prefWidth="294.0">
                                  <children>
-                                    <TextField fx:id="txtStock" />
-                                    <Label text="Stock" />
-                                    <TextField fx:id="txtStockMin" />
-                                    <Label text="Stock Min" />
+                                    <TextField fx:id="txtStock" promptText="Stock" style="-fx-background-color: transparent; -fx-border-color: #3C005F; -fx-border-width: 0px 0px 2px 0px;">
+                                       <VBox.margin>
+                                          <Insets right="150.0" top="8.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="txtStockMin" promptText="Stock Minimo" style="-fx-background-color: transparent; -fx-border-color: #3C005F; -fx-border-width: 0px 0px 2px 0px;">
+                                       <VBox.margin>
+                                          <Insets right="150.0" top="8.0" />
+                                       </VBox.margin>
+                                    </TextField>
                                  </children>
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -242,11 +275,11 @@
                               </VBox>
                               <VBox alignment="TOP_CENTER" prefHeight="172.0" prefWidth="284.0">
                                  <children>
-                                    <ImageView fx:id="imgCodeBar" fitHeight="92.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="imgCodeBar" fitHeight="92.0" fitWidth="145.0" pickOnBounds="true" preserveRatio="true" />
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                                        <children>
-                                          <JFXButton onAction="#GenerateCodeBar" text="Generar" />
-                                          <JFXButton text="Imprimir" />
+                                          <JFXButton onAction="#GenerateCodeBar" prefHeight="42.0" prefWidth="89.0" style="-fx-background-color: #460D67;" text="Generar" textFill="WHITE" />
+                                          <JFXButton prefHeight="38.0" prefWidth="86.0" style="-fx-background-color: #460D67;" text="Imprimir" textFill="WHITE" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -262,12 +295,12 @@
             <Insets bottom="20.0" left="20.0" top="20.0" />
          </HBox.margin>
       </TabPane>
-      <VBox alignment="TOP_CENTER" prefHeight="560.0" prefWidth="232.0" style="-fx-background-color: #543383;">
+      <VBox alignment="TOP_CENTER" prefHeight="560.0" prefWidth="150.0" style="-fx-background-color: #543383;">
          <children>
             <JFXButton fx:id="btnNew" onAction="#NewArticulo" prefHeight="100.0" prefWidth="100.0" text="Nuevo" textFill="WHITE" />
             <JFXButton fx:id="btnSave" disable="true" onAction="#SaveArticulo" prefHeight="100.0" prefWidth="100.0" text="Guardar" textFill="WHITE" />
             <JFXButton fx:id="btnEdit" onAction="#EditArticulo" prefHeight="100.0" prefWidth="100.0" text="Modificar" textFill="WHITE" />
-            <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelArticulo" prefHeight="100.0" prefWidth="100.0" text="Cancelar" textFill="WHITE" />
+            <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelArticulo" prefHeight="100.0" prefWidth="128.0" text="Cancelar" textFill="WHITE" />
             <JFXButton fx:id="btnExit" onAction="#ExitArticulo" prefHeight="100.0" prefWidth="100.0" text="Salir" textFill="WHITE" />
          </children>
          <HBox.margin>
