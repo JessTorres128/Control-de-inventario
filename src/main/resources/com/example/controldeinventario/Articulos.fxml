@@ -14,10 +14,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
-<HBox prefHeight="750.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ArticulosController">
+<HBox prefHeight="750.0" prefWidth="850.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ArticulosController">
    <children>
-      <TabPane fx:id="tabV" prefHeight="710.0" prefWidth="596.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabV" prefHeight="710.0" prefWidth="596.0" style="-fx-background-color: #543383;" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="tabSearch" text="Buscar">
             <content>
@@ -25,22 +27,40 @@
                      <children>
                         <VBox prefHeight="102.0" prefWidth="433.0" spacing="5.0">
                            <children>
-                              <Label text="Criterios de búsqueda">
+                              <Label text="Criterios de búsqueda" textFill="WHITE">
                                  <VBox.margin>
                                     <Insets left="10.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
                               <HBox prefHeight="22.0" prefWidth="453.0" spacing="20.0">
                                  <children>
-                                    <JFXRadioButton fx:id="rbCodigoBarras" selected="true" text="Código de barras" />
-                                    <JFXRadioButton fx:id="rbArmario" text="Armario" />
-                                    <JFXRadioButton fx:id="rbMaterial" text="Material" />
+                                    <JFXRadioButton fx:id="rbCodigoBarras" selected="true" text="Código de barras" textFill="WHITE">
+                                       <unSelectedColor>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </unSelectedColor>
+                                       <selectedColor>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </selectedColor></JFXRadioButton>
+                                    <JFXRadioButton fx:id="rbArmario" text="Armario" textFill="WHITE">
+                                       <selectedColor>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </selectedColor>
+                                       <unSelectedColor>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </unSelectedColor></JFXRadioButton>
+                                    <JFXRadioButton fx:id="rbMaterial" text="Material" textFill="WHITE">
+                                       <selectedColor>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </selectedColor>
+                                       <unSelectedColor>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </unSelectedColor></JFXRadioButton>
                                  </children>
                                  <VBox.margin>
                                     <Insets left="15.0" />
                                  </VBox.margin>
                               </HBox>
-                              <TextField fx:id="txtBusqueda" onKeyReleased="#Busqueda">
+                              <TextField fx:id="txtBusqueda" onKeyReleased="#Busqueda" opacity="0.9">
                                  <VBox.margin>
                                     <Insets left="20.0" right="50.0" />
                                  </VBox.margin>
@@ -53,7 +73,10 @@
                         <VBox prefHeight="558.0" prefWidth="578.0">
                            <children>
                               <TableView fx:id="tableViewArticulos" prefHeight="540.0" prefWidth="578.0" />
-                              <Label fx:id="lblContador" text="Se cargarion x registros" />
+                              <Label fx:id="lblContador" text="Se cargaron x registros" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font></Label>
                            </children>
                         </VBox>
                      </children>
@@ -239,18 +262,13 @@
             <Insets bottom="20.0" left="20.0" top="20.0" />
          </HBox.margin>
       </TabPane>
-      <VBox alignment="TOP_CENTER" prefHeight="560.0" prefWidth="232.0">
+      <VBox alignment="TOP_CENTER" prefHeight="560.0" prefWidth="232.0" style="-fx-background-color: #543383;">
          <children>
-            <Label text="Controles">
-               <VBox.margin>
-                  <Insets bottom="20.0" top="10.0" />
-               </VBox.margin>
-            </Label>
-            <JFXButton fx:id="btnNew" onAction="#NewArticulo" prefHeight="100.0" prefWidth="100.0" text="Nuevo" />
-            <JFXButton fx:id="btnSave" disable="true" onAction="#SaveArticulo" prefHeight="100.0" prefWidth="100.0" text="Guardar" />
-            <JFXButton fx:id="btnEdit" onAction="#EditArticulo" prefHeight="100.0" prefWidth="100.0" text="Modificar" />
-            <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelArticulo" prefHeight="100.0" prefWidth="100.0" text="Cancelar" />
-            <JFXButton fx:id="btnExit" onAction="#ExitArticulo" prefHeight="100.0" prefWidth="100.0" text="Salir" />
+            <JFXButton fx:id="btnNew" onAction="#NewArticulo" prefHeight="100.0" prefWidth="100.0" text="Nuevo" textFill="WHITE" />
+            <JFXButton fx:id="btnSave" disable="true" onAction="#SaveArticulo" prefHeight="100.0" prefWidth="100.0" text="Guardar" textFill="WHITE" />
+            <JFXButton fx:id="btnEdit" onAction="#EditArticulo" prefHeight="100.0" prefWidth="100.0" text="Modificar" textFill="WHITE" />
+            <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelArticulo" prefHeight="100.0" prefWidth="100.0" text="Cancelar" textFill="WHITE" />
+            <JFXButton fx:id="btnExit" onAction="#ExitArticulo" prefHeight="100.0" prefWidth="100.0" text="Salir" textFill="WHITE" />
          </children>
          <HBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
