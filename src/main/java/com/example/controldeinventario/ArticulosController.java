@@ -1,16 +1,19 @@
 package com.example.controldeinventario;
 
 import com.example.controldeinventario.Datos.Articulo;
-import com.itextpdf.text.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,10 +21,9 @@ import javafx.scene.input.KeyEvent;
 import org.krysalis.barcode4j.impl.code39.Code39Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.krysalis.barcode4j.tools.UnitConv;
-import com.itextpdf.text.pdf.PdfPTable;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.ResultSet;
@@ -121,7 +123,7 @@ public class ArticulosController {
         }
         lblContador.setText("Se cargaron "+cont+" articulos");
     }
-    @FXML private void NewArticulo(ActionEvent event) throws SQLException {
+    @FXML private void NewArticulo() throws SQLException {
         txtCodigoBarras.setDisable(false);
         ActivateBtn(false,false,true,false,false);
         Long cb = GenerateNumber();
@@ -131,10 +133,10 @@ public class ArticulosController {
         txtCodigoBarras.setText(String.valueOf(cb));
         CleanTextFields();
     }
-    @FXML private void SaveArticulo(ActionEvent event) throws SQLException {
+    @FXML private void SaveArticulo() throws SQLException {
 
             if (VerifyTxt(txtCaracteristicas, cbMaterial,txtArmario,txtCodigoBarras,txtGaveta,txtSubCompartimento,txtStock,txtStockMin,txtNumParte,txtTipo,txtValor,txtUnidadMedida)){
-                    ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `materiales` WHERE `material`='"+cbMaterial.getSelectionModel().getSelectedItem().toString()+"' LIMIT 1");
+                    ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `materiales` WHERE `material`='"+ cbMaterial.getSelectionModel().getSelectedItem() +"' LIMIT 1");
                     System.out.println(cbMaterial.getSelectionModel().getSelectedItem());
                     if (resultado.next()){
                         int id = resultado.getInt("id_material");
@@ -165,7 +167,7 @@ public class ArticulosController {
 
 
     }
-    @FXML private void EditArticulo(ActionEvent event){
+    @FXML private void EditArticulo(){
         if (tableViewArticulos.getSelectionModel().getSelectedItem() != null){
             Articulo articulo = (Articulo) tableViewArticulos.getSelectionModel().getSelectedItem();
             tabV.getSelectionModel().select(tabNew);
@@ -195,7 +197,7 @@ public class ArticulosController {
             ActivateBtn(true,false,true,false,false);
         }else {Error("Selecciona un registro pa");}
     }
-    @FXML private void CancelArticulo(ActionEvent event){
+    @FXML private void CancelArticulo(){
         txtCodigoBarras.setText("");
         txtCodigoBarras.setDisable(false);
         CleanTextFields();
@@ -204,10 +206,10 @@ public class ArticulosController {
         tabSearch.setDisable(false);
         tabNew.setDisable(true);
     }
-    @FXML private void ExitArticulo(ActionEvent event){
+    @FXML private void ExitArticulo(){
 
     }
-    @FXML private void GenerateCodeBar(ActionEvent event) throws IOException {
+    @FXML private void GenerateCodeBar() throws IOException {
         Code39Bean code39Bean = new Code39Bean();
         final int dpi = 150;
         code39Bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi));
@@ -227,37 +229,26 @@ public class ArticulosController {
         imgCodeBar.setImage(image);
 
     }
-    @FXML private void PrintCodeBar(ActionEvent event) throws IOException, DocumentException {
-        Document document = new Document(PageSize.A4);
-        PdfWriter.getInstance(document, new FileOutputStream(new File("barcodes.pdf")));
-        document.open();
+    @FXML private void PrintCodeBar() throws IOException, DocumentException {
+        Document documento = new Document(PageSize.A4);
+        PdfWriter.getInstance(documento, new FileOutputStream("CodigoDeBarras.pdf"));
+        documento.open();
 
-        PdfPTable table = new PdfPTable(4);
-        table.setWidthPercentage(100);
-
+        PdfPTable pdfPTableCB = new PdfPTable(4);
+        pdfPTableCB.setWidthPercentage(100);
+        BufferedImage image = ImageIO.read(new File("code39.png"));
+        com.itextpdf.text.Image barcode = com.itextpdf.text.Image.getInstance(image, null);
+        barcode.scaleToFit(150, 50);
         for (int i = 0; i < 40; i++) {
-            BufferedImage image = ImageIO.read(new File("code39.png"));
-            com.itextpdf.text.Image barcode = com.itextpdf.text.Image.getInstance(image, null);
-            barcode.scaleToFit(150, 50);
-
             PdfPCell cell = new PdfPCell(barcode);
             cell.setPadding(5);
             cell.setBorder(com.itextpdf.text.Rectangle.NO_BORDER);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.addCell(cell);
+            pdfPTableCB.addCell(cell);
         }
-
-// Agregar la tabla al documento
-        document.add(table);
-
-
-
-
-
-
-
-        document.close();
-        Desktop.getDesktop().browse(new File("barcodes.pdf").toURI());
+        documento.add(pdfPTableCB);
+        documento.close();
+        Desktop.getDesktop().browse(new File("CodigoDeBarras.pdf").toURI());
 
     /*    int copies=5;
         BufferedImage image = ImageIO.read(new File("code39.png"));
