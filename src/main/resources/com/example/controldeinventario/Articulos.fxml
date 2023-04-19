@@ -17,8 +17,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox prefHeight="750.0" prefWidth="1159.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ArticulosController">
+<HBox prefHeight="750.0" prefWidth="1159.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ArticulosController">
    <children>
       <TabPane fx:id="tabV" prefHeight="710.0" prefWidth="1137.0" style="-fx-background-color: #543383;" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -279,7 +278,7 @@
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                                        <children>
                                           <JFXButton onAction="#GenerateCodeBar" prefHeight="42.0" prefWidth="89.0" style="-fx-background-color: #460D67;" text="Generar" textFill="WHITE" />
-                                          <JFXButton prefHeight="38.0" prefWidth="86.0" style="-fx-background-color: #460D67;" text="Imprimir" textFill="WHITE" />
+                                          <JFXButton onAction="#PrintCodeBar" prefHeight="38.0" prefWidth="86.0" style="-fx-background-color: #460D67;" text="Imprimir" textFill="WHITE" />
                                        </children>
                                     </HBox>
                                  </children>

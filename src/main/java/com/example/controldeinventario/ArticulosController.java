@@ -1,17 +1,28 @@
 package com.example.controldeinventario;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import org.krysalis.barcode4j.impl.code39.Code39Bean;
-import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
+
 import com.example.controldeinventario.Datos.Articulo;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import org.krysalis.barcode4j.impl.code39.Code39Bean;
+import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.krysalis.barcode4j.tools.UnitConv;
+import com.itextpdf.text.pdf.PdfPTable;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -216,6 +227,69 @@ public class ArticulosController {
         imgCodeBar.setImage(image);
 
     }
+    @FXML private void PrintCodeBar(ActionEvent event) throws IOException, DocumentException {
+        Document document = new Document(PageSize.A4);
+        PdfWriter.getInstance(document, new FileOutputStream(new File("barcodes.pdf")));
+        document.open();
+
+        PdfPTable table = new PdfPTable(4);
+        table.setWidthPercentage(100);
+
+        for (int i = 0; i < 40; i++) {
+            BufferedImage image = ImageIO.read(new File("code39.png"));
+            com.itextpdf.text.Image barcode = com.itextpdf.text.Image.getInstance(image, null);
+            barcode.scaleToFit(150, 50);
+
+            PdfPCell cell = new PdfPCell(barcode);
+            cell.setPadding(5);
+            cell.setBorder(com.itextpdf.text.Rectangle.NO_BORDER);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(cell);
+        }
+
+// Agregar la tabla al documento
+        document.add(table);
+
+
+
+
+
+
+
+        document.close();
+        Desktop.getDesktop().browse(new File("barcodes.pdf").toURI());
+
+    /*    int copies=5;
+        BufferedImage image = ImageIO.read(new File("code39.png"));
+        Printable printable = new Printable() {
+            @Overridet
+            public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+                if (pageIndex >= copies) {
+                    return Printable.NO_SUCH_PAGE;
+                }
+
+                Graphics2D g2d = (Graphics2D) graphics;
+                int x = (int) pageFormat.getImageableX();
+                int y = (int) pageFormat.getImageableY();
+                int width = (int) pageFormat.getImageableWidth();
+                int height = (int) pageFormat.getImageableHeight();
+                g2d.translate(x, y);
+
+                g2d.drawImage(image, 0, 0, width, height, null);
+
+                return Printable.PAGE_EXISTS;
+            }
+        };
+
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setPrintable(printable);
+
+        if (job.printDialog()) {
+            job.print();
+        }*/
+    }
+
+
     private Long GenerateNumber() throws SQLException {
         boolean bd=false;
         Random random=new Random();
