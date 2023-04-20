@@ -2,16 +2,16 @@ package com.example.controldeinventario.Datos;
 
 public class Herramienta {
     public Long cb_herramienta;
-    public String id_herramienta;
+    public String herramienta;
     public String tipo;
     public String caracteristicas;
     public String frecuencia_de_uso;
     public int cantidad;
     public int cantidad_min;
 
-    public Herramienta(Long cb_herramienta, String id_herramienta, String tipo, String caracteristicas, String frecuencia_de_uso, int cantidad, int cantidad_min) {
+    public Herramienta(Long cb_herramienta, String herramienta, String tipo, String caracteristicas, String frecuencia_de_uso, int cantidad, int cantidad_min) {
         this.cb_herramienta = cb_herramienta;
-        this.id_herramienta = id_herramienta;
+        this.herramienta = herramienta;
         this.tipo = tipo;
         this.caracteristicas = caracteristicas;
         this.frecuencia_de_uso = frecuencia_de_uso;
@@ -27,12 +27,12 @@ public class Herramienta {
         this.cb_herramienta = cb_herramienta;
     }
 
-    public String getId_herramienta() {
-        return id_herramienta;
+    public String getHerramienta() {
+        return herramienta;
     }
 
-    public void setId_herramienta(String id_herramienta) {
-        this.id_herramienta = id_herramienta;
+    public void setHerramienta(String herramienta) {
+        this.herramienta = herramienta;
     }
 
     public String getTipo() {

@@ -48,14 +48,14 @@ public class HerramientasController {
         rbNombre.setToggleGroup(toggleGroupBusqueda);
 
         colID.setCellValueFactory(new PropertyValueFactory<Herramienta,Long>("cb_herramienta"));
-        colHerramienta.setCellValueFactory(new PropertyValueFactory<Herramienta,Integer>("id_herramienta"));
+        colHerramienta.setCellValueFactory(new PropertyValueFactory<Herramienta,String>("herramienta"));
         colTipo.setCellValueFactory(new PropertyValueFactory<Herramienta,String>("tipo"));
         colCaracteristicas.setCellValueFactory(new PropertyValueFactory<Herramienta,String>("caracteristicas"));
         colFUso.setCellValueFactory(new PropertyValueFactory<Herramienta,String>("frecuencia_de_uso"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<Herramienta,Integer>("cantidad"));
         colCantidadMin.setCellValueFactory(new PropertyValueFactory<Herramienta,Integer>("cantidad_min"));
 
-        tableViewHerramientas.getItems().addAll(colID,colHerramienta,colTipo,colCaracteristicas,colFUso,colCantidad,colCantidadMin);
+        tableViewHerramientas.getColumns().addAll(colID,colHerramienta,colTipo,colCaracteristicas,colFUso,colCantidad,colCantidadMin);
         conexion=new Conexion();
         cbHerramienta.getItems().clear();
         ResultSet resultSet= conexion.consultar("SELECT `herramienta` FROM `herramientas`");
@@ -83,9 +83,76 @@ public class HerramientasController {
                 int id = resultSetIDHerramienta.getInt("id_herramienta");
                 ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `herramienta` WHERE `cb_herramienta`='"+txtCB.getText()+"' LIMIT 1");
                 if (resultSetUpdate.next()){
+                    conexion.insmodelim("UPDATE `herramienta` SET `id_herramienta`='"+id+"',`tipo`='"+txtTipo.getText()+"',`caracteristicas`='"+txtCaracteristicas.getText()+"',`frecuencia_de_uso`='"+((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText()+"',`cantidad`='"+txtStock.getText()+"',`cantidad_min`='"+txtStockMin.getText()+"' WHERE `cb_herramienta`='"+txtCB.getText()+"'");
+                    Exito("Actualizado con exito");
+                }else {
+                    conexion.insmodelim("INSERT INTO `herramienta`(`cb_herramienta`,`id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+txtCB.getText()+"','"+id+"','"+txtTipo.getText()+"','"+txtCaracteristicas.getText()+"','"+((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText()+"','"+txtStock.getText()+"','"+txtStockMin.getText()+"')");
 
                 }
+                tabPaneHerramientas.getSelectionModel().select(tabSearch);
+                tabSearch.setDisable(false);
+                tabNew.setDisable(true);
+                ActivateBtn(false,true,false,true,false);
+                txtCB.setDisable(false);
+                ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN herramientas ON herramienta.id_herramienta = herramientas.id_herramienta;"));
+                Exito(cbHerramienta.getSelectionModel().getSelectedItem()+" "+txtTipo.getText()+" agregado");
+            }else {
+                Error("Selecciona el material");
             }
+        }else {
+            Error("Faltan campos por rellenar");
+        }
+    }
+    @FXML private void EditHerramienta(){
+        if (tableViewHerramientas.getSelectionModel().getSelectedItem() != null){
+            Herramienta herramienta= (Herramienta) tableViewHerramientas.getSelectionModel().getSelectedItem();
+            tabPaneHerramientas.getSelectionModel().select(tabNew);
+            tabSearch.setDisable(true);
+            tabNew.setDisable(false);
+            txtCB.setText(String.valueOf(herramienta.getCb_herramienta()));
+            cbHerramienta.getSelectionModel().select(herramienta.getHerramienta());
+            txtTipo.setText(herramienta.getTipo());
+            txtCaracteristicas.setText(herramienta.getCaracteristicas());
+            switch (herramienta.getFrecuencia_de_uso()){
+                case "Bajo":
+                    toggleGroupFrecuencia.selectToggle(rbBajo);break;
+                case "Medio":
+                    toggleGroupFrecuencia.selectToggle(rbMedio);break;
+                case "Alto":
+                    toggleGroupFrecuencia.selectToggle(rbAlto);break;
+            }
+            txtStock.setText(String.valueOf(herramienta.getCantidad()));
+            txtStockMin.setText(String.valueOf(herramienta.getCantidad_min()));
+            txtCB.setDisable(true);
+            ActivateBtn(true,false,true,false,false);
+        }else {
+            Error("Selecciona un registro pa");
+        }
+    }
+    @FXML private void CancelHerramienta(){
+        txtCB.setText("");
+        txtCB.setDisable(false);
+        CleanTextFields();
+        ActivateBtn(false,true,false,true,false);
+        tabPaneHerramientas.getSelectionModel().select(tabSearch);
+        tabSearch.setDisable(false);
+        tabNew.setDisable(true);
+    }
+    @FXML private void ExitHerramienta(){
+
+    }
+    @FXML private void Busqueda() throws SQLException {
+        String busqueda = txtBusqueda.getText();
+        String criterio = "";
+        if (rbID.isSelected() && !busqueda.equals("")){
+            criterio="cb_herramienta";
+        } else if (rbNombre.isSelected() && !busqueda.equals("")) {
+            criterio="herramienta";
+        }
+        if (!busqueda.equals("")){
+            ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN herramientas ON herramienta.id_herramienta = herramientas.id_herramienta WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
+        }else {
+            ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN herramientas ON herramienta.id_herramienta = herramientas.id_herramienta;"));
         }
     }
 
@@ -101,9 +168,11 @@ public class HerramientasController {
                     rsHerramientas.getInt("cantidad"),
                     rsHerramientas.getInt("cantidad_min"));
             tableViewHerramientas.getItems().add(h);
+            cont++;
         }
         lblRegistros.setText("Se cargaron "+cont+" herramientas");
     }
+
     private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit){
         btnNew.setDisable(New);
         btnSave.setDisable(save);
@@ -161,5 +230,17 @@ public class HerramientasController {
             return false;
         }
         return true;
+    }
+    private void Error(String mensaje){
+        Alert alert= new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(mensaje);
+        alert.setTitle("Error");
+        alert.show();
+    }
+    private void Exito(String mensaje){
+        Alert alert= new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText(mensaje);
+        alert.setTitle("Exito");
+        alert.show();
     }
 }

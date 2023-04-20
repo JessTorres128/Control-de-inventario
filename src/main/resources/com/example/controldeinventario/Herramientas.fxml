@@ -35,11 +35,11 @@
                                     <Insets left="35.0" />
                                  </VBox.margin>
                                  <children>
-                                    <JFXRadioButton fx:id="rbID" text="ID" />
+                                    <JFXRadioButton fx:id="rbID" selected="true" text="ID" />
                                     <JFXRadioButton fx:id="rbNombre" text="Nombre" />
                                  </children>
                               </HBox>
-                              <TextField fx:id="txtBusqueda" prefHeight="26.0" prefWidth="526.0">
+                              <TextField fx:id="txtBusqueda" onKeyReleased="#Busqueda" prefHeight="26.0" prefWidth="526.0">
                                  <VBox.margin>
                                     <Insets left="40.0" right="199.0" />
                                  </VBox.margin>
@@ -117,7 +117,7 @@
                         <HBox prefHeight="32.0" prefWidth="523.0" spacing="20.0">
                            <children>
                               <JFXRadioButton fx:id="rbBajo" text="Bajo" />
-                              <JFXRadioButton fx:id="rbMedio" text="Medio" />
+                              <JFXRadioButton fx:id="rbMedio" selected="true" text="Medio" />
                               <JFXRadioButton fx:id="rbAlto" text="Alto" />
                            </children>
                            <VBox.margin>
@@ -179,10 +179,10 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </JFXButton>
-            <JFXButton fx:id="btnSave" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Guardar" />
-            <JFXButton fx:id="btnEdit" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Modificar" />
-            <JFXButton fx:id="btnCancel" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Cancelar" />
-            <JFXButton fx:id="btnExit" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Salir" />
+            <JFXButton fx:id="btnSave" disable="true" mnemonicParsing="false" onAction="#SaveHerramienta" prefHeight="100.0" prefWidth="100.0" text="Guardar" />
+            <JFXButton fx:id="btnEdit" mnemonicParsing="false" onAction="#EditHerramienta" prefHeight="100.0" prefWidth="100.0" text="Modificar" />
+            <JFXButton fx:id="btnCancel" disable="true" mnemonicParsing="false" onAction="#CancelHerramienta" prefHeight="100.0" prefWidth="100.0" text="Cancelar" />
+            <JFXButton fx:id="btnExit" mnemonicParsing="false" onAction="#ExitHerramienta" prefHeight="100.0" prefWidth="100.0" text="Salir" />
          </children>
          <HBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

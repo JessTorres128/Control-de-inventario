@@ -357,7 +357,7 @@ public class ArticulosController {
         alert.setTitle("Exito");
         alert.show();
     }
-    @FXML private void Busqueda(KeyEvent event) throws SQLException {
+    @FXML private void Busqueda() throws SQLException {
         String busqueda= txtBusqueda.getText();
         String criterio="";
 
