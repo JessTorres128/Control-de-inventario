@@ -11,7 +11,6 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -93,15 +92,6 @@
                <content>
                   <VBox alignment="TOP_CENTER" prefHeight="682.0" prefWidth="970.0" style="-fx-background-color: white;">
                      <children>
-                        <AnchorPane prefHeight="98.0" prefWidth="976.0" style="-fx-background-color: #543383;">
-                           <children>
-                              <ImageView fitHeight="93.0" fitWidth="303.0" layoutX="14.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@img/logotec2.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </AnchorPane>
                         <AnchorPane prefHeight="624.0" prefWidth="986.0" style="-fx-background-color: white;">
                            <children>
                               <TextField fx:id="txtCodigoBarras" layoutX="720.0" layoutY="83.0" prefHeight="25.0" prefWidth="183.0" style="-fx-background-color: #f1edf8; -fx-border-color: #543383;" />
