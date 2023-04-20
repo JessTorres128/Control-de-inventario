@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2023 at 05:24 AM
+-- Generation Time: Apr 20, 2023 at 05:26 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -28,14 +28,23 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `herramienta` (
+  `cb_herramienta` varchar(10) NOT NULL,
   `id_herramienta` int(10) NOT NULL,
-  `herramienta` varchar(50) NOT NULL,
   `tipo` varchar(50) NOT NULL,
   `caracteristicas` varchar(60) NOT NULL,
   `frecuencia_de_uso` varchar(40) NOT NULL,
   `cantidad` int(10) NOT NULL,
   `cantidad_min` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `herramienta`
+--
+
+INSERT INTO `herramienta` (`cb_herramienta`, `id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES
+('1', 2, 'inglesa', 'dsadsadsadsadsa', 'Medio', 111, 11),
+('2090219315', 2, 'wertyu', 'fgghjkuiyutrdff', 'Bajo', 99, 4),
+('4786689832', 3, 'iyutre', 'uhgfds', 'Alto', 12, 1);
 
 -- --------------------------------------------------------
 
@@ -47,6 +56,15 @@ CREATE TABLE `herramientas` (
   `id_herramienta` int(10) NOT NULL,
   `herramienta` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `herramientas`
+--
+
+INSERT INTO `herramientas` (`id_herramienta`, `herramienta`) VALUES
+(1, 'Pala'),
+(2, 'Llave'),
+(3, 'Rastrillo');
 
 -- --------------------------------------------------------
 
@@ -77,7 +95,8 @@ CREATE TABLE `material` (
 INSERT INTO `material` (`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES
 ('1234567890', 'D', 'D6', 'B', 2, 'Diodo', '432432AJD', 0, 'N/A', '7W / 9V', 'Medio', 100, 20),
 ('1592483282', 'd', 'd2', 'a', 1, 'tttt', '5432fdfsd', 23, 'fdsfdfds', 'gfdgdfgdfgdfgdf', 'Alto', 32, 54),
-('4737075182', 'D', 'D5', 'B', 2, 'Grande', '543543', 100, 'Ohms', 'aaaaaaaaaaaaaaaaa', 'Medio', 100, 20);
+('4737075182', 'D', 'D5', 'B', 1, 'Grande', '543543', 100, 'Ohms', 'aaaaaaaaaaaaaaaaaACABO DE EDITAR ESTO', 'Medio', 100, 20),
+('7533218178', 'd', '3', 'd44', 2, 'fdsfdsfdsdsadsadeeeeeeeeeee', '6546gfg', 23, 'fdfssdf', 'gfhgfhgfhgfh', 'Bajo', 6, 1);
 
 -- --------------------------------------------------------
 
@@ -178,7 +197,7 @@ INSERT INTO `usuario` (`id_user`, `username`, `password`, `nombre_rol`) VALUES
 -- Indexes for table `herramienta`
 --
 ALTER TABLE `herramienta`
-  ADD PRIMARY KEY (`id_herramienta`);
+  ADD PRIMARY KEY (`cb_herramienta`);
 
 --
 -- Indexes for table `herramientas`
@@ -190,7 +209,8 @@ ALTER TABLE `herramientas`
 -- Indexes for table `material`
 --
 ALTER TABLE `material`
-  ADD PRIMARY KEY (`cb_material`);
+  ADD PRIMARY KEY (`cb_material`),
+  ADD UNIQUE KEY `idx_cb_material` (`cb_material`);
 
 --
 -- Indexes for table `materiales`
@@ -227,16 +247,10 @@ ALTER TABLE `usuario`
 --
 
 --
--- AUTO_INCREMENT for table `herramienta`
---
-ALTER TABLE `herramienta`
-  MODIFY `id_herramienta` int(10) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `herramientas`
 --
 ALTER TABLE `herramientas`
-  MODIFY `id_herramienta` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_herramienta` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `materiales`

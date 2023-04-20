@@ -1,17 +1,36 @@
 package com.example.controldeinventario;
 
-import com.example.controldeinventario.Datos.Articulo;
 import com.example.controldeinventario.Datos.Herramienta;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import org.krysalis.barcode4j.impl.code39.Code39Bean;
+import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
+import org.krysalis.barcode4j.tools.UnitConv;
 
-import javax.xml.transform.Result;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 
 public class HerramientasController {
+    @FXML ImageView imgCodeBar = new ImageView();
     Conexion conexion;
     @FXML TabPane tabPaneHerramientas;
     @FXML Tab tabNew, tabSearch;
@@ -139,6 +158,48 @@ public class HerramientasController {
         tabNew.setDisable(true);
     }
     @FXML private void ExitHerramienta(){
+
+    }
+    @FXML private void GenerateCodeBar() throws IOException {
+        Code39Bean code39Bean = new Code39Bean();
+        final int dpi = 150;
+        code39Bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi));
+        code39Bean.setWideFactor(3);
+        code39Bean.doQuietZone(true);
+        OutputStream out = new FileOutputStream("code39.png");
+        BitmapCanvasProvider canvas = new BitmapCanvasProvider(out, "image/png", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+        code39Bean.generateBarcode(canvas, txtCB.getText());
+        canvas.finish();
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream("code39.png"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        imgCodeBar.setImage(image);
+
+    }
+    @FXML private void PrintCodeBar() throws IOException, DocumentException {
+        Document documento = new Document(PageSize.A4);
+        PdfWriter.getInstance(documento, new FileOutputStream("CodigoDeBarras.pdf"));
+        documento.open();
+
+        PdfPTable pdfPTableCB = new PdfPTable(4);
+        pdfPTableCB.setWidthPercentage(100);
+        BufferedImage image = ImageIO.read(new File("code39.png"));
+        com.itextpdf.text.Image barcode = com.itextpdf.text.Image.getInstance(image, null);
+        barcode.scaleToFit(150, 50);
+        for (int i = 0; i < 40; i++) {
+            PdfPCell cell = new PdfPCell(barcode);
+            cell.setPadding(5);
+            cell.setBorder(com.itextpdf.text.Rectangle.NO_BORDER);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            pdfPTableCB.addCell(cell);
+        }
+        documento.add(pdfPTableCB);
+        documento.close();
+        Desktop.getDesktop().browse(new File("CodigoDeBarras.pdf").toURI());
 
     }
     @FXML private void Busqueda() throws SQLException {

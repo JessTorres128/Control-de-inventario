@@ -144,15 +144,15 @@
                               </VBox>
                               <VBox alignment="TOP_CENTER" prefHeight="230.0" prefWidth="300.0">
                                  <children>
-                                    <ImageView fitHeight="109.0" fitWidth="209.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imgCodeBar" fitHeight="109.0" fitWidth="209.0" pickOnBounds="true" preserveRatio="true">
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
                                     </ImageView>
                                     <HBox alignment="CENTER" prefHeight="122.0" prefWidth="299.0" spacing="40.0">
                                        <children>
-                                          <JFXButton text="Generar" />
-                                          <JFXButton text="Imprimir" />
+                                          <JFXButton onAction="#GenerateCodeBar" text="Generar" />
+                                          <JFXButton onAction="#PrintCodeBar" text="Imprimir" />
                                        </children>
                                     </HBox>
                                  </children>
