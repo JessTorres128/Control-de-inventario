@@ -6,7 +6,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
@@ -18,7 +17,7 @@
 
 <HBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.HerramientasController">
    <children>
-      <TabPane fx:id="tabV" prefHeight="560.0" prefWidth="617.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPaneHerramientas" prefHeight="560.0" prefWidth="617.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="tabSearch" text="Buscar">
             <content>
@@ -32,15 +31,15 @@
                                  </VBox.margin>
                               </Label>
                               <HBox prefHeight="23.0" prefWidth="539.0" spacing="30.0">
-                                 <children>
-                                    <RadioButton mnemonicParsing="false" text="ID" />
-                                    <RadioButton mnemonicParsing="false" text="Nombre" />
-                                 </children>
                                  <VBox.margin>
                                     <Insets left="35.0" />
                                  </VBox.margin>
+                                 <children>
+                                    <JFXRadioButton fx:id="rbID" text="ID" />
+                                    <JFXRadioButton fx:id="rbNombre" text="Nombre" />
+                                 </children>
                               </HBox>
-                              <TextField prefHeight="26.0" prefWidth="526.0">
+                              <TextField fx:id="txtBusqueda" prefHeight="26.0" prefWidth="526.0">
                                  <VBox.margin>
                                     <Insets left="40.0" right="199.0" />
                                  </VBox.margin>
@@ -52,8 +51,8 @@
                         </VBox>
                         <VBox prefHeight="389.0" prefWidth="539.0" spacing="5.0">
                            <children>
-                              <TableView prefHeight="348.0" prefWidth="499.0" />
-                              <Label text="Se cargaron x registros" />
+                              <TableView fx:id="tableViewHerramientas" prefHeight="348.0" prefWidth="499.0" />
+                              <Label fx:id="lblRegistros" text="Se cargaron x registros" />
                            </children>
                            <VBox.margin>
                               <Insets />
@@ -63,13 +62,13 @@
                   </VBox>
             </content>
           </Tab>
-          <Tab fx:id="tabNew" text="Nuevo / Modificar">
+          <Tab fx:id="tabNew" disable="true" text="Nuevo / Modificar">
                <content>
                   <VBox prefHeight="531.0" prefWidth="525.0">
                      <children>
                         <HBox prefHeight="36.0" prefWidth="523.0">
                            <children>
-                              <TextField editable="false" />
+                              <TextField fx:id="txtCB" editable="false" />
                               <Label text="ID (CODIGO DE BARRAS)" />
                            </children>
                            <VBox.margin>
@@ -78,7 +77,7 @@
                         </HBox>
                         <HBox prefHeight="38.0" prefWidth="523.0">
                            <children>
-                              <ComboBox prefWidth="150.0" />
+                              <ComboBox fx:id="cbHerramienta" prefWidth="150.0" />
                               <Label text="Herramienta" />
                            </children>
                            <VBox.margin>
@@ -87,7 +86,7 @@
                         </HBox>
                         <HBox prefHeight="38.0" prefWidth="523.0">
                            <children>
-                              <TextField />
+                              <TextField fx:id="txtTipo" />
                               <Label text="Tipo" />
                            </children>
                            <VBox.margin>
@@ -102,7 +101,7 @@
                               <Font name="System Bold" size="21.0" />
                            </font>
                         </Label>
-                        <JFXTextArea prefHeight="123.0" prefWidth="523.0">
+                        <JFXTextArea fx:id="txtCaracteristicas" prefHeight="123.0" prefWidth="523.0">
                            <VBox.margin>
                               <Insets bottom="10.0" left="20.0" right="20.0" />
                            </VBox.margin>
@@ -117,9 +116,9 @@
                         </Label>
                         <HBox prefHeight="32.0" prefWidth="523.0" spacing="20.0">
                            <children>
-                              <JFXRadioButton text="Bajo" />
-                              <JFXRadioButton text="Medio" />
-                              <JFXRadioButton text="Alto" />
+                              <JFXRadioButton fx:id="rbBajo" text="Bajo" />
+                              <JFXRadioButton fx:id="rbMedio" text="Medio" />
+                              <JFXRadioButton fx:id="rbAlto" text="Alto" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="20.0" left="20.0" right="20.0" />
@@ -131,13 +130,13 @@
                                  <children>
                                     <HBox prefHeight="120.0" prefWidth="226.0">
                                        <children>
-                                          <TextField />
+                                          <TextField fx:id="txtStock" />
                                           <Label text="Stock" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="113.0" prefWidth="226.0">
                                        <children>
-                                          <TextField />
+                                          <TextField fx:id="txtStockMin" />
                                           <Label text="Stock Min." />
                                        </children>
                                     </HBox>
@@ -175,7 +174,7 @@
       <VBox alignment="TOP_CENTER" prefHeight="578.0" prefWidth="214.0">
          <children>
             <Label text="Controles" />
-          <JFXButton fx:id="btnNew" mnemonicParsing="false"  prefHeight="100.0" prefWidth="100.0" text="Nuevo">
+          <JFXButton fx:id="btnNew" mnemonicParsing="false" onAction="#NewHerramienta" prefHeight="100.0" prefWidth="100.0" text="Nuevo">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>

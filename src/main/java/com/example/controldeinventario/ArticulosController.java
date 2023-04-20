@@ -33,17 +33,15 @@ import java.util.Random;
 public class ArticulosController {
     @FXML ImageView imgCodeBar = new ImageView();
     @FXML Label lblContador;
-@FXML TextField txtBusqueda;
+    @FXML TextField txtBusqueda;
     @FXML ComboBox<String> cbMaterial = new ComboBox<>();
     @FXML TextArea txtCaracteristicas;
     @FXML TextField txtCodigoBarras, txtArmario,txtGaveta,txtSubCompartimento,txtTipo,txtNumParte,txtValor,txtUnidadMedida,txtStock,txtStockMin;
     Conexion conexion;
     @FXML
     Button btnNew, btnSave, btnEdit, btnCancel, btnExit;
-    @FXML
-    TabPane tabV;
-    @FXML
-    Tab tabSearch, tabNew;
+    @FXML TabPane tabV;
+    @FXML Tab tabSearch, tabNew;
     @FXML RadioButton rbCodigoBarras, rbArmario, rbMaterial;
     @FXML RadioButton rbBajo, rbMedio,rbAlto;
     ToggleGroup toggleGroupBusqueda = new ToggleGroup();
@@ -142,7 +140,7 @@ public class ArticulosController {
                         int id = resultado.getInt("id_material");
                         ResultSet resultado2 = conexion.consultar("SELECT * FROM `material` WHERE `cb_material`='"+txtCodigoBarras.getText()+"' LIMIT 1");
                         if (resultado2.next()){
-                            conexion.insmodelim("UPDATE `material` SET `tipo_de_armario`='" + txtArmario.getText() + "', `gaveta`='" + txtGaveta.getText() + "', `sub_compartimento`='" + txtSubCompartimento.getText() + "', `tipo`='" + txtTipo.getText() + "', `numero_parte`='" + txtNumParte.getText() + "', `valor`='" + txtValor.getText() + "', `unidad_de_medida`='" + txtUnidadMedida.getText() + "', `caracteristicas`='" + txtCaracteristicas.getText() + "', `frecuencia_de_uso`='" + ((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText() + "', `cantidad`='" + txtStock.getText() + "', `cantidad_min`='" + txtStockMin.getText() + "' WHERE `cb_material`='"+txtCodigoBarras.getText()+"'");
+                            conexion.insmodelim("UPDATE `material` SET `tipo_de_armario`='" + txtArmario.getText() + "', `gaveta`='" + txtGaveta.getText() + "', `sub_compartimento`='" + txtSubCompartimento.getText() + "', `id_material`='"+id+"', `tipo`='" + txtTipo.getText() + "', `numero_parte`='" + txtNumParte.getText() + "', `valor`='" + txtValor.getText() + "', `unidad_de_medida`='" + txtUnidadMedida.getText() + "', `caracteristicas`='" + txtCaracteristicas.getText() + "', `frecuencia_de_uso`='" + ((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText() + "', `cantidad`='" + txtStock.getText() + "', `cantidad_min`='" + txtStockMin.getText() + "' WHERE `cb_material`='"+txtCodigoBarras.getText()+"'");
                             Exito("Actualizado con exito");
 
                         }else {
