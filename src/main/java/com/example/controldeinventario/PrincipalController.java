@@ -50,9 +50,14 @@ public class PrincipalController {
 
     }
     @FXML private void IngresarLogin(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
-        Parent root = fxmlLoader.load();
-        AbrirVentana(root);
+        HelloApplication.primarystage.close();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 700, 500);
+        HelloApplication.primarystage.setTitle("Inventario");
+        HelloApplication.primarystage.setScene(scene);
+        HelloApplication.primarystage.show();
+
+        HelloApplication.primarystage.setResizable(false);
 
     }
     @FXML private void IngresarRoles(ActionEvent event) throws IOException {
@@ -82,6 +87,41 @@ public class PrincipalController {
         ventanaSecundaria.show();
     }
     private void HabilitarMenus(ResultSet resultSetUsuario) throws SQLException {
-        System.out.println(resultSetUsuario.getInt("crud_articulo"));
+        if(resultSetUsuario.getInt("crud_articulo") == 1){
+            menuItemHerramientas.setDisable(false);
+            menuItemMateriales.setDisable(false);
+        }else {
+            menuItemHerramientas.setDisable(true);
+            menuItemMateriales.setDisable(true);
+        }
+        if (resultSetUsuario.getInt("crud_material") == 1){
+            menuItemTMateriales.setDisable(false);
+            menuItemTHerramientas.setDisable(false);
+        }else {
+            menuItemTMateriales.setDisable(true);
+            menuItemTHerramientas.setDisable(true);
+        }
+        if (resultSetUsuario.getInt("crud_pedido") == 1){
+            menuItemPedidos.setDisable(false);
+        }else {
+            menuItemPedidos.setDisable(true);
+        }
+        if (resultSetUsuario.getInt("crud_user") == 1){
+            menuItemRoles.setDisable(false);
+            menuItemEmpleados.setDisable(false);
+        }else {
+            menuItemRoles.setDisable(true);
+            menuItemEmpleados.setDisable(true);
+        }
+        if (resultSetUsuario.getInt("restaurar_bd") == 1){
+            menuItemRestaurarBD.setDisable(false);
+        }else {
+            menuItemRestaurarBD.setDisable(true);
+        }
+        if (resultSetUsuario.getInt("respaldar_bd") == 1){
+            menuItemRespaldarBD.setDisable(false);
+        }else {
+            menuItemRespaldarBD.setDisable(true);
+        }
     }
 }
