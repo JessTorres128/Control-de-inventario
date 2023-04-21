@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2023 at 05:26 AM
+-- Generation Time: Apr 22, 2023 at 01:54 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -167,7 +167,8 @@ CREATE TABLE `tipo_usuario` (
 --
 
 INSERT INTO `tipo_usuario` (`id_rol`, `nombre_rol`, `crud_articulo`, `crud_material`, `crud_pedido`, `crud_user`, `restaurar_bd`, `respaldar_bd`) VALUES
-(1, 'Administrador', 1, 1, 1, 1, 1, 1);
+(1, 'Administrador', 1, 1, 1, 1, 1, 1),
+(2, 'Becario', 0, 0, 1, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -187,7 +188,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_user`, `username`, `password`, `nombre_rol`) VALUES
-(1, 'admin', 'admin', 'Administrador');
+(1, 'admin', 'admin', 'Administrador'),
+(2, 'Jose', 'jose123', 'Becario');
 
 --
 -- Indexes for dumped tables
@@ -274,13 +276,13 @@ ALTER TABLE `pedido_material`
 -- AUTO_INCREMENT for table `tipo_usuario`
 --
 ALTER TABLE `tipo_usuario`
-  MODIFY `id_rol` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_rol` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
