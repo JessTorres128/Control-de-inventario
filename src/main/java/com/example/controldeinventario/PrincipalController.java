@@ -10,11 +10,23 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class PrincipalController {
     @FXML MenuItem menuItemB;
+    @FXML MenuItem menuItemIniciarSesion, menuItemCerrarSesion, menuItemCerrarPrograma;
+    @FXML MenuItem menuItemMateriales, menuItemHerramientas;
+    @FXML MenuItem menuItemPedidos;
+    @FXML MenuItem menuItemTMateriales, menuItemTHerramientas;
+    @FXML MenuItem menuItemRoles, menuItemEmpleados;
+    @FXML MenuItem menuItemRespaldarBD, menuItemRestaurarBD;
 
-    @FXML protected void initialize(){
+    Conexion conexion;
+
+    @FXML protected void initialize() throws SQLException {
+        conexion=new Conexion();
+        HabilitarMenus(LoginController.resultado);
        // Image imgSearch= new Image("",25,25,false,true);menuItemB.setGraphic(new ImageView(imgSearch));
     }
 
@@ -68,5 +80,8 @@ public class PrincipalController {
         ventanaSecundaria.initOwner(HelloApplication.primarystage);
         ventanaSecundaria.setScene(new Scene(root));
         ventanaSecundaria.show();
+    }
+    private void HabilitarMenus(ResultSet resultSetUsuario) throws SQLException {
+        System.out.println(resultSetUsuario.getInt("crud_articulo"));
     }
 }

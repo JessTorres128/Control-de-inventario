@@ -8,44 +8,44 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #543383;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.PrincipalController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #543383;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.PrincipalController">
    <children>
       <MenuBar layoutY="1.0" prefHeight="28.0" prefWidth="1280.0" style="-fx-background-color: white; -fx-opacity: 0.9;">
         <menus>
             <Menu mnemonicParsing="false" text="Archivo">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#IngresarLogin" text="Iniciar sesión" />
-                  <MenuItem mnemonicParsing="false" onAction="#IngresarLogin" text="Cerrar sesión" />
-                  <MenuItem mnemonicParsing="false" text="Salir de la aplicación" />
+                <MenuItem fx:id="menuItemIniciarSesion" mnemonicParsing="false" onAction="#IngresarLogin" text="Iniciar sesión" />
+                  <MenuItem fx:id="menuItemCerrarSesion" mnemonicParsing="false" onAction="#IngresarLogin" text="Cerrar sesión" />
+                  <MenuItem fx:id="menuItemCerrarPrograma" mnemonicParsing="false" text="Salir de la aplicación" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Almacén">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#IngresarArticulos" text="Materiales" />
-                  <MenuItem mnemonicParsing="false" onAction="#IngresarHerramientas" text="Herramientas" />
+              <MenuItem fx:id="menuItemMateriales" mnemonicParsing="false" onAction="#IngresarArticulos" text="Materiales" />
+                  <MenuItem fx:id="menuItemHerramientas" mnemonicParsing="false" onAction="#IngresarHerramientas" text="Herramientas" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Pedidos">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#IngresarPedidos" text="Ver pedidos" />
+              <MenuItem fx:id="menuItemPedidos" mnemonicParsing="false" onAction="#IngresarPedidos" text="Ver pedidos" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Tipos">
               <items>
-                  <MenuItem mnemonicParsing="false" text="Articulo" />
-                <MenuItem mnemonicParsing="false" text="Herramienta" />
+                  <MenuItem fx:id="menuItemTMateriales" mnemonicParsing="false" text="Materiales" />
+                <MenuItem fx:id="menuItemTHerramientas" mnemonicParsing="false" text="Herramienta" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Usuarios">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#IngresarRoles" text="Roles" />
-                  <MenuItem mnemonicParsing="false" onAction="#IngresarEmpleados" text="Empleados" />
+              <MenuItem fx:id="menuItemRoles" mnemonicParsing="false" onAction="#IngresarRoles" text="Roles" />
+                  <MenuItem fx:id="menuItemEmpleados" mnemonicParsing="false" onAction="#IngresarEmpleados" text="Empleados" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Mantenimiento">
               <items>
-                <MenuItem mnemonicParsing="false" text="Restaurar BD" />
-                  <MenuItem mnemonicParsing="false" text="Respaldar BD" />
+                <MenuItem fx:id="menuItemRestaurarBD" mnemonicParsing="false" text="Restaurar BD" />
+                  <MenuItem fx:id="menuItemRespaldarBD" mnemonicParsing="false" text="Respaldar BD" />
               </items>
             </Menu>
         </menus>

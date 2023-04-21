@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 
 
@@ -16,7 +17,7 @@ import java.sql.SQLException;
 public class LoginController {
 @FXML TextField txtuser;
 @FXML TextField txtpassword;
-
+    static ResultSet resultado;
 Conexion conexion;
 
 @FXML protected void initialize(){
@@ -27,7 +28,8 @@ Conexion conexion;
     String user = txtuser.getText();
     String pass = txtpassword.getText();
 
-    ResultSet resultado = conexion.consultar("select * from usuario where username='"+user+"' and password='"+pass+"'");
+    resultado = conexion.consultar("select * from usuario where username='"+user+"' and password='"+pass+"'");
+    resultado = conexion.consultar("SELECT * FROM `usuario` INNER JOIN tipo_usuario ON usuario.nombre_rol = tipo_usuario.nombre_rol WHERE username='"+user+"' and password='"+pass+"'");
     if (resultado != null){
         int cont =0;
         if (resultado.next()){cont++;}
