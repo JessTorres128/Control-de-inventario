@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2023 at 03:31 AM
+-- Generation Time: Apr 22, 2023 at 05:06 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -154,16 +154,16 @@ CREATE TABLE `pedido_material` (
 CREATE TABLE `tipo_usuario` (
   `id_rol` int(10) NOT NULL,
   `nombre_rol` varchar(100) NOT NULL,
-  `create_articulo` tinyint(1) NOT NULL,
-  `update_articulo` tinyint(1) NOT NULL,
-  `delete_articulo` tinyint(1) NOT NULL,
+  `create_material` tinyint(1) NOT NULL,
+  `update_material` tinyint(1) NOT NULL,
+  `delete_material` tinyint(1) NOT NULL,
   `create_herramienta` tinyint(1) NOT NULL,
   `update_herramienta` tinyint(1) NOT NULL,
   `delete_herramienta` tinyint(1) NOT NULL,
   `crud_pedido` tinyint(1) NOT NULL,
-  `create_t_articulo` tinyint(1) NOT NULL,
-  `update_t_articulo` tinyint(1) NOT NULL,
-  `delete_t_articulo` tinyint(1) NOT NULL,
+  `create_t_material` tinyint(1) NOT NULL,
+  `update_t_material` tinyint(1) NOT NULL,
+  `delete_t_material` tinyint(1) NOT NULL,
   `create_t_herramienta` tinyint(1) NOT NULL,
   `update_t_herramienta` tinyint(1) NOT NULL,
   `delete_t_herramienta` tinyint(1) NOT NULL,
@@ -177,7 +177,7 @@ CREATE TABLE `tipo_usuario` (
 -- Dumping data for table `tipo_usuario`
 --
 
-INSERT INTO `tipo_usuario` (`id_rol`, `nombre_rol`, `create_articulo`, `update_articulo`, `delete_articulo`, `create_herramienta`, `update_herramienta`, `delete_herramienta`, `crud_pedido`, `create_t_articulo`, `update_t_articulo`, `delete_t_articulo`, `create_t_herramienta`, `update_t_herramienta`, `delete_t_herramienta`, `crud_roles`, `crud_empleados`, `restaurar_bd`, `respaldar_bd`) VALUES
+INSERT INTO `tipo_usuario` (`id_rol`, `nombre_rol`, `create_material`, `update_material`, `delete_material`, `create_herramienta`, `update_herramienta`, `delete_herramienta`, `crud_pedido`, `create_t_material`, `update_t_material`, `delete_t_material`, `create_t_herramienta`, `update_t_herramienta`, `delete_t_herramienta`, `crud_roles`, `crud_empleados`, `restaurar_bd`, `respaldar_bd`) VALUES
 (1, 'Administrador', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 (2, 'Becario', 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 

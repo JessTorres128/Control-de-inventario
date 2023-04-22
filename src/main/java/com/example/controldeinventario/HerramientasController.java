@@ -1,6 +1,5 @@
 package com.example.controldeinventario;
 
-import com.example.controldeinventario.Datos.Articulo;
 import com.example.controldeinventario.Datos.Herramienta;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
