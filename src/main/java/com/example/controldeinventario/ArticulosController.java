@@ -9,6 +9,8 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -17,7 +19,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.krysalis.barcode4j.impl.code39.Code39Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.krysalis.barcode4j.tools.UnitConv;
@@ -29,6 +33,7 @@ import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ArticulosController {
     @FXML ImageView imgCodeBar = new ImageView();
@@ -39,7 +44,7 @@ public class ArticulosController {
     @FXML TextField txtCodigoBarras, txtArmario,txtGaveta,txtSubCompartimento,txtTipo,txtNumParte,txtValor,txtUnidadMedida,txtStock,txtStockMin;
     Conexion conexion;
     @FXML
-    Button btnNew, btnSave, btnEdit, btnCancel, btnExit;
+    Button btnNew, btnSave, btnEdit, btnCancel, btnExit, btnDelete;
     @FXML TabPane tabV;
     @FXML Tab tabSearch, tabNew;
     @FXML RadioButton rbCodigoBarras, rbArmario, rbMaterial;
@@ -123,7 +128,7 @@ public class ArticulosController {
     }
     @FXML private void NewArticulo() throws SQLException {
         txtCodigoBarras.setDisable(false);
-        ActivateBtn(false,false,true,false,false);
+        ActivateBtn(false,false,true,false,false,true);
         Long cb = GenerateNumber();
         tabV.getSelectionModel().select(tabNew);
         tabNew.setDisable(false);
@@ -155,7 +160,7 @@ public class ArticulosController {
                         tabV.getSelectionModel().select(tabSearch);
                         tabSearch.setDisable(false);
                         tabNew.setDisable(true);
-                        ActivateBtn(false,true,false,true,false);
+                        ActivateBtn(false,true,false,true,false,false);
                         txtCodigoBarras.setDisable(false);
                         ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material"));
                     }else {
@@ -193,17 +198,32 @@ public class ArticulosController {
             txtStock.setText(String.valueOf(articulo.getCantidad()));
                     txtStockMin.setText(String.valueOf(articulo.getCantidad_min()));
             txtCodigoBarras.setDisable(true);
-            ActivateBtn(true,false,true,false,false);
+            ActivateBtn(true,false,true,false,false,true);
         }else {Error("Selecciona un registro pa");}
     }
     @FXML private void CancelArticulo(){
         txtCodigoBarras.setText("");
         txtCodigoBarras.setDisable(false);
         CleanTextFields();
-        ActivateBtn(false,true,false,true,false);
+        ActivateBtn(false,true,false,true,false,false);
         tabV.getSelectionModel().select(tabSearch);
         tabSearch.setDisable(false);
         tabNew.setDisable(true);
+    }
+    @FXML private void DeleteArticulo() throws SQLException {
+        if (tableViewArticulos.getSelectionModel().getSelectedItem() != null){
+            Articulo articulo = (Articulo) tableViewArticulos.getSelectionModel().getSelectedItem();
+            if (ConfirmarBorrar("Deseas borrar "+articulo.getMaterial()+" "+articulo.getTipo())){
+                conexion.insmodelim("DELETE FROM `material` WHERE `cb_material`='"+articulo.getCodigo_barras()+"'");
+                Exito("Registro borrado exitosamente");
+                ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material"));
+            }else{
+
+            }
+
+        }else {
+            Error("Selecciona un registro pa");
+        }
     }
     @FXML private void ExitArticulo(){
 
@@ -290,13 +310,45 @@ public class ArticulosController {
         }
         return numero;
     }
-    private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit){
+    private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit, boolean delete){
         btnNew.setDisable(New);
         btnSave.setDisable(save);
         btnEdit.setDisable(edit);
         btnCancel.setDisable(cancel);
         btnExit.setDisable(exit);
+        btnDelete.setDisable(delete);
     }
+    public boolean ConfirmarBorrar(String mensaje) {
+        AtomicBoolean confirmar = new AtomicBoolean(false);
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("Confirmar acción");
+
+        Label label = new Label(mensaje);
+        Button btnConfirmar = new Button("Aceptar");
+        Button btnCancelar = new Button("Cancelar");
+
+        btnConfirmar.setOnAction(e -> {
+            confirmar.set(true);
+            dialog.close();
+        });
+
+        btnCancelar.setOnAction(e -> {
+            confirmar.set(false);
+            dialog.close();
+        });
+
+        VBox vbox = new VBox(label, btnConfirmar, btnCancelar);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setSpacing(10);
+
+        Scene dialogScene = new Scene(vbox, 300, 100);
+        dialog.setScene(dialogScene);
+        dialog.showAndWait();
+
+        return confirmar.get();
+    }
+
     private boolean VerifyCB(long num) throws SQLException {
         ResultSet res= conexion.consultar("SELECT herramienta.id_herramienta\n" +
                 "FROM herramienta\n" +

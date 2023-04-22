@@ -36,20 +36,20 @@ public class PrincipalController {
 
 
     //Controles del menú
-    @FXML private void IngresarArticulos(ActionEvent event) throws IOException {
+    @FXML private void IngresarArticulos() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Articulos.fxml"));
         Parent root = fxmlLoader.load();
         AbrirVentana(root);
 
 
     }
-    @FXML private void IngresarHerramientas(ActionEvent event) throws IOException {
+    @FXML private void IngresarHerramientas() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Herramientas.fxml"));
         Parent root = fxmlLoader.load();
         AbrirVentana(root);
 
     }
-    @FXML private void IngresarLogin(ActionEvent event) throws IOException {
+    @FXML private void IngresarLogin() throws IOException {
         HelloApplication.primarystage.close();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 500);
@@ -60,19 +60,19 @@ public class PrincipalController {
         HelloApplication.primarystage.setResizable(false);
 
     }
-    @FXML private void IngresarRoles(ActionEvent event) throws IOException {
+    @FXML private void IngresarRoles() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Roles.fxml"));
         Parent root = fxmlLoader.load();
         AbrirVentana(root);
 
     }
-    @FXML private void IngresarEmpleados(ActionEvent event) throws IOException {
+    @FXML private void IngresarEmpleados() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Empleados.fxml"));
         Parent root = fxmlLoader.load();
         AbrirVentana(root);
 
     }
-    @FXML private void IngresarPedidos(ActionEvent event) throws IOException {
+    @FXML private void IngresarPedidos() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Pedidos.fxml"));
         Parent root = fxmlLoader.load();
         AbrirVentana(root);

@@ -292,6 +292,7 @@ public class HerramientasController {
         }
         return true;
     }
+
     private void Error(String mensaje){
         Alert alert= new Alert(Alert.AlertType.ERROR);
         alert.setContentText(mensaje);
