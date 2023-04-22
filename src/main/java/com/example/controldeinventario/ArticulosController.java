@@ -217,8 +217,6 @@ public class ArticulosController {
                 conexion.insmodelim("DELETE FROM `material` WHERE `cb_material`='"+articulo.getCodigo_barras()+"'");
                 Exito("Registro borrado exitosamente");
                 ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material"));
-            }else{
-
             }
 
         }else {
@@ -331,7 +329,7 @@ public class ArticulosController {
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.setTitle("Confirmar acción");
 
-        Label label = new Label(mensaje);
+        Label lblmsg = new Label(mensaje);
         Button btnConfirmar = new Button("Aceptar");
         Button btnCancelar = new Button("Cancelar");
 
@@ -345,7 +343,7 @@ public class ArticulosController {
             dialog.close();
         });
 
-        VBox vbox = new VBox(label, btnConfirmar, btnCancelar);
+        VBox vbox = new VBox(lblmsg, btnConfirmar, btnCancelar);
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(10);
 

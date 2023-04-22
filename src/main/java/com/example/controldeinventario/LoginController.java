@@ -24,7 +24,7 @@ Conexion conexion;
     conexion=new Conexion();
 }
 
-@FXML private void IngresarLogin(ActionEvent event) throws IOException, SQLException {
+@FXML private void IngresarLogin() throws IOException, SQLException {
     String user = txtuser.getText();
     String pass = txtpassword.getText();
 
@@ -36,7 +36,7 @@ Conexion conexion;
         if(cont==0){
             Alert alert=new Alert(Alert.AlertType.ERROR);
             alert.setTitle("error");
-            alert.setContentText("com.example.controldeinventario.Datos incorrectos, compruebe los datos insertados");
+            alert.setContentText("Datos incorrectos, compruebe los datos insertados");
             alert.show();
         }else{
             System.out.println("ENCONTRO");
