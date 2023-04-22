@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2023 at 01:54 AM
+-- Generation Time: Apr 22, 2023 at 03:31 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -95,8 +95,8 @@ CREATE TABLE `material` (
 INSERT INTO `material` (`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES
 ('1234567890', 'D', 'D6', 'B', 2, 'Diodo', '432432AJD', 0, 'N/A', '7W / 9V', 'Medio', 100, 20),
 ('1592483282', 'd', 'd2', 'a', 1, 'tttt', '5432fdfsd', 23, 'fdsfdfds', 'gfdgdfgdfgdfgdf', 'Alto', 32, 54),
-('4737075182', 'D', 'D5', 'B', 1, 'Grande', '543543', 100, 'Ohms', 'aaaaaaaaaaaaaaaaaACABO DE EDITAR ESTO', 'Medio', 100, 20),
-('7533218178', 'd', '3', 'd44', 2, 'fdsfdsfdsdsadsadeeeeeeeeeee', '6546gfg', 23, 'fdfssdf', 'gfhgfhgfhgfh', 'Bajo', 6, 1);
+('2841715231', 'd', 'd4', '43535', 1, 'gfhgf', '654654ytrh', 34324, 'ohms', 'jhgfxdfds', 'Bajo', 11, 1),
+('4737075182', 'D', 'D5', 'B', 1, 'Grande', '543543', 100, 'Ohms', 'aaaaaaaaaaaaaaaaaACABO DE EDITAR ESTO', 'Medio', 100, 20);
 
 -- --------------------------------------------------------
 
@@ -154,10 +154,21 @@ CREATE TABLE `pedido_material` (
 CREATE TABLE `tipo_usuario` (
   `id_rol` int(10) NOT NULL,
   `nombre_rol` varchar(100) NOT NULL,
-  `crud_articulo` tinyint(1) NOT NULL,
-  `crud_material` tinyint(1) NOT NULL,
+  `create_articulo` tinyint(1) NOT NULL,
+  `update_articulo` tinyint(1) NOT NULL,
+  `delete_articulo` tinyint(1) NOT NULL,
+  `create_herramienta` tinyint(1) NOT NULL,
+  `update_herramienta` tinyint(1) NOT NULL,
+  `delete_herramienta` tinyint(1) NOT NULL,
   `crud_pedido` tinyint(1) NOT NULL,
-  `crud_user` tinyint(1) NOT NULL,
+  `create_t_articulo` tinyint(1) NOT NULL,
+  `update_t_articulo` tinyint(1) NOT NULL,
+  `delete_t_articulo` tinyint(1) NOT NULL,
+  `create_t_herramienta` tinyint(1) NOT NULL,
+  `update_t_herramienta` tinyint(1) NOT NULL,
+  `delete_t_herramienta` tinyint(1) NOT NULL,
+  `crud_roles` tinyint(1) NOT NULL,
+  `crud_empleados` tinyint(1) NOT NULL,
   `restaurar_bd` tinyint(1) NOT NULL,
   `respaldar_bd` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -166,9 +177,9 @@ CREATE TABLE `tipo_usuario` (
 -- Dumping data for table `tipo_usuario`
 --
 
-INSERT INTO `tipo_usuario` (`id_rol`, `nombre_rol`, `crud_articulo`, `crud_material`, `crud_pedido`, `crud_user`, `restaurar_bd`, `respaldar_bd`) VALUES
-(1, 'Administrador', 1, 1, 1, 1, 1, 1),
-(2, 'Becario', 0, 0, 1, 0, 0, 0);
+INSERT INTO `tipo_usuario` (`id_rol`, `nombre_rol`, `create_articulo`, `update_articulo`, `delete_articulo`, `create_herramienta`, `update_herramienta`, `delete_herramienta`, `crud_pedido`, `create_t_articulo`, `update_t_articulo`, `delete_t_articulo`, `create_t_herramienta`, `update_t_herramienta`, `delete_t_herramienta`, `crud_roles`, `crud_empleados`, `restaurar_bd`, `respaldar_bd`) VALUES
+(1, 'Administrador', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+(2, 'Becario', 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
