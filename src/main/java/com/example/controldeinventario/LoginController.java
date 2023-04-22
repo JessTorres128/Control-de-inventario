@@ -28,8 +28,7 @@ Conexion conexion;
     String user = txtuser.getText();
     String pass = txtpassword.getText();
 
-    resultado = conexion.consultar("select * from usuario where username='"+user+"' and password='"+pass+"'");
-    resultado = conexion.consultar("SELECT * FROM `usuario` INNER JOIN tipo_usuario ON usuario.nombre_rol = tipo_usuario.nombre_rol WHERE username='"+user+"' and password='"+pass+"'");
+    resultado = conexion.consultar("SELECT * FROM `usuario` INNER JOIN tipo_usuario ON usuario.nombre_rol = tipo_usuario.nombre_rol WHERE username='"+user+"' and password='"+pass+"' LIMIT 1");
     if (resultado != null){
         int cont =0;
         if (resultado.next()){cont++;}

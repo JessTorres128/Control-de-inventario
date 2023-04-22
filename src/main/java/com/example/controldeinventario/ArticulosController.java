@@ -98,8 +98,8 @@ public class ArticulosController {
             while (resultSet.next()){
                 cbMaterial.getItems().add((String) resultSet.getObject("material"));
             }
-
             ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material;"));
+            ActivateBtn(false,true,false,true,false,false);
 
 
 
@@ -171,7 +171,7 @@ public class ArticulosController {
 
 
     }
-    @FXML private void EditArticulo(){
+    @FXML private void EditArticulo() throws SQLException {
         if (tableViewArticulos.getSelectionModel().getSelectedItem() != null){
             Articulo articulo = (Articulo) tableViewArticulos.getSelectionModel().getSelectedItem();
             tabV.getSelectionModel().select(tabNew);
@@ -201,7 +201,7 @@ public class ArticulosController {
             ActivateBtn(true,false,true,false,false,true);
         }else {Error("Selecciona un registro pa");}
     }
-    @FXML private void CancelArticulo(){
+    @FXML private void CancelArticulo() throws SQLException {
         txtCodigoBarras.setText("");
         txtCodigoBarras.setDisable(false);
         CleanTextFields();
@@ -310,13 +310,20 @@ public class ArticulosController {
         }
         return numero;
     }
-    private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit, boolean delete){
-        btnNew.setDisable(New);
+    private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit, boolean delete) throws SQLException {
+        if (LoginController.resultado.getInt("create_material")==0){
+            btnNew.setDisable(true);
+        }else {btnNew.setDisable(New);}
+        if (LoginController.resultado.getInt("update_material")==0){
+            btnEdit.setDisable(true);
+        }else {btnEdit.setDisable(edit);}
+        if (LoginController.resultado.getInt("delete_material")==0){
+            btnDelete.setDisable(true);
+        }else {btnDelete.setDisable(delete);}
+
         btnSave.setDisable(save);
-        btnEdit.setDisable(edit);
         btnCancel.setDisable(cancel);
         btnExit.setDisable(exit);
-        btnDelete.setDisable(delete);
     }
     public boolean ConfirmarBorrar(String mensaje) {
         AtomicBoolean confirmar = new AtomicBoolean(false);

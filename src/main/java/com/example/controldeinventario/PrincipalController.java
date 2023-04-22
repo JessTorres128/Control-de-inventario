@@ -87,41 +87,32 @@ public class PrincipalController {
         ventanaSecundaria.show();
     }
     private void HabilitarMenus(ResultSet resultSetUsuario) throws SQLException {
-        if(resultSetUsuario.getInt("crud_articulo") == 1){
-            menuItemHerramientas.setDisable(false);
+        if(resultSetUsuario.getInt("create_material") == 1 || resultSetUsuario.getInt("update_material") == 1 || resultSetUsuario.getInt("delete_material") == 1){
             menuItemMateriales.setDisable(false);
-        }else {
-            menuItemHerramientas.setDisable(true);
-            menuItemMateriales.setDisable(true);
-        }
-        if (resultSetUsuario.getInt("crud_material") == 1){
-            menuItemTMateriales.setDisable(false);
-            menuItemTHerramientas.setDisable(false);
-        }else {
-            menuItemTMateriales.setDisable(true);
-            menuItemTHerramientas.setDisable(true);
-        }
-        if (resultSetUsuario.getInt("crud_pedido") == 1){
+        }else {menuItemMateriales.setDisable(true);}
+        if(resultSetUsuario.getInt("create_herramienta") == 1 || resultSetUsuario.getInt("update_herramienta") == 1 || resultSetUsuario.getInt("delete_herramienta") == 1){
+            menuItemHerramientas.setDisable(false);
+        }else {menuItemHerramientas.setDisable(true);}
+        if(resultSetUsuario.getInt("crud_pedido") == 1){
             menuItemPedidos.setDisable(false);
-        }else {
-            menuItemPedidos.setDisable(true);
-        }
-        if (resultSetUsuario.getInt("crud_user") == 1){
+        }else {menuItemPedidos.setDisable(true);}
+        if(resultSetUsuario.getInt("create_t_material") == 1 || resultSetUsuario.getInt("update_t_material") == 1 || resultSetUsuario.getInt("delete_t_material") == 1){
+            menuItemTMateriales.setDisable(false);
+        }else {menuItemTMateriales.setDisable(true);}
+        if(resultSetUsuario.getInt("create_t_herramienta") == 1 || resultSetUsuario.getInt("update_t_herramienta") == 1 || resultSetUsuario.getInt("delete_t_herramienta") == 1){
+            menuItemTHerramientas.setDisable(false);
+        }else {menuItemTHerramientas.setDisable(true);}
+        if(resultSetUsuario.getInt("crud_roles") == 1){
             menuItemRoles.setDisable(false);
+        }else {menuItemRoles.setDisable(true);}
+        if(resultSetUsuario.getInt("crud_empleados") == 1){
             menuItemEmpleados.setDisable(false);
-        }else {
-            menuItemRoles.setDisable(true);
-            menuItemEmpleados.setDisable(true);
-        }
-        if (resultSetUsuario.getInt("restaurar_bd") == 1){
+        }else {menuItemEmpleados.setDisable(true);}
+        if(resultSetUsuario.getInt("restaurar_bd") == 1){
             menuItemRestaurarBD.setDisable(false);
-        }else {
-            menuItemRestaurarBD.setDisable(true);
-        }
-        if (resultSetUsuario.getInt("respaldar_bd") == 1){
+        }else {menuItemRestaurarBD.setDisable(true);}
+        if(resultSetUsuario.getInt("respaldar_bd") == 1){
             menuItemRespaldarBD.setDisable(false);
-        }else {
-            menuItemRespaldarBD.setDisable(true);
-        }
+        }else {menuItemRespaldarBD.setDisable(true);}
     }
 }
