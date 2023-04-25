@@ -19,6 +19,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -43,6 +46,7 @@ public class ArticulosController {
     @FXML TextArea txtCaracteristicas;
     @FXML TextField txtCodigoBarras, txtArmario,txtGaveta,txtSubCompartimento,txtTipo,txtNumParte,txtValor,txtUnidadMedida,txtStock,txtStockMin;
     Conexion conexion;
+    KeyCombination keyCombination= new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
     @FXML
     Button btnNew, btnSave, btnEdit, btnCancel, btnExit, btnDelete;
     @FXML TabPane tabV;
@@ -102,13 +106,21 @@ public class ArticulosController {
             ActivateBtn(false,true,false,true,false,false);
 
 
-
- /*   btnNew.setGraphic(new ImageView(new Image("",25,25,false,true)));
-    btnSave.setGraphic(new ImageView(new Image("",25,25,false,true)));
+        btnSave.setOnKeyPressed(event -> {
+            if (keyCombination.match(event)){
+                try {
+                    SaveArticulo();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+  /*   btnNew.setGraphic(new ImageView(new Image("img\\new.png",25,25,false,true)));
+   btnSave.setGraphic(new ImageView(new Image("",25,25,false,true)));
     btnEdit.setGraphic(new ImageView(new Image("",25,25,false,true)));
     btnCancel.setGraphic(new ImageView(new Image("",25,25,false,true)));
-    btnExit.setGraphic(new ImageView(new Image("",25,25,false,true))); */
-
+    btnExit.setGraphic(new ImageView(new Image("",25,25,false,true)));
+*/
     }
 
 

@@ -17,7 +17,7 @@
          <children>
             <ImageView fx:id="imgLogo" fitHeight="206.0" fitWidth="266.0" layoutX="42.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@img/logo.png" />
+                  <Image url="@../../../img/logo.png" />
                </image>
             </ImageView>
          </children></AnchorPane>
@@ -37,17 +37,17 @@
             <Hyperlink layoutX="114.0" layoutY="462.0" onAction="#IngresarLogin" text="Entrar como invitado" textFill="#460d67" />
             <ImageView fitHeight="44.0" fitWidth="59.0" layoutX="158.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@img/GROUP.png" />
+                  <Image url="@../../../img/GROUP.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="37.0" fitWidth="31.0" layoutX="58.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@img/USER.png" />
+                  <Image url="@../../../img/USER.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="37.0" fitWidth="31.0" layoutX="57.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@img/KEY.png" />
+                  <Image url="@../../../img/KEY.png" />
                </image>
             </ImageView>
          </children>
