@@ -115,8 +115,8 @@ public class ArticulosController {
                 }
             }
         });
-  /*   btnNew.setGraphic(new ImageView(new Image("img\\new.png",25,25,false,true)));
-   btnSave.setGraphic(new ImageView(new Image("",25,25,false,true)));
+  /*  btnNew.setGraphic(new ImageView(new Image("/img/new.png",25,25,false,true)));
+    btnSave.setGraphic(new ImageView(new Image("",25,25,false,true)));
     btnEdit.setGraphic(new ImageView(new Image("",25,25,false,true)));
     btnCancel.setGraphic(new ImageView(new Image("",25,25,false,true)));
     btnExit.setGraphic(new ImageView(new Image("",25,25,false,true)));
