@@ -1,14 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.controldeinventario.RolesController"
-            prefHeight="400.0" prefWidth="600.0">
 
-</AnchorPane>
+<HBox prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.RolesController">
+   <children>
+      <TabPane prefHeight="500.0" prefWidth="570.0">
+         <tabs>
+            <Tab closable="false" text="Buscar">
+               <content>
+                  <VBox prefHeight="423.0" prefWidth="570.0">
+                     <children>
+                        <VBox prefHeight="102.0" prefWidth="570.0" spacing="5.0">
+                           <children>
+                              <Label text="Criterios de búsqueda">
+                                 <VBox.margin>
+                                    <Insets left="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <HBox prefHeight="30.0" prefWidth="524.0" spacing="20.0">
+                                 <VBox.margin>
+                                    <Insets left="15.0" />
+                                 </VBox.margin>
+                                 <children>
+                                    <JFXRadioButton fx:id="rbID" selected="true" text="ID" />
+                                    <JFXRadioButton fx:id="rbNombre" text="Nombre" />
+                                 </children>
+                              </HBox>
+                              <TextField>
+                                 <VBox.margin>
+                                    <Insets left="15.0" right="50.0" />
+                                 </VBox.margin>
+                              </TextField>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <TableView prefHeight="290.0" prefWidth="560.0" />
+                        <Label text="Se cargaron x registros" />
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Nuevo/Modificar">
+              <content>
+                  <VBox>
+                     <children>
+                        <VBox>
+                           <children>
+                              <Label text="Datos del tipo de usuario">
+                                 <VBox.margin>
+                                    <Insets left="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <HBox prefHeight="39.0" prefWidth="539.0" spacing="10.0">
+                                 <children>
+                                    <Label text="ID del tipo de usuario">
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                       <HBox.margin>
+                                          <Insets top="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField editable="false" prefHeight="26.0" prefWidth="37.0" />
+                                    <Label text="Nombre del tipo de usuario">
+                                       <HBox.margin>
+                                          <Insets top="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField prefHeight="26.0" prefWidth="184.0" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <Label text="Roles del empleado [Acciones que puede realizar dentro del sistema]">
+                           <VBox.margin>
+                              <Insets left="15.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox prefHeight="310.0" prefWidth="560.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="186.0" spacing="35.0">
+                                 <children>
+                                    <JFXCheckBox text="Crear un material" />
+                                    <JFXCheckBox text="Editar un material" />
+                                    <JFXCheckBox text="Borrar un material" />
+                                    <JFXCheckBox text="Crear una herramienta" />
+                                    <JFXCheckBox text="Editar una herramienta" />
+                                    <JFXCheckBox text="Borrar una herramienta" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="186.0" spacing="35.0">
+                                 <children>
+                                    <JFXCheckBox text="Dar de alta un pedido" />
+                                    <JFXCheckBox text="Crear un tipo de material" />
+                                    <JFXCheckBox text="Editar los tipos de materiales" />
+                                    <JFXCheckBox text="Borrar un tipo de material" />
+                                    <JFXCheckBox text="Crear un tipo de herramienta" />
+                                    <JFXCheckBox text="Editar un tipo de herramienta" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="186.0" spacing="35.0">
+                                 <children>
+                                    <JFXCheckBox text="Borrar un tipo de herramienta" />
+                                    <JFXCheckBox text="Crear usuarios" />
+                                    <JFXCheckBox text="Crear un tipo de usuario" />
+                                    <JFXCheckBox text="Restaurar la base de datos" />
+                                    <JFXCheckBox text="Respaldar la base de datos" />
+                                 </children>
+                              </VBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+              </content>
+            </Tab>
+         </tabs>
+         <HBox.margin>
+            <Insets bottom="20.0" left="20.0" top="20.0" />
+         </HBox.margin>
+      </TabPane>
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="130.0">
+         <children>
+            <JFXButton prefHeight="80.0" prefWidth="80.0" text="Nuevo" />
+            <JFXButton disable="true" prefHeight="80.0" prefWidth="80.0" text="Guardar" />
+            <JFXButton prefHeight="80.0" prefWidth="80.0" text="Modificar" />
+            <JFXButton prefHeight="80.0" prefWidth="80.0" text="Borrar" />
+            <JFXButton prefHeight="80.0" prefWidth="80.0" text="Cancelar" />
+            <JFXButton prefHeight="80.0" prefWidth="80.0" text="Salir" />
+         </children>
+      </VBox>
+   </children>
+</HBox>

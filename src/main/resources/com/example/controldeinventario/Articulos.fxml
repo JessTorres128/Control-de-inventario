@@ -28,7 +28,7 @@
                      <children>
                         <VBox prefHeight="102.0" prefWidth="433.0" spacing="5.0">
                            <children>
-                              <Label text="Criterios de búsqueda" textFill="WHITE">
+                              <Label text="Criterios de búsqueda" textFill="#472b6e">
                                  <VBox.margin>
                                     <Insets left="10.0" top="5.0" />
                                  </VBox.margin>

@@ -8,6 +8,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -72,6 +73,10 @@ public class ArticulosController {
 
 
     @FXML protected void initialize() throws SQLException {
+        Platform.runLater(() -> {
+            txtBusqueda.requestFocus();
+            txtBusqueda.selectEnd();
+        });
         colCB.setCellValueFactory(new PropertyValueFactory<Articulo,Long>("codigo_barras"));
         colTArmario.setCellValueFactory(new PropertyValueFactory<Articulo, String>("tipo_de_armario"));
         colGaveta.setCellValueFactory(new PropertyValueFactory<Articulo, String>("gaveta"));
@@ -115,7 +120,7 @@ public class ArticulosController {
                 }
             }
         });
-  /*  btnNew.setGraphic(new ImageView(new Image("/img/new.png",25,25,false,true)));
+  /*btnNew.setGraphic(new ImageView(new Image("/img/new.png",25,25,false,true)));
     btnSave.setGraphic(new ImageView(new Image("",25,25,false,true)));
     btnEdit.setGraphic(new ImageView(new Image("",25,25,false,true)));
     btnCancel.setGraphic(new ImageView(new Image("",25,25,false,true)));

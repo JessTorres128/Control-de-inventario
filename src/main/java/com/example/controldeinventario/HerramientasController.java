@@ -8,6 +8,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -65,6 +66,10 @@ public class HerramientasController {
 
 
     @FXML protected void initialize() throws SQLException {
+        Platform.runLater(() -> {
+            txtBusqueda.requestFocus();
+            txtBusqueda.selectEnd();
+        });
         rbBajo.setToggleGroup(toggleGroupFrecuencia);
         rbMedio.setToggleGroup(toggleGroupFrecuencia);
         rbAlto.setToggleGroup(toggleGroupFrecuencia);
