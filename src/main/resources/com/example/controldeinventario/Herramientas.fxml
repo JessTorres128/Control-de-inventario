@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextArea?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -11,11 +12,13 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.HerramientasController">
+<HBox prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.HerramientasController">
    <children>
       <TabPane fx:id="tabPaneHerramientas" prefHeight="560.0" prefWidth="617.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -35,11 +38,23 @@
                                     <Insets left="35.0" />
                                  </VBox.margin>
                                  <children>
-                                    <JFXRadioButton fx:id="rbID" selected="true" text="ID" />
-                                    <JFXRadioButton fx:id="rbNombre" text="Nombre" />
+                                    <JFXRadioButton fx:id="rbID" selected="true" text="ID">
+                                       <selectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </selectedColor>
+                                       <unSelectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </unSelectedColor></JFXRadioButton>
+                                    <JFXRadioButton fx:id="rbNombre" text="Nombre">
+                                       <selectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </selectedColor>
+                                       <unSelectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </unSelectedColor></JFXRadioButton>
                                  </children>
                               </HBox>
-                              <TextField fx:id="txtBusqueda" onKeyReleased="#Busqueda" prefHeight="26.0" prefWidth="526.0">
+                              <TextField fx:id="txtBusqueda" onKeyReleased="#Busqueda" prefHeight="26.0" prefWidth="526.0" style="-fx-background-color: white; -fx-border-color: #543383;">
                                  <VBox.margin>
                                     <Insets left="40.0" right="199.0" />
                                  </VBox.margin>
@@ -66,102 +81,56 @@
                <content>
                   <VBox prefHeight="531.0" prefWidth="525.0">
                      <children>
-                        <HBox prefHeight="36.0" prefWidth="523.0">
+                        <AnchorPane prefHeight="501.0" prefWidth="566.0" style="-fx-background-color: #f1edf8;">
                            <children>
-                              <TextField fx:id="txtCB" editable="false" />
-                              <Label text="ID (CODIGO DE BARRAS)" />
+                              <TextField fx:id="txtCB" editable="false" layoutX="39.0" layoutY="450.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <ComboBox fx:id="cbHerramienta" layoutX="130.0" layoutY="141.0" prefWidth="150.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <TextField fx:id="txtTipo" layoutX="130.0" layoutY="190.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <Label layoutX="63.0" layoutY="196.0" text="Tipo" />
+                              <JFXTextArea fx:id="txtCaracteristicas" focusColor="#543383" layoutX="130.0" layoutY="81.0" prefHeight="38.0" prefWidth="152.0" style="-fx-background-color: white; -fx-border-color: #543383;" unFocusColor="WHITE" />
+                              <JFXRadioButton fx:id="rbBajo" layoutX="354.0" layoutY="157.0" text="Bajo">
+                                 <selectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </selectedColor>
+                                 <unSelectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </unSelectedColor></JFXRadioButton>
+                              <JFXRadioButton fx:id="rbMedio" layoutX="425.0" layoutY="157.0" selected="true" text="Medio">
+                                 <selectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </selectedColor>
+                                 <unSelectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </unSelectedColor></JFXRadioButton>
+                              <JFXRadioButton fx:id="rbAlto" layoutX="508.0" layoutY="157.0" text="Alto">
+                                 <selectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </selectedColor>
+                                 <unSelectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </unSelectedColor></JFXRadioButton>
+                              <TextField fx:id="txtStock" layoutX="392.0" layoutY="86.0" prefHeight="27.0" prefWidth="53.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <Label layoutX="355.0" layoutY="96.0" text="Stock" />
+                              <TextField fx:id="txtStockMin" layoutX="515.0" layoutY="86.0" prefHeight="27.0" prefWidth="53.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <Label layoutX="456.0" layoutY="96.0" text="Stock Min." />
+                              <ImageView fx:id="imgCodeBar" fitHeight="79.0" fitWidth="146.0" layoutX="39.0" layoutY="359.0" pickOnBounds="true" preserveRatio="true" />
+                              <JFXButton layoutX="230.0" layoutY="387.0" onAction="#GenerateCodeBar" prefHeight="37.0" prefWidth="85.0" style="-fx-background-color: #543383;" text="Generar" textFill="WHITE" />
+                              <JFXButton layoutX="230.0" layoutY="445.0" onAction="#PrintCodeBar" prefHeight="37.0" prefWidth="85.0" style="-fx-background-color: #543383;" text="Imprimir" textFill="WHITE" />
+                              <Label layoutX="29.0" layoutY="23.0" text="Detalles de la Herramienta">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="25.0" layoutY="91.0" text="Caracteristicas" />
+                              <Label layoutX="29.0" layoutY="316.0" text="Codigo De Barras">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="25.0" layoutY="146.0" text="Herramienta" />
+                              <Label layoutX="392.0" layoutY="134.0" text="Frecuencia de uso" />
                            </children>
-                           <VBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox prefHeight="38.0" prefWidth="523.0">
-                           <children>
-                              <ComboBox fx:id="cbHerramienta" prefWidth="150.0" />
-                              <Label text="Herramienta" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox prefHeight="38.0" prefWidth="523.0">
-                           <children>
-                              <TextField fx:id="txtTipo" />
-                              <Label text="Tipo" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <Label text="Caracteristicas">
-                           <VBox.margin>
-                              <Insets left="20.0" right="20.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font name="System Bold" size="21.0" />
-                           </font>
-                        </Label>
-                        <JFXTextArea fx:id="txtCaracteristicas" prefHeight="123.0" prefWidth="523.0">
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="20.0" right="20.0" />
-                           </VBox.margin>
-                        </JFXTextArea>
-                        <Label text="Frecuencia de uso">
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="20.0" right="20.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <HBox prefHeight="32.0" prefWidth="523.0" spacing="20.0">
-                           <children>
-                              <JFXRadioButton fx:id="rbBajo" text="Bajo" />
-                              <JFXRadioButton fx:id="rbMedio" selected="true" text="Medio" />
-                              <JFXRadioButton fx:id="rbAlto" text="Alto" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox prefHeight="230.0" prefWidth="523.0">
-                           <children>
-                              <VBox prefHeight="230.0" prefWidth="226.0">
-                                 <children>
-                                    <HBox prefHeight="120.0" prefWidth="226.0">
-                                       <children>
-                                          <TextField fx:id="txtStock" />
-                                          <Label text="Stock" />
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="113.0" prefWidth="226.0">
-                                       <children>
-                                          <TextField fx:id="txtStockMin" />
-                                          <Label text="Stock Min." />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="TOP_CENTER" prefHeight="230.0" prefWidth="300.0">
-                                 <children>
-                                    <ImageView fx:id="imgCodeBar" fitHeight="109.0" fitWidth="209.0" pickOnBounds="true" preserveRatio="true">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </ImageView>
-                                    <HBox alignment="CENTER" prefHeight="122.0" prefWidth="299.0" spacing="40.0">
-                                       <children>
-                                          <JFXButton onAction="#GenerateCodeBar" text="Generar" />
-                                          <JFXButton onAction="#PrintCodeBar" text="Imprimir" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" />
-                           </VBox.margin>
-                        </HBox>
+                        </AnchorPane>
                      </children>
                   </VBox>
                </content>
@@ -171,23 +140,25 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </HBox.margin>
       </TabPane>
-      <VBox alignment="TOP_CENTER" prefHeight="578.0" prefWidth="214.0">
+      <VBox alignment="TOP_CENTER" prefHeight="550.0" prefWidth="150.0" style="-fx-background-color: #543383;">
          <children>
-            <Label text="Controles" />
-          <JFXButton fx:id="btnNew" mnemonicParsing="false" onAction="#NewHerramienta" prefHeight="100.0" prefWidth="100.0" text="Nuevo">
+          <JFXButton fx:id="btnNew" mnemonicParsing="false" onAction="#NewHerramienta" prefHeight="100.0" prefWidth="100.0" text="Nuevo" textFill="WHITE">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
             </JFXButton>
-            <JFXButton fx:id="btnSave" disable="true" mnemonicParsing="false" onAction="#SaveHerramienta" prefHeight="100.0" prefWidth="100.0" text="Guardar" />
-            <JFXButton fx:id="btnEdit" mnemonicParsing="false" onAction="#EditHerramienta" prefHeight="100.0" prefWidth="100.0" text="Modificar" />
-            <JFXButton fx:id="btnDelete" onAction="#DeleteHerramienta" prefHeight="100.0" prefWidth="100.0" text="Borrar" />
-            <JFXButton fx:id="btnCancel" disable="true" mnemonicParsing="false" onAction="#CancelHerramienta" prefHeight="100.0" prefWidth="100.0" text="Cancelar" />
-            <JFXButton fx:id="btnExit" mnemonicParsing="false" onAction="#ExitHerramienta" prefHeight="100.0" prefWidth="100.0" text="Salir" />
+            <JFXButton fx:id="btnSave" disable="true" mnemonicParsing="false" onAction="#SaveHerramienta" prefHeight="100.0" prefWidth="100.0" text="Guardar" textFill="WHITE" />
+            <JFXButton fx:id="btnEdit" mnemonicParsing="false" onAction="#EditHerramienta" prefHeight="100.0" prefWidth="100.0" text="Modificar" textFill="WHITE" />
+            <JFXButton fx:id="btnDelete" onAction="#DeleteHerramienta" prefHeight="100.0" prefWidth="100.0" text="Borrar" textFill="WHITE" />
+            <JFXButton fx:id="btnCancel" disable="true" mnemonicParsing="false" onAction="#CancelHerramienta" prefHeight="100.0" prefWidth="100.0" text="Cancelar" textFill="WHITE" />
+            <JFXButton fx:id="btnExit" mnemonicParsing="false" onAction="#ExitHerramienta" prefHeight="100.0" prefWidth="100.0" text="Salir" textFill="WHITE" />
          </children>
          <HBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </HBox.margin>
       </VBox>
    </children>
+   <stylesheets>
+      <URL value="@stylesheet.css" />
+   </stylesheets>
 </HBox>
