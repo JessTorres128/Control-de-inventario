@@ -4,11 +4,17 @@ import com.example.controldeinventario.Datos.Articulo;
 import com.example.controldeinventario.Datos.Herramienta;
 import com.example.controldeinventario.Datos.Tipo_Usuario;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RolesController {
     Conexion conexion;
@@ -74,6 +80,20 @@ public class RolesController {
         ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_usuario`"));
 
     }
+    @FXML private void Busqueda() throws SQLException {
+        String busqueda = txtBusqueda.getText();
+        String criterio = "";
+        if (rbID.isSelected() && !busqueda.equals("")){
+            criterio="id_rol";
+        } else if (rbNombre.isSelected() && !busqueda.equals("")) {
+            criterio="nombre_rol";
+        }
+        if (!busqueda.equals("")){
+            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_usuario` WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
+        }else {
+            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_usuario`"));
+        }
+    }
     private void ActualizarTabla(ResultSet rsRoles) throws SQLException {
         int cont=0;
         tableTUsuarios.getItems().clear();
@@ -121,6 +141,7 @@ public class RolesController {
             ActivateBtn(false,true,false,true,false,false);
             txtId_rol.setDisable(false);
             ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_usuario`"));
+            ClearCheckBox();
 
         }
     }
@@ -156,8 +177,20 @@ public class RolesController {
         }
     }
 
-    @FXML private void DeleteRol(){
+    @FXML private void DeleteRol() throws SQLException {
+        if (tableTUsuarios.getSelectionModel().getSelectedItem() != null){
+            Tipo_Usuario t = (Tipo_Usuario) tableTUsuarios.getSelectionModel().getSelectedItem();
+            if (ConfirmarBorrar("Deseas borrar a "+t.getNombre_rol()+", realizar esta accion \n tambien borrará a los usuarios que tengan este rol")){
+                conexion.insmodelim("DELETE FROM `tipo_usuario` WHERE `id_rol`='"+t.getId_rol()+"'");
+                conexion.insmodelim("DELETE FROM `usuario` WHERE `nombre_rol`='"+t.getNombre_rol()+"'");
+                Exito("Registro borrado exitosamente");
+                ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_usuario`"));
 
+            }
+
+        }else {
+            Error("Selecciona un registro pa");
+        }
     }
 
     @FXML private void CancelRol() throws SQLException {
@@ -168,10 +201,61 @@ public class RolesController {
         tabPaneVentana.getSelectionModel().select(tabSearch);
         tabSearch.setDisable(false);
         tabNew.setDisable(true);
+        ClearCheckBox();
     }
 
     @FXML private void ExitRol(){
 
+    }
+
+    public boolean ConfirmarBorrar(String mensaje) {
+        AtomicBoolean confirmar = new AtomicBoolean(false);
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("Confirmar acción");
+
+        Label lblmsg = new Label(mensaje);
+        Button btnConfirmar = new Button("Aceptar");
+        Button btnCancelar = new Button("Cancelar");
+
+        btnConfirmar.setOnAction(e -> {
+            confirmar.set(true);
+            dialog.close();
+        });
+
+        btnCancelar.setOnAction(e -> {
+            confirmar.set(false);
+            dialog.close();
+        });
+
+        VBox vbox = new VBox(lblmsg, btnConfirmar, btnCancelar);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setSpacing(10);
+
+        Scene dialogScene = new Scene(vbox, 300, 150);
+        dialog.setScene(dialogScene);
+        dialog.showAndWait();
+
+        return confirmar.get();
+    }
+    private void ClearCheckBox(){
+        check_create_material.setSelected(false);
+        check_update_material.setSelected(false);
+        check_delete_material.setSelected(false);
+        check_create_herramienta.setSelected(false);
+        check_update_herramienta.setSelected(false);
+        check_delete_herramienta.setSelected(false);
+        check_crud_pedido.setSelected(false);
+        check_create_t_material.setSelected(false);
+        check_update_t_material.setSelected(false);
+        check_delete_t_material.setSelected(false);
+                check_create_t_herramienta.setSelected(false);
+        check_update_t_herramienta.setSelected(false);
+                check_delete_t_herramienta.setSelected(false);
+        check_crud_roles.setSelected(false);
+        check_crud_empleados.setSelected(false);
+        check_restaurar_bd.setSelected(false);
+        check_respaldar_bd.setSelected(false);
     }
 
     private String VerificarBoolean(Boolean val){
@@ -216,5 +300,15 @@ public class RolesController {
         txtId_rol.setText("");
         txtNombre_rol.setText("");
     }
-
-}
+    private void Error(String mensaje){
+        Alert alert= new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(mensaje);
+        alert.setTitle("Error");
+        alert.show();
+    }
+    private void Exito(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText(mensaje);
+        alert.setTitle("Exito");
+    }
+    }

@@ -36,7 +36,7 @@
                                     <JFXRadioButton fx:id="rbNombre" text="Nombre" />
                                  </children>
                               </HBox>
-                              <TextField fx:id="txtBusqueda">
+                              <TextField fx:id="txtBusqueda" onKeyReleased="#Busqueda">
                                  <VBox.margin>
                                     <Insets left="15.0" right="50.0" />
                                  </VBox.margin>
