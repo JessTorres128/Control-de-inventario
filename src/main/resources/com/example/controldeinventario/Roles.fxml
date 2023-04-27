@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <HBox prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.RolesController">
    <children>
       <TabPane fx:id="tabPaneVentana" prefHeight="500.0" prefWidth="570.0">
@@ -143,12 +142,12 @@
       </TabPane>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="130.0">
          <children>
-            <JFXButton fx:id="btnNew" prefHeight="80.0" prefWidth="80.0" text="Nuevo" />
-            <JFXButton fx:id="btnSave" disable="true" prefHeight="80.0" prefWidth="80.0" text="Guardar" />
-            <JFXButton fx:id="btnEdit" prefHeight="80.0" prefWidth="80.0" text="Modificar" />
-            <JFXButton fx:id="btnDelete" prefHeight="80.0" prefWidth="80.0" text="Borrar" />
-            <JFXButton fx:id="btnCancel" prefHeight="80.0" prefWidth="80.0" text="Cancelar" />
-            <JFXButton fx:id="btnExit" prefHeight="80.0" prefWidth="80.0" text="Salir" />
+            <JFXButton fx:id="btnNew" onAction="#NewRol" prefHeight="80.0" prefWidth="80.0" text="Nuevo" />
+            <JFXButton fx:id="btnSave" disable="true" onAction="#SaveRol" prefHeight="80.0" prefWidth="80.0" text="Guardar" />
+            <JFXButton fx:id="btnEdit" onAction="#EditRol" prefHeight="80.0" prefWidth="80.0" text="Modificar" />
+            <JFXButton fx:id="btnDelete" onAction="#DeleteRol" prefHeight="80.0" prefWidth="80.0" text="Borrar" />
+            <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelRol" prefHeight="80.0" prefWidth="80.0" text="Cancelar" />
+            <JFXButton fx:id="btnExit" onAction="#ExitRol" prefHeight="80.0" prefWidth="80.0" text="Salir" />
          </children>
       </VBox>
    </children>

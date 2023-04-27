@@ -1,6 +1,7 @@
 package com.example.controldeinventario;
 
 import com.example.controldeinventario.Datos.Articulo;
+import com.example.controldeinventario.Datos.Herramienta;
 import com.example.controldeinventario.Datos.Tipo_Usuario;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -46,23 +47,23 @@ public class RolesController {
         conexion = new Conexion();
         col_id.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Integer>("id_rol"));
         col_nombre.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("nombre_rol"));
-        col_c_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("create_material"));
-        col_u_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("update_material"));
-        col_d_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("delete_material"));
-        col_c_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("create_herramienta"));
-        col_u_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("update_herramienta"));
-        col_d_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("delete_herramienta"));
-        col_pedidos.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("crud_pedido"));
-        col_c_t_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("create_t_material"));
-        col_u_t_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("update_t_material"));
-        col_d_t_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("delete_t_material"));
-        col_c_t_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("create_t_herramienta"));
-        col_u_t_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("update_t_herramienta"));
-        col_d_t_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("delete_t_herramienta"));
-        col_roles.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("crud_roles"));
-        col_empleados.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("crud_empleados"));
-        col_restaurarbd.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("restaurar_bd"));
-        col_respaldarbd.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Boolean>("respaldar_bd"));
+        col_c_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("create_material"));
+        col_u_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("update_material"));
+        col_d_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("delete_material"));
+        col_c_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("create_herramienta"));
+        col_u_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("update_herramienta"));
+        col_d_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("delete_herramienta"));
+        col_pedidos.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("crud_pedido"));
+        col_c_t_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("create_t_material"));
+        col_u_t_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("update_t_material"));
+        col_d_t_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("delete_t_material"));
+        col_c_t_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("create_t_herramienta"));
+        col_u_t_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("update_t_herramienta"));
+        col_d_t_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("delete_t_herramienta"));
+        col_roles.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("crud_roles"));
+        col_empleados.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("crud_empleados"));
+        col_restaurarbd.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("restaurar_bd"));
+        col_respaldarbd.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("respaldar_bd"));
 
         tableTUsuarios.getColumns().addAll(col_id,col_nombre,col_c_material,col_u_material,col_d_material,col_c_herramienta,col_u_herramienta,col_d_herramienta,col_pedidos,col_c_t_material,col_u_t_material,col_d_t_material,col_c_t_herramienta,col_u_t_herramienta,col_d_t_herramienta,col_roles,col_empleados,col_restaurarbd,col_respaldarbd);
 
@@ -78,10 +79,142 @@ public class RolesController {
         tableTUsuarios.getItems().clear();
         while (rsRoles.next()){
             cont++;
-            Tipo_Usuario t= new Tipo_Usuario(rsRoles.getInt("id_rol"),rsRoles.getString("nombre_rol"), rsRoles.getInt("create_material") == 1, rsRoles.getInt("update_material") == 1, rsRoles.getInt("delete_material") == 1, rsRoles.getInt("create_herramienta") == 1, rsRoles.getInt("update_herramienta") == 1, rsRoles.getInt("delete_herramienta") == 1, rsRoles.getInt("crud_pedido") == 1, rsRoles.getInt("create_t_material") == 1, rsRoles.getInt("update_t_material") == 1, rsRoles.getInt("delete_t_material") == 1, rsRoles.getInt("create_t_herramienta") == 1, rsRoles.getInt("update_t_herramienta") == 1, rsRoles.getInt("delete_t_herramienta") == 1, rsRoles.getInt("crud_roles") == 1, rsRoles.getInt("crud_empleados") == 1, rsRoles.getInt("restaurar_bd") == 1, rsRoles.getInt("respaldar_bd") == 1);
+            Tipo_Usuario t= new Tipo_Usuario(rsRoles.getInt("id_rol"),rsRoles.getString("nombre_rol"), VerificarBoolean(rsRoles.getInt("create_material") == 1), VerificarBoolean(rsRoles.getInt("update_material") == 1), VerificarBoolean(rsRoles.getInt("delete_material") == 1), VerificarBoolean(rsRoles.getInt("create_herramienta") == 1), VerificarBoolean(rsRoles.getInt("update_herramienta") == 1), VerificarBoolean(rsRoles.getInt("delete_herramienta") == 1), VerificarBoolean(rsRoles.getInt("crud_pedido") == 1), VerificarBoolean(rsRoles.getInt("create_t_material") == 1), VerificarBoolean(rsRoles.getInt("update_t_material") == 1), VerificarBoolean(rsRoles.getInt("delete_t_material") == 1), VerificarBoolean(rsRoles.getInt("create_t_herramienta") == 1), VerificarBoolean(rsRoles.getInt("update_t_herramienta") == 1), VerificarBoolean(rsRoles.getInt("update_t_herramienta") == 1), VerificarBoolean(rsRoles.getInt("crud_roles") == 1), VerificarBoolean(rsRoles.getInt("crud_empleados") == 1), VerificarBoolean(rsRoles.getInt("restaurar_bd") == 1), VerificarBoolean(rsRoles.getInt("respaldar_bd") == 1));
             tableTUsuarios.getItems().add(t);
         }
         lblContRegistros.setText("Se cargaron "+cont+" articulos");
+    }
+
+    @FXML private void NewRol() throws SQLException {
+        txtId_rol.setDisable(true);
+        ActivateBtn(false,false,true,false,false,true);
+        tabPaneVentana.getSelectionModel().select(tabNew);
+        tabNew.setDisable(false);
+        tabSearch.setDisable(true);
+        CleanTextFields();
+    }
+
+    @FXML private void SaveRol() throws SQLException {
+        if (!txtNombre_rol.getText().isEmpty()){
+            ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `tipo_usuario` WHERE `id_rol` = '"+txtId_rol.getText()+"' LIMIT 1");
+            if (resultSetUpdate.next()){
+                conexion.insmodelim("UPDATE `tipo_usuario` SET `nombre_rol`='"+txtNombre_rol.getText()+"',`create_material`='"+VerificarCheckBox(check_create_material)+"',`update_material`='"+VerificarCheckBox(check_update_material)+"'," +
+                        "`delete_material`='"+VerificarCheckBox(check_delete_material)+"',`create_herramienta`='"+VerificarCheckBox(check_create_herramienta)+"',`update_herramienta`='"+VerificarCheckBox(check_update_herramienta)+"',`delete_herramienta`='"+VerificarCheckBox(check_delete_herramienta)+"'," +
+                        "`crud_pedido`='"+VerificarCheckBox(check_crud_pedido)+"',`create_t_material`='"+VerificarCheckBox(check_create_t_material)+"',`update_t_material`='"+VerificarCheckBox(check_update_t_material)+"',`delete_t_material`='"+VerificarCheckBox(check_delete_t_material)+"'," +
+                        "`create_t_herramienta`='"+VerificarCheckBox(check_create_t_herramienta)+"',`update_t_herramienta`='"+VerificarCheckBox(check_update_t_herramienta)+"',`delete_t_herramienta`='"+VerificarCheckBox(check_delete_t_herramienta)+"',`crud_roles`='"+VerificarCheckBox(check_crud_roles)+"'," +
+                        "`crud_empleados`='"+VerificarCheckBox(check_crud_empleados)+"',`restaurar_bd`='"+VerificarCheckBox(check_restaurar_bd)+"',`respaldar_bd`='"+VerificarCheckBox(check_respaldar_bd)+"' WHERE `id_rol`='"+resultSetUpdate.getInt("id_rol")+"'");
+                ResultSet resultSetEmpleados= conexion.consultar("SELECT * FROM `usuario` WHERE `nombre_rol`='"+resultSetUpdate.getString("nombre_rol")+"'");
+                while(resultSetEmpleados.next()){
+                    conexion.insmodelim("UPDATE `usuario` SET `nombre_rol`='"+txtNombre_rol.getText()+"' WHERE `id_user`='"+resultSetEmpleados.getInt("id_user")+"'");
+                }
+            }else {
+                conexion.insmodelim("INSERT INTO `tipo_usuario`(`nombre_rol`, `create_material`, `update_material`, `delete_material`, `create_herramienta`, `update_herramienta`, `delete_herramienta`, `crud_pedido`, `create_t_material`, `update_t_material`, `delete_t_material`, `create_t_herramienta`, `update_t_herramienta`, `delete_t_herramienta`, `crud_roles`, `crud_empleados`, `restaurar_bd`, `respaldar_bd`) VALUES " +
+                        "('"+txtNombre_rol.getText()+"','"+VerificarCheckBox(check_create_material)+"','"+VerificarCheckBox(check_update_material)+"'," +
+                        "'"+VerificarCheckBox(check_delete_material)+"','"+VerificarCheckBox(check_create_herramienta)+"','"+VerificarCheckBox(check_update_herramienta)+"','"+VerificarCheckBox(check_delete_herramienta)+"'," +
+                        "'"+VerificarCheckBox(check_crud_pedido)+"','"+VerificarCheckBox(check_create_t_material)+"','"+VerificarCheckBox(check_update_t_material)+"','"+VerificarCheckBox(check_delete_t_material)+"'," +
+                        "'"+VerificarCheckBox(check_create_t_herramienta)+"','"+VerificarCheckBox(check_update_t_herramienta)+"','"+VerificarCheckBox(check_delete_t_herramienta)+"','"+VerificarCheckBox(check_crud_roles)+"'," +
+                        "'"+VerificarCheckBox(check_crud_empleados)+"','"+VerificarCheckBox(check_restaurar_bd)+"','"+VerificarCheckBox(check_respaldar_bd)+"')");
+            }
+            tabPaneVentana.getSelectionModel().select(tabSearch);
+            tabSearch.setDisable(false);
+            tabNew.setDisable(true);
+            ActivateBtn(false,true,false,true,false,false);
+            txtId_rol.setDisable(false);
+            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_usuario`"));
+
+        }
+    }
+    @FXML private void EditRol() throws SQLException {
+        if (tableTUsuarios.getSelectionModel().getSelectedItem() != null){
+            Tipo_Usuario tipoUsuario= (Tipo_Usuario) tableTUsuarios.getSelectionModel().getSelectedItem();
+            tabPaneVentana.getSelectionModel().select(tabNew);
+            tabSearch.setDisable(true);
+            tabNew.setDisable(false);
+            txtId_rol.setText(String.valueOf(tipoUsuario.getId_rol()));
+            check_create_material.setSelected(VerificarString(tipoUsuario.getCreate_material()));
+            check_update_material.setSelected(VerificarString(tipoUsuario.getUpdate_material()));
+            check_delete_material.setSelected(VerificarString(tipoUsuario.getDelete_material()));
+            check_create_herramienta.setSelected(VerificarString(tipoUsuario.getCreate_herramienta()));
+            check_update_herramienta.setSelected(VerificarString(tipoUsuario.getUpdate_herramienta()));
+            check_delete_herramienta.setSelected(VerificarString(tipoUsuario.getDelete_herramienta()));
+            check_crud_pedido.setSelected(VerificarString(tipoUsuario.getCrud_pedido()));
+            check_create_t_material.setSelected(VerificarString(tipoUsuario.getCreate_t_material()));
+            check_update_t_material.setSelected(VerificarString(tipoUsuario.getUpdate_t_material()));
+            check_delete_t_material.setSelected(VerificarString(tipoUsuario.getDelete_t_material()));
+            check_create_t_herramienta.setSelected(VerificarString(tipoUsuario.getCreate_t_herramienta()));
+            check_update_t_herramienta.setSelected(VerificarString(tipoUsuario.getUpdate_t_herramienta()));
+            check_delete_t_herramienta.setSelected(VerificarString(tipoUsuario.getDelete_t_herramienta()));
+            check_crud_roles.setSelected(VerificarString(tipoUsuario.getCrud_roles()));
+            check_crud_empleados.setSelected(VerificarString(tipoUsuario.getCrud_empleados()));
+            check_restaurar_bd.setSelected(VerificarString(tipoUsuario.getRestaurar_bd()));
+            check_respaldar_bd.setSelected(VerificarString(tipoUsuario.getRespaldar_bd()));
+            txtNombre_rol.setText(tipoUsuario.getNombre_rol());
+            txtId_rol.setDisable(true);
+            ActivateBtn(true,false,true,false,false,true);
+        }else {
+
+        }
+    }
+
+    @FXML private void DeleteRol(){
+
+    }
+
+    @FXML private void CancelRol() throws SQLException {
+        txtId_rol.setText("");
+        txtId_rol.setDisable(false);
+        CleanTextFields();
+        ActivateBtn(false,true,false,true,false,false);
+        tabPaneVentana.getSelectionModel().select(tabSearch);
+        tabSearch.setDisable(false);
+        tabNew.setDisable(true);
+    }
+
+    @FXML private void ExitRol(){
+
+    }
+
+    private String VerificarBoolean(Boolean val){
+        if (val){
+            return "Puede";
+        }else {
+            return "No puede";
+        }
+    }
+
+    private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit, boolean delete) throws SQLException {
+        if (LoginController.resultado.getInt("create_herramienta")==0){
+            btnNew.setDisable(true);
+        }else {btnNew.setDisable(New);}
+        if (LoginController.resultado.getInt("update_herramienta")==0){
+            btnEdit.setDisable(true);
+        }else {btnEdit.setDisable(edit);}
+        if (LoginController.resultado.getInt("delete_herramienta")==0){
+            btnDelete.setDisable(true);
+        }else {btnDelete.setDisable(delete);}
+
+        btnSave.setDisable(save);
+        btnCancel.setDisable(cancel);
+        btnExit.setDisable(exit);
+    }
+
+    private int VerificarCheckBox(CheckBox cb){
+        if (cb.isSelected()){
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+    private boolean VerificarString(String val){
+        if (val.equals("Puede")){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    private void CleanTextFields(){
+        txtId_rol.setText("");
+        txtNombre_rol.setText("");
     }
 
 }
