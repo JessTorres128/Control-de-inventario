@@ -8,7 +8,10 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -17,6 +20,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.krysalis.barcode4j.impl.code39.Code39Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.krysalis.barcode4j.tools.UnitConv;
@@ -28,6 +34,7 @@ import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HerramientasController {
     @FXML ImageView imgCodeBar = new ImageView();
@@ -42,7 +49,7 @@ public class HerramientasController {
     @FXML TextArea txtCaracteristicas;
     @FXML RadioButton rbBajo, rbMedio, rbAlto;
     @FXML ComboBox<String> cbHerramienta = new ComboBox<>();
-    @FXML Button btnNew,btnSave,btnEdit,btnCancel,btnExit;
+    @FXML Button btnNew,btnSave,btnEdit,btnCancel,btnExit,btnDelete;
 
     ToggleGroup toggleGroupBusqueda = new ToggleGroup();
     ToggleGroup toggleGroupFrecuencia = new ToggleGroup();
@@ -59,6 +66,10 @@ public class HerramientasController {
 
 
     @FXML protected void initialize() throws SQLException {
+        Platform.runLater(() -> {
+            txtBusqueda.requestFocus();
+            txtBusqueda.selectEnd();
+        });
         rbBajo.setToggleGroup(toggleGroupFrecuencia);
         rbMedio.setToggleGroup(toggleGroupFrecuencia);
         rbAlto.setToggleGroup(toggleGroupFrecuencia);
@@ -82,10 +93,11 @@ public class HerramientasController {
             cbHerramienta.getItems().add((String) resultSet.getObject("herramienta"));
         }
         ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN herramientas ON herramienta.id_herramienta = herramientas.id_herramienta;"));
+        ActivateBtn(false,true,false,true,false,false);
     }
     @FXML private void NewHerramienta() throws SQLException {
         txtCB.setDisable(false);
-        ActivateBtn(false,false,true,false,false);
+        ActivateBtn(false,false,true,false,false,true);
         Long cb = GenerateNumber();
         tabPaneHerramientas.getSelectionModel().select(tabNew);
         tabNew.setDisable(false);
@@ -111,7 +123,7 @@ public class HerramientasController {
                 tabPaneHerramientas.getSelectionModel().select(tabSearch);
                 tabSearch.setDisable(false);
                 tabNew.setDisable(true);
-                ActivateBtn(false,true,false,true,false);
+                ActivateBtn(false,true,false,true,false,false);
                 txtCB.setDisable(false);
                 ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN herramientas ON herramienta.id_herramienta = herramientas.id_herramienta;"));
                 Exito(cbHerramienta.getSelectionModel().getSelectedItem()+" "+txtTipo.getText()+" agregado");
@@ -122,7 +134,7 @@ public class HerramientasController {
             Error("Faltan campos por rellenar");
         }
     }
-    @FXML private void EditHerramienta(){
+    @FXML private void EditHerramienta() throws SQLException {
         if (tableViewHerramientas.getSelectionModel().getSelectedItem() != null){
             Herramienta herramienta= (Herramienta) tableViewHerramientas.getSelectionModel().getSelectedItem();
             tabPaneHerramientas.getSelectionModel().select(tabNew);
@@ -143,20 +155,34 @@ public class HerramientasController {
             txtStock.setText(String.valueOf(herramienta.getCantidad()));
             txtStockMin.setText(String.valueOf(herramienta.getCantidad_min()));
             txtCB.setDisable(true);
-            ActivateBtn(true,false,true,false,false);
+            ActivateBtn(true,false,true,false,false,true);
         }else {
             Error("Selecciona un registro pa");
         }
     }
-    @FXML private void CancelHerramienta(){
+    @FXML private void DeleteHerramienta() throws SQLException {
+        if (tableViewHerramientas.getSelectionModel().getSelectedItem() != null){
+            Herramienta h = (Herramienta) tableViewHerramientas.getSelectionModel().getSelectedItem();
+            if (ConfirmarBorrar("Deseas borrar "+h.getHerramienta()+" "+h.getTipo())){
+                conexion.insmodelim("DELETE FROM `herramienta` WHERE `cb_herramienta`='"+h.getCb_herramienta()+"'");
+                Exito("Registro borrado exitosamente");
+                ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN herramientas ON herramienta.id_herramienta = herramientas.id_herramienta;"));
+            }
+
+        }else {
+            Error("Selecciona un registro pa");
+        }
+    }
+    @FXML private void CancelHerramienta() throws SQLException {
         txtCB.setText("");
         txtCB.setDisable(false);
         CleanTextFields();
-        ActivateBtn(false,true,false,true,false);
+        ActivateBtn(false,true,false,true,false,false);
         tabPaneHerramientas.getSelectionModel().select(tabSearch);
         tabSearch.setDisable(false);
         tabNew.setDisable(true);
     }
+
     @FXML private void ExitHerramienta(){
 
     }
@@ -216,6 +242,36 @@ public class HerramientasController {
             ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN herramientas ON herramienta.id_herramienta = herramientas.id_herramienta;"));
         }
     }
+    public boolean ConfirmarBorrar(String mensaje) {
+        AtomicBoolean confirmar = new AtomicBoolean(false);
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("Confirmar acción");
+
+        Label lblmsg = new Label(mensaje);
+        Button btnConfirmar = new Button("Aceptar");
+        Button btnCancelar = new Button("Cancelar");
+
+        btnConfirmar.setOnAction(e -> {
+            confirmar.set(true);
+            dialog.close();
+        });
+
+        btnCancelar.setOnAction(e -> {
+            confirmar.set(false);
+            dialog.close();
+        });
+
+        VBox vbox = new VBox(lblmsg, btnConfirmar, btnCancelar);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setSpacing(10);
+
+        Scene dialogScene = new Scene(vbox, 300, 100);
+        dialog.setScene(dialogScene);
+        dialog.showAndWait();
+
+        return confirmar.get();
+    }
 
     private void ActualizarTabla(ResultSet rsHerramientas) throws SQLException {
         int cont=0;
@@ -234,10 +290,18 @@ public class HerramientasController {
         lblRegistros.setText("Se cargaron "+cont+" herramientas");
     }
 
-    private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit){
-        btnNew.setDisable(New);
+    private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit, boolean delete) throws SQLException {
+        if (LoginController.resultado.getInt("create_herramienta")==0){
+            btnNew.setDisable(true);
+        }else {btnNew.setDisable(New);}
+        if (LoginController.resultado.getInt("update_herramienta")==0){
+            btnEdit.setDisable(true);
+        }else {btnEdit.setDisable(edit);}
+        if (LoginController.resultado.getInt("delete_herramienta")==0){
+            btnDelete.setDisable(true);
+        }else {btnDelete.setDisable(delete);}
+
         btnSave.setDisable(save);
-        btnEdit.setDisable(edit);
         btnCancel.setDisable(cancel);
         btnExit.setDisable(exit);
     }
@@ -292,6 +356,7 @@ public class HerramientasController {
         }
         return true;
     }
+
     private void Error(String mensaje){
         Alert alert= new Alert(Alert.AlertType.ERROR);
         alert.setContentText(mensaje);

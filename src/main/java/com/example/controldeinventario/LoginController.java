@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 
 
@@ -16,18 +17,18 @@ import java.sql.SQLException;
 public class LoginController {
 @FXML TextField txtuser;
 @FXML TextField txtpassword;
-
+    static ResultSet resultado;
 Conexion conexion;
 
 @FXML protected void initialize(){
     conexion=new Conexion();
 }
 
-@FXML private void IngresarLogin(ActionEvent event) throws IOException, SQLException {
+@FXML private void IngresarLogin() throws IOException, SQLException {
     String user = txtuser.getText();
     String pass = txtpassword.getText();
 
-    ResultSet resultado = conexion.consultar("select * from usuario where username='"+user+"' and password='"+pass+"'");
+    resultado = conexion.consultar("SELECT * FROM `usuario` INNER JOIN tipo_usuario ON usuario.nombre_rol = tipo_usuario.nombre_rol WHERE username='"+user+"' and password='"+pass+"' LIMIT 1");
     if (resultado != null){
         int cont =0;
         if (resultado.next()){cont++;}
@@ -35,7 +36,7 @@ Conexion conexion;
         if(cont==0){
             Alert alert=new Alert(Alert.AlertType.ERROR);
             alert.setTitle("error");
-            alert.setContentText("com.example.controldeinventario.Datos incorrectos, compruebe los datos insertados");
+            alert.setContentText("Datos incorrectos, compruebe los datos insertados");
             alert.show();
         }else{
             System.out.println("ENCONTRO");

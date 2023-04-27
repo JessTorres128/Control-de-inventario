@@ -18,7 +18,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="776.0" prefWidth="1155.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ArticulosController">
+<HBox prefHeight="776.0" prefWidth="1155.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ArticulosController">
    <children>
       <TabPane fx:id="tabV" prefHeight="710.0" prefWidth="1021.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -28,7 +28,7 @@
                      <children>
                         <VBox prefHeight="102.0" prefWidth="433.0" spacing="5.0">
                            <children>
-                              <Label text="Criterios de búsqueda" textFill="WHITE">
+                              <Label text="Criterios de búsqueda" textFill="#472b6e">
                                  <VBox.margin>
                                     <Insets left="10.0" top="5.0" />
                                  </VBox.margin>
@@ -161,6 +161,7 @@
             <JFXButton fx:id="btnNew" onAction="#NewArticulo" prefHeight="100.0" prefWidth="100.0" text="Nuevo" textFill="WHITE" />
             <JFXButton fx:id="btnSave" disable="true" onAction="#SaveArticulo" prefHeight="100.0" prefWidth="100.0" text="Guardar" textFill="WHITE" />
             <JFXButton fx:id="btnEdit" onAction="#EditArticulo" prefHeight="100.0" prefWidth="100.0" text="Modificar" textFill="WHITE" />
+            <JFXButton fx:id="btnDelete" onAction="#DeleteArticulo" prefHeight="100.0" prefWidth="100.0" text="Borrar" textFill="WHITE" />
             <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelArticulo" prefHeight="100.0" prefWidth="82.0" text="Cancelar" textFill="WHITE" />
             <JFXButton fx:id="btnExit" onAction="#ExitArticulo" prefHeight="100.0" prefWidth="100.0" text="Salir" textFill="WHITE" />
          </children>

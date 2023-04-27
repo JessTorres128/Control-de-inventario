@@ -181,6 +181,7 @@
             </JFXButton>
             <JFXButton fx:id="btnSave" disable="true" mnemonicParsing="false" onAction="#SaveHerramienta" prefHeight="100.0" prefWidth="100.0" text="Guardar" />
             <JFXButton fx:id="btnEdit" mnemonicParsing="false" onAction="#EditHerramienta" prefHeight="100.0" prefWidth="100.0" text="Modificar" />
+            <JFXButton fx:id="btnDelete" onAction="#DeleteHerramienta" prefHeight="100.0" prefWidth="100.0" text="Borrar" />
             <JFXButton fx:id="btnCancel" disable="true" mnemonicParsing="false" onAction="#CancelHerramienta" prefHeight="100.0" prefWidth="100.0" text="Cancelar" />
             <JFXButton fx:id="btnExit" mnemonicParsing="false" onAction="#ExitHerramienta" prefHeight="100.0" prefWidth="100.0" text="Salir" />
          </children>
