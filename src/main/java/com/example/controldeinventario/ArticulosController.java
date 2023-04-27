@@ -26,6 +26,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
@@ -63,6 +64,7 @@ public class ArticulosController {
 
 
     @FXML protected void initialize() throws SQLException {
+
         colCB.setCellValueFactory(new PropertyValueFactory<Articulo,Long>("codigo_barras"));
         colTArmario.setCellValueFactory(new PropertyValueFactory<Articulo, String>("tipo_de_armario"));
         colGaveta.setCellValueFactory(new PropertyValueFactory<Articulo, String>("gaveta"));
@@ -98,13 +100,14 @@ public class ArticulosController {
 
 
 
- /*   btnNew.setGraphic(new ImageView(new Image("",25,25,false,true)));
+ /*
     btnSave.setGraphic(new ImageView(new Image("",25,25,false,true)));
     btnEdit.setGraphic(new ImageView(new Image("",25,25,false,true)));
     btnCancel.setGraphic(new ImageView(new Image("",25,25,false,true)));
     btnExit.setGraphic(new ImageView(new Image("",25,25,false,true))); */
 
     }
+
 
 
 
