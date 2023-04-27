@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <HBox prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.EmpleadosController">
    <children>
       <TabPane fx:id="tabPaneVentana" prefWidth="550.0">
@@ -179,12 +178,12 @@
       </TabPane>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
          <children>
-            <JFXButton fx:id="btnNew" prefHeight="75.0" prefWidth="75.0" text="Nuevo" />
-            <JFXButton fx:id="btnSave" disable="true" prefHeight="75.0" prefWidth="75.0" text="Guardar" />
-            <JFXButton fx:id="btnEdit" prefHeight="75.0" prefWidth="75.0" text="Modificar" />
-            <JFXButton fx:id="btnDelete" prefHeight="75.0" prefWidth="75.0" text="Borrar" />
-            <JFXButton fx:id="btnCancel" disable="true" prefHeight="75.0" prefWidth="75.0" text="Cancelar" />
-            <JFXButton fx:id="btnExit" prefHeight="75.0" prefWidth="75.0" text="Salir" />
+            <JFXButton fx:id="btnNew" onAction="#NewEmpleado" prefHeight="75.0" prefWidth="75.0" text="Nuevo" />
+            <JFXButton fx:id="btnSave" disable="true" onAction="#SaveEmpleado" prefHeight="75.0" prefWidth="75.0" text="Guardar" />
+            <JFXButton fx:id="btnEdit" onAction="#EditEmpleado" prefHeight="75.0" prefWidth="75.0" text="Modificar" />
+            <JFXButton fx:id="btnDelete" onAction="#DeleteEmpleado" prefHeight="75.0" prefWidth="75.0" text="Borrar" />
+            <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelEmpleado" prefHeight="75.0" prefWidth="75.0" text="Cancelar" />
+            <JFXButton fx:id="btnExit" onAction="#ExitEmpleado" prefHeight="75.0" prefWidth="75.0" text="Salir" />
          </children>
       </VBox>
    </children>
