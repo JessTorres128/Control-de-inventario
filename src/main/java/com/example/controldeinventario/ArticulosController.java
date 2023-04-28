@@ -106,11 +106,11 @@ public class ArticulosController {
 
         conexion = new Conexion();
         cbMaterial.getItems().clear();
-        ResultSet resultSet = conexion.consultar("SELECT `material` FROM `materiales`");
+        ResultSet resultSet = conexion.consultar("SELECT * FROM `tipo_material` WHERE `tipo_material`='Material'");
         while (resultSet.next()){
             cbMaterial.getItems().add((String) resultSet.getObject("material"));
         }
-        ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material;"));
+        ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;"));
         ActivateBtn(false,true,false,true,false,false);
 
 
@@ -165,7 +165,7 @@ public class ArticulosController {
     @FXML private void SaveArticulo() throws SQLException {
 
         if (VerifyTxt(txtCaracteristicas, cbMaterial,txtArmario,txtCodigoBarras,txtGaveta,txtSubCompartimento,txtStock,txtStockMin,txtNumParte,txtTipo,txtValor,txtUnidadMedida)){
-            ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `materiales` WHERE `material`='"+ cbMaterial.getSelectionModel().getSelectedItem() +"' LIMIT 1");
+            ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `tipo_material` WHERE `material`='"+cbMaterial.getSelectionModel().getSelectedItem()+"' AND `tipo_material`='Material' LIMIT 1");
             System.out.println(cbMaterial.getSelectionModel().getSelectedItem());
             if (resultado.next()){
                 int id = resultado.getInt("id_material");
@@ -188,7 +188,8 @@ public class ArticulosController {
                 tabNew.setDisable(true);
                 ActivateBtn(false,true,false,true,false,false);
                 txtCodigoBarras.setDisable(false);
-                ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material"));
+                ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;"));
+
             }else {
                 Error("Selecciona el material");
             }
@@ -242,7 +243,7 @@ public class ArticulosController {
             if (ConfirmarBorrar("Deseas borrar "+articulo.getMaterial()+" "+articulo.getTipo())){
                 conexion.insmodelim("DELETE FROM `material` WHERE `cb_material`='"+articulo.getCodigo_barras()+"'");
                 Exito("Registro borrado exitosamente");
-                ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material"));
+                ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;"));
             }
 
         }else {
@@ -452,9 +453,10 @@ public class ArticulosController {
             criterio="material";
         }
         if (!busqueda.equals("")){
-            ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
+            ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
         }else {
-            ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material;"));
+            ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;"));
         }
     }
 }
+

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2023 at 05:37 AM
+-- Generation Time: Apr 28, 2023 at 06:02 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -42,9 +42,9 @@ CREATE TABLE `herramienta` (
 --
 
 INSERT INTO `herramienta` (`cb_herramienta`, `id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES
-('1', 2, 'inglesa', 'dsadsadsadsadsa', 'Medio', 111, 11),
-('2090219315', 2, 'wertyu', 'fgghjkuiyutrdff', 'Bajo', 99, 4),
-('4786689832', 3, 'iyutre', 'uhgfds', 'Alto', 12, 1);
+('1', 4, 'inglesa', 'dsadsadsadsadsa', 'Medio', 111, 11),
+('2090219315', 4, 'wertyu', 'fgghjkuiyutrdff', 'Bajo', 99, 4),
+('4786689832', 5, 'iyutre', 'uhgfds', 'Alto', 12, 1);
 
 -- --------------------------------------------------------
 
@@ -77,6 +77,7 @@ INSERT INTO `material` (`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compart
 ('1592483282', 'd', 'd2', 'a', 1, 'tttt', '5432fdfsd', 23, 'fdsfdfds', 'gfdgdfgdfgdfgdf', 'Alto', 32, 54),
 ('2841715231', 'd', 'd4', '43535', 1, 'gfhgf', '654654ytrh', 34324, 'ohms', 'jhgfxdfds', 'Bajo', 11, 1),
 ('4737075182', 'D', 'D5', 'B', 1, 'Grande', '543543', 100, 'Ohms', 'aaaaaaaaaaaaaaaaaACABO DE EDITAR ESTO', 'Medio', 100, 20),
+('6343343238', '3B', 'A', 'A4', 2, 'azul', '543534yhgf', 120, 'ohms', 'de todo un poco', 'Bajo', 10, 5),
 ('75009809', '3A', 'A', '2B', 1, 'Refresco', '12', 20, 'gr', 'Coca Cola', 'Medio', 7000, 500);
 
 -- --------------------------------------------------------

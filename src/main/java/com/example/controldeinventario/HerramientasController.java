@@ -88,11 +88,11 @@ public class HerramientasController {
         tableViewHerramientas.getColumns().addAll(colID,colHerramienta,colTipo,colCaracteristicas,colFUso,colCantidad,colCantidadMin);
         conexion=new Conexion();
         cbHerramienta.getItems().clear();
-        ResultSet resultSet= conexion.consultar("SELECT `herramienta` FROM `herramientas`");
+        ResultSet resultSet= conexion.consultar("SELECT * FROM `tipo_material` WHERE `tipo_material`='Herramienta'");
         while (resultSet.next()){
-            cbHerramienta.getItems().add((String) resultSet.getObject("herramienta"));
+            cbHerramienta.getItems().add((String) resultSet.getObject("material"));
         }
-        ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN herramientas ON herramienta.id_herramienta = herramientas.id_herramienta;"));
+        ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material;"));
         ActivateBtn(false,true,false,true,false,false);
     }
     @FXML private void NewHerramienta() throws SQLException {
@@ -109,9 +109,9 @@ public class HerramientasController {
 
     @FXML private void SaveHerramienta() throws SQLException {
         if (VerifyTxt(txtCaracteristicas, cbHerramienta,txtStock,txtTipo,txtStockMin)){
-            ResultSet resultSetIDHerramienta = conexion.consultar("SELECT `id_herramienta` FROM `herramientas` WHERE `herramienta`='"+cbHerramienta.getSelectionModel().getSelectedItem()+"' LIMIT 1");
+            ResultSet resultSetIDHerramienta = conexion.consultar("SELECT `id_material` FROM `tipo_material` WHERE `material`='"+cbHerramienta.getSelectionModel().getSelectedItem()+"' AND `tipo_material`='Herramienta' LIMIT 1");
             if (resultSetIDHerramienta.next()){
-                int id = resultSetIDHerramienta.getInt("id_herramienta");
+                int id = resultSetIDHerramienta.getInt("id_material");
                 ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `herramienta` WHERE `cb_herramienta`='"+txtCB.getText()+"' LIMIT 1");
                 if (resultSetUpdate.next()){
                     conexion.insmodelim("UPDATE `herramienta` SET `id_herramienta`='"+id+"',`tipo`='"+txtTipo.getText()+"',`caracteristicas`='"+txtCaracteristicas.getText()+"',`frecuencia_de_uso`='"+((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText()+"',`cantidad`='"+txtStock.getText()+"',`cantidad_min`='"+txtStockMin.getText()+"' WHERE `cb_herramienta`='"+txtCB.getText()+"'");
@@ -125,7 +125,7 @@ public class HerramientasController {
                 tabNew.setDisable(true);
                 ActivateBtn(false,true,false,true,false,false);
                 txtCB.setDisable(false);
-                ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN herramientas ON herramienta.id_herramienta = herramientas.id_herramienta;"));
+                ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material;"));
                 Exito(cbHerramienta.getSelectionModel().getSelectedItem()+" "+txtTipo.getText()+" agregado");
             }else {
                 Error("Selecciona el material");
@@ -166,7 +166,7 @@ public class HerramientasController {
             if (ConfirmarBorrar("Deseas borrar "+h.getHerramienta()+" "+h.getTipo())){
                 conexion.insmodelim("DELETE FROM `herramienta` WHERE `cb_herramienta`='"+h.getCb_herramienta()+"'");
                 Exito("Registro borrado exitosamente");
-                ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN herramientas ON herramienta.id_herramienta = herramientas.id_herramienta;"));
+                ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material;"));
             }
 
         }else {
@@ -237,9 +237,9 @@ public class HerramientasController {
             criterio="herramienta";
         }
         if (!busqueda.equals("")){
-            ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN herramientas ON herramienta.id_herramienta = herramientas.id_herramienta WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
+            ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
         }else {
-            ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN herramientas ON herramienta.id_herramienta = herramientas.id_herramienta;"));
+            ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material;"));
         }
     }
     public boolean ConfirmarBorrar(String mensaje) {
@@ -278,7 +278,7 @@ public class HerramientasController {
         tableViewHerramientas.getItems().clear();
         while (rsHerramientas.next()){
             Herramienta h= new Herramienta(rsHerramientas.getLong("cb_herramienta"),
-                    rsHerramientas.getString("herramienta"),
+                    rsHerramientas.getString("material"),
                     rsHerramientas.getString("tipo"),
                     rsHerramientas.getString("caracteristicas"),
                     rsHerramientas.getString("frecuencia_de_uso"),
