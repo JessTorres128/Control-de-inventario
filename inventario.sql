@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2023 at 03:28 AM
+-- Generation Time: Apr 28, 2023 at 05:37 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -49,26 +49,6 @@ INSERT INTO `herramienta` (`cb_herramienta`, `id_herramienta`, `tipo`, `caracter
 -- --------------------------------------------------------
 
 --
--- Table structure for table `herramientas`
---
-
-CREATE TABLE `herramientas` (
-  `id_herramienta` int(10) NOT NULL,
-  `herramienta` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `herramientas`
---
-
-INSERT INTO `herramientas` (`id_herramienta`, `herramienta`) VALUES
-(1, 'Pala'),
-(2, 'Llave'),
-(3, 'Rastrillo');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `material`
 --
 
@@ -102,25 +82,6 @@ INSERT INTO `material` (`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compart
 -- --------------------------------------------------------
 
 --
--- Table structure for table `materiales`
---
-
-CREATE TABLE `materiales` (
-  `id_material` int(10) NOT NULL,
-  `material` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `materiales`
---
-
-INSERT INTO `materiales` (`id_material`, `material`) VALUES
-(1, 'Diodo'),
-(2, 'Resistencia');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `pedido`
 --
 
@@ -145,6 +106,29 @@ CREATE TABLE `pedido_material` (
   `cb_material` varchar(10) NOT NULL,
   `cantidad` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tipo_material`
+--
+
+CREATE TABLE `tipo_material` (
+  `id_material` int(10) NOT NULL,
+  `material` varchar(40) NOT NULL,
+  `tipo_material` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tipo_material`
+--
+
+INSERT INTO `tipo_material` (`id_material`, `material`, `tipo_material`) VALUES
+(1, 'Diodo', 'Material'),
+(2, 'Resistencia', 'Material'),
+(3, 'Pala', 'Herramienta'),
+(4, 'Llave', 'Herramienta'),
+(5, 'Rastrillo', 'Herramienta');
 
 -- --------------------------------------------------------
 
@@ -192,6 +176,8 @@ INSERT INTO `tipo_usuario` (`id_rol`, `nombre_rol`, `create_material`, `update_m
 
 CREATE TABLE `usuario` (
   `id_user` int(10) NOT NULL,
+  `nombre_completo` varchar(100) NOT NULL,
+  `sexo` varchar(20) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `nombre_rol` varchar(50) NOT NULL
@@ -201,9 +187,9 @@ CREATE TABLE `usuario` (
 -- Dumping data for table `usuario`
 --
 
-INSERT INTO `usuario` (`id_user`, `username`, `password`, `nombre_rol`) VALUES
-(1, 'admin', 'admin', 'Administrador'),
-(2, 'Jose', 'jose123', 'Becario');
+INSERT INTO `usuario` (`id_user`, `nombre_completo`, `sexo`, `username`, `password`, `nombre_rol`) VALUES
+(1, '', '', 'admin', 'admin', 'Administrador'),
+(2, 'jose el pro', 'Femenino', 'Jose', 'jose123', 'Becario');
 
 --
 -- Indexes for dumped tables
@@ -216,23 +202,11 @@ ALTER TABLE `herramienta`
   ADD PRIMARY KEY (`cb_herramienta`);
 
 --
--- Indexes for table `herramientas`
---
-ALTER TABLE `herramientas`
-  ADD PRIMARY KEY (`id_herramienta`);
-
---
 -- Indexes for table `material`
 --
 ALTER TABLE `material`
   ADD PRIMARY KEY (`cb_material`),
   ADD UNIQUE KEY `idx_cb_material` (`cb_material`);
-
---
--- Indexes for table `materiales`
---
-ALTER TABLE `materiales`
-  ADD PRIMARY KEY (`id_material`);
 
 --
 -- Indexes for table `pedido`
@@ -245,6 +219,12 @@ ALTER TABLE `pedido`
 --
 ALTER TABLE `pedido_material`
   ADD PRIMARY KEY (`id_registro`);
+
+--
+-- Indexes for table `tipo_material`
+--
+ALTER TABLE `tipo_material`
+  ADD PRIMARY KEY (`id_material`);
 
 --
 -- Indexes for table `tipo_usuario`
@@ -263,18 +243,6 @@ ALTER TABLE `usuario`
 --
 
 --
--- AUTO_INCREMENT for table `herramientas`
---
-ALTER TABLE `herramientas`
-  MODIFY `id_herramienta` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `materiales`
---
-ALTER TABLE `materiales`
-  MODIFY `id_material` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT for table `pedido`
 --
 ALTER TABLE `pedido`
@@ -285,6 +253,12 @@ ALTER TABLE `pedido`
 --
 ALTER TABLE `pedido_material`
   MODIFY `id_registro` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tipo_material`
+--
+ALTER TABLE `tipo_material`
+  MODIFY `id_material` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tipo_usuario`

@@ -32,7 +32,7 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Tipos">
               <items>
-                  <MenuItem fx:id="menuItemTMateriales" mnemonicParsing="false" text="Materiales" />
+                  <MenuItem fx:id="menuItemTMateriales" mnemonicParsing="false" onAction="#IngresarTipos" text="Materiales" />
                 <MenuItem fx:id="menuItemTHerramientas" mnemonicParsing="false" text="Herramienta" />
               </items>
             </Menu>

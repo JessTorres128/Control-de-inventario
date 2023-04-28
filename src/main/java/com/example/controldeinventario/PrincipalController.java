@@ -78,6 +78,11 @@ public class PrincipalController {
         AbrirVentana(root);
 
     }
+    @FXML private void IngresarTipos() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TipoArticulo.fxml"));
+        Parent root = fxmlLoader.load();
+        AbrirVentana(root);
+    }
 
     private void AbrirVentana(Parent root){
         Stage ventanaSecundaria = new Stage();
