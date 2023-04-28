@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <HBox prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.TipoArticuloController">
    <children>
       <TabPane fx:id="tabPaneVentana">
@@ -53,7 +52,7 @@
                                     <Insets bottom="5.0" left="10.0" top="5.0" />
                                  </VBox.margin>
                               </HBox>
-                              <TextField fx:id="txtBusqueda" />
+                              <TextField fx:id="txtBusqueda" onKeyReleased="#Busqueda" />
                            </children>
                         </VBox>
                         <TableView fx:id="tableViewTMateriales" prefHeight="200.0" prefWidth="200.0">

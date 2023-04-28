@@ -47,38 +47,38 @@ public class TipoArticuloController {
         rbMaterial.setToggleGroup(toggleGroupTMaterial);
         rbHerramienta.setToggleGroup(toggleGroupTMaterial);
         conexion = new Conexion();
-        ActualizarTabla(conexion.consultar("SELECT * FROM herramientas UNION SELECT * FROM materiales;"));
+        ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material`"));
     }
 
     private void ActualizarTabla(ResultSet rsTipos) throws SQLException {
-        int cont=1;
+        int cont=0;
         tableViewTMateriales.getItems().clear();
         while (rsTipos.next()){
-            TipoArticulo tipoArticulo = new TipoArticulo(cont, rsTipos.getString("herramienta"),"Pala");
+            TipoArticulo tipoArticulo = new TipoArticulo(rsTipos.getInt("id_material"), rsTipos.getString("material"),rsTipos.getString("tipo_material"));
             tableViewTMateriales.getItems().add(tipoArticulo);
             cont++;
         }
-        lblContador.setText("Se cargaron "+(cont-1)+" tipos de herramienta");
+        lblContador.setText("Se cargaron "+cont+" tipos de articulos");
     }
 
     @FXML private void Busqueda() throws SQLException {
         String busqueda= txtBusqueda.getText();
         String criterio="";
-        String consulta="SELECT * FROM herramientas UNION SELECT * FROM materiales;";
-        if (checkBoxHerramienta.isSelected()){
+        String tipo_mat_crit="";
 
-        }
         if (radioButtonID.isSelected() && !busqueda.equals("")){
-            criterio="cb_material";
+            criterio="id_material";
         } else if (radioButtonNombre.isSelected() && !busqueda.equals("")) {
-            criterio="tipo_de_armario";
-        } else if (rbMaterial.isSelected() && !busqueda.equals("")) {
             criterio="material";
         }
-        if (!busqueda.equals("")){
-            ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
-        }else {
-            ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN materiales ON material.id_material = materiales.id_material;"));
+        if (checkBoxHerramienta.isSelected() && checkBoxMaterial.isSelected() && !busqueda.equals("")){
+            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
+        } else if (checkBoxMaterial.isSelected() && !busqueda.equals("")) {
+            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE `"+criterio+"` LIKE '%"+busqueda+"%' AND tipo_material='Material'"));
+        } else if (checkBoxHerramienta.isSelected() && !busqueda.equals("")) {
+            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE `"+criterio+"` LIKE '%"+busqueda+"%' AND tipo_material='Herramienta'"));
+        } else {
+            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material`;"));
         }
     }
 }
