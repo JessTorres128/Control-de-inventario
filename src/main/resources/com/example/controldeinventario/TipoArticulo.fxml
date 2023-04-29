@@ -34,8 +34,8 @@
                               </Label>
                               <HBox prefHeight="23.0" prefWidth="340.0" spacing="10.0">
                                  <children>
-                                    <JFXCheckBox fx:id="checkBoxMaterial" selected="true" text="Materiales" />
-                                    <JFXCheckBox fx:id="checkBoxHerramienta" selected="true" text="Herramientas" />
+                                    <JFXCheckBox fx:id="checkBoxMaterial" onAction="#BusquedaCheckRegistros" selected="true" text="Materiales" />
+                                    <JFXCheckBox fx:id="checkBoxHerramienta" onAction="#BusquedaCheckRegistros" selected="true" text="Herramientas" />
                                  </children>
                               </HBox>
                               <Label text="Filtrar">
@@ -121,12 +121,12 @@
       </TabPane>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
          <children>
-            <JFXButton fx:id="btnNew" prefHeight="60.0" prefWidth="70.0" text="Nuevo" />
-            <JFXButton fx:id="btnSave" disable="true" prefHeight="60.0" prefWidth="70.0" text="Guardar" />
-            <JFXButton fx:id="btnEdit" prefHeight="60.0" prefWidth="70.0" text="Modificar" />
-            <JFXButton fx:id="btnDelete" prefHeight="60.0" prefWidth="70.0" text="Borrar" />
-            <JFXButton fx:id="btnCancel" disable="true" prefHeight="60.0" prefWidth="70.0" text="Cancelar" />
-            <JFXButton fx:id="btnExit" prefHeight="60.0" prefWidth="70.0" text="Salir" />
+            <JFXButton fx:id="btnNew" onAction="#NewTipoArticulo" prefHeight="60.0" prefWidth="70.0" text="Nuevo" />
+            <JFXButton fx:id="btnSave" disable="true" onAction="#SaveTipoArticulo" prefHeight="60.0" prefWidth="70.0" text="Guardar" />
+            <JFXButton fx:id="btnEdit" onAction="#EditTipoArticulo" prefHeight="60.0" prefWidth="70.0" text="Modificar" />
+            <JFXButton fx:id="btnDelete" onAction="#DeleteTipoArticulo" prefHeight="60.0" prefWidth="70.0" text="Borrar" />
+            <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelTipoArticulo" prefHeight="60.0" prefWidth="70.0" text="Cancelar" />
+            <JFXButton fx:id="btnExit" onAction="#ExitTipoArticulo" prefHeight="60.0" prefWidth="70.0" text="Salir" />
          </children>
       </VBox>
    </children>

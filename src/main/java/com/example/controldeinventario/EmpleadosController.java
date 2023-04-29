@@ -207,15 +207,16 @@ public class EmpleadosController {
         return true;
     }
     private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit, boolean delete) throws SQLException {
-        if (LoginController.resultado.getInt("create_herramienta")==0){
+        if (LoginController.resultado.getInt("crud_empleados")==0){
             btnNew.setDisable(true);
-        }else {btnNew.setDisable(New);}
-        if (LoginController.resultado.getInt("update_herramienta")==0){
             btnEdit.setDisable(true);
-        }else {btnEdit.setDisable(edit);}
-        if (LoginController.resultado.getInt("delete_herramienta")==0){
             btnDelete.setDisable(true);
-        }else {btnDelete.setDisable(delete);}
+        }else {
+            btnNew.setDisable(New);
+            btnEdit.setDisable(edit);
+            btnDelete.setDisable(delete);
+        }
+
 
         btnSave.setDisable(save);
         btnCancel.setDisable(cancel);
