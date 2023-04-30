@@ -27,18 +27,21 @@
                         </Label>
                         <VBox prefHeight="115.0" prefWidth="340.0">
                            <children>
-                              <Label text="Mostrar">
+                              <Label text="Filtrar">
                                  <VBox.margin>
                                     <Insets left="15.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
                               <HBox prefHeight="23.0" prefWidth="340.0" spacing="10.0">
                                  <children>
-                                    <JFXCheckBox fx:id="checkBoxMaterial" onAction="#BusquedaCheckRegistros" selected="true" text="Materiales" />
+                                    <JFXCheckBox fx:id="checkBoxMaterial" onAction="#BusquedaCheckRegistros" selected="true" text="Materiales">
+                                       <HBox.margin>
+                                          <Insets left="15.0" />
+                                       </HBox.margin></JFXCheckBox>
                                     <JFXCheckBox fx:id="checkBoxHerramienta" onAction="#BusquedaCheckRegistros" selected="true" text="Herramientas" />
                                  </children>
                               </HBox>
-                              <Label text="Filtrar">
+                              <Label text="Buscar por">
                                  <VBox.margin>
                                     <Insets left="15.0" top="5.0" />
                                  </VBox.margin>

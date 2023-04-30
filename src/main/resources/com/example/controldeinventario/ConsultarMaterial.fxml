@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ConsultarMaterialController">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox prefHeight="100.0" prefWidth="462.0">
+               <children>
+                  <Label text="Criterios de búsqueda">
+                     <VBox.margin>
+                        <Insets left="15.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="Mostrar">
+                     <VBox.margin>
+                        <Insets left="15.0" top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox prefHeight="25.0" prefWidth="585.0" spacing="30.0">
+                     <VBox.margin>
+                        <Insets left="15.0" top="5.0" />
+                     </VBox.margin>
+                     <children>
+                        <JFXRadioButton fx:id="rbMaterial" onAction="#CambiarColumnas" selected="true" text="Materiales" />
+                        <JFXRadioButton fx:id="rbHerramienta" onAction="#CambiarColumnas" text="Herramientas" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="100.0" prefWidth="139.0">
+               <children>
+                  <JFXButton prefHeight="107.0" prefWidth="140.0" text="Salir :v" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Label text="Buscar por">
+         <VBox.margin>
+            <Insets left="15.0" top="5.0" />
+         </VBox.margin>
+      </Label>
+      <HBox prefHeight="32.0" prefWidth="600.0" spacing="15.0">
+         <children>
+            <JFXRadioButton fx:id="rbCodigo_Barras" selected="true" text="Código de barras" />
+            <JFXRadioButton fx:id="rbNombre" text="Nombre" />
+            <JFXRadioButton fx:id="rbTipo" text="Tipo" />
+         </children>
+         <VBox.margin>
+            <Insets left="10.0" top="5.0" />
+         </VBox.margin>
+      </HBox>
+      <TextField fx:id="txtBusqueda" onKeyReleased="#Busqueda">
+         <VBox.margin>
+            <Insets bottom="5.0" left="15.0" right="100.0" />
+         </VBox.margin>
+      </TextField>
+      <TableView fx:id="tableViewMats" prefHeight="266.0" prefWidth="600.0">
+         <VBox.margin>
+            <Insets top="5.0" />
+         </VBox.margin>
+      </TableView>
+   </children>
+</VBox>
