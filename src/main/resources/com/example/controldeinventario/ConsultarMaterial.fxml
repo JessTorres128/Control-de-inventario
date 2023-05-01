@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ConsultarMaterialController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
@@ -39,7 +38,7 @@
             </VBox>
             <VBox prefHeight="100.0" prefWidth="139.0">
                <children>
-                  <JFXButton prefHeight="107.0" prefWidth="140.0" text="Salir :v" />
+                  <JFXButton onAction="#SalirConsultaMat" prefHeight="107.0" prefWidth="140.0" text="Salir :v" />
                </children>
             </VBox>
          </children>

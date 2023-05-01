@@ -2,6 +2,7 @@ package com.example.controldeinventario;
 
 import com.example.controldeinventario.Datos.Articulo;
 import com.example.controldeinventario.Datos.Herramienta;
+import com.example.controldeinventario.Datos.Registro;
 import com.example.controldeinventario.Datos.TipoArticulo;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ConsultarMaterialController {
+    PedidosController pedidosController;
     TableColumn colCB=new TableColumn("Codigo de barras");
     TableColumn colTArmario=new TableColumn("Tipo de armario");
     TableColumn colGaveta=new TableColumn("Gaveta");
@@ -43,6 +45,7 @@ public class ConsultarMaterialController {
 
 
     @FXML protected void initialize() throws SQLException {
+        pedidosController = new PedidosController();
         //Material
         colCB.setCellValueFactory(new PropertyValueFactory<Articulo,Long>("codigo_barras"));
         colTArmario.setCellValueFactory(new PropertyValueFactory<Articulo, String>("tipo_de_armario"));
@@ -78,6 +81,18 @@ public class ConsultarMaterialController {
     }
     @FXML private void SalirConsultaMat(){
 
+        if (tableViewMats.getSelectionModel().getSelectedItem() != null){
+            if (rbMaterial.isSelected()){
+                Articulo articulo= (Articulo) tableViewMats.getSelectionModel().getSelectedItem();
+                Registro registro = new Registro(articulo.getMaterial(),articulo.getTipo(),articulo.getValor(), articulo.getUnidad_medida(),1 );
+                pedidosController.AgregarMaterial(registro);
+            }else {
+                Herramienta herramienta = (Herramienta) tableViewMats.getSelectionModel().getSelectedItem();
+                Registro registro = new Registro(herramienta.getHerramienta(), herramienta.getTipo(), 1);
+                pedidosController.AgregarMaterial(registro);
+            }
+        }
+        pedidosController.CerrarVentana();
     }
 
     @FXML private void Busqueda() throws SQLException {
@@ -151,3 +166,5 @@ public class ConsultarMaterialController {
 
     }
 }
+
+

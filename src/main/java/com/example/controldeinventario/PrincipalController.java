@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PrincipalController {
+    Stage ventanaSecundaria;
     @FXML MenuItem menuItemB;
     @FXML MenuItem menuItemIniciarSesion, menuItemCerrarSesion, menuItemCerrarPrograma;
     @FXML MenuItem menuItemMateriales, menuItemHerramientas;
@@ -83,9 +84,11 @@ public class PrincipalController {
         Parent root = fxmlLoader.load();
         AbrirVentana(root);
     }
-
+    public void CerrarVentana(){
+        ventanaSecundaria.close();
+    }
     private void AbrirVentana(Parent root){
-        Stage ventanaSecundaria = new Stage();
+        ventanaSecundaria = new Stage();
         ventanaSecundaria.initModality(Modality.APPLICATION_MODAL);
         ventanaSecundaria.initOwner(HelloApplication.primarystage);
         ventanaSecundaria.setScene(new Scene(root));
