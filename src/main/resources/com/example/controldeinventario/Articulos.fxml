@@ -92,7 +92,7 @@
                <content>
                   <VBox alignment="TOP_CENTER" prefHeight="682.0" prefWidth="970.0" style="-fx-background-color: white;">
                      <children>
-                        <AnchorPane prefHeight="624.0" prefWidth="986.0" style="-fx-background-color: #f1edf8;">
+                        <AnchorPane prefHeight="624.0" prefWidth="986.0" style="-fx-background-color: white;">
                            <children>
                               <TextField fx:id="txtCodigoBarras" layoutX="171.0" layoutY="583.0" prefHeight="27.0" prefWidth="164.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
                               <TextField fx:id="txtGaveta" layoutX="171.0" layoutY="255.0" minHeight="20.0" prefHeight="25.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: #543383;" />

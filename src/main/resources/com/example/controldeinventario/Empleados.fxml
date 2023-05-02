@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -10,10 +11,13 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
-<HBox prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.EmpleadosController">
+<HBox prefHeight="500.0" prefWidth="792.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.EmpleadosController">
    <children>
       <TabPane fx:id="tabPaneVentana" prefWidth="550.0">
          <tabs>
@@ -30,15 +34,33 @@
                               </Label>
                               <HBox prefHeight="28.0" prefWidth="510.0" spacing="20.0">
                                  <children>
-                                    <JFXRadioButton fx:id="rbID" selected="true" text="ID" />
-                                    <JFXRadioButton fx:id="rbNombre" text="Nombre" />
-                                    <JFXRadioButton fx:id="rbRol" text="Rol" />
+                                    <JFXRadioButton fx:id="rbID" selected="true" text="ID">
+                                       <selectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </selectedColor>
+                                       <unSelectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </unSelectedColor></JFXRadioButton>
+                                    <JFXRadioButton fx:id="rbNombre" text="Nombre">
+                                       <selectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </selectedColor>
+                                       <unSelectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </unSelectedColor></JFXRadioButton>
+                                    <JFXRadioButton fx:id="rbRol" text="Rol">
+                                       <selectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </selectedColor>
+                                       <unSelectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </unSelectedColor></JFXRadioButton>
                                  </children>
                                  <VBox.margin>
                                     <Insets left="10.0" />
                                  </VBox.margin>
                               </HBox>
-                              <TextField fx:id="txtBusqueda" onKeyReleased="#Busqueda">
+                              <TextField fx:id="txtBusqueda" onKeyReleased="#Busqueda" style="-fx-background-color: white; -fx-border-color: #543383;">
                                  <VBox.margin>
                                     <Insets left="20.0" right="50.0" />
                                  </VBox.margin>
@@ -58,33 +80,49 @@
               <content>
                   <VBox prefHeight="431.0" prefWidth="538.0">
                      <children>
-                        <Label text="Agregar / modificar un empleado">
-                           <VBox.margin>
-                              <Insets left="10.0" top="5.0" />
-                           </VBox.margin>
-                        </Label>
+                        <AnchorPane prefHeight="502.0" prefWidth="530.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="5.0" text="Detalles del empleado">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtID" layoutX="137.0" layoutY="63.0" prefHeight="27.0" prefWidth="75.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <Label layoutX="26.0" layoutY="68.0" text="ID del empleado" />
+                              <Label layoutX="26.0" layoutY="110.0" text="Nombre completo" />
+                              <TextField fx:id="txtNombre" layoutX="137.0" layoutY="105.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <Label layoutX="26.0" layoutY="152.0" text="Nombre de usuario" />
+                              <TextField fx:id="txtUsername" layoutX="137.0" layoutY="147.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <Label layoutX="227.0" layoutY="310.0" text="Confirma la contraseña" />
+                              <PasswordField fx:id="txtConfirmarPass" layoutX="363.0" layoutY="305.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <JFXRadioButton fx:id="rbMasculino" layoutX="357.0" layoutY="68.0" selected="true" text="M">
+                                 <unSelectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </unSelectedColor>
+                                 <selectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </selectedColor>
+                              </JFXRadioButton>
+                              <JFXRadioButton fx:id="rbFemenino" layoutX="413.0" layoutY="68.0" text="F">
+                                 <unSelectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </unSelectedColor>
+                                 <selectedColor>
+                                    <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
+                                 </selectedColor>
+                              </JFXRadioButton>
+                              <Label layoutX="314.0" layoutY="68.0" text="Sexo" />
+                              <Label layoutX="284.0" layoutY="267.0" text="Contraseña" />
+                              <PasswordField fx:id="txtPass" layoutX="363.0" layoutY="262.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <JFXComboBox fx:id="cbRoles" focusColor="#543383" layoutX="357.0" layoutY="110.0" prefHeight="26.0" prefWidth="75.0" unFocusColor="#543383" />
+                              <JFXButton fx:id="btnBuscarRol" layoutX="477.0" layoutY="110.0" style="-fx-background-color: #543383;" text="Buscar" textFill="WHITE" />
+                              <Label layoutX="314.0" layoutY="110.0" text="Roles" />
+                           </children>
+                        </AnchorPane>
                         <HBox prefHeight="47.0" prefWidth="540.0">
                            <children>
-                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="200.0">
-                                 <children>
-                                    <Label text="ID del empleado" />
-                                    <TextField fx:id="txtID" prefHeight="26.0" prefWidth="251.0">
-                                       <VBox.margin>
-                                          <Insets left="40.0" right="40.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="340.0">
-                                 <children>
-                                    <Label text="Nombre completo" />
-                                    <TextField fx:id="txtNombre">
-                                       <VBox.margin>
-                                          <Insets left="40.0" right="30.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                              </VBox>
+                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="200.0" />
+                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="340.0" />
                            </children>
                            <VBox.margin>
                               <Insets top="10.0" />
@@ -97,76 +135,23 @@
                            <children>
                               <VBox prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <Label text="Sexo">
-                                       <VBox.margin>
-                                          <Insets left="10.0" top="5.0" />
-                                       </VBox.margin>
-                                    </Label>
                                     <HBox prefHeight="24.0" prefWidth="270.0" spacing="10.0">
-                                       <children>
-                                          <JFXRadioButton fx:id="rbMasculino" selected="true" text="Masculino" />
-                                          <JFXRadioButton fx:id="rbFemenino" text="Femenino" />
-                                       </children>
                                        <VBox.margin>
                                           <Insets left="10.0" />
                                        </VBox.margin>
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox prefHeight="200.0" prefWidth="340.0">
-                                 <children>
-                                    <Label text="Nombre de usuario">
-                                       <VBox.margin>
-                                          <Insets left="10.0" top="5.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txtUsername">
-                                       <VBox.margin>
-                                          <Insets right="30.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="340.0" />
                            </children>
                         </HBox>
                         <HBox prefHeight="61.0" prefWidth="540.0">
                            <children>
-                              <VBox prefHeight="200.0" prefWidth="270.0">
-                                 <children>
-                                    <Label text="Contraseña">
-                                       <VBox.margin>
-                                          <Insets left="10.0" top="5.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <PasswordField fx:id="txtPass">
-                                       <VBox.margin>
-                                          <Insets left="5.0" right="40.0" />
-                                       </VBox.margin>
-                                    </PasswordField>
-                                 </children>
-                              </VBox>
-                              <VBox prefHeight="200.0" prefWidth="270.0">
-                                 <children>
-                                    <Label text="Confirma la contraseña">
-                                       <VBox.margin>
-                                          <Insets left="10.0" top="5.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <PasswordField fx:id="txtConfirmarPass">
-                                       <VBox.margin>
-                                          <Insets left="5.0" right="40.0" />
-                                       </VBox.margin>
-                                    </PasswordField>
-                                 </children>
-                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="270.0" />
+                              <VBox prefHeight="200.0" prefWidth="270.0" />
                            </children>
                         </HBox>
-                        <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <JFXComboBox fx:id="cbRoles" promptText="Roles" />
-                              <JFXButton fx:id="btnBuscarRol" text="Buscar rol" />
-                           </children>
-                        </HBox>
+                        <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" />
                      </children>
                   </VBox>
               </content>
@@ -176,15 +161,23 @@
             <Insets bottom="20.0" left="20.0" top="20.0" />
          </HBox.margin>
       </TabPane>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+      <VBox alignment="CENTER" prefHeight="460.0" prefWidth="137.0" spacing="5.0" style="-fx-background-color: #543383;">
          <children>
-            <JFXButton fx:id="btnNew" onAction="#NewEmpleado" prefHeight="75.0" prefWidth="75.0" text="Nuevo" />
-            <JFXButton fx:id="btnSave" disable="true" onAction="#SaveEmpleado" prefHeight="75.0" prefWidth="75.0" text="Guardar" />
-            <JFXButton fx:id="btnEdit" onAction="#EditEmpleado" prefHeight="75.0" prefWidth="75.0" text="Modificar" />
-            <JFXButton fx:id="btnDelete" onAction="#DeleteEmpleado" prefHeight="75.0" prefWidth="75.0" text="Borrar" />
-            <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelEmpleado" prefHeight="75.0" prefWidth="75.0" text="Cancelar" />
-            <JFXButton fx:id="btnExit" onAction="#ExitEmpleado" prefHeight="75.0" prefWidth="75.0" text="Salir" />
+            <JFXButton fx:id="btnNew" onAction="#NewEmpleado" prefHeight="75.0" prefWidth="75.0" text="Nuevo" textFill="WHITE" />
+            <JFXButton fx:id="btnSave" disable="true" onAction="#SaveEmpleado" prefHeight="75.0" prefWidth="75.0" text="Guardar" textFill="WHITE" />
+            <JFXButton fx:id="btnEdit" onAction="#EditEmpleado" prefHeight="75.0" prefWidth="75.0" text="Modificar" textFill="WHITE" />
+            <JFXButton fx:id="btnDelete" onAction="#DeleteEmpleado" prefHeight="75.0" prefWidth="75.0" text="Borrar" textFill="WHITE" />
+            <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelEmpleado" prefHeight="75.0" prefWidth="75.0" text="Cancelar" textFill="WHITE" />
+            <JFXButton fx:id="btnExit" onAction="#ExitEmpleado" prefHeight="75.0" prefWidth="75.0" text="Salir" textFill="WHITE" />
          </children>
+         <HBox.margin>
+            <Insets bottom="20.0" left="50.0" right="20.0" top="20.0" />
+         </HBox.margin>
       </VBox>
    </children>
+   <stylesheets>
+      <URL value="@stylesheet.css" />
+   </stylesheets>
+
+
 </HBox>

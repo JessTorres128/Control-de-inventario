@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
@@ -11,8 +12,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
-<HBox prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.RolesController">
+<HBox prefHeight="517.0" prefWidth="700.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.RolesController">
    <children>
       <TabPane fx:id="tabPaneVentana" prefHeight="500.0" prefWidth="570.0">
          <tabs>
@@ -32,11 +35,23 @@
                                     <Insets left="15.0" />
                                  </VBox.margin>
                                  <children>
-                                    <JFXRadioButton fx:id="rbID" selected="true" text="ID" />
-                                    <JFXRadioButton fx:id="rbNombre" text="Nombre" />
+                                    <JFXRadioButton fx:id="rbID" selected="true" text="ID">
+                                       <unSelectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </unSelectedColor>
+                                       <selectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </selectedColor></JFXRadioButton>
+                                    <JFXRadioButton fx:id="rbNombre" text="Nombre">
+                                       <unSelectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </unSelectedColor>
+                                       <selectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </selectedColor></JFXRadioButton>
                                  </children>
                               </HBox>
-                              <TextField fx:id="txtBusqueda" onKeyReleased="#Busqueda">
+                              <TextField fx:id="txtBusqueda" onKeyReleased="#Busqueda" style="-fx-background-color: white; -fx-border-color: #543383;">
                                  <VBox.margin>
                                     <Insets left="15.0" right="50.0" />
                                  </VBox.margin>
@@ -65,7 +80,7 @@
                               </Label>
                               <HBox prefHeight="39.0" prefWidth="539.0" spacing="10.0">
                                  <children>
-                                    <Label text="ID del tipo de usuario">
+                                    <Label text="ID Tipo de usuario">
                                        <padding>
                                           <Insets left="15.0" />
                                        </padding>
@@ -73,13 +88,13 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField fx:id="txtId_rol" editable="false" prefHeight="26.0" prefWidth="37.0" />
-                                    <Label text="Nombre del tipo de usuario">
+                                    <TextField fx:id="txtId_rol" editable="false" prefHeight="26.0" prefWidth="37.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                                    <Label text="Nombre tipo de usuario">
                                        <HBox.margin>
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField fx:id="txtNombre_rol" prefHeight="26.0" prefWidth="184.0" />
+                                    <TextField fx:id="txtNombre_rol" prefHeight="26.0" prefWidth="184.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
                                  </children>
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -94,36 +109,39 @@
                            <VBox.margin>
                               <Insets left="15.0" />
                            </VBox.margin>
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
                         </Label>
                         <HBox prefHeight="310.0" prefWidth="560.0">
                            <children>
                               <VBox prefHeight="200.0" prefWidth="186.0" spacing="35.0">
                                  <children>
-                                    <JFXCheckBox fx:id="check_create_material" text="Crear un material" />
-                                    <JFXCheckBox fx:id="check_update_material" text="Editar un material" />
-                                    <JFXCheckBox fx:id="check_delete_material" text="Borrar un material" />
-                                    <JFXCheckBox fx:id="check_create_herramienta" text="Crear una herramienta" />
-                                    <JFXCheckBox fx:id="check_update_herramienta" text="Editar una herramienta" />
-                                    <JFXCheckBox fx:id="check_delete_herramienta" text="Borrar una herramienta" />
+                                    <JFXCheckBox fx:id="check_create_material" checkedColor="#543383" text="Crear un material" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_update_material" checkedColor="#543383" text="Editar un material" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_delete_material" checkedColor="#543383" text="Borrar un material" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_create_herramienta" checkedColor="#543383" text="Crear una herramienta" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_update_herramienta" checkedColor="#543383" text="Editar una herramienta" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_delete_herramienta" checkedColor="#543383" text="Borrar una herramienta" unCheckedColor="#543383" />
                                  </children>
                               </VBox>
                               <VBox prefHeight="200.0" prefWidth="186.0" spacing="35.0">
                                  <children>
-                                    <JFXCheckBox fx:id="check_crud_pedido" text="Dar de alta un pedido" />
-                                    <JFXCheckBox fx:id="check_create_t_material" text="Crear un tipo de material" />
-                                    <JFXCheckBox fx:id="check_update_t_material" text="Editar los tipos de materiales" />
-                                    <JFXCheckBox fx:id="check_delete_t_material" text="Borrar un tipo de material" />
-                                    <JFXCheckBox fx:id="check_create_t_herramienta" text="Crear un tipo de herramienta" />
-                                    <JFXCheckBox fx:id="check_update_t_herramienta" text="Editar un tipo de herramienta" />
+                                    <JFXCheckBox fx:id="check_crud_pedido" checkedColor="#543383" text="Dar de alta un pedido" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_create_t_material" checkedColor="#543383" text="Crear un tipo de material" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_update_t_material" checkedColor="#543383" text="Editar los tipos de materiales" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_delete_t_material" checkedColor="#543383" text="Borrar un tipo de material" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_create_t_herramienta" checkedColor="#543383" text="Crear un tipo de herramienta" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_update_t_herramienta" checkedColor="#543383" text="Editar un tipo de herramienta" unCheckedColor="#543383" />
                                  </children>
                               </VBox>
                               <VBox prefHeight="200.0" prefWidth="186.0" spacing="35.0">
                                  <children>
-                                    <JFXCheckBox fx:id="check_delete_t_herramienta" text="Borrar un tipo de herramienta" />
-                                    <JFXCheckBox fx:id="check_crud_roles" text="Crear un tipo de usuario" />
-                                    <JFXCheckBox fx:id="check_crud_empleados" text="Crear usuarios" />
-                                    <JFXCheckBox fx:id="check_restaurar_bd" text="Restaurar la base de datos" />
-                                    <JFXCheckBox fx:id="check_respaldar_bd" text="Respaldar la base de datos" />
+                                    <JFXCheckBox fx:id="check_delete_t_herramienta" checkedColor="#543383" text="Borrar un tipo de herramienta" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_crud_roles" checkedColor="#543383" text="Crear un tipo de usuario" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_crud_empleados" checkedColor="#543383" text="Crear usuarios" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_restaurar_bd" checkedColor="#543383" text="Restaurar la base de datos" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_respaldar_bd" checkedColor="#543383" text="Respaldar la base de datos" unCheckedColor="#543383" />
                                  </children>
                               </VBox>
                            </children>
@@ -140,15 +158,21 @@
             <Insets bottom="20.0" left="20.0" top="20.0" />
          </HBox.margin>
       </TabPane>
-      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="130.0">
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="130.0" style="-fx-background-color: #543383;">
          <children>
-            <JFXButton fx:id="btnNew" onAction="#NewRol" prefHeight="80.0" prefWidth="80.0" text="Nuevo" />
-            <JFXButton fx:id="btnSave" disable="true" onAction="#SaveRol" prefHeight="80.0" prefWidth="80.0" text="Guardar" />
-            <JFXButton fx:id="btnEdit" onAction="#EditRol" prefHeight="80.0" prefWidth="80.0" text="Modificar" />
-            <JFXButton fx:id="btnDelete" onAction="#DeleteRol" prefHeight="80.0" prefWidth="80.0" text="Borrar" />
-            <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelRol" prefHeight="80.0" prefWidth="80.0" text="Cancelar" />
-            <JFXButton fx:id="btnExit" onAction="#ExitRol" prefHeight="80.0" prefWidth="80.0" text="Salir" />
+            <JFXButton fx:id="btnNew" onAction="#NewRol" prefHeight="80.0" prefWidth="80.0" text="Nuevo" textFill="WHITE" />
+            <JFXButton fx:id="btnSave" disable="true" onAction="#SaveRol" prefHeight="80.0" prefWidth="80.0" text="Guardar" textFill="WHITE" />
+            <JFXButton fx:id="btnEdit" onAction="#EditRol" prefHeight="80.0" prefWidth="80.0" text="Modificar" textFill="WHITE" />
+            <JFXButton fx:id="btnDelete" onAction="#DeleteRol" prefHeight="80.0" prefWidth="80.0" text="Borrar" textFill="WHITE" />
+            <JFXButton fx:id="btnCancel" disable="true" onAction="#CancelRol" prefHeight="80.0" prefWidth="80.0" text="Cancelar" textFill="WHITE" />
+            <JFXButton fx:id="btnExit" onAction="#ExitRol" prefHeight="80.0" prefWidth="80.0" text="Salir" textFill="WHITE" />
          </children>
+         <HBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </HBox.margin>
       </VBox>
    </children>
+   <stylesheets>
+      <URL value="@stylesheet.css" />
+   </stylesheets>
 </HBox>
