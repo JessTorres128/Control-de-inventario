@@ -1,9 +1,5 @@
 package com.example.controldeinventario.Datos;
 
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-
 public class Registro {
     private String nombre;
     private String tipo;

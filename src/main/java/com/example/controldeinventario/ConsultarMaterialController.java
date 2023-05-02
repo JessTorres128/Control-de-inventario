@@ -3,10 +3,10 @@ package com.example.controldeinventario;
 import com.example.controldeinventario.Datos.Articulo;
 import com.example.controldeinventario.Datos.Herramienta;
 import com.example.controldeinventario.Datos.Registro;
-import com.example.controldeinventario.Datos.TipoArticulo;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,6 +28,7 @@ public class ConsultarMaterialController {
     TableColumn colCantidadMin=new TableColumn("Cantidad minima");
 
     Conexion conexion;
+    @FXML Button btnSalir;
     ToggleGroup toggleGroupMostrar = new ToggleGroup();
     ToggleGroup toggleGroupBuscar = new ToggleGroup();
     @FXML TableView tableViewMats;
@@ -82,6 +83,7 @@ public class ConsultarMaterialController {
     @FXML private void SalirConsultaMat(){
 
         if (tableViewMats.getSelectionModel().getSelectedItem() != null){
+            cerrarVentana();
             if (rbMaterial.isSelected()){
                 Articulo articulo= (Articulo) tableViewMats.getSelectionModel().getSelectedItem();
                 Registro registro = new Registro(articulo.getMaterial(),articulo.getTipo(),articulo.getValor(), articulo.getUnidad_medida(),1 );
@@ -91,8 +93,9 @@ public class ConsultarMaterialController {
                 Registro registro = new Registro(herramienta.getHerramienta(), herramienta.getTipo(), 1);
                 pedidosController.AgregarMaterial(registro);
             }
+
         }
-        pedidosController.CerrarVentana();
+
     }
 
     @FXML private void Busqueda() throws SQLException {
@@ -164,6 +167,10 @@ public class ConsultarMaterialController {
             Busqueda();
         }
 
+    }
+    public void cerrarVentana() {
+        Stage stage = (Stage) btnSalir.getScene().getWindow();
+        stage.close();
     }
 }
 

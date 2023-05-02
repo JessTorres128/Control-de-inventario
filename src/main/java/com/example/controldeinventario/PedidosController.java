@@ -20,10 +20,15 @@ import javafx.util.Callback;
 import java.io.IOException;
 
 public class PedidosController {
+    Conexion conexion;
+    public PedidosController(){
+
+
+    }
     public ObservableList<Registro> productos;
     @FXML
     TableView<Registro> tableViewPedidoMaterial = new TableView<>();
-    private Stage ventanaSecundaria = new Stage();
+    public Stage ventanaSecundaria = new Stage();
     TableColumn tableColumnNumero = new TableColumn("No");
     TableColumn tableColumnNombre = new TableColumn("Nombre");
     TableColumn tableColumnModelo = new TableColumn("Modelo");
@@ -142,6 +147,7 @@ public class PedidosController {
 
 
     @FXML protected void initialize(){
+        conexion= new Conexion();
         productos = FXCollections.observableArrayList();
         tableColumnNumero.setCellFactory(celdaNo);
         tableColumnNombre.setCellValueFactory(new PropertyValueFactory<Registro,String>("nombre"));
@@ -160,15 +166,23 @@ public class PedidosController {
     @FXML private void NewPedido(){
 
     }
-    @FXML public void AgregarMaterial(Registro a){
-        System.out.println(a.getNombre());
-        System.out.println(a.getTipo());
-        System.out.println(a.getValor());
-        System.out.println(a.getUnidad_medida());
-        System.out.println(a.getCantidad());
+    public void AgregarMaterial(Registro a){
+
         if (productos != null){
+        /*    if(a instanceof Articulo){
+                Registro registro= new Registro(((Articulo) a).getMaterial(),((Articulo) a).getTipo(),((Articulo) a).getValor()
+                ,((Articulo) a).getUnidad_medida(),((Articulo) a).getCantidad());
+                productos.add(registro);
+            }else if (a instanceof Herramienta){
+                Registro registro = new Registro(((Herramienta) a).getHerramienta(),((Herramienta) a).getTipo()
+                ,((Herramienta) a).getCantidad());
+                productos.add(registro);
+            }*/
             productos.add(a);
         }
+
+
+
 
     }
     @FXML private void BuscarProducto() throws IOException {
