@@ -15,9 +15,9 @@
 
 <HBox prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.PedidosController">
    <children>
-      <TabPane prefHeight="600.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPaneVentana" prefHeight="600.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab closable="false" text="Buscar">
+          <Tab fx:id="tabSearch" closable="false" text="Buscar">
             <content>
                   <VBox>
                      <children>
@@ -26,16 +26,16 @@
                               <Label text="Criterios de búsqueda" />
                               <HBox prefHeight="30.0" prefWidth="634.0" spacing="30.0">
                                  <children>
-                                    <JFXRadioButton text="ID Pedido" />
-                                    <JFXRadioButton text="Número de control" />
-                                    <JFXRadioButton text="Profesor" />
-                                    <JFXRadioButton text="Material" />
+                                    <JFXRadioButton fx:id="rbID" selected="true" text="ID Pedido" />
+                                    <JFXRadioButton fx:id="rbNumControl" text="Número de control" />
+                                    <JFXRadioButton fx:id="rbProfesor" text="Profesor" />
+                                    <JFXRadioButton fx:id="rbMaterial" text="Material" />
                                  </children>
                                  <VBox.margin>
                                     <Insets left="5.0" />
                                  </VBox.margin>
                               </HBox>
-                              <TextField>
+                              <TextField fx:id="txtBusqueda">
                                  <VBox.margin>
                                     <Insets left="10.0" right="60.0" />
                                  </VBox.margin>
@@ -50,32 +50,32 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                            <children>
-                              <TableView prefHeight="485.0" prefWidth="685.0">
+                              <TableView fx:id="tableViewPedidos" prefHeight="485.0" prefWidth="685.0">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </TableView>
-                              <Label text="Se cargaron x pedidos" />
+                              <Label fx:id="lblContador" text="Se cargaron x pedidos" />
                            </children>
                         </VBox>
                      </children>
                   </VBox>
             </content>
           </Tab>
-          <Tab closable="false" text="Nuevo / Modificar">
+          <Tab fx:id="tabNew" closable="false" disable="true" text="Nuevo / Modificar">
             <content>
                   <VBox>
                      <children>
                         <HBox alignment="CENTER" prefHeight="74.0" prefWidth="685.0" spacing="20.0">
                            <children>
-                              <TextField prefHeight="26.0" prefWidth="68.0" promptText="ID">
+                              <TextField fx:id="txtID" prefHeight="26.0" prefWidth="68.0" promptText="ID">
                                  <HBox.margin>
                                     <Insets right="40.0" />
                                  </HBox.margin>
                               </TextField>
-                              <TextField prefHeight="26.0" prefWidth="167.0" promptText="Número de control" />
-                              <CheckBox mnemonicParsing="false" text="No aplica" />
-                              <TextField prefHeight="26.0" prefWidth="176.0" promptText="Fecha">
+                              <TextField fx:id="txtNumControl" prefHeight="26.0" prefWidth="167.0" promptText="Número de control" />
+                              <CheckBox fx:id="checkBoxNA1" mnemonicParsing="false" onAction="#CheckBoxChange" text="No aplica" />
+                              <TextField fx:id="txtFecha" prefHeight="26.0" prefWidth="176.0" promptText="Fecha">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin>
@@ -83,15 +83,15 @@
                            </children></HBox>
                         <HBox alignment="CENTER" prefHeight="66.0" prefWidth="685.0" spacing="20.0">
                            <children>
-                              <TextField prefHeight="26.0" prefWidth="310.0" promptText="Profesor" />
-                              <CheckBox mnemonicParsing="false" text="No aplica" />
-                              <TextField promptText="Materia" />
-                              <CheckBox mnemonicParsing="false" text="No aplica" />
+                              <TextField fx:id="txtProfesor" prefHeight="26.0" prefWidth="310.0" promptText="Profesor" />
+                              <CheckBox fx:id="checkBoxNA2" mnemonicParsing="false" onAction="#CheckBoxChange" text="No aplica" />
+                              <TextField fx:id="txtMateria" promptText="Materia" />
+                              <CheckBox fx:id="checkBoxNA3" mnemonicParsing="false" onAction="#CheckBoxChange" text="No aplica" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="54.0" prefWidth="685.0">
                            <children>
-                              <TextField prefHeight="26.0" prefWidth="475.0" promptText="Busqueda (por id)" />
+                              <TextField fx:id="txtBusquedaID" prefHeight="26.0" prefWidth="475.0" promptText="Busqueda (por id)" />
                               <Button mnemonicParsing="false" onAction="#BuscarProducto" text="Buscar" />
                            </children>
                         </HBox>
@@ -111,16 +111,16 @@
          </HBox.margin>
          <children>
             <Label text="Controles" />
-            <JFXButton onAction="#AgregarGenerico" prefHeight="100.0" prefWidth="100.0" text="Nuevo">
+            <JFXButton fx:id="btnNew" onAction="#NewPedido" prefHeight="100.0" prefWidth="100.0" text="Nuevo">
                <VBox.margin>
                   <Insets top="30.0" />
                </VBox.margin>
             </JFXButton>
-            <JFXButton disable="true" prefHeight="100.0" prefWidth="100.0" text="Guardar" />
-            <JFXButton prefHeight="100.0" prefWidth="100.0" text="Modificar" />
-            <JFXButton prefHeight="100.0" prefWidth="100.0" text="Borrar" />
-            <JFXButton disable="true" prefHeight="100.0" prefWidth="100.0" text="Cancelar" />
-            <JFXButton prefHeight="100.0" prefWidth="100.0" text="Salir" />
+            <JFXButton fx:id="btnSave" disable="true" onAction="#SavePedido" prefHeight="100.0" prefWidth="100.0" text="Guardar" />
+            <JFXButton fx:id="btnEdit" onAction="#EditPedido" prefHeight="100.0" prefWidth="100.0" text="Modificar" />
+            <JFXButton fx:id="btnDelete" onAction="#DeletePedido" prefHeight="100.0" prefWidth="100.0" text="Borrar" />
+            <JFXButton fx:id="btnCancel" disable="true" onAction="#CanecelPedido" prefHeight="100.0" prefWidth="100.0" text="Cancelar" />
+            <JFXButton fx:id="btnExit" onAction="#ExitPedido" prefHeight="100.0" prefWidth="100.0" text="Salir" />
          </children>
       </VBox>
    </children>
