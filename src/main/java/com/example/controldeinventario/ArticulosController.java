@@ -4,6 +4,10 @@ import com.example.controldeinventario.Datos.Articulo;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import javafx.collections.ObservableList;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -23,9 +27,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.krysalis.barcode4j.impl.code39.Code39Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.krysalis.barcode4j.tools.UnitConv;
@@ -34,7 +42,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URL;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
@@ -136,6 +144,58 @@ public class ArticulosController {
 */
     }
 
+    @FXML private void exportButton() throws SQLException {
+
+            // Obtener los datos de la tabla
+            TableView<Articulo> table = new TableView<>();
+            ObservableList<Articulo> data = table.getItems();
+
+            // Crear un libro de Excel y una hoja
+        Workbook workbook = new HSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Datos");
+
+            // Crear una fila en la hoja para los encabezados
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Codigo");
+            headerRow.createCell(1).setCellValue("Armario");
+            headerRow.createCell(2).setCellValue("Gaveta");
+            headerRow.createCell(3).setCellValue("Sub_compartimiento");
+            headerRow.createCell(4).setCellValue("Material");
+            headerRow.createCell(5).setCellValue("Tipo");
+            headerRow.createCell(6).setCellValue("Numero de parte");
+            headerRow.createCell(7).setCellValue("Valor");
+            headerRow.createCell(8).setCellValue("Unidad de medida");
+            headerRow.createCell(9).setCellValue("Caracteristicas");
+            headerRow.createCell(10).setCellValue("Cantidad");
+            headerRow.createCell(11).setCellValue("Cantidad minima");
+
+            // Agregar los datos de la tabla a la hoja
+
+            int rowIndex = 1;
+            for (Articulo producto : data) {
+                Row dataRow = sheet.createRow(rowIndex++);
+                dataRow.createCell(0).setCellValue(producto.getCodigo_barras());
+                dataRow.createCell(1).setCellValue(producto.getTipo_de_armario());
+                dataRow.createCell(2).setCellValue(producto.getGaveta());
+                dataRow.createCell(3).setCellValue(producto.getSub_compartimento());
+                dataRow.createCell(4).setCellValue(producto.getMaterial());
+                dataRow.createCell(5).setCellValue(producto.getTipo());
+                dataRow.createCell(6).setCellValue(producto.getNumero_parte());
+                dataRow.createCell(7).setCellValue(producto.getValor());
+                dataRow.createCell(8).setCellValue(producto.getUnidad_medida());
+                dataRow.createCell(9).setCellValue(producto.getCaracteristicas());
+                dataRow.createCell(10).setCellValue(producto.getCantidad());
+                dataRow.createCell(11).setCellValue(producto.getCantidad_min());
+            }
+
+            // Guardar el archivo de Excel
+        String desktopPath = System.getProperty("user.home") + "/Desktop/";
+            try (FileOutputStream outputStream = new FileOutputStream(desktopPath + "datos.xls")) {
+                workbook.write(outputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
 
 
