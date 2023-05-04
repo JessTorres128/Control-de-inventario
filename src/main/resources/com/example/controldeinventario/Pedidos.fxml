@@ -89,7 +89,7 @@
                               <CheckBox fx:id="checkBoxNA3" mnemonicParsing="false" onAction="#CheckBoxChange" text="No aplica" />
                            </children>
                         </HBox>
-                        <TextField promptText="Nombre">
+                        <TextField fx:id="txtNombre" promptText="Nombre">
                            <VBox.margin>
                               <Insets left="40.0" right="70.0" />
                            </VBox.margin>

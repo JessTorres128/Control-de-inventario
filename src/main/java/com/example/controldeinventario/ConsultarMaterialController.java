@@ -86,11 +86,11 @@ public class ConsultarMaterialController {
             cerrarVentana();
             if (rbMaterial.isSelected()){
                 Articulo articulo= (Articulo) tableViewMats.getSelectionModel().getSelectedItem();
-                Registro registro = new Registro(articulo.getMaterial(),articulo.getTipo(),articulo.getValor(), articulo.getUnidad_medida(),1 );
+                Registro registro = new Registro(articulo.getCodigo_barras(),articulo.getMaterial(),articulo.getTipo(),articulo.getValor(), articulo.getUnidad_medida(),1 );
                 pedidosController.AgregarMaterial(registro);
             }else {
                 Herramienta herramienta = (Herramienta) tableViewMats.getSelectionModel().getSelectedItem();
-                Registro registro = new Registro(herramienta.getHerramienta(), herramienta.getTipo(), 1);
+                Registro registro = new Registro(herramienta.getCb_herramienta(),herramienta.getHerramienta(), herramienta.getTipo(), 1);
                 pedidosController.AgregarMaterial(registro);
             }
 

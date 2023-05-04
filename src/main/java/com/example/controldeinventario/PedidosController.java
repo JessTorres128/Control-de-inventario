@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PedidosController {
     ZoneId zonaHoraria = ZoneId.of("America/Mazatlan");
-    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
+    DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     ToggleGroup toggleGroupBusqueda = new ToggleGroup();
     @FXML TabPane tabPaneVentana;
     @FXML Tab tabSearch, tabNew;
@@ -44,6 +44,7 @@ public class PedidosController {
     @FXML
     TableView<Registro> tableViewPedidoMaterial = new TableView<>();
     TableColumn tableColumnIDPedido = new TableColumn<>("ID Pedido");
+    TableColumn tableColumnCB = new TableColumn<>("Código de barras");
     TableColumn tableColumnNombrePersona = new TableColumn<>("Nombre");
     TableColumn tableColumnNumControl = new TableColumn<>("Número de control");
     TableColumn tableColumnEstado = new TableColumn<>("Estado");
@@ -177,6 +178,7 @@ public class PedidosController {
         productos = FXCollections.observableArrayList();
         tableColumnNumero.setCellFactory(celdaNo);
         tableColumnNumero.setMaxWidth(40);
+        tableColumnCB.setCellValueFactory(new PropertyValueFactory<Registro,Long>("cb"));
         tableColumnNombre.setCellValueFactory(new PropertyValueFactory<Registro,String>("nombre"));
         tableColumnModelo.setCellValueFactory(new PropertyValueFactory<Registro,String>("tipo"));
         tableColumnValor.setCellValueFactory(new PropertyValueFactory<Registro,Double>("valor"));
@@ -188,7 +190,7 @@ public class PedidosController {
         tableColumnBtnPlus.setMaxWidth(35);
         tableColumnBtnDelete.setCellFactory(celdaDelete);
 
-        tableViewPedidoMaterial.getColumns().addAll( tableColumnNumero,tableColumnNombre,tableColumnModelo,tableColumnValor,tableColumnMedida,tableColumnBtnMinus, tableColumnItemCount,tableColumnBtnPlus,tableColumnBtnDelete);
+        tableViewPedidoMaterial.getColumns().addAll( tableColumnNumero,tableColumnCB,tableColumnNombre,tableColumnModelo,tableColumnValor,tableColumnMedida,tableColumnBtnMinus, tableColumnItemCount,tableColumnBtnPlus,tableColumnBtnDelete);
         tableViewPedidoMaterial.setItems(productos);
 
         tableColumnIDPedido.setCellValueFactory(new PropertyValueFactory<Pedido, Integer>("id_pedido"));
@@ -204,6 +206,7 @@ public class PedidosController {
     @FXML private void NewPedido() throws SQLException {
         productos.clear();
         ZonedDateTime zonedDateTime = ZonedDateTime.now(zonaHoraria);
+
         txtID.setDisable(false);
         ActivateBtn(false,false,true,false,false,true);
         tabPaneVentana.getSelectionModel().select(tabNew);
@@ -214,10 +217,10 @@ public class PedidosController {
     }
 
     @FXML private void SavePedido() throws SQLException {
-        if (productos == null){
+        if (productos.isEmpty()){
             Error("No has seleccionado ningun articulo :V");
         }else {
-            if (!VerifyTxt(txtID, txtNumControl, txtFecha, txtProfesor, txtMateria , txtNombre)){
+            if (!VerifyTxt(txtNumControl, txtProfesor, txtMateria , txtNombre)){
                 Error("Faltan campos por rellenar");
             }else {
                 ResultSet rsEdit = conexion.consultar("SELECT * FROM `pedido` WHERE `id_pedido`='"+txtID.getText()+"'");
@@ -225,15 +228,22 @@ public class PedidosController {
                     conexion.insmodelim("DELETE FROM `pedido_material` WHERE `id_pedido`='"+txtID.getText()+"'");
                     conexion.insmodelim("UPDATE `pedido` SET `nombre_persona`='"+txtNombre.getText()+"',`num_control`='"+txtNumControl.getText()+"',`profesor`='"+txtProfesor+"',`materia`='"+txtMateria.getText()+"' WHERE `id_pedido`='"+txtID.getText()+"'");
                     for (Registro registro : productos){
-                        ResultSet rsArticulo = conexion.consultar("SELECT `cb_material` FROM `material` WHERE tipo_material.material='"+registro.getNombre()+"' AND " +
-                                "`tipo`='"+registro.getTipo()+"' AND `valor`='"+registro.getValor()+"' AND `unidad_de_medida`='"+registro.getUnidad_medida()+"' LIMIT 1");
-                        if (rsArticulo.next()){
                             conexion.insmodelim("INSERT INTO `pedido_material`(`id_pedido`, `cb_material`, `cantidad`) VALUES ('"+txtID.getText()+"','"+registro.getCb()+"','"+registro.getCantidad()+"')");
-                        }else {
-                            ResultSet rsHerramienta = conexion.consultar("");
-                        }
                        }
+                    Exito("Pedido actualizado correctamente");
+                }else {
+                    conexion.insmodelim("INSERT INTO `pedido`(`nombre_persona`, `num_control`, `estado`, `fecha`, `profesor`, `materia`) VALUES " +
+                            "('"+txtNombre.getText()+"','"+txtNumControl.getText()+"','Pendiente','"+txtFecha.getText()+"','"+txtProfesor.getText()+"','"+txtMateria.getText()+"')");
+                    ResultSet rsID= conexion.consultar("SELECT `id_pedido`\n" +
+                            "FROM pedido" +
+                            "ORDER BY `id_pedido` DESC " +
+                            "LIMIT 1;");
+                    for (Registro registro : productos){
+                        conexion.insmodelim("INSERT INTO `pedido_material`(`id_pedido`,`cb_material`, `cantidad`) VALUES ('"+rsID.getInt("id_pedido")+"','"+registro.getCb()+"','"+registro.getCantidad()+"')");
+                    }
+                    Exito("Pedido agregado correctamente");
                 }
+
             }
         }
     }
@@ -343,7 +353,7 @@ public class PedidosController {
 
     private boolean VerifyTxt(TextField... campos){
         for (TextField campo : campos){
-            if (campo.getText().isEmpty()){
+            if (campo.getText().equals("")){
                 return false;
             }
         }
@@ -353,7 +363,7 @@ public class PedidosController {
         if (productos != null){
             boolean cantidadPlus=false;
                 for (int x=0; x<productos.size();x++){
-                    if (productos.get(x).getNombre().equals(a.getNombre()) && Objects.equals(productos.get(x).getValor(), a.getValor()) && productos.get(x).getTipo().equals(a.getTipo()) && Objects.equals(productos.get(x).getUnidad_medida(), a.getUnidad_medida())){
+                    if (productos.get(x).getCb().equals(a.getCb())){
                         Registro r = productos.get(x);
                         r.setCantidad((r.getCantidad()+1));
                         if (r.getCantidad() <=0){
