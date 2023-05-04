@@ -36,7 +36,7 @@ public class PedidosController {
     @FXML Label lblContador;
     @FXML RadioButton rbID, rbNumControl, rbProfesor, rbMaterial;
     @FXML TextField txtBusqueda;
-    @FXML TableView tableViewPedidos;
+    @FXML TableView tableViewPedidos = new TableView<Pedido>();
     @FXML Button btnNew, btnSave, btnEdit, btnDelete, btnCancel, btnExit;
     @FXML TextField txtID, txtNumControl, txtFecha, txtProfesor, txtMateria, txtBusquedaID, txtNombre;
     @FXML CheckBox checkBoxNA1,checkBoxNA2,checkBoxNA3;
@@ -169,7 +169,8 @@ public class PedidosController {
 
 
 
-    @FXML protected void initialize(){
+    @FXML protected void initialize() throws SQLException {
+
         rbID.setToggleGroup(toggleGroupBusqueda);
         rbMaterial.setToggleGroup(toggleGroupBusqueda);
         rbNumControl.setToggleGroup(toggleGroupBusqueda);
@@ -201,6 +202,7 @@ public class PedidosController {
         tableColumnProfesor.setCellValueFactory(new PropertyValueFactory<Pedido, String>("profesor"));
         tableColumnMateria.setCellValueFactory(new PropertyValueFactory<Pedido, String>("materia"));
         tableViewPedidos.getColumns().addAll(tableColumnIDPedido,tableColumnNombrePersona,tableColumnNumControl,tableColumnEstado,tableColumnFecha,tableColumnProfesor,tableColumnMateria);
+        ActualizarTabla(conexion.consultar("SELECT * FROM `pedido`"));
     }
 
     @FXML private void NewPedido() throws SQLException {
@@ -226,7 +228,7 @@ public class PedidosController {
                 ResultSet rsEdit = conexion.consultar("SELECT * FROM `pedido` WHERE `id_pedido`='"+txtID.getText()+"'");
                 if (rsEdit.next()){//PA EDITAR
                     conexion.insmodelim("DELETE FROM `pedido_material` WHERE `id_pedido`='"+txtID.getText()+"'");
-                    conexion.insmodelim("UPDATE `pedido` SET `nombre_persona`='"+txtNombre.getText()+"',`num_control`='"+txtNumControl.getText()+"',`profesor`='"+txtProfesor+"',`materia`='"+txtMateria.getText()+"' WHERE `id_pedido`='"+txtID.getText()+"'");
+                    conexion.insmodelim("UPDATE `pedido` SET `nombre_persona`='"+txtNombre.getText()+"',`num_control`='"+txtNumControl.getText()+"',`profesor`='"+txtProfesor.getText()+"',`materia`='"+txtMateria.getText()+"' WHERE `id_pedido`='"+txtID.getText()+"'");
                     for (Registro registro : productos){
                             conexion.insmodelim("INSERT INTO `pedido_material`(`id_pedido`, `cb_material`, `cantidad`) VALUES ('"+txtID.getText()+"','"+registro.getCb()+"','"+registro.getCantidad()+"')");
                        }
@@ -234,18 +236,25 @@ public class PedidosController {
                 }else {
                     conexion.insmodelim("INSERT INTO `pedido`(`nombre_persona`, `num_control`, `estado`, `fecha`, `profesor`, `materia`) VALUES " +
                             "('"+txtNombre.getText()+"','"+txtNumControl.getText()+"','Pendiente','"+txtFecha.getText()+"','"+txtProfesor.getText()+"','"+txtMateria.getText()+"')");
-                    ResultSet rsID= conexion.consultar("SELECT `id_pedido`\n" +
-                            "FROM pedido" +
-                            "ORDER BY `id_pedido` DESC " +
-                            "LIMIT 1;");
-                    for (Registro registro : productos){
-                        conexion.insmodelim("INSERT INTO `pedido_material`(`id_pedido`,`cb_material`, `cantidad`) VALUES ('"+rsID.getInt("id_pedido")+"','"+registro.getCb()+"','"+registro.getCantidad()+"')");
+                    ResultSet rsID= conexion.consultar("SELECT `id_pedido` FROM pedido ORDER BY `id_pedido` DESC LIMIT 1;");
+                    if (rsID.next()){
+                        int id = rsID.getInt("id_pedido");
+                        for (Registro registro : productos){
+                            conexion.insmodelim("INSERT INTO `pedido_material`(`id_pedido`,`cb_material`, `cantidad`) VALUES ('"+id+"','"+registro.getCb()+"','"+registro.getCantidad()+"')");
+                        }
                     }
+
                     Exito("Pedido agregado correctamente");
                 }
 
             }
         }
+        tabPaneVentana.getSelectionModel().select(tabSearch);
+        tabSearch.setDisable(false);
+        tabNew.setDisable(true);
+        ActivateBtn(false,true,false,true,false,false);
+        txtID.setDisable(false);
+        ActualizarTabla(conexion.consultar("SELECT * FROM `pedido`"));
     }
     @FXML private void EditPedido() throws SQLException {
         productos.clear();
@@ -259,6 +268,7 @@ public class PedidosController {
                 txtID.setText(String.valueOf(rsPedido.getInt("id_pedido")));
                 txtFecha.setText(String.valueOf(rsPedido.getDate("fecha")));
                 txtMateria.setText(rsPedido.getString("materia"));
+                txtNumControl.setText(rsPedido.getString("num_control"));
                 txtProfesor.setText(rsPedido.getString("profesor"));
                 txtNombre.setText(rsPedido.getString("nombre_persona"));
                 if (txtNumControl.getText().equals("N/A")){
@@ -305,6 +315,7 @@ public class PedidosController {
                 txtID.setDisable(true);
                 ActivateBtn(true,false,true,false,false,true);*/
             }
+            ActivateBtn(true,false,true,false,false,true);
 
         }else {
             Error("Selecciona un registro pa");
@@ -341,7 +352,7 @@ public class PedidosController {
         int cont=0;
         tableViewPedidos.getItems().clear();
         while (rsPedido.next()){
-            Pedido pedido = new Pedido(rsPedido.getInt("id_pedido "), rsPedido.getString("nombre_persona"),rsPedido.getString("num_control"),
+            Pedido pedido = new Pedido(rsPedido.getInt("id_pedido"), rsPedido.getString("nombre_persona"),rsPedido.getString("num_control"),
                     rsPedido.getString("estado"),rsPedido.getDate("fecha"),rsPedido.getString("profesor"),
                     rsPedido.getString("materia"));
             tableViewPedidos.getItems().add(pedido);
