@@ -75,13 +75,13 @@
                               </TextField>
                               <TextField fx:id="txtNumControl" prefHeight="26.0" prefWidth="167.0" promptText="Número de control" />
                               <CheckBox fx:id="checkBoxNA1" mnemonicParsing="false" onAction="#CheckBoxChange" text="No aplica" />
-                              <TextField fx:id="txtFecha" prefHeight="26.0" prefWidth="176.0" promptText="Fecha">
+                              <TextField fx:id="txtFecha" editable="false" prefHeight="26.0" prefWidth="176.0" promptText="Fecha">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin>
                               </TextField>
                            </children></HBox>
-                        <HBox alignment="CENTER" prefHeight="66.0" prefWidth="685.0" spacing="20.0">
+                        <HBox alignment="CENTER" prefHeight="52.0" prefWidth="685.0" spacing="20.0">
                            <children>
                               <TextField fx:id="txtProfesor" prefHeight="26.0" prefWidth="310.0" promptText="Profesor" />
                               <CheckBox fx:id="checkBoxNA2" mnemonicParsing="false" onAction="#CheckBoxChange" text="No aplica" />
@@ -89,13 +89,18 @@
                               <CheckBox fx:id="checkBoxNA3" mnemonicParsing="false" onAction="#CheckBoxChange" text="No aplica" />
                            </children>
                         </HBox>
+                        <TextField promptText="Nombre">
+                           <VBox.margin>
+                              <Insets left="40.0" right="70.0" />
+                           </VBox.margin>
+                        </TextField>
                         <HBox alignment="CENTER" prefHeight="54.0" prefWidth="685.0">
                            <children>
                               <TextField fx:id="txtBusquedaID" onKeyTyped="#EscaneoBusqueda" prefHeight="26.0" prefWidth="475.0" promptText="Busqueda (por id)" />
                               <Button mnemonicParsing="false" onAction="#BuscarProducto" text="Buscar" />
                            </children>
                         </HBox>
-                        <TableView fx:id="tableViewPedidoMaterial" prefHeight="406.0" prefWidth="685.0" />
+                        <TableView fx:id="tableViewPedidoMaterial" prefHeight="358.0" prefWidth="685.0" />
                      </children>
                   </VBox>
             </content>

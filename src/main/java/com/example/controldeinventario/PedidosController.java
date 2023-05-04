@@ -18,11 +18,17 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PedidosController {
+    ZoneId zonaHoraria = ZoneId.of("America/Mazatlan");
+    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
     ToggleGroup toggleGroupBusqueda = new ToggleGroup();
     @FXML TabPane tabPaneVentana;
     @FXML Tab tabSearch, tabNew;
@@ -193,12 +199,14 @@ public class PedidosController {
     }
 
     @FXML private void NewPedido() throws SQLException {
+        ZonedDateTime zonedDateTime = ZonedDateTime.now(zonaHoraria);
         txtID.setDisable(false);
         ActivateBtn(false,false,true,false,false,true);
         tabPaneVentana.getSelectionModel().select(tabNew);
         tabNew.setDisable(false);
         tabSearch.setDisable(true);
         CleanTextFields();
+        txtFecha.setText(zonedDateTime.format(formato));
     }
 
     @FXML private void SavePedido(){
@@ -262,7 +270,7 @@ public class PedidosController {
         int cont=0;
         tableViewPedidos.getItems().clear();
         while (rsPedido.next()){
-            Pedido pedido = new Pedido(rsPedido.getInt("id_pedido "),rsPedido.getString("num_control"),
+            Pedido pedido = new Pedido(rsPedido.getInt("id_pedido "), rsPedido.getString("nombre_persona"),rsPedido.getString("num_control"),
                     rsPedido.getString("estado"),rsPedido.getDate("fecha"),rsPedido.getString("profesor"),
                     rsPedido.getString("materia"));
             tableViewPedidos.getItems().add(pedido);

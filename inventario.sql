@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2023 at 06:02 AM
+-- Generation Time: May 04, 2023 at 03:51 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -88,6 +88,7 @@ INSERT INTO `material` (`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compart
 
 CREATE TABLE `pedido` (
   `id_pedido` int(10) NOT NULL,
+  `nombre_persona` varchar(100) NOT NULL,
   `num_control` varchar(8) NOT NULL,
   `estado` varchar(30) NOT NULL,
   `fecha` datetime NOT NULL,
@@ -129,7 +130,8 @@ INSERT INTO `tipo_material` (`id_material`, `material`, `tipo_material`) VALUES
 (2, 'Resistencia', 'Material'),
 (3, 'Pala', 'Herramienta'),
 (4, 'Llave', 'Herramienta'),
-(5, 'Rastrillo', 'Herramienta');
+(5, 'Rastrillo', 'Herramienta'),
+(7, 'Pico2', 'Herramienta');
 
 -- --------------------------------------------------------
 
@@ -259,7 +261,7 @@ ALTER TABLE `pedido_material`
 -- AUTO_INCREMENT for table `tipo_material`
 --
 ALTER TABLE `tipo_material`
-  MODIFY `id_material` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_material` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tipo_usuario`
