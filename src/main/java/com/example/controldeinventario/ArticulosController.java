@@ -146,15 +146,10 @@ public class ArticulosController {
 
     @FXML private void exportButton() throws SQLException {
 
-            // Obtener los datos de la tabla
-            TableView<Articulo> table = new TableView<>();
-            ObservableList<Articulo> data = table.getItems();
 
-            // Crear un libro de Excel y una hoja
         Workbook workbook = new HSSFWorkbook();
             Sheet sheet = workbook.createSheet("Datos");
 
-            // Crear una fila en la hoja para los encabezados
             Row headerRow = sheet.createRow(0);
             headerRow.createCell(0).setCellValue("Codigo");
             headerRow.createCell(1).setCellValue("Armario");
@@ -168,11 +163,12 @@ public class ArticulosController {
             headerRow.createCell(9).setCellValue("Caracteristicas");
             headerRow.createCell(10).setCellValue("Cantidad");
             headerRow.createCell(11).setCellValue("Cantidad minima");
-
-            // Agregar los datos de la tabla a la hoja
-
             int rowIndex = 1;
-            for (Articulo producto : data) {
+            ResultSet rsArticulos = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;");
+            while (rsArticulos.next()){
+                Articulo producto=new Articulo(rsArticulos.getLong("cb_material"), rsArticulos.getString("tipo_de_armario"), rsArticulos.getString("gaveta"), rsArticulos.getString("sub_compartimento"), rsArticulos.getString("material"),
+                        rsArticulos.getString("tipo"), rsArticulos.getString("numero_parte"), rsArticulos.getDouble("valor"), rsArticulos.getString("unidad_de_medida"), rsArticulos.getString("caracteristicas"), rsArticulos.getString("frecuencia_de_uso"),
+                        rsArticulos.getInt("cantidad"), rsArticulos.getInt("cantidad_min"));
                 Row dataRow = sheet.createRow(rowIndex++);
                 dataRow.createCell(0).setCellValue(producto.getCodigo_barras());
                 dataRow.createCell(1).setCellValue(producto.getTipo_de_armario());
@@ -188,7 +184,6 @@ public class ArticulosController {
                 dataRow.createCell(11).setCellValue(producto.getCantidad_min());
             }
 
-            // Guardar el archivo de Excel
         String desktopPath = System.getProperty("user.home") + "/Desktop/";
             try (FileOutputStream outputStream = new FileOutputStream(desktopPath + "datos.xls")) {
                 workbook.write(outputStream);

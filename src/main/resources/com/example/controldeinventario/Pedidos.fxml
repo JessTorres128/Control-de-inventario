@@ -91,7 +91,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="54.0" prefWidth="685.0">
                            <children>
-                              <TextField fx:id="txtBusquedaID" prefHeight="26.0" prefWidth="475.0" promptText="Busqueda (por id)" />
+                              <TextField fx:id="txtBusquedaID" onKeyTyped="#EscaneoBusqueda" prefHeight="26.0" prefWidth="475.0" promptText="Busqueda (por id)" />
                               <Button mnemonicParsing="false" onAction="#BuscarProducto" text="Buscar" />
                            </children>
                         </HBox>

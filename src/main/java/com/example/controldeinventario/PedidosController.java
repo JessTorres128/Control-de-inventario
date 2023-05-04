@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PedidosController {
@@ -168,13 +169,16 @@ public class PedidosController {
         conexion= new Conexion();
         productos = FXCollections.observableArrayList();
         tableColumnNumero.setCellFactory(celdaNo);
+        tableColumnNumero.setMaxWidth(40);
         tableColumnNombre.setCellValueFactory(new PropertyValueFactory<Registro,String>("nombre"));
         tableColumnModelo.setCellValueFactory(new PropertyValueFactory<Registro,String>("tipo"));
         tableColumnValor.setCellValueFactory(new PropertyValueFactory<Registro,Double>("valor"));
         tableColumnMedida.setCellValueFactory(new PropertyValueFactory<Registro,String>("unidad_medida"));
         tableColumnBtnMinus.setCellFactory(celdaMinus);
+        tableColumnBtnMinus.setMaxWidth(30);
         tableColumnItemCount.setCellValueFactory(new PropertyValueFactory<Registro,Integer>("cantidad"));
         tableColumnBtnPlus.setCellFactory(celdaPlus);
+        tableColumnBtnPlus.setMaxWidth(35);
         tableColumnBtnDelete.setCellFactory(celdaDelete);
 
         tableViewPedidoMaterial.getColumns().addAll( tableColumnNumero,tableColumnNombre,tableColumnModelo,tableColumnValor,tableColumnMedida,tableColumnBtnMinus, tableColumnItemCount,tableColumnBtnPlus,tableColumnBtnDelete);
@@ -268,18 +272,41 @@ public class PedidosController {
 
     }
     public void AgregarMaterial(Registro a){
-
         if (productos != null){
-        /*    if(a instanceof Articulo){
-                Registro registro= new Registro(((Articulo) a).getMaterial(),((Articulo) a).getTipo(),((Articulo) a).getValor()
-                ,((Articulo) a).getUnidad_medida(),((Articulo) a).getCantidad());
-                productos.add(registro);
-            }else if (a instanceof Herramienta){
-                Registro registro = new Registro(((Herramienta) a).getHerramienta(),((Herramienta) a).getTipo()
-                ,((Herramienta) a).getCantidad());
-                productos.add(registro);
-            }*/
-            productos.add(a);
+            boolean cantidadPlus=false;
+                for (int x=0; x<productos.size();x++){
+                    if (productos.get(x).getNombre().equals(a.getNombre()) && Objects.equals(productos.get(x).getValor(), a.getValor()) && productos.get(x).getTipo().equals(a.getTipo()) && Objects.equals(productos.get(x).getUnidad_medida(), a.getUnidad_medida())){
+                        Registro r = productos.get(x);
+                        r.setCantidad((r.getCantidad()+1));
+                        if (r.getCantidad() <=0){
+                            productos.remove(x);
+                        }else {
+                            productos.set(x,r);
+                        }
+                        cantidadPlus=true;
+                    }
+                }
+                if (!cantidadPlus){
+                    productos.add(a);
+                }
+        }
+    }
+
+    @FXML public void EscaneoBusqueda() throws SQLException {
+        if (txtBusquedaID.getText().matches("\\d{10}")){
+            ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+txtBusquedaID.getText()+"'");
+            if (rsArticulo.next()){
+                Registro registro = new Registro(rsArticulo.getString("tipo_material"),rsArticulo.getString("tipo"),rsArticulo.getDouble("valor"), rsArticulo.getString("unidad_de_medida"),1);
+                AgregarMaterial(registro);
+                txtBusquedaID.setText("");
+            }else {
+                ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+txtBusquedaID.getText()+"'");
+                if (rsHerramienta.next()){
+                    Registro registro = new Registro(rsHerramienta.getString("tipo_material"),rsHerramienta.getString("tipo"), 1);
+                    AgregarMaterial(registro);
+                    txtBusquedaID.setText("");
+                }
+            }
         }
     }
 
