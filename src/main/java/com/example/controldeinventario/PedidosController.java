@@ -38,17 +38,18 @@ public class PedidosController {
     @FXML TextField txtBusqueda;
     @FXML TableView tableViewPedidos;
     @FXML Button btnNew, btnSave, btnEdit, btnDelete, btnCancel, btnExit;
-    @FXML TextField txtID, txtNumControl, txtFecha, txtProfesor, txtMateria, txtBusquedaID;
+    @FXML TextField txtID, txtNumControl, txtFecha, txtProfesor, txtMateria, txtBusquedaID, txtNombre;
     @FXML CheckBox checkBoxNA1,checkBoxNA2,checkBoxNA3;
     public static ObservableList<Registro> productos;
     @FXML
     TableView<Registro> tableViewPedidoMaterial = new TableView<>();
-    TableColumn tableColumnIDPedido = new TableColumn<>();
-    TableColumn tableColumnNumControl = new TableColumn<>();
-    TableColumn tableColumnEstado = new TableColumn<>();
-    TableColumn tableColumnFecha = new TableColumn<>();
-    TableColumn tableColumnProfesor = new TableColumn<>();
-    TableColumn tableColumnMateria = new TableColumn<>();
+    TableColumn tableColumnIDPedido = new TableColumn<>("ID Pedido");
+    TableColumn tableColumnNombrePersona = new TableColumn<>("Nombre");
+    TableColumn tableColumnNumControl = new TableColumn<>("Número de control");
+    TableColumn tableColumnEstado = new TableColumn<>("Estado");
+    TableColumn tableColumnFecha = new TableColumn<>("Fecha");
+    TableColumn tableColumnProfesor = new TableColumn<>("Profesor");
+    TableColumn tableColumnMateria = new TableColumn<>("Materia");
     public Stage ventanaSecundaria = new Stage();
     TableColumn tableColumnNumero = new TableColumn("No");
     TableColumn tableColumnNombre = new TableColumn("Nombre");
@@ -191,14 +192,17 @@ public class PedidosController {
         tableViewPedidoMaterial.setItems(productos);
 
         tableColumnIDPedido.setCellValueFactory(new PropertyValueFactory<Pedido, Integer>("id_pedido"));
+        tableColumnNombrePersona.setCellValueFactory(new PropertyValueFactory<Pedido, String>("nombre_persona"));
         tableColumnNumControl.setCellValueFactory(new PropertyValueFactory<Pedido, String>("num_control"));
         tableColumnEstado.setCellValueFactory(new PropertyValueFactory<Pedido, String>("estado"));
         tableColumnFecha.setCellValueFactory(new PropertyValueFactory<Pedido, Date>("fecha"));
         tableColumnProfesor.setCellValueFactory(new PropertyValueFactory<Pedido, String>("profesor"));
         tableColumnMateria.setCellValueFactory(new PropertyValueFactory<Pedido, String>("materia"));
+        tableViewPedidos.getColumns().addAll(tableColumnIDPedido,tableColumnNombrePersona,tableColumnNumControl,tableColumnEstado,tableColumnFecha,tableColumnProfesor,tableColumnMateria);
     }
 
     @FXML private void NewPedido() throws SQLException {
+        productos.clear();
         ZonedDateTime zonedDateTime = ZonedDateTime.now(zonaHoraria);
         txtID.setDisable(false);
         ActivateBtn(false,false,true,false,false,true);
@@ -209,14 +213,70 @@ public class PedidosController {
         txtFecha.setText(zonedDateTime.format(formato));
     }
 
-    @FXML private void SavePedido(){
-
+    @FXML private void SavePedido() throws SQLException {
+        if (productos == null){
+            Error("No has seleccionado ningun articulo :V");
+        }else {
+            if (!VerifyTxt(txtID, txtNumControl, txtFecha, txtProfesor, txtMateria , txtNombre)){
+                Error("Faltan campos por rellenar");
+            }else {
+                ResultSet rsEdit = conexion.consultar("SELECT * FROM `pedido` WHERE `id_pedido`='"+txtID.getText()+"'");
+                if (rsEdit.next()){//PA EDITAR
+                    conexion.insmodelim("DELETE FROM `pedido_material` WHERE `id_pedido`='"+txtID.getText()+"'");
+                    conexion.insmodelim("UPDATE `pedido` SET `nombre_persona`='"+txtNombre.getText()+"',`num_control`='"+txtNumControl.getText()+"',`profesor`='"+txtProfesor+"',`materia`='"+txtMateria.getText()+"' WHERE `id_pedido`='"+txtID.getText()+"'");
+                    for (Registro registro : productos){
+                        ResultSet rsArticulo = conexion.consultar("SELECT `cb_material` FROM `material` WHERE tipo_material.material='"+registro.getNombre()+"' AND " +
+                                "`tipo`='"+registro.getTipo()+"' AND `valor`='"+registro.getValor()+"' AND `unidad_de_medida`='"+registro.getUnidad_medida()+"' LIMIT 1");
+                        if (rsArticulo.next()){
+                            conexion.insmodelim("INSERT INTO `pedido_material`(`id_pedido`, `cb_material`, `cantidad`) VALUES ('"+txtID.getText()+"','"+registro.getCb()+"','"+registro.getCantidad()+"')");
+                        }else {
+                            ResultSet rsHerramienta = conexion.consultar("");
+                        }
+                       }
+                }
+            }
+        }
     }
     @FXML private void EditPedido() throws SQLException {
+        productos.clear();
         if (tableViewPedidos.getSelectionModel().getSelectedItem() != null){
             Pedido pedido= (Pedido) tableViewPedidos.getSelectionModel().getSelectedItem();
             ResultSet rsPedido = conexion.consultar("SELECT * FROM `pedido` WHERE `id_pedido`='"+pedido.getId_pedido()+"'");
             if (rsPedido.next()){
+                tabPaneVentana.getSelectionModel().select(tabNew);
+                tabSearch.setDisable(true);
+                tabNew.setDisable(false);
+                txtID.setText(String.valueOf(rsPedido.getInt("id_pedido")));
+                txtFecha.setText(String.valueOf(rsPedido.getDate("fecha")));
+                txtMateria.setText(rsPedido.getString("materia"));
+                txtProfesor.setText(rsPedido.getString("profesor"));
+                txtNombre.setText(rsPedido.getString("nombre_persona"));
+                if (txtNumControl.getText().equals("N/A")){
+                    checkBoxNA1.setSelected(true);
+                }
+                if (txtProfesor.getText().equals("N/A")){
+                    checkBoxNA2.setSelected(true);
+                }
+                if (txtMateria.getText().equals("N/A")){
+                    checkBoxNA3.setSelected(true);
+                }
+                ResultSet rsArticulos = conexion.consultar("SELECT `cb_material`,`cantidad` FROM `pedido_material` WHERE `id_pedido`='"+txtID.getText()+"'");
+                while (rsArticulos.next()){
+                    ResultSet rsArticulo = conexion.consultar("SELECT `tipo`,`valor`,`unidad_de_medida`,tipo_material.material FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+rsArticulos.getLong("cb_material")+"'");
+                    if (rsArticulo.next()){
+                        Registro registro = new Registro(rsArticulos.getLong("cb_material"),rsArticulo.getString("material"),rsArticulo.getString("tipo"),rsArticulo.getDouble("valor"),rsArticulo.getString("unidad_de_medida"),rsArticulos.getInt("cantidad"));
+                        AgregarMaterial(registro);
+                    }else {
+                        ResultSet rsHerramienta = conexion.consultar("SELECT tipo_material.material,`tipo` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
+                        if (rsHerramienta.next()){
+                            Registro registro = new Registro(rsArticulos.getLong("cb_material"),rsHerramienta.getString("material"), rsHerramienta.getString("tipo"),rsArticulos.getInt("cantidad"));
+                            AgregarMaterial(registro);
+                        }
+
+                    }
+
+
+                }
             /*   usuario = new Usuario(rsUsuario.getInt("id_user"), rsUsuario.getString("nombre_completo")
                         ,rsUsuario.getString("sexo"), rsUsuario.getString("username"), rsUsuario.getString("password"), rsUsuario.getString("nombre_rol"));
                 tabPaneVentana.getSelectionModel().select(tabNew);
@@ -242,10 +302,11 @@ public class PedidosController {
     }
     @FXML private void DeletePedido() throws SQLException {
         if (tableViewPedidos.getSelectionModel().getSelectedItem() != null){
-            Articulo articulo = (Articulo) tableViewPedidos.getSelectionModel().getSelectedItem();
-            if (ConfirmarBorrar("Deseas borrar "+articulo.getMaterial()+" "+articulo.getTipo())){
-                conexion.insmodelim("DELETE FROM `material` WHERE `cb_material`='"+articulo.getCodigo_barras()+"'");
-                Exito("Registro borrado exitosamente");
+            Pedido pedido = (Pedido) tableViewPedidos.getSelectionModel().getSelectedItem();
+            if (ConfirmarBorrar("Deseas borrar este pedido?")){
+                conexion.insmodelim("DELETE FROM `pedido_material` WHERE `id_pedido`='"+pedido.getId_pedido()+"'");
+                conexion.insmodelim("DELETE FROM `pedido` WHERE `id_pedido`='"+pedido.getId_pedido()+"'");
+                Exito("Pedido borrado exitosamente");
                 ActualizarTabla(conexion.consultar("SELECT * FROM `pedido`"));
             }
 
@@ -279,6 +340,15 @@ public class PedidosController {
         lblContador.setText("Se cargaron "+cont+" pedidos");
 
     }
+
+    private boolean VerifyTxt(TextField... campos){
+        for (TextField campo : campos){
+            if (campo.getText().isEmpty()){
+                return false;
+            }
+        }
+        return true;
+    }
     public void AgregarMaterial(Registro a){
         if (productos != null){
             boolean cantidadPlus=false;
@@ -304,13 +374,13 @@ public class PedidosController {
         if (txtBusquedaID.getText().matches("\\d{10}")){
             ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+txtBusquedaID.getText()+"'");
             if (rsArticulo.next()){
-                Registro registro = new Registro(rsArticulo.getString("tipo_material"),rsArticulo.getString("tipo"),rsArticulo.getDouble("valor"), rsArticulo.getString("unidad_de_medida"),1);
+                Registro registro = new Registro(rsArticulo.getLong("cb_material"),rsArticulo.getString("tipo_material"),rsArticulo.getString("tipo"),rsArticulo.getDouble("valor"), rsArticulo.getString("unidad_de_medida"),1);
                 AgregarMaterial(registro);
                 txtBusquedaID.setText("");
             }else {
                 ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+txtBusquedaID.getText()+"'");
                 if (rsHerramienta.next()){
-                    Registro registro = new Registro(rsHerramienta.getString("tipo_material"),rsHerramienta.getString("tipo"), 1);
+                    Registro registro = new Registro(rsHerramienta.getLong("cb_herramienta"),rsHerramienta.getString("tipo_material"),rsHerramienta.getString("tipo"), 1);
                     AgregarMaterial(registro);
                     txtBusquedaID.setText("");
                 }

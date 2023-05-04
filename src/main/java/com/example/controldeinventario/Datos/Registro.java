@@ -1,13 +1,15 @@
 package com.example.controldeinventario.Datos;
 
 public class Registro {
+    private Long cb;
     private String nombre;
     private String tipo;
     private Double valor;
     private String unidad_medida;
     private int cantidad;
 
-    public Registro(String nombre, String tipo, Double valor, String unidad_medida, int cantidad) {
+    public Registro(Long cb, String nombre, String tipo, Double valor, String unidad_medida, int cantidad) {
+        this.cb = cb;
         this.nombre = nombre;
         this.tipo = tipo;
         this.valor = valor;
@@ -15,10 +17,19 @@ public class Registro {
         this.cantidad = cantidad;
     }
 
-    public Registro(String nombre, String tipo, int cantidad) {
+    public Registro(Long cb, String nombre, String tipo, int cantidad) {
+        this.cb = cb;
         this.nombre = nombre;
         this.tipo = tipo;
         this.cantidad = cantidad;
+    }
+
+    public Long getCb() {
+        return cb;
+    }
+
+    public void setCb(Long cb) {
+        this.cb = cb;
     }
 
     public String getNombre() {
