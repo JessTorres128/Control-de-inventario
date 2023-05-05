@@ -32,7 +32,7 @@ public class PedidosController {
     ToggleGroup toggleGroupBusqueda = new ToggleGroup();
     @FXML TabPane tabPaneVentana;
     @FXML Tab tabSearch, tabNew;
-    Conexion conexion;
+    static Conexion conexion;
     @FXML Label lblContador;
     @FXML RadioButton rbID, rbNumControl, rbProfesor, rbMaterial;
     @FXML TextField txtBusqueda;
@@ -124,12 +124,19 @@ public class PedidosController {
                         }else {
                             btnPlus.setOnAction(event -> {
                                 Registro r = productos.get(getIndex());
-                                r.setCantidad(r.getCantidad()+1);
-                                if (r.getCantidad() <=0){
-                                    productos.remove(getIndex());
-                                }else {
-                                    productos.set(getIndex(),r);
+                                try {
+                                    if (VerificarCantidad(r.getCb(),r.getCantidad()+1)){
+                                        r.setCantidad(r.getCantidad()+1);
+                                        if (r.getCantidad() <=0){
+                                            productos.remove(getIndex());
+                                        }else {
+                                            productos.set(getIndex(),r);
+                                        }
+                                    }
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
                                 }
+
                             });
                             setGraphic(btnPlus);
                             setText(null);
@@ -405,19 +412,22 @@ public class PedidosController {
         }
         return true;
     }
-    public void AgregarMaterial(Registro a){
+    public void AgregarMaterial(Registro a) throws SQLException {
         if (productos != null){
             boolean cantidadPlus=false;
                 for (int x=0; x<productos.size();x++){
                     if (productos.get(x).getCb().equals(a.getCb())){
-                        Registro r = productos.get(x);
-                        r.setCantidad((r.getCantidad()+1));
-                        if (r.getCantidad() <=0){
-                            productos.remove(x);
-                        }else {
-                            productos.set(x,r);
-                        }
                         cantidadPlus=true;
+                        Registro r = productos.get(x);
+                        if (VerificarCantidad(r.getCb(),r.getCantidad()+1)){
+                            r.setCantidad((r.getCantidad()+1));
+                            if (r.getCantidad() <=0){
+                                productos.remove(x);
+                            }else {
+                                productos.set(x,r);
+
+                            }
+                        }
                     }
                 }
                 if (!cantidadPlus){
@@ -430,14 +440,17 @@ public class PedidosController {
         if (txtBusquedaID.getText().matches("\\d{10}")){
             ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+txtBusquedaID.getText()+"'");
             if (rsArticulo.next()){
-                Registro registro = new Registro(rsArticulo.getLong("cb_material"),rsArticulo.getString("tipo_material"),rsArticulo.getString("tipo"),rsArticulo.getDouble("valor"), rsArticulo.getString("unidad_de_medida"),1);
+                Registro registro = new Registro(rsArticulo.getLong("cb_material"),rsArticulo.getString("material"),rsArticulo.getString("tipo"),rsArticulo.getDouble("valor"), rsArticulo.getString("unidad_de_medida"),1);
                 AgregarMaterial(registro);
+
+
                 txtBusquedaID.setText("");
             }else {
                 ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+txtBusquedaID.getText()+"'");
                 if (rsHerramienta.next()){
-                    Registro registro = new Registro(rsHerramienta.getLong("cb_herramienta"),rsHerramienta.getString("tipo_material"),rsHerramienta.getString("tipo"), 1);
+                    Registro registro = new Registro(rsHerramienta.getLong("cb_herramienta"),rsHerramienta.getString("material"),rsHerramienta.getString("tipo"), 1);
                     AgregarMaterial(registro);
+
                     txtBusquedaID.setText("");
                 }
             }
@@ -530,6 +543,25 @@ public class PedidosController {
         txtBusquedaID.setText("");
     }
 
+    public boolean VerificarCantidad(Long cb, int cantidadActual) throws SQLException {
+        ResultSet rsCantidadMinA = conexion.consultar("SELECT `cantidad` FROM `material` WHERE cb_material='"+cb+"' LIMIT 1");
+        ResultSet rsCantidadMinH = conexion.consultar("SELECT `cantidad` FROM `herramienta` WHERE cb_herramienta='"+cb+"' LIMIT 1");
+        if (rsCantidadMinA.next()){
+            if (cantidadActual > rsCantidadMinA.getInt("cantidad")){
+                Error("Ya se ha alcanzado el limite de registros");
+                return false;
+
+            }
+        }
+        if (rsCantidadMinH.next()){
+            if (cantidadActual > rsCantidadMinH.getInt("cantidad")){
+                Error("Ya se ha alcanzado el limite de registros");
+                return false;
+
+            }
+        }
+        return true;
+    }
     private void Error(String mensaje){
         Alert alert= new Alert(Alert.AlertType.ERROR);
         alert.setContentText(mensaje);
@@ -542,6 +574,7 @@ public class PedidosController {
         alert.setTitle("Exito");
         alert.show();
     }
+
 
 }
 

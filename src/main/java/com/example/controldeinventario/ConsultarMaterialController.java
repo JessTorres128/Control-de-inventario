@@ -80,19 +80,23 @@ public class ConsultarMaterialController {
         tableViewMats.getColumns().addAll(colCB,colTArmario,colGaveta,colSubCom,colMaterial,colTipo,colNumParte,colValor,colUMedida,colCaracteristicas,colFUso,colCantidad,colCantidadMin);
         ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;"));
     }
-    @FXML private void SalirConsultaMat(){
-
+    @FXML private void SalirConsultaMat() throws SQLException {
+        Registro registro;
         if (tableViewMats.getSelectionModel().getSelectedItem() != null){
             cerrarVentana();
             if (rbMaterial.isSelected()){
                 Articulo articulo= (Articulo) tableViewMats.getSelectionModel().getSelectedItem();
-                Registro registro = new Registro(articulo.getCodigo_barras(),articulo.getMaterial(),articulo.getTipo(),articulo.getValor(), articulo.getUnidad_medida(),1 );
+                registro = new Registro(articulo.getCodigo_barras(),articulo.getMaterial(),articulo.getTipo(),articulo.getValor(), articulo.getUnidad_medida(),1 );
                 pedidosController.AgregarMaterial(registro);
             }else {
                 Herramienta herramienta = (Herramienta) tableViewMats.getSelectionModel().getSelectedItem();
-                Registro registro = new Registro(herramienta.getCb_herramienta(),herramienta.getHerramienta(), herramienta.getTipo(), 1);
+                registro = new Registro(herramienta.getCb_herramienta(),herramienta.getHerramienta(), herramienta.getTipo(), 1);
                 pedidosController.AgregarMaterial(registro);
             }
+            if (pedidosController.VerificarCantidad(registro.getCb(),registro.getCantidad()+1)){
+
+            }
+
 
         }
 
