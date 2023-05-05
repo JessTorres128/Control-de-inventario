@@ -248,13 +248,14 @@ public class PedidosController {
                 }
 
             }
+            tabPaneVentana.getSelectionModel().select(tabSearch);
+            tabSearch.setDisable(false);
+            tabNew.setDisable(true);
+            ActivateBtn(false,true,false,true,false,false);
+            txtID.setDisable(false);
+            ActualizarTabla(conexion.consultar("SELECT * FROM `pedido`"));
         }
-        tabPaneVentana.getSelectionModel().select(tabSearch);
-        tabSearch.setDisable(false);
-        tabNew.setDisable(true);
-        ActivateBtn(false,true,false,true,false,false);
-        txtID.setDisable(false);
-        ActualizarTabla(conexion.consultar("SELECT * FROM `pedido`"));
+
     }
     @FXML private void EditPedido() throws SQLException {
         productos.clear();
@@ -292,28 +293,8 @@ public class PedidosController {
                             Registro registro = new Registro(rsArticulos.getLong("cb_material"),rsHerramienta.getString("material"), rsHerramienta.getString("tipo"),rsArticulos.getInt("cantidad"));
                             AgregarMaterial(registro);
                         }
-
                     }
-
-
                 }
-            /*   usuario = new Usuario(rsUsuario.getInt("id_user"), rsUsuario.getString("nombre_completo")
-                        ,rsUsuario.getString("sexo"), rsUsuario.getString("username"), rsUsuario.getString("password"), rsUsuario.getString("nombre_rol"));
-                tabPaneVentana.getSelectionModel().select(tabNew);
-                tabSearch.setDisable(true);
-                tabNew.setDisable(false);
-                txtID.setText(String.valueOf(usuario.getId_user()));
-                txtNombre.setText(String.valueOf(usuario.getNombre_completo()));
-                txtUsername.setText(String.valueOf(usuario.getUsername()));
-                cbRoles.getSelectionModel().select(usuario.getNombre_rol());
-                txtPass.setText(usuario.getPassword());
-                txtConfirmarPass.setText(usuario.getPassword());
-                switch (usuario.getSexo()) {
-                    case "Masculino" -> toggleGroupSexo.selectToggle(rbMasculino);
-                    case "Femenino" -> toggleGroupSexo.selectToggle(rbFemenino);
-                }
-                txtID.setDisable(true);
-                ActivateBtn(true,false,true,false,false,true);*/
             }
             ActivateBtn(true,false,true,false,false,true);
 
@@ -345,6 +326,60 @@ public class PedidosController {
         tabNew.setDisable(true);
     }
     @FXML private void ExitPedido(){
+
+    }
+
+    @FXML private void Busqueda() throws SQLException {
+        String busqueda = txtBusqueda.getText();
+        String criterio = "";
+        if (rbID.isSelected() || rbNumControl.isSelected() || rbProfesor.isSelected()){
+            if (rbID.isSelected() && !busqueda.equals("")){
+                criterio="id_pedido";
+            } else if (rbNumControl.isSelected() && !busqueda.equals("")) {
+                criterio="num_control";
+            } else if (rbProfesor.isSelected() && !busqueda.equals("")) {
+                criterio="profesor";
+            }
+            if (!busqueda.equals("") && !criterio.equals("")){
+                ActualizarTabla(conexion.consultar("SELECT * FROM `pedido` WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
+            }else {
+                ActualizarTabla(conexion.consultar("SELECT * FROM `pedido`"));
+            }
+        }else {// PAl rato
+            tableViewPedidos.getItems().clear();
+            if (!busqueda.equals("")){
+                ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE material LIKE'%"+busqueda+"%'");
+                while (rsHerramienta.next()){
+                    ResultSet rsIDPedido= conexion.consultar("SELECT `id_pedido` FROM `pedido_material` WHERE `cb_material`='"+rsHerramienta.getLong("cb_herramienta")+"'");
+                    while (rsIDPedido.next()){
+                        ResultSet rsPedido = conexion.consultar("SELECT * FROM `pedido` WHERE `id_pedido`='"+rsIDPedido.getInt("id_pedido")+"'");
+                        if (rsPedido.next()){
+                            Pedido pedido = new Pedido(rsPedido.getInt("id_pedido"), rsPedido.getString("nombre_persona"),rsPedido.getString("num_control"),
+                                    rsPedido.getString("estado"),rsPedido.getDate("fecha"),rsPedido.getString("profesor"),
+                                    rsPedido.getString("materia"));
+                            tableViewPedidos.getItems().add(pedido);
+                        }
+                    }
+                }
+
+                ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE material LIKE '%"+busqueda+"%'");
+                while (rsArticulo.next()){
+                    ResultSet rsIDPedido= conexion.consultar("SELECT `id_pedido` FROM `pedido_material` WHERE `cb_material`='"+rsArticulo.getLong("cb_material")+"'");
+                    while (rsIDPedido.next()){
+                        ResultSet rsPedido = conexion.consultar("SELECT * FROM `pedido` WHERE `id_pedido`='"+rsIDPedido.getInt("id_pedido")+"'");
+                        if (rsPedido.next()){
+                            Pedido pedido = new Pedido(rsPedido.getInt("id_pedido"), rsPedido.getString("nombre_persona"),rsPedido.getString("num_control"),
+                                    rsPedido.getString("estado"),rsPedido.getDate("fecha"),rsPedido.getString("profesor"),
+                                    rsPedido.getString("materia"));
+                            tableViewPedidos.getItems().add(pedido);
+                        }
+                    }
+                }
+            }else {
+                ActualizarTabla(conexion.consultar("SELECT * FROM `pedido`"));
+            }
+
+        }
 
     }
 
