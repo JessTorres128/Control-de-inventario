@@ -10,18 +10,15 @@ public class Tipo_Usuario {
     public String update_herramienta;
     public String delete_herramienta;
     public String crud_pedido;
-    public String create_t_material;
-    public String update_t_material;
-    public String delete_t_material;
-    public String create_t_herramienta;
-    public String update_t_herramienta;
-    public String delete_t_herramienta;
+    public String create_t_articulo;
+    public String update_t_articulo;
+    public String delete_t_articulo;
     public String crud_roles;
     public String crud_empleados;
     public String restaurar_bd;
     public String respaldar_bd;
 
-    public Tipo_Usuario(int id_rol, String nombre_rol, String create_material, String update_material, String delete_material, String create_herramienta, String update_herramienta, String delete_herramienta, String crud_pedido, String create_t_material, String update_t_material, String delete_t_material, String create_t_herramienta, String update_t_herramienta, String delete_t_herramienta, String crud_roles, String crud_empleados, String restaurar_bd, String respaldar_bd) {
+    public Tipo_Usuario(int id_rol, String nombre_rol, String create_material, String update_material, String delete_material, String create_herramienta, String update_herramienta, String delete_herramienta, String crud_pedido, String create_t_articulo, String update_t_articulo, String delete_t_articulo, String crud_roles, String crud_empleados, String restaurar_bd, String respaldar_bd) {
         this.id_rol = id_rol;
         this.nombre_rol = nombre_rol;
         this.create_material = create_material;
@@ -31,12 +28,9 @@ public class Tipo_Usuario {
         this.update_herramienta = update_herramienta;
         this.delete_herramienta = delete_herramienta;
         this.crud_pedido = crud_pedido;
-        this.create_t_material = create_t_material;
-        this.update_t_material = update_t_material;
-        this.delete_t_material = delete_t_material;
-        this.create_t_herramienta = create_t_herramienta;
-        this.update_t_herramienta = update_t_herramienta;
-        this.delete_t_herramienta = delete_t_herramienta;
+        this.create_t_articulo = create_t_articulo;
+        this.update_t_articulo = update_t_articulo;
+        this.delete_t_articulo = delete_t_articulo;
         this.crud_roles = crud_roles;
         this.crud_empleados = crud_empleados;
         this.restaurar_bd = restaurar_bd;
@@ -115,52 +109,28 @@ public class Tipo_Usuario {
         this.crud_pedido = crud_pedido;
     }
 
-    public String getCreate_t_material() {
-        return create_t_material;
+    public String getCreate_t_articulo() {
+        return create_t_articulo;
     }
 
-    public void setCreate_t_material(String create_t_material) {
-        this.create_t_material = create_t_material;
+    public void setCreate_t_articulo(String create_t_articulo) {
+        this.create_t_articulo = create_t_articulo;
     }
 
-    public String getUpdate_t_material() {
-        return update_t_material;
+    public String getUpdate_t_articulo() {
+        return update_t_articulo;
     }
 
-    public void setUpdate_t_material(String update_t_material) {
-        this.update_t_material = update_t_material;
+    public void setUpdate_t_articulo(String update_t_articulo) {
+        this.update_t_articulo = update_t_articulo;
     }
 
-    public String getDelete_t_material() {
-        return delete_t_material;
+    public String getDelete_t_articulo() {
+        return delete_t_articulo;
     }
 
-    public void setDelete_t_material(String delete_t_material) {
-        this.delete_t_material = delete_t_material;
-    }
-
-    public String getCreate_t_herramienta() {
-        return create_t_herramienta;
-    }
-
-    public void setCreate_t_herramienta(String create_t_herramienta) {
-        this.create_t_herramienta = create_t_herramienta;
-    }
-
-    public String getUpdate_t_herramienta() {
-        return update_t_herramienta;
-    }
-
-    public void setUpdate_t_herramienta(String update_t_herramienta) {
-        this.update_t_herramienta = update_t_herramienta;
-    }
-
-    public String getDelete_t_herramienta() {
-        return delete_t_herramienta;
-    }
-
-    public void setDelete_t_herramienta(String delete_t_herramienta) {
-        this.delete_t_herramienta = delete_t_herramienta;
+    public void setDelete_t_articulo(String delete_t_articulo) {
+        this.delete_t_articulo = delete_t_articulo;
     }
 
     public String getCrud_roles() {

@@ -1,8 +1,6 @@
 package com.example.controldeinventario;
 
-import com.example.controldeinventario.Datos.Herramienta;
 import com.example.controldeinventario.Datos.TipoArticulo;
-import com.example.controldeinventario.Datos.Tipo_Usuario;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -29,24 +27,25 @@ public class TipoArticuloController {
     @FXML Button btnNew, btnSave, btnEdit, btnDelete, btnCancel, btnExit;
     @FXML RadioButton radioButtonID, radioButtonNombre;
     @FXML TextField txtBusqueda;
-    @FXML TableView tableViewTMateriales;
+    @FXML
+    TableView<TipoArticulo> tableViewTMateriales = new TableView<>();
     @FXML Label lblContador;
 
     @FXML RadioButton rbMaterial, rbHerramienta;
     @FXML TextField txtID, txtNombre;
 
-    TableColumn tableColumnID = new TableColumn("No");
-    TableColumn tableColumnNombre = new TableColumn("Nombre");
-    TableColumn tableColumnTipo = new TableColumn("Tipo de material");
+    TableColumn<TipoArticulo, Integer> tableColumnID = new TableColumn<>("No");
+    TableColumn<TipoArticulo, String> tableColumnNombre = new TableColumn<>("Nombre");
+    TableColumn<TipoArticulo, String> tableColumnTipo = new TableColumn<>("Tipo de material");
 
     @FXML protected void initialize() throws SQLException {
         Platform.runLater(() -> {
             txtBusqueda.requestFocus();
             txtBusqueda.selectEnd();
         });
-        tableColumnID.setCellValueFactory(new PropertyValueFactory<TipoArticulo,Integer>("id"));
-        tableColumnNombre.setCellValueFactory(new PropertyValueFactory<TipoArticulo,String>("nombre"));
-        tableColumnTipo.setCellValueFactory(new PropertyValueFactory<TipoArticulo,String>("t_material"));
+        tableColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tableColumnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        tableColumnTipo.setCellValueFactory(new PropertyValueFactory<>("t_material"));
 
         tableViewTMateriales.getColumns().addAll(tableColumnID,tableColumnNombre,tableColumnTipo);
 
@@ -98,17 +97,15 @@ public class TipoArticuloController {
 
     @FXML private void EditTipoArticulo() throws SQLException {
         if (tableViewTMateriales.getSelectionModel().getSelectedItem() != null){
-            TipoArticulo tipoArticulo= (TipoArticulo) tableViewTMateriales.getSelectionModel().getSelectedItem();
+            TipoArticulo tipoArticulo= tableViewTMateriales.getSelectionModel().getSelectedItem();
             tabPaneVentana.getSelectionModel().select(tabNew);
             tabSearch.setDisable(true);
             tabNew.setDisable(false);
             txtID.setText(String.valueOf(tipoArticulo.getId()));
             txtNombre.setText(tipoArticulo.getNombre());
-            switch (tipoArticulo.getT_material()){
-                case "Material":
-                    toggleGroupTMaterial.selectToggle(rbMaterial);break;
-                case "Herramienta":
-                    toggleGroupTMaterial.selectToggle(rbHerramienta);break;
+            switch (tipoArticulo.getT_material()) {
+                case "Material" -> toggleGroupTMaterial.selectToggle(rbMaterial);
+                case "Herramienta" -> toggleGroupTMaterial.selectToggle(rbHerramienta);
             }
             txtID.setDisable(true);
             ActivateBtn(true,false,true,false,false,true);
@@ -119,7 +116,7 @@ public class TipoArticuloController {
 
     @FXML private void DeleteTipoArticulo() throws SQLException {
         if (tableViewTMateriales.getSelectionModel().getSelectedItem() != null){
-            TipoArticulo tipoArticulo= (TipoArticulo) tableViewTMateriales.getSelectionModel().getSelectedItem();
+            TipoArticulo tipoArticulo= tableViewTMateriales.getSelectionModel().getSelectedItem();
             if (ConfirmarBorrar("Deseas borrar "+tipoArticulo.getNombre()+", realizar esta accion \n tambien borrará a los registros que tengan este tipo de articulo")){
                 conexion.insmodelim("DELETE FROM `tipo_material` WHERE `id_material`='"+tipoArticulo.getId()+"'");
                 if (tipoArticulo.getT_material().equals("Herramienta")){
@@ -212,13 +209,13 @@ public class TipoArticuloController {
     }
 
     private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit, boolean delete) throws SQLException {
-        if (LoginController.resultado.getInt("create_herramienta")==0){
+        if (LoginController.resultado.getInt("create_t_articulo")==0){
             btnNew.setDisable(true);
         }else {btnNew.setDisable(New);}
-        if (LoginController.resultado.getInt("update_herramienta")==0){
+        if (LoginController.resultado.getInt("update_t_articulo")==0){
             btnEdit.setDisable(true);
         }else {btnEdit.setDisable(edit);}
-        if (LoginController.resultado.getInt("delete_herramienta")==0){
+        if (LoginController.resultado.getInt("delete_t_articulo")==0){
             btnDelete.setDisable(true);
         }else {btnDelete.setDisable(delete);}
 

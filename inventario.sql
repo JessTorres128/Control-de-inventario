@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2023 at 03:51 AM
+-- Generation Time: May 06, 2023 at 05:00 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -44,7 +44,9 @@ CREATE TABLE `herramienta` (
 INSERT INTO `herramienta` (`cb_herramienta`, `id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES
 ('1', 4, 'inglesa', 'dsadsadsadsadsa', 'Medio', 111, 11),
 ('2090219315', 4, 'wertyu', 'fgghjkuiyutrdff', 'Bajo', 99, 4),
-('4786689832', 5, 'iyutre', 'uhgfds', 'Alto', 12, 1);
+('3979478150', 4, 'rrrrrr', 'vdvdfvf', 'Alto', 10, 1),
+('4786689832', 5, 'iyutre', 'uhgfds', 'Alto', 12, 1),
+('7879655027', 3, 'fdgfdgf', 'vfdfvfvfv', 'Bajo', 11, 1);
 
 -- --------------------------------------------------------
 
@@ -96,6 +98,16 @@ CREATE TABLE `pedido` (
   `materia` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `pedido`
+--
+
+INSERT INTO `pedido` (`id_pedido`, `nombre_persona`, `num_control`, `estado`, `fecha`, `profesor`, `materia`) VALUES
+(1, 'Jesse Anthony Torres Rodriguez', '20cg0165', 'Pendiente', '2023-05-03 10:26:02', 'Pando', 'Lenguajes de interfaz'),
+(2, 'fdsfsdfdsf', 'fdsfdsf', 'Pendiente', '2023-05-03 22:51:13', 'fdsfdsf', 'fdsfds'),
+(3, 'fdsfdsf', 'dsadsad', 'Pendiente', '2023-05-04 13:18:08', 'fdsds', 'fdsfds'),
+(4, 'fdsfdsfsddfsfdsfds', 'fdsfdsf', 'Pendiente', '2023-05-04 13:19:27', 'fdsfdsfdsfdsfds', 'fdsfdsfdsdsffds');
+
 -- --------------------------------------------------------
 
 --
@@ -108,6 +120,17 @@ CREATE TABLE `pedido_material` (
   `cb_material` varchar(10) NOT NULL,
   `cantidad` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pedido_material`
+--
+
+INSERT INTO `pedido_material` (`id_registro`, `id_pedido`, `cb_material`, `cantidad`) VALUES
+(9, 1, '1592483282', 4),
+(10, 1, '3979478150', 3),
+(11, 2, '1592483282', 3),
+(12, 4, '6343343238', 1),
+(13, 4, '7879655027', 1);
 
 -- --------------------------------------------------------
 
@@ -149,12 +172,9 @@ CREATE TABLE `tipo_usuario` (
   `update_herramienta` tinyint(1) NOT NULL,
   `delete_herramienta` tinyint(1) NOT NULL,
   `crud_pedido` tinyint(1) NOT NULL,
-  `create_t_material` tinyint(1) NOT NULL,
-  `update_t_material` tinyint(1) NOT NULL,
-  `delete_t_material` tinyint(1) NOT NULL,
-  `create_t_herramienta` tinyint(1) NOT NULL,
-  `update_t_herramienta` tinyint(1) NOT NULL,
-  `delete_t_herramienta` tinyint(1) NOT NULL,
+  `create_t_articulo` tinyint(1) NOT NULL,
+  `update_t_articulo` tinyint(1) NOT NULL,
+  `delete_t_articulo` tinyint(1) NOT NULL,
   `crud_roles` tinyint(1) NOT NULL,
   `crud_empleados` tinyint(1) NOT NULL,
   `restaurar_bd` tinyint(1) NOT NULL,
@@ -165,11 +185,12 @@ CREATE TABLE `tipo_usuario` (
 -- Dumping data for table `tipo_usuario`
 --
 
-INSERT INTO `tipo_usuario` (`id_rol`, `nombre_rol`, `create_material`, `update_material`, `delete_material`, `create_herramienta`, `update_herramienta`, `delete_herramienta`, `crud_pedido`, `create_t_material`, `update_t_material`, `delete_t_material`, `create_t_herramienta`, `update_t_herramienta`, `delete_t_herramienta`, `crud_roles`, `crud_empleados`, `restaurar_bd`, `respaldar_bd`) VALUES
-(1, 'Administrador', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-(2, 'Becario', 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(3, 'Almacenero', 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1),
-(5, 'Contador', 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0);
+INSERT INTO `tipo_usuario` (`id_rol`, `nombre_rol`, `create_material`, `update_material`, `delete_material`, `create_herramienta`, `update_herramienta`, `delete_herramienta`, `crud_pedido`, `create_t_articulo`, `update_t_articulo`, `delete_t_articulo`, `crud_roles`, `crud_empleados`, `restaurar_bd`, `respaldar_bd`) VALUES
+(1, 'Administrador', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+(2, 'Becario', 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+(3, 'Almacenero', 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1),
+(5, 'Contador', 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0),
+(6, 'Dios', 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -192,7 +213,8 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id_user`, `nombre_completo`, `sexo`, `username`, `password`, `nombre_rol`) VALUES
 (1, '', '', 'admin', 'admin', 'Administrador'),
-(2, 'jose el pro', 'Femenino', 'Jose', 'jose123', 'Becario');
+(2, 'jose el pro', 'Femenino', 'Jose', 'jose123', 'Becario'),
+(3, 'joel', 'F', 'joel224', 'joel224', 'Contador');
 
 --
 -- Indexes for dumped tables
@@ -249,13 +271,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `pedido`
 --
 ALTER TABLE `pedido`
-  MODIFY `id_pedido` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pedido` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pedido_material`
 --
 ALTER TABLE `pedido_material`
-  MODIFY `id_registro` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_registro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tipo_material`
@@ -267,13 +289,13 @@ ALTER TABLE `tipo_material`
 -- AUTO_INCREMENT for table `tipo_usuario`
 --
 ALTER TABLE `tipo_usuario`
-  MODIFY `id_rol` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_rol` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

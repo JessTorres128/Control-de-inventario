@@ -1,6 +1,5 @@
 package com.example.controldeinventario;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -95,32 +94,13 @@ public class PrincipalController {
         ventanaSecundaria.show();
     }
     private void HabilitarMenus(ResultSet resultSetUsuario) throws SQLException {
-        if(resultSetUsuario.getInt("create_material") == 1 || resultSetUsuario.getInt("update_material") == 1 || resultSetUsuario.getInt("delete_material") == 1){
-            menuItemMateriales.setDisable(false);
-        }else {menuItemMateriales.setDisable(true);}
-        if(resultSetUsuario.getInt("create_herramienta") == 1 || resultSetUsuario.getInt("update_herramienta") == 1 || resultSetUsuario.getInt("delete_herramienta") == 1){
-            menuItemHerramientas.setDisable(false);
-        }else {menuItemHerramientas.setDisable(true);}
-        if(resultSetUsuario.getInt("crud_pedido") == 1){
-            menuItemPedidos.setDisable(false);
-        }else {menuItemPedidos.setDisable(true);}
-        if(resultSetUsuario.getInt("create_t_material") == 1 || resultSetUsuario.getInt("update_t_material") == 1 || resultSetUsuario.getInt("delete_t_material") == 1){
-            menuItemTMateriales.setDisable(false);
-        }else {menuItemTMateriales.setDisable(true);}
-        if(resultSetUsuario.getInt("create_t_herramienta") == 1 || resultSetUsuario.getInt("update_t_herramienta") == 1 || resultSetUsuario.getInt("delete_t_herramienta") == 1){
-            menuItemTHerramientas.setDisable(false);
-        }else {menuItemTHerramientas.setDisable(true);}
-        if(resultSetUsuario.getInt("crud_roles") == 1){
-            menuItemRoles.setDisable(false);
-        }else {menuItemRoles.setDisable(true);}
-        if(resultSetUsuario.getInt("crud_empleados") == 1){
-            menuItemEmpleados.setDisable(false);
-        }else {menuItemEmpleados.setDisable(true);}
-        if(resultSetUsuario.getInt("restaurar_bd") == 1){
-            menuItemRestaurarBD.setDisable(false);
-        }else {menuItemRestaurarBD.setDisable(true);}
-        if(resultSetUsuario.getInt("respaldar_bd") == 1){
-            menuItemRespaldarBD.setDisable(false);
-        }else {menuItemRespaldarBD.setDisable(true);}
+        menuItemMateriales.setDisable(resultSetUsuario.getInt("create_material") != 1 && resultSetUsuario.getInt("update_material") != 1 && resultSetUsuario.getInt("delete_material") != 1);
+        menuItemHerramientas.setDisable(resultSetUsuario.getInt("create_herramienta") != 1 && resultSetUsuario.getInt("update_herramienta") != 1 && resultSetUsuario.getInt("delete_herramienta") != 1);
+        menuItemPedidos.setDisable(resultSetUsuario.getInt("crud_pedido") != 1);
+        menuItemTMateriales.setDisable(resultSetUsuario.getInt("create_t_articulo") != 1 && resultSetUsuario.getInt("update_t_articulo") != 1 && resultSetUsuario.getInt("delete_t_articulo") != 1);
+        menuItemRoles.setDisable(resultSetUsuario.getInt("crud_roles") != 1);
+        menuItemEmpleados.setDisable(resultSetUsuario.getInt("crud_empleados") != 1);
+        menuItemRestaurarBD.setDisable(resultSetUsuario.getInt("restaurar_bd") != 1);
+        menuItemRespaldarBD.setDisable(resultSetUsuario.getInt("respaldar_bd") != 1);
     }
 }

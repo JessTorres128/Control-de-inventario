@@ -29,19 +29,19 @@ public class EmpleadosController {
     @FXML
     RadioButton rbID, rbNombre, rbRol;
     @FXML TextField txtBusqueda;
-    @FXML TableView tableViewUsuarios;
+    @FXML TableView<Usuario> tableViewUsuarios;
     @FXML Label lblContador;
     @FXML TextField txtID, txtNombre, txtUsername;
     @FXML PasswordField txtPass, txtConfirmarPass;
-    @FXML ComboBox cbRoles;
+    @FXML ComboBox<String> cbRoles;
     @FXML Button btnBuscarRol;
     @FXML RadioButton rbMasculino, rbFemenino;
 
-    TableColumn tableColumnID = new TableColumn<>("ID");
-    TableColumn tableColumnNombre = new TableColumn<>("Nombre");
-    TableColumn tableColumnSexo = new TableColumn<>("Sexo");
-    TableColumn tableColumnUsername = new TableColumn<>("Nombre de usuario");
-    TableColumn tableColumnRol = new TableColumn<>("Rol");
+    TableColumn<Usuario,Integer> tableColumnID = new TableColumn<>("ID");
+    TableColumn<Usuario,String> tableColumnNombre = new TableColumn<>("Nombre");
+    TableColumn<Usuario,String> tableColumnSexo = new TableColumn<>("Sexo");
+    TableColumn<Usuario,String> tableColumnUsername = new TableColumn<>("Nombre de usuario");
+    TableColumn<Usuario,String> tableColumnRol = new TableColumn<>("Rol");
 
     @FXML protected void initialize() throws SQLException {
         Platform.runLater(() -> {
@@ -55,11 +55,11 @@ public class EmpleadosController {
         rbMasculino.setToggleGroup(toggleGroupSexo);
         rbFemenino.setToggleGroup(toggleGroupSexo);
 
-        tableColumnID.setCellValueFactory(new PropertyValueFactory<Usuario, Integer>("id_user"));
-        tableColumnNombre.setCellValueFactory(new PropertyValueFactory<Usuario,String>("nombre_completo"));
-        tableColumnSexo.setCellValueFactory(new PropertyValueFactory<Usuario,String>("sexo"));
-        tableColumnUsername.setCellValueFactory(new PropertyValueFactory<Usuario,String>("username"));
-        tableColumnRol.setCellValueFactory(new PropertyValueFactory<Usuario,String>("nombre_rol"));
+        tableColumnID.setCellValueFactory(new PropertyValueFactory<>("id_user"));
+        tableColumnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre_completo"));
+        tableColumnSexo.setCellValueFactory(new PropertyValueFactory<>("sexo"));
+        tableColumnUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
+        tableColumnRol.setCellValueFactory(new PropertyValueFactory<>("nombre_rol"));
 
         tableViewUsuarios.getColumns().addAll(tableColumnID,tableColumnNombre,tableColumnSexo,tableColumnUsername,tableColumnRol);
 
@@ -195,16 +195,13 @@ public class EmpleadosController {
     @FXML private void ExitEmpleado(){
 
     }
-    private boolean VerifyTxt(PasswordField txtPass, PasswordField txtPassConf, ComboBox cbRol, TextField... campos){
+    private boolean VerifyTxt(PasswordField txtPass, PasswordField txtPassConf, ComboBox<String> cbRol, TextField... campos){
         for (TextField campo : campos){
             if (campo.getText().isEmpty()){
                 return false;
             }
         }
-        if (txtPass.getText().isEmpty() || cbRol.getSelectionModel().getSelectedIndex() == -1 || txtPassConf.getText().isEmpty()){
-            return false;
-        }
-        return true;
+        return !txtPass.getText().isEmpty() && cbRol.getSelectionModel().getSelectedIndex() != -1 && !txtPassConf.getText().isEmpty();
     }
     private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit, boolean delete) throws SQLException {
         if (LoginController.resultado.getInt("crud_empleados")==0){

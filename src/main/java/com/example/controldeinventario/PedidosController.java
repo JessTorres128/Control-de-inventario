@@ -36,7 +36,7 @@ public class PedidosController {
     @FXML Label lblContador;
     @FXML RadioButton rbID, rbNumControl, rbProfesor, rbMaterial;
     @FXML TextField txtBusqueda;
-    @FXML TableView tableViewPedidos = new TableView<Pedido>();
+    @FXML TableView<Pedido> tableViewPedidos = new TableView<>();
     @FXML Button btnNew, btnSave, btnEdit, btnDelete, btnCancel, btnExit;
     @FXML TextField txtID, txtNumControl, txtFecha, txtProfesor, txtMateria, txtBusquedaID, txtNombre;
     @FXML CheckBox checkBoxNA1,checkBoxNA2,checkBoxNA3;

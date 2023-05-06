@@ -43,7 +43,7 @@ public class HerramientasController {
     @FXML Tab tabNew, tabSearch;
     @FXML TextField txtBusqueda;
     @FXML RadioButton rbID, rbNombre;
-    @FXML TableView tableViewHerramientas;
+    @FXML TableView<Herramienta> tableViewHerramientas;
     @FXML Label lblRegistros;
     @FXML TextField txtCB, txtTipo, txtStock, txtStockMin;
     @FXML TextArea txtCaracteristicas;
@@ -54,13 +54,13 @@ public class HerramientasController {
     ToggleGroup toggleGroupBusqueda = new ToggleGroup();
     ToggleGroup toggleGroupFrecuencia = new ToggleGroup();
 
-    TableColumn colID = new TableColumn("CB Herramienta");
-    TableColumn colHerramienta= new TableColumn("Herramienta");
-    TableColumn colTipo= new TableColumn("Tipo");
-    TableColumn colCaracteristicas = new TableColumn("Caracteristicas");
-    TableColumn colFUso=new TableColumn("Frecuencia de uso");
-    TableColumn colCantidad=new TableColumn("Cantidad");
-    TableColumn colCantidadMin=new TableColumn("Cantidad minima");
+    TableColumn<Herramienta,Long> colID = new TableColumn<>("CB Herramienta");
+    TableColumn<Herramienta,String> colHerramienta= new TableColumn<>("Herramienta");
+    TableColumn<Herramienta,String> colTipo= new TableColumn<>("Tipo");
+    TableColumn<Herramienta,String> colCaracteristicas = new TableColumn<>("Caracteristicas");
+    TableColumn<Herramienta,String> colFUso=new TableColumn<>("Frecuencia de uso");
+    TableColumn<Herramienta,Integer> colCantidad=new TableColumn<>("Cantidad");
+    TableColumn<Herramienta,Integer> colCantidadMin=new TableColumn<>("Cantidad minima");
 
 
 
@@ -77,13 +77,13 @@ public class HerramientasController {
         rbID.setToggleGroup(toggleGroupBusqueda);
         rbNombre.setToggleGroup(toggleGroupBusqueda);
 
-        colID.setCellValueFactory(new PropertyValueFactory<Herramienta,Long>("cb_herramienta"));
-        colHerramienta.setCellValueFactory(new PropertyValueFactory<Herramienta,String>("herramienta"));
-        colTipo.setCellValueFactory(new PropertyValueFactory<Herramienta,String>("tipo"));
-        colCaracteristicas.setCellValueFactory(new PropertyValueFactory<Herramienta,String>("caracteristicas"));
-        colFUso.setCellValueFactory(new PropertyValueFactory<Herramienta,String>("frecuencia_de_uso"));
-        colCantidad.setCellValueFactory(new PropertyValueFactory<Herramienta,Integer>("cantidad"));
-        colCantidadMin.setCellValueFactory(new PropertyValueFactory<Herramienta,Integer>("cantidad_min"));
+        colID.setCellValueFactory(new PropertyValueFactory<>("cb_herramienta"));
+        colHerramienta.setCellValueFactory(new PropertyValueFactory<>("herramienta"));
+        colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        colCaracteristicas.setCellValueFactory(new PropertyValueFactory<>("caracteristicas"));
+        colFUso.setCellValueFactory(new PropertyValueFactory<>("frecuencia_de_uso"));
+        colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colCantidadMin.setCellValueFactory(new PropertyValueFactory<>("cantidad_min"));
 
         tableViewHerramientas.getColumns().addAll(colID,colHerramienta,colTipo,colCaracteristicas,colFUso,colCantidad,colCantidadMin);
         conexion=new Conexion();
@@ -136,7 +136,7 @@ public class HerramientasController {
     }
     @FXML private void EditHerramienta() throws SQLException {
         if (tableViewHerramientas.getSelectionModel().getSelectedItem() != null){
-            Herramienta herramienta= (Herramienta) tableViewHerramientas.getSelectionModel().getSelectedItem();
+            Herramienta herramienta= tableViewHerramientas.getSelectionModel().getSelectedItem();
             tabPaneHerramientas.getSelectionModel().select(tabNew);
             tabSearch.setDisable(true);
             tabNew.setDisable(false);
@@ -144,13 +144,10 @@ public class HerramientasController {
             cbHerramienta.getSelectionModel().select(herramienta.getHerramienta());
             txtTipo.setText(herramienta.getTipo());
             txtCaracteristicas.setText(herramienta.getCaracteristicas());
-            switch (herramienta.getFrecuencia_de_uso()){
-                case "Bajo":
-                    toggleGroupFrecuencia.selectToggle(rbBajo);break;
-                case "Medio":
-                    toggleGroupFrecuencia.selectToggle(rbMedio);break;
-                case "Alto":
-                    toggleGroupFrecuencia.selectToggle(rbAlto);break;
+            switch (herramienta.getFrecuencia_de_uso()) {
+                case "Bajo" -> toggleGroupFrecuencia.selectToggle(rbBajo);
+                case "Medio" -> toggleGroupFrecuencia.selectToggle(rbMedio);
+                case "Alto" -> toggleGroupFrecuencia.selectToggle(rbAlto);
             }
             txtStock.setText(String.valueOf(herramienta.getCantidad()));
             txtStockMin.setText(String.valueOf(herramienta.getCantidad_min()));
@@ -162,7 +159,7 @@ public class HerramientasController {
     }
     @FXML private void DeleteHerramienta() throws SQLException {
         if (tableViewHerramientas.getSelectionModel().getSelectedItem() != null){
-            Herramienta h = (Herramienta) tableViewHerramientas.getSelectionModel().getSelectedItem();
+            Herramienta h = tableViewHerramientas.getSelectionModel().getSelectedItem();
             if (ConfirmarBorrar("Deseas borrar "+h.getHerramienta()+" "+h.getTipo())){
                 conexion.insmodelim("DELETE FROM `herramienta` WHERE `cb_herramienta`='"+h.getCb_herramienta()+"'");
                 Exito("Registro borrado exitosamente");
@@ -345,16 +342,13 @@ public class HerramientasController {
         txtStockMin.setText("");
     }
 
-    private boolean VerifyTxt(TextArea txtCar, ComboBox cbHerramienta, TextField... campos){
+    private boolean VerifyTxt(TextArea txtCar, ComboBox<String> cbHerramienta, TextField... campos){
         for (TextField campo : campos){
             if (campo.getText().isEmpty()){
                 return false;
             }
         }
-        if (txtCar.getText().isEmpty() || cbHerramienta.getSelectionModel().getSelectedIndex() == -1){
-            return false;
-        }
-        return true;
+        return !txtCar.getText().isEmpty() && cbHerramienta.getSelectionModel().getSelectedIndex() != -1;
     }
 
     private void Error(String mensaje){

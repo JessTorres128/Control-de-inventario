@@ -13,19 +13,19 @@ import java.sql.SQLException;
 
 public class ConsultarMaterialController {
     PedidosController pedidosController;
-    TableColumn colCB=new TableColumn("Codigo de barras");
-    TableColumn colTArmario=new TableColumn("Tipo de armario");
-    TableColumn colGaveta=new TableColumn("Gaveta");
-    TableColumn colSubCom=new TableColumn("Sub-compartimento");
-    TableColumn colMaterial=new TableColumn("Material");
-    TableColumn colTipo=new TableColumn("Tipo");
-    TableColumn colNumParte=new TableColumn("Número de parte");
-    TableColumn colValor=new TableColumn("Valor");
-    TableColumn colUMedida=new TableColumn("Unidad de medida");
-    TableColumn colCaracteristicas=new TableColumn("Caracteristicas");
-    TableColumn colFUso=new TableColumn("Frecuencia de uso");
-    TableColumn colCantidad=new TableColumn("Cantidad");
-    TableColumn colCantidadMin=new TableColumn("Cantidad minima");
+    TableColumn<Articulo,Long> colCB=new TableColumn<>("Codigo de barras");
+    TableColumn <Articulo, String> colTArmario=new TableColumn<>("Tipo de armario");
+    TableColumn <Articulo, String> colGaveta=new TableColumn<>("Gaveta");
+    TableColumn <Articulo, String> colSubCom=new TableColumn<>("Sub-compartimento");
+    TableColumn <Articulo,String> colMaterial=new TableColumn<>("Material");
+    TableColumn <Articulo,String> colTipo=new TableColumn<>("Tipo");
+    TableColumn <Articulo, String> colNumParte=new TableColumn<>("Número de parte");
+    TableColumn <Articulo, Double> colValor=new TableColumn<>("Valor");
+    TableColumn <Articulo,String> colUMedida=new TableColumn<>("Unidad de medida");
+    TableColumn <Articulo, String> colCaracteristicas=new TableColumn<>("Caracteristicas");
+    TableColumn <Articulo, String> colFUso=new TableColumn<>("Frecuencia de uso");
+    TableColumn <Articulo, Integer> colCantidad=new TableColumn<>("Cantidad");
+    TableColumn <Articulo,Integer> colCantidadMin=new TableColumn<>("Cantidad minima");
 
     Conexion conexion;
     @FXML Button btnSalir;
@@ -36,42 +36,42 @@ public class ConsultarMaterialController {
     @FXML RadioButton rbMaterial, rbHerramienta;
     @FXML RadioButton rbCodigo_Barras, rbNombre, rbTipo;
 
-    TableColumn colID = new TableColumn("CB Herramienta");
-    TableColumn colHerramienta= new TableColumn("Herramienta");
-    TableColumn colTipoHerramienta= new TableColumn("Tipo");
-    TableColumn colCaracteristicasHerramienta = new TableColumn("Caracteristicas");
-    TableColumn colFUsoHerramienta=new TableColumn("Frecuencia de uso");
-    TableColumn colCantidadHerramienta=new TableColumn("Cantidad");
-    TableColumn colCantidadMinHerramienta=new TableColumn("Cantidad minima");
+    TableColumn<Herramienta,Long> colID = new TableColumn<>("CB Herramienta");
+    TableColumn<Herramienta,String> colHerramienta= new TableColumn<>("Herramienta");
+    TableColumn<Herramienta,String> colTipoHerramienta= new TableColumn<>("Tipo");
+    TableColumn<Herramienta,String> colCaracteristicasHerramienta = new TableColumn<>("Caracteristicas");
+    TableColumn<Herramienta,String> colFUsoHerramienta=new TableColumn<>("Frecuencia de uso");
+    TableColumn<Herramienta,Integer> colCantidadHerramienta=new TableColumn<>("Cantidad");
+    TableColumn<Herramienta,Integer> colCantidadMinHerramienta=new TableColumn<>("Cantidad minima");
 
 
     @FXML protected void initialize() throws SQLException {
         pedidosController = new PedidosController();
         //Material
-        colCB.setCellValueFactory(new PropertyValueFactory<Articulo,Long>("codigo_barras"));
-        colTArmario.setCellValueFactory(new PropertyValueFactory<Articulo, String>("tipo_de_armario"));
-        colGaveta.setCellValueFactory(new PropertyValueFactory<Articulo, String>("gaveta"));
-        colSubCom.setCellValueFactory(new PropertyValueFactory<Articulo, String>("sub_compartimento"));
-        colMaterial.setCellValueFactory(new PropertyValueFactory<Articulo,String>("material"));
-        colTipo.setCellValueFactory(new PropertyValueFactory<Articulo,String>("tipo"));
-        colNumParte.setCellValueFactory(new PropertyValueFactory<Articulo, String>("numero_parte"));
-        colValor.setCellValueFactory(new PropertyValueFactory<Articulo, Double>("valor"));
-        colUMedida.setCellValueFactory(new PropertyValueFactory<Articulo,String>("unidad_medida"));
-        colCaracteristicas.setCellValueFactory(new PropertyValueFactory<Articulo, String>("caracteristicas"));
-        colFUso.setCellValueFactory(new PropertyValueFactory<Articulo, String>("f_uso"));
-        colCantidad.setCellValueFactory(new PropertyValueFactory<Articulo, Integer>("cantidad"));
-        colCantidadMin.setCellValueFactory(new PropertyValueFactory<Articulo,Integer>("cantidad_min"));
+        colCB.setCellValueFactory(new PropertyValueFactory<>("codigo_barras"));
+        colTArmario.setCellValueFactory(new PropertyValueFactory<>("tipo_de_armario"));
+        colGaveta.setCellValueFactory(new PropertyValueFactory<>("gaveta"));
+        colSubCom.setCellValueFactory(new PropertyValueFactory<>("sub_compartimento"));
+        colMaterial.setCellValueFactory(new PropertyValueFactory<>("material"));
+        colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        colNumParte.setCellValueFactory(new PropertyValueFactory<>("numero_parte"));
+        colValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
+        colUMedida.setCellValueFactory(new PropertyValueFactory<>("unidad_medida"));
+        colCaracteristicas.setCellValueFactory(new PropertyValueFactory<>("caracteristicas"));
+        colFUso.setCellValueFactory(new PropertyValueFactory<>("f_uso"));
+        colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colCantidadMin.setCellValueFactory(new PropertyValueFactory<>("cantidad_min"));
 
         conexion = new Conexion();
 
         //Herramienta
-        colID.setCellValueFactory(new PropertyValueFactory<Herramienta,Long>("cb_herramienta"));
-        colHerramienta.setCellValueFactory(new PropertyValueFactory<Herramienta,String>("herramienta"));
-        colTipoHerramienta.setCellValueFactory(new PropertyValueFactory<Herramienta,String>("tipo"));
-        colCaracteristicasHerramienta.setCellValueFactory(new PropertyValueFactory<Herramienta,String>("caracteristicas"));
-        colFUsoHerramienta.setCellValueFactory(new PropertyValueFactory<Herramienta,String>("frecuencia_de_uso"));
-        colCantidadHerramienta.setCellValueFactory(new PropertyValueFactory<Herramienta,Integer>("cantidad"));
-        colCantidadMinHerramienta.setCellValueFactory(new PropertyValueFactory<Herramienta,Integer>("cantidad_min"));
+        colID.setCellValueFactory(new PropertyValueFactory<>("cb_herramienta"));
+        colHerramienta.setCellValueFactory(new PropertyValueFactory<>("herramienta"));
+        colTipoHerramienta.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        colCaracteristicasHerramienta.setCellValueFactory(new PropertyValueFactory<>("caracteristicas"));
+        colFUsoHerramienta.setCellValueFactory(new PropertyValueFactory<>("frecuencia_de_uso"));
+        colCantidadHerramienta.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colCantidadMinHerramienta.setCellValueFactory(new PropertyValueFactory<>("cantidad_min"));
         rbMaterial.setToggleGroup(toggleGroupMostrar);
         rbHerramienta.setToggleGroup(toggleGroupMostrar);
         rbCodigo_Barras.setToggleGroup(toggleGroupBuscar);

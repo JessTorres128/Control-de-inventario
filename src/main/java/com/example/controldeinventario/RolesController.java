@@ -1,7 +1,5 @@
 package com.example.controldeinventario;
 
-import com.example.controldeinventario.Datos.Articulo;
-import com.example.controldeinventario.Datos.Herramienta;
 import com.example.controldeinventario.Datos.Tipo_Usuario;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -27,51 +25,45 @@ public class RolesController {
     @FXML Tab tabSearch, tabNew;
     @FXML TabPane tabPaneVentana;
     @FXML TextField txtId_rol, txtNombre_rol;
-    @FXML CheckBox check_create_material, check_update_material, check_delete_material, check_create_herramienta, check_update_herramienta, check_delete_herramienta, check_crud_pedido, check_create_t_material, check_update_t_material, check_delete_t_material, check_create_t_herramienta, check_update_t_herramienta, check_delete_t_herramienta, check_crud_roles, check_crud_empleados, check_restaurar_bd, check_respaldar_bd;
+    @FXML CheckBox check_create_material, check_update_material, check_delete_material, check_create_herramienta, check_update_herramienta, check_delete_herramienta, check_crud_pedido, check_create_t_articulo, check_update_t_articulo, check_delete_t_articulo,check_crud_roles, check_crud_empleados, check_restaurar_bd, check_respaldar_bd;
 
-    @FXML TableView tableTUsuarios;
-    @FXML TableColumn col_id= new TableColumn("ID");
-    @FXML TableColumn col_nombre= new TableColumn("Nombre");
-    @FXML TableColumn col_c_material= new TableColumn("Crear material");
-    @FXML TableColumn col_u_material= new TableColumn("Editar material");
-    @FXML TableColumn col_d_material= new TableColumn("Borrar material");
-    @FXML TableColumn col_c_herramienta= new TableColumn("Crear herramienta");
-    @FXML TableColumn col_u_herramienta= new TableColumn("Editar herramienta");
-    @FXML TableColumn col_d_herramienta= new TableColumn("Borrar herramienta");
-    @FXML TableColumn col_pedidos= new TableColumn("Pedidos");
-    @FXML TableColumn col_c_t_material= new TableColumn("Crear tipo de material");
-    @FXML TableColumn col_u_t_material= new TableColumn("Editar tipo de material");
-    @FXML TableColumn col_d_t_material= new TableColumn("Borrar tipo de material");
-    @FXML TableColumn col_c_t_herramienta= new TableColumn("Crear tipo de herramienta");
-    @FXML TableColumn col_u_t_herramienta= new TableColumn("Editar tipo de herramienta");
-    @FXML TableColumn col_d_t_herramienta= new TableColumn("Borrar tipo de herramienta");
-    @FXML TableColumn col_roles= new TableColumn("Roles");
-    @FXML TableColumn col_empleados= new TableColumn("Empleados");
-    @FXML TableColumn col_restaurarbd= new TableColumn("Restaurar BD");
-    @FXML TableColumn col_respaldarbd= new TableColumn("Respaldar BD");
+    @FXML TableView<Tipo_Usuario> tableTUsuarios = new TableView<>();
+    @FXML TableColumn<Tipo_Usuario,Integer>  col_id= new TableColumn<>("ID");
+    @FXML TableColumn<Tipo_Usuario,String>  col_nombre= new TableColumn<>("Nombre");
+    @FXML TableColumn<Tipo_Usuario,String>  col_c_material= new TableColumn<>("Crear material");
+    @FXML TableColumn<Tipo_Usuario,String>  col_u_material= new TableColumn<>("Editar material");
+    @FXML TableColumn<Tipo_Usuario,String>  col_d_material= new TableColumn<>("Borrar material");
+    @FXML TableColumn<Tipo_Usuario,String>  col_c_herramienta= new TableColumn<>("Crear herramienta");
+    @FXML TableColumn<Tipo_Usuario,String>  col_u_herramienta= new TableColumn<>("Editar herramienta");
+    @FXML TableColumn<Tipo_Usuario,String>  col_d_herramienta= new TableColumn<>("Borrar herramienta");
+    @FXML TableColumn<Tipo_Usuario,String>  col_pedidos= new TableColumn<>("Pedidos");
+    @FXML TableColumn<Tipo_Usuario,String>  col_c_t_articulo= new TableColumn<>("Crear tipo de articulo");
+    @FXML TableColumn<Tipo_Usuario,String>  col_u_t_articulo= new TableColumn<>("Editar tipo de articulo");
+    @FXML TableColumn<Tipo_Usuario,String>  col_d_t_articulo= new TableColumn<>("Borrar tipo de articulo");
+    @FXML TableColumn<Tipo_Usuario,String>  col_roles= new TableColumn<>("Roles");
+    @FXML TableColumn<Tipo_Usuario,String>  col_empleados= new TableColumn<>("Empleados");
+    @FXML TableColumn<Tipo_Usuario,String>  col_restaurarbd= new TableColumn<>("Restaurar BD");
+    @FXML TableColumn<Tipo_Usuario,String>  col_respaldarbd= new TableColumn<>("Respaldar BD");
     @FXML protected void initialize() throws SQLException {
         conexion = new Conexion();
-        col_id.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,Integer>("id_rol"));
-        col_nombre.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("nombre_rol"));
-        col_c_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("create_material"));
-        col_u_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("update_material"));
-        col_d_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("delete_material"));
-        col_c_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("create_herramienta"));
-        col_u_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("update_herramienta"));
-        col_d_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("delete_herramienta"));
-        col_pedidos.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("crud_pedido"));
-        col_c_t_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("create_t_material"));
-        col_u_t_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("update_t_material"));
-        col_d_t_material.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("delete_t_material"));
-        col_c_t_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("create_t_herramienta"));
-        col_u_t_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("update_t_herramienta"));
-        col_d_t_herramienta.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("delete_t_herramienta"));
-        col_roles.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("crud_roles"));
-        col_empleados.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("crud_empleados"));
-        col_restaurarbd.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("restaurar_bd"));
-        col_respaldarbd.setCellValueFactory(new PropertyValueFactory<Tipo_Usuario,String>("respaldar_bd"));
+        col_id.setCellValueFactory(new PropertyValueFactory<>("id_rol"));
+        col_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre_rol"));
+        col_c_material.setCellValueFactory(new PropertyValueFactory<>("create_material"));
+        col_u_material.setCellValueFactory(new PropertyValueFactory<>("update_material"));
+        col_d_material.setCellValueFactory(new PropertyValueFactory<>("delete_material"));
+        col_c_herramienta.setCellValueFactory(new PropertyValueFactory<>("create_herramienta"));
+        col_u_herramienta.setCellValueFactory(new PropertyValueFactory<>("update_herramienta"));
+        col_d_herramienta.setCellValueFactory(new PropertyValueFactory<>("delete_herramienta"));
+        col_pedidos.setCellValueFactory(new PropertyValueFactory<>("crud_pedido"));
+        col_d_t_articulo.setCellValueFactory(new PropertyValueFactory<>("create_t_articulo"));
+        col_d_t_articulo.setCellValueFactory(new PropertyValueFactory<>("update_t_articulo"));
+        col_d_t_articulo.setCellValueFactory(new PropertyValueFactory<>("delete_t_articulo"));
+        col_roles.setCellValueFactory(new PropertyValueFactory<>("crud_roles"));
+        col_empleados.setCellValueFactory(new PropertyValueFactory<>("crud_empleados"));
+        col_restaurarbd.setCellValueFactory(new PropertyValueFactory<>("restaurar_bd"));
+        col_respaldarbd.setCellValueFactory(new PropertyValueFactory<>("respaldar_bd"));
 
-        tableTUsuarios.getColumns().addAll(col_id,col_nombre,col_c_material,col_u_material,col_d_material,col_c_herramienta,col_u_herramienta,col_d_herramienta,col_pedidos,col_c_t_material,col_u_t_material,col_d_t_material,col_c_t_herramienta,col_u_t_herramienta,col_d_t_herramienta,col_roles,col_empleados,col_restaurarbd,col_respaldarbd);
+        tableTUsuarios.getColumns().addAll(col_id,col_nombre,col_c_material,col_u_material,col_d_material,col_c_herramienta,col_u_herramienta,col_d_herramienta,col_pedidos,col_c_t_articulo,col_u_t_articulo,col_d_t_articulo,col_roles,col_empleados,col_restaurarbd,col_respaldarbd);
 
         rbID.setToggleGroup(toggleGroupBusqueda);
         rbNombre.setToggleGroup(toggleGroupBusqueda);
@@ -99,7 +91,7 @@ public class RolesController {
         tableTUsuarios.getItems().clear();
         while (rsRoles.next()){
             cont++;
-            Tipo_Usuario t= new Tipo_Usuario(rsRoles.getInt("id_rol"),rsRoles.getString("nombre_rol"), VerificarBoolean(rsRoles.getInt("create_material") == 1), VerificarBoolean(rsRoles.getInt("update_material") == 1), VerificarBoolean(rsRoles.getInt("delete_material") == 1), VerificarBoolean(rsRoles.getInt("create_herramienta") == 1), VerificarBoolean(rsRoles.getInt("update_herramienta") == 1), VerificarBoolean(rsRoles.getInt("delete_herramienta") == 1), VerificarBoolean(rsRoles.getInt("crud_pedido") == 1), VerificarBoolean(rsRoles.getInt("create_t_material") == 1), VerificarBoolean(rsRoles.getInt("update_t_material") == 1), VerificarBoolean(rsRoles.getInt("delete_t_material") == 1), VerificarBoolean(rsRoles.getInt("create_t_herramienta") == 1), VerificarBoolean(rsRoles.getInt("update_t_herramienta") == 1), VerificarBoolean(rsRoles.getInt("update_t_herramienta") == 1), VerificarBoolean(rsRoles.getInt("crud_roles") == 1), VerificarBoolean(rsRoles.getInt("crud_empleados") == 1), VerificarBoolean(rsRoles.getInt("restaurar_bd") == 1), VerificarBoolean(rsRoles.getInt("respaldar_bd") == 1));
+            Tipo_Usuario t = new Tipo_Usuario(rsRoles.getInt("id_rol"),rsRoles.getString("nombre_rol"),VerificarBoolean(rsRoles.getInt("create_material") == 1),VerificarBoolean(rsRoles.getInt("update_material") == 1),VerificarBoolean(rsRoles.getInt("delete_material") == 1),VerificarBoolean(rsRoles.getInt("create_herramienta") == 1),VerificarBoolean(rsRoles.getInt("update_herramienta") == 1),VerificarBoolean(rsRoles.getInt("delete_herramienta") == 1),VerificarBoolean(rsRoles.getInt("crud_pedido") == 1),VerificarBoolean(rsRoles.getInt("create_t_articulo") == 1),VerificarBoolean(rsRoles.getInt("update_t_articulo") == 1),VerificarBoolean(rsRoles.getInt("delete_t_articulo") == 1),VerificarBoolean(rsRoles.getInt("crud_roles") == 1),VerificarBoolean(rsRoles.getInt("crud_empleados") == 1),VerificarBoolean(rsRoles.getInt("restaurar_bd") == 1),VerificarBoolean(rsRoles.getInt("respaldar_bd") == 1));
             tableTUsuarios.getItems().add(t);
         }
         lblContRegistros.setText("Se cargaron "+cont+" articulos");
@@ -120,19 +112,19 @@ public class RolesController {
             if (resultSetUpdate.next()){
                 conexion.insmodelim("UPDATE `tipo_usuario` SET `nombre_rol`='"+txtNombre_rol.getText()+"',`create_material`='"+VerificarCheckBox(check_create_material)+"',`update_material`='"+VerificarCheckBox(check_update_material)+"'," +
                         "`delete_material`='"+VerificarCheckBox(check_delete_material)+"',`create_herramienta`='"+VerificarCheckBox(check_create_herramienta)+"',`update_herramienta`='"+VerificarCheckBox(check_update_herramienta)+"',`delete_herramienta`='"+VerificarCheckBox(check_delete_herramienta)+"'," +
-                        "`crud_pedido`='"+VerificarCheckBox(check_crud_pedido)+"',`create_t_material`='"+VerificarCheckBox(check_create_t_material)+"',`update_t_material`='"+VerificarCheckBox(check_update_t_material)+"',`delete_t_material`='"+VerificarCheckBox(check_delete_t_material)+"'," +
-                        "`create_t_herramienta`='"+VerificarCheckBox(check_create_t_herramienta)+"',`update_t_herramienta`='"+VerificarCheckBox(check_update_t_herramienta)+"',`delete_t_herramienta`='"+VerificarCheckBox(check_delete_t_herramienta)+"',`crud_roles`='"+VerificarCheckBox(check_crud_roles)+"'," +
+                        "`crud_pedido`='"+VerificarCheckBox(check_crud_pedido)+"',`create_t_articulo`='"+VerificarCheckBox(check_create_t_articulo)+"',`update_t_articulo`='"+VerificarCheckBox(check_update_t_articulo)+"',`delete_t_articulo`='"+VerificarCheckBox(check_delete_t_articulo)+"'," +
+                        ",`crud_roles`='"+VerificarCheckBox(check_crud_roles)+"'," +
                         "`crud_empleados`='"+VerificarCheckBox(check_crud_empleados)+"',`restaurar_bd`='"+VerificarCheckBox(check_restaurar_bd)+"',`respaldar_bd`='"+VerificarCheckBox(check_respaldar_bd)+"' WHERE `id_rol`='"+resultSetUpdate.getInt("id_rol")+"'");
                 ResultSet resultSetEmpleados= conexion.consultar("SELECT * FROM `usuario` WHERE `nombre_rol`='"+resultSetUpdate.getString("nombre_rol")+"'");
                 while(resultSetEmpleados.next()){
                     conexion.insmodelim("UPDATE `usuario` SET `nombre_rol`='"+txtNombre_rol.getText()+"' WHERE `id_user`='"+resultSetEmpleados.getInt("id_user")+"'");
                 }
             }else {
-                conexion.insmodelim("INSERT INTO `tipo_usuario`(`nombre_rol`, `create_material`, `update_material`, `delete_material`, `create_herramienta`, `update_herramienta`, `delete_herramienta`, `crud_pedido`, `create_t_material`, `update_t_material`, `delete_t_material`, `create_t_herramienta`, `update_t_herramienta`, `delete_t_herramienta`, `crud_roles`, `crud_empleados`, `restaurar_bd`, `respaldar_bd`) VALUES " +
+                conexion.insmodelim("INSERT INTO `tipo_usuario`(`nombre_rol`, `create_material`, `update_material`, `delete_material`, `create_herramienta`, `update_herramienta`, `delete_herramienta`, `crud_pedido`, `create_t_articulo`, `update_t_articulo`, `delete_t_articulo`, `crud_roles`, `crud_empleados`, `restaurar_bd`, `respaldar_bd`) VALUES " +
                         "('"+txtNombre_rol.getText()+"','"+VerificarCheckBox(check_create_material)+"','"+VerificarCheckBox(check_update_material)+"'," +
                         "'"+VerificarCheckBox(check_delete_material)+"','"+VerificarCheckBox(check_create_herramienta)+"','"+VerificarCheckBox(check_update_herramienta)+"','"+VerificarCheckBox(check_delete_herramienta)+"'," +
-                        "'"+VerificarCheckBox(check_crud_pedido)+"','"+VerificarCheckBox(check_create_t_material)+"','"+VerificarCheckBox(check_update_t_material)+"','"+VerificarCheckBox(check_delete_t_material)+"'," +
-                        "'"+VerificarCheckBox(check_create_t_herramienta)+"','"+VerificarCheckBox(check_update_t_herramienta)+"','"+VerificarCheckBox(check_delete_t_herramienta)+"','"+VerificarCheckBox(check_crud_roles)+"'," +
+                        "'"+VerificarCheckBox(check_crud_pedido)+"','"+VerificarCheckBox(check_create_t_articulo)+"','"+VerificarCheckBox(check_update_t_articulo)+"','"+VerificarCheckBox(check_delete_t_articulo)+"'," +
+                        "'"+VerificarCheckBox(check_crud_roles)+"'," +
                         "'"+VerificarCheckBox(check_crud_empleados)+"','"+VerificarCheckBox(check_restaurar_bd)+"','"+VerificarCheckBox(check_respaldar_bd)+"')");
             }
             tabPaneVentana.getSelectionModel().select(tabSearch);
@@ -159,12 +151,9 @@ public class RolesController {
             check_update_herramienta.setSelected(VerificarString(tipoUsuario.getUpdate_herramienta()));
             check_delete_herramienta.setSelected(VerificarString(tipoUsuario.getDelete_herramienta()));
             check_crud_pedido.setSelected(VerificarString(tipoUsuario.getCrud_pedido()));
-            check_create_t_material.setSelected(VerificarString(tipoUsuario.getCreate_t_material()));
-            check_update_t_material.setSelected(VerificarString(tipoUsuario.getUpdate_t_material()));
-            check_delete_t_material.setSelected(VerificarString(tipoUsuario.getDelete_t_material()));
-            check_create_t_herramienta.setSelected(VerificarString(tipoUsuario.getCreate_t_herramienta()));
-            check_update_t_herramienta.setSelected(VerificarString(tipoUsuario.getUpdate_t_herramienta()));
-            check_delete_t_herramienta.setSelected(VerificarString(tipoUsuario.getDelete_t_herramienta()));
+            check_create_t_articulo.setSelected(VerificarString(tipoUsuario.getCreate_t_articulo()));
+            check_update_t_articulo.setSelected(VerificarString(tipoUsuario.getUpdate_t_articulo()));
+            check_delete_t_articulo.setSelected(VerificarString(tipoUsuario.getDelete_t_articulo()));
             check_crud_roles.setSelected(VerificarString(tipoUsuario.getCrud_roles()));
             check_crud_empleados.setSelected(VerificarString(tipoUsuario.getCrud_empleados()));
             check_restaurar_bd.setSelected(VerificarString(tipoUsuario.getRestaurar_bd()));
@@ -173,7 +162,7 @@ public class RolesController {
             txtId_rol.setDisable(true);
             ActivateBtn(true,false,true,false,false,true);
         }else {
-
+            Error("Selecciona un registro pa");
         }
     }
 
@@ -246,12 +235,9 @@ public class RolesController {
         check_update_herramienta.setSelected(false);
         check_delete_herramienta.setSelected(false);
         check_crud_pedido.setSelected(false);
-        check_create_t_material.setSelected(false);
-        check_update_t_material.setSelected(false);
-        check_delete_t_material.setSelected(false);
-                check_create_t_herramienta.setSelected(false);
-        check_update_t_herramienta.setSelected(false);
-                check_delete_t_herramienta.setSelected(false);
+        check_create_t_articulo.setSelected(false);
+        check_update_t_articulo.setSelected(false);
+        check_delete_t_articulo.setSelected(false);
         check_crud_roles.setSelected(false);
         check_crud_empleados.setSelected(false);
         check_restaurar_bd.setSelected(false);
@@ -289,11 +275,7 @@ public class RolesController {
         }
     }
     private boolean VerificarString(String val){
-        if (val.equals("Puede")){
-            return true;
-        }else {
-            return false;
-        }
+        return val.equals("Puede");
     }
     private void CleanTextFields(){
         txtId_rol.setText("");

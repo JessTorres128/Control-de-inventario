@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="517.0" prefWidth="700.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.RolesController">
+<HBox prefHeight="517.0" prefWidth="700.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.RolesController">
    <children>
       <TabPane fx:id="tabPaneVentana" prefHeight="500.0" prefWidth="570.0">
          <tabs>
@@ -67,7 +67,7 @@
                   </VBox>
                </content>
             </Tab>
-            <Tab fx:id="tabNew" closable="false" text="Nuevo/Modificar">
+            <Tab fx:id="tabNew" closable="false" disable="true" text="Nuevo/Modificar">
               <content>
                   <VBox>
                      <children>
@@ -128,18 +128,15 @@
                               <VBox prefHeight="200.0" prefWidth="186.0" spacing="35.0">
                                  <children>
                                     <JFXCheckBox fx:id="check_crud_pedido" checkedColor="#543383" text="Dar de alta un pedido" unCheckedColor="#543383" />
-                                    <JFXCheckBox fx:id="check_create_t_material" checkedColor="#543383" text="Crear un tipo de material" unCheckedColor="#543383" />
-                                    <JFXCheckBox fx:id="check_update_t_material" checkedColor="#543383" text="Editar los tipos de materiales" unCheckedColor="#543383" />
-                                    <JFXCheckBox fx:id="check_delete_t_material" checkedColor="#543383" text="Borrar un tipo de material" unCheckedColor="#543383" />
-                                    <JFXCheckBox fx:id="check_create_t_herramienta" checkedColor="#543383" text="Crear un tipo de herramienta" unCheckedColor="#543383" />
-                                    <JFXCheckBox fx:id="check_update_t_herramienta" checkedColor="#543383" text="Editar un tipo de herramienta" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_create_t_articulo" checkedColor="#543383" text="Crear un tipo de articulo" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_update_t_articulo" checkedColor="#543383" text="Editar los tipos de articulos" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_delete_t_articulo" checkedColor="#543383" text="Borrar un tipo de articulo" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_crud_roles" checkedColor="#543383" text="Crear un tipo de usuario" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_crud_empleados" checkedColor="#543383" text="Crear usuarios" unCheckedColor="#543383" />
                                  </children>
                               </VBox>
                               <VBox prefHeight="200.0" prefWidth="186.0" spacing="35.0">
                                  <children>
-                                    <JFXCheckBox fx:id="check_delete_t_herramienta" checkedColor="#543383" text="Borrar un tipo de herramienta" unCheckedColor="#543383" />
-                                    <JFXCheckBox fx:id="check_crud_roles" checkedColor="#543383" text="Crear un tipo de usuario" unCheckedColor="#543383" />
-                                    <JFXCheckBox fx:id="check_crud_empleados" checkedColor="#543383" text="Crear usuarios" unCheckedColor="#543383" />
                                     <JFXCheckBox fx:id="check_restaurar_bd" checkedColor="#543383" text="Restaurar la base de datos" unCheckedColor="#543383" />
                                     <JFXCheckBox fx:id="check_respaldar_bd" checkedColor="#543383" text="Respaldar la base de datos" unCheckedColor="#543383" />
                                  </children>
