@@ -198,6 +198,36 @@ public class PedidosController {
                 return cell;
             };
 
+    Callback<TableColumn<Registro,String>, TableCell<Registro,String>> celdaEstado=
+            objectStringTableColumn -> {
+                TableCell<Registro,String> cell = new TableCell<>() {
+                    CheckBox checkBox = new CheckBox("");
+
+                    @Override
+                    protected void updateItem(String s, boolean b) {
+                        if (b) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                            checkBox.setSelected(tableViewPedidos.getItems().get(getIndex()).getEstado().equals("Entregado"));
+                            checkBox.setOnAction(event -> {
+                                if (checkBox.isSelected()){
+                                    conexion.insmodelim("UPDATE `pedido` SET `estado`='Entregado' WHERE `id_pedido`='"+tableViewPedidos.getItems().get(getIndex()).getId_pedido()+"'");
+                                }else {
+                                    conexion.insmodelim("UPDATE `pedido` SET `estado`='Pendiente' WHERE `id_pedido`='"+tableViewPedidos.getItems().get(getIndex()).getId_pedido()+"'");
+                                }
+                                    }
+                                    );
+                            setGraphic(checkBox);
+                            setText(null);
+                        }
+
+
+                    }
+                };
+                return cell;
+            };
+
 
 
 
@@ -230,7 +260,8 @@ public class PedidosController {
         tableColumnIDPedido.setCellValueFactory(new PropertyValueFactory<Pedido, Integer>("id_pedido"));
         tableColumnNombrePersona.setCellValueFactory(new PropertyValueFactory<Pedido, String>("nombre_persona"));
         tableColumnNumControl.setCellValueFactory(new PropertyValueFactory<Pedido, String>("num_control"));
-        tableColumnEstado.setCellValueFactory(new PropertyValueFactory<Pedido, String>("estado"));
+        //tableColumnEstado.setCellValueFactory(new PropertyValueFactory<Pedido, String>("estado"));
+        tableColumnEstado.setCellFactory(celdaEstado);
         tableColumnFecha.setCellValueFactory(new PropertyValueFactory<Pedido, Date>("fecha"));
         tableColumnProfesor.setCellValueFactory(new PropertyValueFactory<Pedido, String>("profesor"));
         tableColumnMateria.setCellValueFactory(new PropertyValueFactory<Pedido, String>("materia"));
