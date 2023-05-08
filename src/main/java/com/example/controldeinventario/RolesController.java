@@ -168,7 +168,7 @@ public class RolesController {
 
     @FXML private void DeleteRol() throws SQLException {
         if (tableTUsuarios.getSelectionModel().getSelectedItem() != null){
-            Tipo_Usuario t = (Tipo_Usuario) tableTUsuarios.getSelectionModel().getSelectedItem();
+            Tipo_Usuario t = tableTUsuarios.getSelectionModel().getSelectedItem();
             if (ConfirmarBorrar("Deseas borrar a "+t.getNombre_rol()+", realizar esta accion \n tambien borrará a los usuarios que tengan este rol")){
                 conexion.insmodelim("DELETE FROM `tipo_usuario` WHERE `id_rol`='"+t.getId_rol()+"'");
                 conexion.insmodelim("DELETE FROM `usuario` WHERE `nombre_rol`='"+t.getNombre_rol()+"'");
@@ -194,7 +194,8 @@ public class RolesController {
     }
 
     @FXML private void ExitRol(){
-
+        Stage stage = (Stage) btnExit.getScene().getWindow();
+        stage.close();
     }
 
     public boolean ConfirmarBorrar(String mensaje) {

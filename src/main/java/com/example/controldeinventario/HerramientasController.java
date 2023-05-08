@@ -181,7 +181,8 @@ public class HerramientasController {
     }
 
     @FXML private void ExitHerramienta(){
-
+        Stage stage = (Stage) btnExit.getScene().getWindow();
+        stage.close();
     }
     @FXML private void GenerateCodeBar() throws IOException {
         Code39Bean code39Bean = new Code39Bean();

@@ -139,7 +139,7 @@ public class EmpleadosController {
 
     @FXML private void EditEmpleado() throws SQLException {
         if (tableViewUsuarios.getSelectionModel().getSelectedItem() != null){
-            Usuario usuario= (Usuario) tableViewUsuarios.getSelectionModel().getSelectedItem();
+            Usuario usuario= tableViewUsuarios.getSelectionModel().getSelectedItem();
             ResultSet rsUsuario = conexion.consultar("SELECT * FROM `usuario` WHERE `id_user`='"+usuario.getId_user()+"'");
             if (rsUsuario.next()){
                 usuario = new Usuario(rsUsuario.getInt("id_user"), rsUsuario.getString("nombre_completo")
@@ -193,7 +193,8 @@ public class EmpleadosController {
     }
 
     @FXML private void ExitEmpleado(){
-
+        Stage stage = (Stage) btnExit.getScene().getWindow();
+        stage.close();
     }
     private boolean VerifyTxt(PasswordField txtPass, PasswordField txtPassConf, ComboBox<String> cbRol, TextField... campos){
         for (TextField campo : campos){

@@ -51,6 +51,7 @@ public class PedidosController {
     TableColumn tableColumnFecha = new TableColumn<>("Fecha");
     TableColumn tableColumnProfesor = new TableColumn<>("Profesor");
     TableColumn tableColumnMateria = new TableColumn<>("Materia");
+    TableColumn tableColumnVer = new TableColumn<>("Mostrar pedido");
     public Stage ventanaSecundaria = new Stage();
     TableColumn tableColumnNumero = new TableColumn("No");
     TableColumn tableColumnNombre = new TableColumn("Nombre");
@@ -172,6 +173,31 @@ public class PedidosController {
                 return cell;
             };
 
+    Callback<TableColumn<Registro,String>, TableCell<Registro,String>> celdaVer=
+            objectStringTableColumn -> {
+                TableCell<Registro,String> cell = new TableCell<>() {
+                    Button btnVer = new Button("Ver");
+
+                    @Override
+                    protected void updateItem(String s, boolean b) {
+                        if (b) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                            btnVer.setOnAction(event -> {
+                                Pedido pedido = tableViewPedidos.getItems().get(getIndex());
+                                System.out.println(pedido);
+                            });
+                            setGraphic(btnVer);
+                            setText(null);
+                        }
+
+
+                    }
+                };
+                return cell;
+            };
+
 
 
 
@@ -208,7 +234,8 @@ public class PedidosController {
         tableColumnFecha.setCellValueFactory(new PropertyValueFactory<Pedido, Date>("fecha"));
         tableColumnProfesor.setCellValueFactory(new PropertyValueFactory<Pedido, String>("profesor"));
         tableColumnMateria.setCellValueFactory(new PropertyValueFactory<Pedido, String>("materia"));
-        tableViewPedidos.getColumns().addAll(tableColumnIDPedido,tableColumnNombrePersona,tableColumnNumControl,tableColumnEstado,tableColumnFecha,tableColumnProfesor,tableColumnMateria);
+        tableColumnVer.setCellFactory(celdaVer);
+        tableViewPedidos.getColumns().addAll(tableColumnIDPedido,tableColumnNombrePersona,tableColumnNumControl,tableColumnEstado,tableColumnFecha,tableColumnProfesor,tableColumnMateria,tableColumnVer);
         ActualizarTabla(conexion.consultar("SELECT * FROM `pedido`"));
     }
 
@@ -333,7 +360,8 @@ public class PedidosController {
         tabNew.setDisable(true);
     }
     @FXML private void ExitPedido(){
-
+        Stage stage = (Stage) btnExit.getScene().getWindow();
+        stage.close();
     }
 
     @FXML private void Busqueda() throws SQLException {

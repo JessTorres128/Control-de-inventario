@@ -145,7 +145,8 @@ public class TipoArticuloController {
     }
 
     @FXML private void ExitTipoArticulo(){
-
+        Stage stage = (Stage) btnExit.getScene().getWindow();
+        stage.close();
     }
 
     @FXML private void Busqueda() throws SQLException {
