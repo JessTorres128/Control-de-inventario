@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 
-<HBox prefHeight="482.0" prefWidth="557.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.TipoArticuloController">
+<HBox prefHeight="482.0" prefWidth="557.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.TipoArticuloController">
    <children>
       <TabPane fx:id="tabPaneVentana" prefHeight="442.0" prefWidth="426.0">
          <tabs>
@@ -93,7 +93,7 @@
                         </Label>
                         <HBox prefHeight="24.0" prefWidth="340.0" spacing="10.0">
                            <children>
-                              <JFXRadioButton fx:id="rbMaterial" selected="true" text="Material">
+                              <JFXRadioButton fx:id="rbMaterial" selected="true" text="Material Consumible">
                                  <selectedColor>
                                     <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
                                  </selectedColor>
@@ -107,6 +107,7 @@
                                  <unSelectedColor>
                                     <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
                                  </unSelectedColor></JFXRadioButton>
+                              <JFXRadioButton fx:id="rbEquipo" text="Material Fijo" />
                            </children>
                            <VBox.margin>
                               <Insets left="10.0" top="10.0" />

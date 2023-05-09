@@ -31,7 +31,7 @@ public class TipoArticuloController {
     TableView<TipoArticulo> tableViewTMateriales = new TableView<>();
     @FXML Label lblContador;
 
-    @FXML RadioButton rbMaterial, rbHerramienta;
+    @FXML RadioButton rbMaterial, rbHerramienta,rbEquipo;
     @FXML TextField txtID, txtNombre;
 
     TableColumn<TipoArticulo, Integer> tableColumnID = new TableColumn<>("No");
@@ -53,6 +53,7 @@ public class TipoArticuloController {
         radioButtonNombre.setToggleGroup(toggleGroupBusqueda);
         rbMaterial.setToggleGroup(toggleGroupTMaterial);
         rbHerramienta.setToggleGroup(toggleGroupTMaterial);
+        rbEquipo.setToggleGroup(toggleGroupTMaterial);
         conexion = new Conexion();
         ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material`"));
     }
@@ -104,8 +105,9 @@ public class TipoArticuloController {
             txtID.setText(String.valueOf(tipoArticulo.getId()));
             txtNombre.setText(tipoArticulo.getNombre());
             switch (tipoArticulo.getT_material()) {
-                case "Material" -> toggleGroupTMaterial.selectToggle(rbMaterial);
+                case "Material Consumible" -> toggleGroupTMaterial.selectToggle(rbMaterial);
                 case "Herramienta" -> toggleGroupTMaterial.selectToggle(rbHerramienta);
+                case "Material Fijo" -> toggleGroupTMaterial.selectToggle(rbEquipo);
             }
             txtID.setDisable(true);
             ActivateBtn(true,false,true,false,false,true);

@@ -271,10 +271,11 @@ public class PedidosController {
     }
 
     @FXML private void NewPedido() throws SQLException {
+
         productos.clear();
         ZonedDateTime zonedDateTime = ZonedDateTime.now(zonaHoraria);
 
-        txtID.setDisable(false);
+        txtID.setDisable(true);
         ActivateBtn(false,false,true,false,false,true);
         tabPaneVentana.getSelectionModel().select(tabNew);
         tabNew.setDisable(false);
@@ -317,8 +318,9 @@ public class PedidosController {
             tabSearch.setDisable(false);
             tabNew.setDisable(true);
             ActivateBtn(false,true,false,true,false,false);
-            txtID.setDisable(false);
+            txtID.setDisable(true);
             ActualizarTabla(conexion.consultar("SELECT * FROM `pedido`"));
+            CleanTextFields();
         }
 
     }
@@ -331,6 +333,7 @@ public class PedidosController {
                 tabPaneVentana.getSelectionModel().select(tabNew);
                 tabSearch.setDisable(true);
                 tabNew.setDisable(false);
+                txtID.setDisable(true);
                 txtID.setText(String.valueOf(rsPedido.getInt("id_pedido")));
                 txtFecha.setText(String.valueOf(rsPedido.getDate("fecha")));
                 txtMateria.setText(rsPedido.getString("materia"));
@@ -595,6 +598,10 @@ public class PedidosController {
     }
 
     private void CleanTextFields(){
+        checkBoxNA1.setSelected(false);
+        checkBoxNA2.setSelected(false);
+        checkBoxNA3.setSelected(false);
+        txtNombre.setText("");
         txtNumControl.setText("");
         txtFecha.setText("");
         txtMateria.setText("");

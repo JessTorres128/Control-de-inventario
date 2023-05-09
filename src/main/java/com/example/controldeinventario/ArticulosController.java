@@ -111,7 +111,7 @@ public class ArticulosController {
 
         conexion = new Conexion();
         cbMaterial.getItems().clear();
-        ResultSet resultSet = conexion.consultar("SELECT * FROM `tipo_material` WHERE `tipo_material`='Material'");
+        ResultSet resultSet = conexion.consultar("SELECT * FROM `tipo_material` WHERE `tipo_material` LIKE '%Material%'");
         while (resultSet.next()){
             cbMaterial.getItems().add((String) resultSet.getObject("material"));
         }
@@ -168,7 +168,7 @@ public class ArticulosController {
     @FXML private void SaveArticulo() throws SQLException {
 
         if (VerifyTxt(txtCaracteristicas, cbMaterial,txtArmario,txtCodigoBarras,txtGaveta,txtSubCompartimento,txtStock,txtStockMin,txtNumParte,txtTipo,txtValor,txtUnidadMedida)){
-            ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `tipo_material` WHERE `material`='"+cbMaterial.getSelectionModel().getSelectedItem()+"' AND `tipo_material`='Material' LIMIT 1");
+            ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `tipo_material` WHERE `material`='"+cbMaterial.getSelectionModel().getSelectedItem()+"' AND `tipo_material` LIKE '%Material%' LIMIT 1");
             System.out.println(cbMaterial.getSelectionModel().getSelectedItem());
             if (resultado.next()){
                 int id = resultado.getInt("id_material");
