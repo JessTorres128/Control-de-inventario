@@ -372,7 +372,7 @@ public class PedidosController {
     }
     @FXML private void DeletePedido() throws SQLException {
         if (tableViewPedidos.getSelectionModel().getSelectedItem() != null){
-            Pedido pedido = (Pedido) tableViewPedidos.getSelectionModel().getSelectedItem();
+            Pedido pedido = tableViewPedidos.getSelectionModel().getSelectedItem();
             if (ConfirmarBorrar("Deseas borrar este pedido?")){
                 conexion.insmodelim("DELETE FROM `pedido_material` WHERE `id_pedido`='"+pedido.getId_pedido()+"'");
                 conexion.insmodelim("DELETE FROM `pedido` WHERE `id_pedido`='"+pedido.getId_pedido()+"'");
