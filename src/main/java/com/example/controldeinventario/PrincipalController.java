@@ -2,6 +2,7 @@ package com.example.controldeinventario;
 
 import com.example.controldeinventario.Datos.Articulo;
 import com.example.controldeinventario.Datos.Herramienta;
+import com.example.controldeinventario.Datos.Pedido;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,6 +20,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class PrincipalController {
     Stage ventanaSecundaria;
@@ -56,6 +59,7 @@ public class PrincipalController {
         Workbook workbook = new HSSFWorkbook();
         Sheet sheet = workbook.createSheet("Materiales");
         Sheet sheet1 = workbook.createSheet("Herramientas");
+        Sheet sheet2 = workbook.createSheet("Pedidos");
 
         Font headerFont = workbook.createFont();
         headerFont.setFontName("Arial");
@@ -71,19 +75,23 @@ public class PrincipalController {
         // Crear una fila para el título
         Row titleRow = sheet.createRow(0);
         Row titleRow1 = sheet1.createRow(0);
+        Row titleRow2 = sheet2.createRow(0);
 
 
 
         // Crear una celda para el título
         Cell titleCell = titleRow.createCell(0);
         Cell titleCell1 = titleRow1.createCell(0);
+        Cell titleCell2 = titleRow2.createCell(0);
         titleCell.setCellValue("Inventario de materiales");
         titleCell1.setCellValue("Inventario de herramientas");
+        titleCell2.setCellValue("Registro de pedidos");
 
         // Combinar las celdas para crear una celda de título grande
         CellRangeAddress titleRange = new CellRangeAddress(0, 0, 0, 11);
         sheet.addMergedRegion(titleRange);
         sheet1.addMergedRegion(titleRange);
+        sheet2.addMergedRegion(titleRange);
 
         // Establecer el estilo de la celda de título
         CellStyle titleStyle = workbook.createCellStyle();
@@ -94,6 +102,7 @@ public class PrincipalController {
         titleStyle.setAlignment((short) 2);
         titleCell.setCellStyle(titleStyle);
         titleCell1.setCellStyle(titleStyle);
+        titleCell2.setCellStyle(titleStyle);
 
 
 
@@ -103,6 +112,7 @@ public class PrincipalController {
 
         sheet.autoSizeColumn(0); // ajustar automáticamente el ancho de la columna 0
         sheet1.autoSizeColumn(0); // ajustar automáticamente el ancho de la columna 0
+        sheet2.autoSizeColumn(0); // ajustar automáticamente el ancho de la columna 0
 
 
 
@@ -138,6 +148,7 @@ public class PrincipalController {
             Articulo producto = new Articulo(rsArticulos.getLong("cb_material"), rsArticulos.getString("tipo_de_armario"), rsArticulos.getString("gaveta"), rsArticulos.getString("sub_compartimento"), rsArticulos.getString("material"),
                     rsArticulos.getString("tipo"), rsArticulos.getString("numero_parte"), rsArticulos.getDouble("valor"), rsArticulos.getString("unidad_de_medida"), rsArticulos.getString("caracteristicas"), rsArticulos.getString("frecuencia_de_uso"),
                     rsArticulos.getInt("cantidad"), rsArticulos.getInt("cantidad_min"));
+
             Row dataRow = sheet.createRow(rowIndex++);
             dataRow.createCell(3).setCellValue(producto.getCodigo_barras());
             dataRow.createCell(4).setCellValue(producto.getTipo_de_armario());
@@ -184,8 +195,7 @@ public class PrincipalController {
         for (int i = 3; i < 10; i++) {
             headerRow1.getCell(i).setCellStyle(headerCellStyle);
         }
-        // Después de crear todas las celdas
-        // ajustar automáticamente el ancho de las columnas de 0 a 2
+
         for (int i = 3; i <= 9; i++) {
             sheet1.autoSizeColumn(i);
         }
@@ -216,9 +226,54 @@ public class PrincipalController {
                 sheet1.autoSizeColumn(i);
             }
         }
+            Row headerRow2 = sheet2.createRow(2);
+
+            headerRow2.createCell(3).setCellValue("ID Pedido");
+            headerRow2.createCell(4).setCellValue("Nombre");
+            headerRow2.createCell(5).setCellValue("Numero de control");
+            headerRow2.createCell(6).setCellValue("Estado");
+            headerRow2.createCell(7).setCellValue("Fecha");
+            headerRow2.createCell(8).setCellValue("Profesor");
+            headerRow2.createCell(9).setCellValue("Materia");
+
+            for (int i = 3; i < 10; i++) {
+                headerRow2.getCell(i).setCellStyle(headerCellStyle);
+            }
+
+            for (int i = 3; i <= 9; i++) {
+                sheet2.autoSizeColumn(i);
+            }
+        int rowIndex2 = 3;
+        ResultSet rsPedidos = conexion.consultar("SELECT * FROM `pedido`");
+        while (rsPedidos.next()) {
+            Pedido pedido = new Pedido(rsPedidos.getInt("id_pedido"), rsPedidos.getString("nombre_persona"), rsPedidos.getString("num_control"), rsPedidos.getString("estado"), rsPedidos.getDate("fecha"),
+                    rsPedidos.getString("profesor"), rsPedidos.getString("materia"));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 
-        // Crear el archivo de selección
+            Row dataRow2 = sheet2.createRow(rowIndex2++);
+            dataRow2.createCell(3).setCellValue(pedido.getId_pedido());
+            dataRow2.createCell(4).setCellValue(pedido.getNombre_persona());
+            dataRow2.createCell(5).setCellValue(pedido.getNum_control());
+            dataRow2.createCell(6).setCellValue(pedido.getEstado());
+            dataRow2.createCell(7).setCellValue(dateFormat.format(pedido.getFecha()));
+            dataRow2.createCell(8).setCellValue(pedido.getProfesor());
+            dataRow2.createCell(9).setCellValue(pedido.getMateria());
+            for (int i = 3; i < sheet1.getRow(0).getLastCellNum(); i++) {
+                sheet1.autoSizeColumn(i);
+            }
+
+            for (int i = 3; i <= 14; i++) {
+                sheet2.autoSizeColumn(i);
+            }
+
+            for (int i = 3; i < sheet1.getRow(0).getLastCellNum(); i++) {
+                sheet2.autoSizeColumn(i);
+            }
+        }
+
+
+            // Crear el archivo de selección
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar archivo Excel");
         // Agregar filtros para que solo se muestren archivos Excel
