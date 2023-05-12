@@ -74,7 +74,7 @@
                                  </HBox.margin>
                               </TextField>
                               <TextField fx:id="txtNumControl" prefHeight="26.0" prefWidth="167.0" promptText="Número de control" />
-                              <CheckBox fx:id="checkBoxNA1" mnemonicParsing="false" onAction="#CheckBoxChange" text="No aplica" />
+                              <CheckBox fx:id="checkBoxNA1" mnemonicParsing="false" onAction="#CheckBoxChange1" text="No aplica" />
                               <TextField fx:id="txtFecha" editable="false" prefHeight="26.0" prefWidth="176.0" promptText="Fecha">
                                  <HBox.margin>
                                     <Insets left="20.0" />
@@ -84,9 +84,9 @@
                         <HBox alignment="CENTER" prefHeight="52.0" prefWidth="685.0" spacing="20.0">
                            <children>
                               <TextField fx:id="txtProfesor" prefHeight="26.0" prefWidth="310.0" promptText="Profesor" />
-                              <CheckBox fx:id="checkBoxNA2" mnemonicParsing="false" onAction="#CheckBoxChange" text="No aplica" />
+                              <CheckBox fx:id="checkBoxNA2" mnemonicParsing="false" onAction="#CheckBoxChange2" text="No aplica" />
                               <TextField fx:id="txtMateria" promptText="Materia" />
-                              <CheckBox fx:id="checkBoxNA3" mnemonicParsing="false" onAction="#CheckBoxChange" text="No aplica" />
+                              <CheckBox fx:id="checkBoxNA3" mnemonicParsing="false" onAction="#CheckBoxChange3" text="No aplica" />
                            </children>
                         </HBox>
                         <TextField fx:id="txtNombre" promptText="Nombre">

@@ -342,12 +342,15 @@ public class PedidosController {
                 txtNombre.setText(rsPedido.getString("nombre_persona"));
                 if (txtNumControl.getText().equals("N/A")){
                     checkBoxNA1.setSelected(true);
+                    txtNumControl.setDisable(true);
                 }
                 if (txtProfesor.getText().equals("N/A")){
                     checkBoxNA2.setSelected(true);
+                    txtProfesor.setDisable(true);
                 }
                 if (txtMateria.getText().equals("N/A")){
                     checkBoxNA3.setSelected(true);
+                    txtMateria.setDisable(true);
                 }
                 ResultSet rsArticulos = conexion.consultar("SELECT `cb_material`,`cantidad` FROM `pedido_material` WHERE `id_pedido`='"+txtID.getText()+"'");
                 while (rsArticulos.next()){
@@ -549,14 +552,16 @@ public class PedidosController {
 
         return confirmar.get();
     }
-    @FXML private void CheckBoxChange(){
+    @FXML private void CheckBoxChange1(){
         if (checkBoxNA1.isSelected()){
             txtNumControl.setText("N/A");
             txtNumControl.setDisable(true);
-        }else {
+        }else{
             txtNumControl.setText("");
             txtNumControl.setDisable(false);
         }
+    }
+    @FXML private void CheckBoxChange2(){
         if (checkBoxNA2.isSelected()) {
             txtProfesor.setText("N/A");
             txtProfesor.setDisable(true);
@@ -564,6 +569,8 @@ public class PedidosController {
             txtProfesor.setText("");
             txtProfesor.setDisable(false);
         }
+    }
+    @FXML private void CheckBoxChange3(){
         if (checkBoxNA3.isSelected()) {
             txtMateria.setText("N/A");
             txtMateria.setDisable(true);
@@ -572,7 +579,6 @@ public class PedidosController {
             txtMateria.setDisable(false);
         }
     }
-
     @FXML private void BuscarProducto() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ConsultarMaterial.fxml"));
         Parent root = fxmlLoader.load();
@@ -598,6 +604,9 @@ public class PedidosController {
     }
 
     private void CleanTextFields(){
+        txtNumControl.setDisable(false);
+        txtProfesor.setDisable(false);
+        txtMateria.setDisable(false);
         checkBoxNA1.setSelected(false);
         checkBoxNA2.setSelected(false);
         checkBoxNA3.setSelected(false);
