@@ -9,10 +9,12 @@
  	-fx-background-color: -fx-primary-color;
 }
 .tab-pane .tab:selected {
-	-fx-background-color: -fx-secondary-color;
+	-fx-background-color: white;
 	-fx-background-insets: 0 0 0 0;
 	-fx-background-radius: 0 0 0 0;
 }
+
+
 .tab .tab-label {
  	-fx-alignment: CENTER;
 	-fx-text-fill: white;
@@ -22,8 +24,6 @@
 .tab-pane:top *.tab-header-area {
 	-fx-padding: 0 0 0 30;
 
-	/* NO SPACE LEFT OF FIRST TAB */
-	/* -fx-padding: 0 0 0 30; */
 }
 .tab-pane {
 	-fx-background-color: transparent;
@@ -108,3 +108,18 @@
 .table-view .virtual-flow .scroll-bar:horizontal .thumb {
     -fx-background-color:  linear-gradient(to right, white, #B198DA);
 }
+.table-row-cell:filled:selected {
+    -fx-background-color: #d0c5de;
+}
+.table-cell .button {
+    -fx-min-width: 25px;
+    -fx-min-height: 20px;
+    -fx-background-color:  #543383;
+    -fx-text-fill: white;
+
+}
+
+
+
+
+
