@@ -34,7 +34,7 @@
                </font>
             </Text>
             <Button layoutX="125.0" layoutY="354.0" mnemonicParsing="false" onAction="#IngresarLogin" prefHeight="33.0" prefWidth="98.0" style="-fx-background-color: #460D67;" text="Entrar" textFill="WHITE" />
-            <Hyperlink layoutX="114.0" layoutY="462.0" onAction="#IngresarLogin" text="Entrar como invitado" textFill="#460d67" />
+            <Hyperlink layoutX="114.0" layoutY="462.0" onAction="#IngresarLoginInvitado" text="Entrar como invitado" textFill="#460d67" />
             <ImageView fitHeight="44.0" fitWidth="59.0" layoutX="158.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../img/GROUP.png" />

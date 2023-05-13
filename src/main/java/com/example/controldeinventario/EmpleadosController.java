@@ -44,6 +44,7 @@ public class EmpleadosController {
     TableColumn<Usuario,String> tableColumnRol = new TableColumn<>("Rol");
 
     @FXML protected void initialize() throws SQLException {
+        ActivateBtn(false,true,false,true,false,false);
         Platform.runLater(() -> {
             txtBusqueda.requestFocus();
             txtBusqueda.selectEnd();
@@ -101,7 +102,6 @@ public class EmpleadosController {
     }
 
     @FXML private void NewEmpleado() throws SQLException {
-        txtID.setDisable(false);
         ActivateBtn(false,false,true,false,false,true);
 
         tabPaneVentana.getSelectionModel().select(tabNew);
@@ -111,27 +111,32 @@ public class EmpleadosController {
     }
 
     @FXML private void SaveEmpleado() throws SQLException {
-        if (VerifyTxt(txtPass, txtConfirmarPass, cbRoles,txtID,txtNombre,txtUsername)){
-            ResultSet resultSetRol = conexion.consultar("SELECT `nombre_rol` FROM `tipo_usuario` WHERE `nombre_rol`='"+cbRoles.getSelectionModel().getSelectedItem()+"' LIMIT 1");
-            if (resultSetRol.next()){
-                ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `usuario` WHERE `id_user`='"+txtID.getText()+"' LIMIT 1");
-                if (resultSetUpdate.next()){
-                    conexion.insmodelim("UPDATE `usuario` SET `nombre_completo`='"+txtNombre.getText()+"',`sexo`='"+((RadioButton) toggleGroupSexo.getSelectedToggle()).getText()+"',`username`='"+txtUsername.getText()+"',`password`='"+txtPass.getText()+"',`nombre_rol`='"+cbRoles.getSelectionModel().getSelectedItem()+"' WHERE `id_user`='"+txtID.getText()+"'");
-                    Exito("Actualizado con exito");
-                }else {
-                    conexion.insmodelim("INSERT INTO `usuario`(`nombre_completo`, `sexo`, `username`, `password`, `nombre_rol`) VALUES ('"+txtNombre.getText()+"','"+((RadioButton) toggleGroupSexo.getSelectedToggle()).getText()+"','"+txtUsername.getText()+"','"+txtPass.getText()+"','"+cbRoles.getSelectionModel().getSelectedItem()+"')");
-                    Exito(txtNombre.getText()+" agregado");
-                }
-                tabPaneVentana.getSelectionModel().select(tabSearch);
-                tabSearch.setDisable(false);
-                tabNew.setDisable(true);
-                ActivateBtn(false,true,false,true,false,false);
-                txtID.setDisable(false);
-                ActualizarTabla(conexion.consultar("SELECT * FROM `usuario`"));
+        if (VerifyTxt(txtPass, txtConfirmarPass, cbRoles,txtNombre,txtUsername)){
+            ResultSet rsUser = conexion.consultar("SELECT `username` FROM `usuario` WHERE `username`='"+txtUsername.getText()+"' LIMIT 1");
+            if (!rsUser.next()){
+                ResultSet resultSetRol = conexion.consultar("SELECT `nombre_rol` FROM `tipo_usuario` WHERE `nombre_rol`='"+cbRoles.getSelectionModel().getSelectedItem()+"' LIMIT 1");
+                if (resultSetRol.next()){
+                    ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `usuario` WHERE `id_user`='"+txtID.getText()+"' LIMIT 1");
+                    if (resultSetUpdate.next()){
+                        conexion.insmodelim("UPDATE `usuario` SET `nombre_completo`='"+txtNombre.getText()+"',`sexo`='"+((RadioButton) toggleGroupSexo.getSelectedToggle()).getText()+"',`username`='"+txtUsername.getText()+"',`password`='"+txtPass.getText()+"',`nombre_rol`='"+cbRoles.getSelectionModel().getSelectedItem()+"' WHERE `id_user`='"+txtID.getText()+"'");
+                        Exito("Actualizado con exito");
+                    }else {
+                        conexion.insmodelim("INSERT INTO `usuario`(`nombre_completo`, `sexo`, `username`, `password`, `nombre_rol`) VALUES ('"+txtNombre.getText()+"','"+((RadioButton) toggleGroupSexo.getSelectedToggle()).getText()+"','"+txtUsername.getText()+"','"+txtPass.getText()+"','"+cbRoles.getSelectionModel().getSelectedItem()+"')");
+                        Exito(txtNombre.getText()+" agregado");
+                    }
+                    tabPaneVentana.getSelectionModel().select(tabSearch);
+                    tabSearch.setDisable(false);
+                    tabNew.setDisable(true);
+                    ActivateBtn(false,true,false,true,false,false);
+                    ActualizarTabla(conexion.consultar("SELECT * FROM `usuario`"));
 
+                }else {
+                    Error("Selecciona el rol");
+                }
             }else {
-                Error("Selecciona el rol");
+                Error("Ya existe un usuario con este username");
             }
+
         }else {
             Error("Faltan campos por rellenar");
         }
@@ -157,7 +162,6 @@ public class EmpleadosController {
                     case "Masculino" -> toggleGroupSexo.selectToggle(rbMasculino);
                     case "Femenino" -> toggleGroupSexo.selectToggle(rbFemenino);
                 }
-                txtID.setDisable(true);
                 ActivateBtn(true,false,true,false,false,true);
             }
 
@@ -184,7 +188,6 @@ public class EmpleadosController {
 
     @FXML private void CancelEmpleado() throws SQLException {
         txtID.setText("");
-        txtID.setDisable(false);
         CleanTextFields();
         ActivateBtn(false,true,false,true,false,false);
         tabPaneVentana.getSelectionModel().select(tabSearch);

@@ -17,7 +17,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="500.0" prefWidth="792.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.EmpleadosController">
+<HBox prefHeight="500.0" prefWidth="792.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.EmpleadosController">
    <children>
       <TabPane fx:id="tabPaneVentana" prefWidth="550.0">
          <tabs>
@@ -76,7 +76,7 @@
                   </VBox>
                </content>
             </Tab>
-            <Tab fx:id="tabNew" closable="false" text="Nuevo/Modificar">
+            <Tab fx:id="tabNew" closable="false" disable="true" text="Nuevo/Modificar">
               <content>
                   <VBox prefHeight="431.0" prefWidth="538.0">
                      <children>
@@ -87,7 +87,7 @@
                                     <Font size="25.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txtID" layoutX="137.0" layoutY="63.0" prefHeight="27.0" prefWidth="75.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <TextField fx:id="txtID" editable="false" layoutX="137.0" layoutY="63.0" prefHeight="27.0" prefWidth="75.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
                               <Label layoutX="26.0" layoutY="68.0" text="ID del empleado" />
                               <Label layoutX="26.0" layoutY="110.0" text="Nombre completo" />
                               <TextField fx:id="txtNombre" layoutX="137.0" layoutY="105.0" style="-fx-background-color: white; -fx-border-color: #543383;" />

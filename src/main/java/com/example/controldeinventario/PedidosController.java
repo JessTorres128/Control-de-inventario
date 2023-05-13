@@ -233,7 +233,7 @@ public class PedidosController {
 
 
     @FXML protected void initialize() throws SQLException {
-
+        ActivateBtn(false,true,false,true,false,false);
         rbID.setToggleGroup(toggleGroupBusqueda);
         rbMaterial.setToggleGroup(toggleGroupBusqueda);
         rbNumControl.setToggleGroup(toggleGroupBusqueda);
@@ -275,7 +275,6 @@ public class PedidosController {
         productos.clear();
         ZonedDateTime zonedDateTime = ZonedDateTime.now(zonaHoraria);
 
-        txtID.setDisable(true);
         ActivateBtn(false,false,true,false,false,true);
         tabPaneVentana.getSelectionModel().select(tabNew);
         tabNew.setDisable(false);
@@ -318,7 +317,6 @@ public class PedidosController {
             tabSearch.setDisable(false);
             tabNew.setDisable(true);
             ActivateBtn(false,true,false,true,false,false);
-            txtID.setDisable(true);
             ActualizarTabla(conexion.consultar("SELECT * FROM `pedido`"));
             CleanTextFields();
         }
@@ -327,13 +325,12 @@ public class PedidosController {
     @FXML private void EditPedido() throws SQLException {
         productos.clear();
         if (tableViewPedidos.getSelectionModel().getSelectedItem() != null){
-            Pedido pedido= (Pedido) tableViewPedidos.getSelectionModel().getSelectedItem();
+            Pedido pedido= tableViewPedidos.getSelectionModel().getSelectedItem();
             ResultSet rsPedido = conexion.consultar("SELECT * FROM `pedido` WHERE `id_pedido`='"+pedido.getId_pedido()+"'");
             if (rsPedido.next()){
                 tabPaneVentana.getSelectionModel().select(tabNew);
                 tabSearch.setDisable(true);
                 tabNew.setDisable(false);
-                txtID.setDisable(true);
                 txtID.setText(String.valueOf(rsPedido.getInt("id_pedido")));
                 txtFecha.setText(String.valueOf(rsPedido.getDate("fecha")));
                 txtMateria.setText(rsPedido.getString("materia"));
@@ -389,7 +386,6 @@ public class PedidosController {
     }
     @FXML private void CanecelPedido() throws SQLException {
         txtID.setText("");
-        txtID.setDisable(false);
         CleanTextFields();
         ActivateBtn(false,true,false,true,false,false);
         tabPaneVentana.getSelectionModel().select(tabSearch);

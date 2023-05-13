@@ -24,32 +24,60 @@ Conexion conexion;
     conexion=new Conexion();
 }
 
-@FXML private void IngresarLogin() throws IOException, SQLException {
-    String user = txtuser.getText();
-    String pass = txtpassword.getText();
+    @FXML private void IngresarLogin() throws IOException, SQLException {
+        String user = txtuser.getText();
+        String pass = txtpassword.getText();
 
-    resultado = conexion.consultar("SELECT * FROM `usuario` INNER JOIN tipo_usuario ON usuario.nombre_rol = tipo_usuario.nombre_rol WHERE username='"+user+"' and password='"+pass+"' LIMIT 1");
-    if (resultado != null){
-        int cont =0;
-        if (resultado.next()){cont++;}
+        resultado = conexion.consultar("SELECT * FROM `usuario` INNER JOIN tipo_usuario ON usuario.nombre_rol = tipo_usuario.nombre_rol WHERE username='"+user+"' and password='"+pass+"' LIMIT 1");
+        if (resultado != null){
+            int cont =0;
+            if (resultado.next()){cont++;}
 
-        if(cont==0){
-            Alert alert=new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("error");
-            alert.setContentText("Datos incorrectos, compruebe los datos insertados");
-            alert.show();
-        }else{
-            System.out.println("ENCONTRO");
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Principal.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
-            HelloApplication.primarystage.setX(100);
-            HelloApplication.primarystage.setY(50);
-            HelloApplication.primarystage.setTitle("Pantalla principal");
-            HelloApplication.primarystage.setScene(scene);
-            HelloApplication.primarystage.setResizable(false);
+            if(cont==0){
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("error");
+                alert.setContentText("Datos incorrectos, compruebe los datos insertados");
+                alert.show();
+            }else{
+                System.out.println("ENCONTRO");
+                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Principal.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
+                HelloApplication.primarystage.setX(100);
+                HelloApplication.primarystage.setY(50);
+                HelloApplication.primarystage.setTitle("Pantalla principal");
+                HelloApplication.primarystage.setScene(scene);
+                HelloApplication.primarystage.setResizable(false);
+            }
+
         }
-
     }
-}
+
+    @FXML private void IngresarLoginInvitado() throws IOException, SQLException {
+        String user = "Invitado";
+        String pass = "Invitado";
+
+        resultado = conexion.consultar("SELECT * FROM `usuario` INNER JOIN tipo_usuario ON usuario.nombre_rol = tipo_usuario.nombre_rol WHERE username='"+user+"' and password='"+pass+"' LIMIT 1");
+        if (resultado != null){
+            int cont =0;
+            if (resultado.next()){cont++;}
+
+            if(cont==0){
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("error");
+                alert.setContentText("Datos incorrectos, compruebe los datos insertados");
+                alert.show();
+            }else{
+                System.out.println("ENCONTRO");
+                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Principal.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
+                HelloApplication.primarystage.setX(100);
+                HelloApplication.primarystage.setY(50);
+                HelloApplication.primarystage.setTitle("Pantalla principal");
+                HelloApplication.primarystage.setScene(scene);
+                HelloApplication.primarystage.setResizable(false);
+            }
+
+        }
+    }
 
 }

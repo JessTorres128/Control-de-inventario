@@ -344,12 +344,12 @@ public class PrincipalController {
         ventanaSecundaria.show();
     }
     private void HabilitarMenus(ResultSet resultSetUsuario) throws SQLException {
-        menuItemMateriales.setDisable(resultSetUsuario.getInt("create_material") != 1 && resultSetUsuario.getInt("update_material") != 1 && resultSetUsuario.getInt("delete_material") != 1);
+    /*    menuItemMateriales.setDisable(resultSetUsuario.getInt("create_material") != 1 && resultSetUsuario.getInt("update_material") != 1 && resultSetUsuario.getInt("delete_material") != 1);
         menuItemHerramientas.setDisable(resultSetUsuario.getInt("create_herramienta") != 1 && resultSetUsuario.getInt("update_herramienta") != 1 && resultSetUsuario.getInt("delete_herramienta") != 1);
         menuItemPedidos.setDisable(resultSetUsuario.getInt("crud_pedido") != 1);
         menuItemTMateriales.setDisable(resultSetUsuario.getInt("create_t_articulo") != 1 && resultSetUsuario.getInt("update_t_articulo") != 1 && resultSetUsuario.getInt("delete_t_articulo") != 1);
         menuItemRoles.setDisable(resultSetUsuario.getInt("crud_roles") != 1);
-        menuItemEmpleados.setDisable(resultSetUsuario.getInt("crud_empleados") != 1);
+        menuItemEmpleados.setDisable(resultSetUsuario.getInt("crud_empleados") != 1);*/
         menuItemRestaurarBD.setDisable(resultSetUsuario.getInt("restaurar_bd") != 1);
         menuItemRespaldarBD.setDisable(resultSetUsuario.getInt("respaldar_bd") != 1);
     }

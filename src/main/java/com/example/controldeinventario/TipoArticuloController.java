@@ -39,6 +39,7 @@ public class TipoArticuloController {
     TableColumn<TipoArticulo, String> tableColumnTipo = new TableColumn<>("Tipo de material");
 
     @FXML protected void initialize() throws SQLException {
+        ActivateBtn(false,true,false,true,false,false);
         Platform.runLater(() -> {
             txtBusqueda.requestFocus();
             txtBusqueda.selectEnd();
@@ -70,7 +71,6 @@ public class TipoArticuloController {
     }
 
     @FXML private void NewTipoArticulo() throws SQLException {
-        txtID.setDisable(true);
         ActivateBtn(false,false,true,false,false,true);
         tabPaneVentana.getSelectionModel().select(tabNew);
         tabNew.setDisable(false);
@@ -91,7 +91,6 @@ public class TipoArticuloController {
             tabSearch.setDisable(false);
             tabNew.setDisable(true);
             ActivateBtn(false,true,false,true,false,false);
-            txtID.setDisable(false);
             Busqueda();
         }
     }
@@ -109,7 +108,6 @@ public class TipoArticuloController {
                 case "Herramienta" -> toggleGroupTMaterial.selectToggle(rbHerramienta);
                 case "Material Fijo" -> toggleGroupTMaterial.selectToggle(rbEquipo);
             }
-            txtID.setDisable(true);
             ActivateBtn(true,false,true,false,false,true);
         }else {
             Error("Selecciona un registro pa");
@@ -138,7 +136,6 @@ public class TipoArticuloController {
 
     @FXML private void CancelTipoArticulo() throws SQLException {
         txtID.setText("");
-        txtID.setDisable(false);
         CleanTextFields();
         ActivateBtn(false,true,false,true,false,false);
         tabPaneVentana.getSelectionModel().select(tabSearch);
@@ -165,7 +162,7 @@ public class TipoArticuloController {
         } else if (!checkBoxHerramienta.isSelected() && !checkBoxMaterial.isSelected() && !busqueda.equals("")) {
             ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
         } else if (checkBoxMaterial.isSelected() && !busqueda.equals("") && !checkBoxHerramienta.isSelected()) {
-            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE `"+criterio+"` LIKE '%"+busqueda+"%' AND tipo_material='Material'"));
+            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE `"+criterio+"` LIKE '%"+busqueda+"%' AND tipo_material LIKE '%Material%'"));
         } else if (checkBoxHerramienta.isSelected() && !checkBoxMaterial.isSelected() && !busqueda.equals("")) {
             ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE `"+criterio+"` LIKE '%"+busqueda+"%' AND tipo_material='Herramienta'"));
         }
@@ -174,7 +171,7 @@ public class TipoArticuloController {
         if (checkBoxHerramienta.isSelected() && !checkBoxMaterial.isSelected()){
             ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE tipo_material='Herramienta'"));
         } else if (!checkBoxHerramienta.isSelected() && checkBoxMaterial.isSelected()) {
-            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE tipo_material='Material'"));
+            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE tipo_material LIKE '%Material%'"));
         }else {
             ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material`"));
         }

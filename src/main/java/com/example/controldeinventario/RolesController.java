@@ -45,6 +45,7 @@ public class RolesController {
     @FXML TableColumn<Tipo_Usuario,String>  col_restaurarbd= new TableColumn<>("Restaurar BD");
     @FXML TableColumn<Tipo_Usuario,String>  col_respaldarbd= new TableColumn<>("Respaldar BD");
     @FXML protected void initialize() throws SQLException {
+        ActivateBtn(false,true,false,true,false,false);
         conexion = new Conexion();
         col_id.setCellValueFactory(new PropertyValueFactory<>("id_rol"));
         col_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre_rol"));
@@ -98,7 +99,6 @@ public class RolesController {
     }
 
     @FXML private void NewRol() throws SQLException {
-        txtId_rol.setDisable(true);
         ActivateBtn(false,false,true,false,false,true);
         tabPaneVentana.getSelectionModel().select(tabNew);
         tabNew.setDisable(false);
@@ -131,7 +131,6 @@ public class RolesController {
             tabSearch.setDisable(false);
             tabNew.setDisable(true);
             ActivateBtn(false,true,false,true,false,false);
-            txtId_rol.setDisable(false);
             ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_usuario`"));
             ClearCheckBox();
 
@@ -159,7 +158,6 @@ public class RolesController {
             check_restaurar_bd.setSelected(VerificarString(tipoUsuario.getRestaurar_bd()));
             check_respaldar_bd.setSelected(VerificarString(tipoUsuario.getRespaldar_bd()));
             txtNombre_rol.setText(tipoUsuario.getNombre_rol());
-            txtId_rol.setDisable(true);
             ActivateBtn(true,false,true,false,false,true);
         }else {
             Error("Selecciona un registro pa");
@@ -184,7 +182,6 @@ public class RolesController {
 
     @FXML private void CancelRol() throws SQLException {
         txtId_rol.setText("");
-        txtId_rol.setDisable(false);
         CleanTextFields();
         ActivateBtn(false,true,false,true,false,false);
         tabPaneVentana.getSelectionModel().select(tabSearch);

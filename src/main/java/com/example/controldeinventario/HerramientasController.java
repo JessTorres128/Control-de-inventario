@@ -96,7 +96,6 @@ public class HerramientasController {
         ActivateBtn(false,true,false,true,false,false);
     }
     @FXML private void NewHerramienta() throws SQLException {
-        txtCB.setDisable(false);
         ActivateBtn(false,false,true,false,false,true);
         Long cb = GenerateNumber();
         tabPaneHerramientas.getSelectionModel().select(tabNew);
@@ -124,7 +123,6 @@ public class HerramientasController {
                 tabSearch.setDisable(false);
                 tabNew.setDisable(true);
                 ActivateBtn(false,true,false,true,false,false);
-                txtCB.setDisable(false);
                 ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material;"));
                 Exito(cbHerramienta.getSelectionModel().getSelectedItem()+" "+txtTipo.getText()+" agregado");
             }else {
@@ -151,7 +149,6 @@ public class HerramientasController {
             }
             txtStock.setText(String.valueOf(herramienta.getCantidad()));
             txtStockMin.setText(String.valueOf(herramienta.getCantidad_min()));
-            txtCB.setDisable(true);
             ActivateBtn(true,false,true,false,false,true);
         }else {
             Error("Selecciona un registro pa");
@@ -172,7 +169,6 @@ public class HerramientasController {
     }
     @FXML private void CancelHerramienta() throws SQLException {
         txtCB.setText("");
-        txtCB.setDisable(false);
         CleanTextFields();
         ActivateBtn(false,true,false,true,false,false);
         tabPaneHerramientas.getSelectionModel().select(tabSearch);
@@ -232,7 +228,7 @@ public class HerramientasController {
         if (rbID.isSelected() && !busqueda.equals("")){
             criterio="cb_herramienta";
         } else if (rbNombre.isSelected() && !busqueda.equals("")) {
-            criterio="herramienta";
+            criterio="material";
         }
         if (!busqueda.equals("")){
             ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));

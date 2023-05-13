@@ -156,7 +156,6 @@ public class ArticulosController {
         lblContador.setText("Se cargaron "+cont+" articulos");
     }
     @FXML private void NewArticulo() throws SQLException {
-        txtCodigoBarras.setDisable(false);
         ActivateBtn(false,false,true,false,false,true);
         Long cb = GenerateNumber();
         tabV.getSelectionModel().select(tabNew);
@@ -190,7 +189,6 @@ public class ArticulosController {
                 tabSearch.setDisable(false);
                 tabNew.setDisable(true);
                 ActivateBtn(false,true,false,true,false,false);
-                txtCodigoBarras.setDisable(false);
                 ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;"));
 
             }else {
@@ -224,13 +222,11 @@ public class ArticulosController {
             }
             txtStock.setText(String.valueOf(articulo.getCantidad()));
             txtStockMin.setText(String.valueOf(articulo.getCantidad_min()));
-            txtCodigoBarras.setDisable(true);
             ActivateBtn(true,false,true,false,false,true);
         }else {Error("Selecciona un registro pa");}
     }
     @FXML private void CancelArticulo() throws SQLException {
         txtCodigoBarras.setText("");
-        txtCodigoBarras.setDisable(false);
         CleanTextFields();
         ActivateBtn(false,true,false,true,false,false);
         tabV.getSelectionModel().select(tabSearch);
