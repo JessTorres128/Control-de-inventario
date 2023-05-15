@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 
-<HBox prefHeight="687.0" prefWidth="900.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.PedidosController">
+<HBox prefHeight="687.0" prefWidth="900.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.PedidosController">
    <children>
       <TabPane fx:id="tabPaneVentana" prefHeight="600.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -94,7 +94,7 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="74.0" prefWidth="685.0" spacing="20.0">
                            <children>
-                              <TextField fx:id="txtID" prefHeight="26.0" prefWidth="68.0" promptText="ID" style="-fx-background-color: white; -fx-border-color: #543383;">
+                              <TextField fx:id="txtID" editable="false" prefHeight="26.0" prefWidth="68.0" promptText="ID" style="-fx-background-color: white; -fx-border-color: #543383;">
                                  <HBox.margin>
                                     <Insets right="20.0" />
                                  </HBox.margin>

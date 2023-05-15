@@ -211,10 +211,39 @@ public class PedidosController {
                         } else {
                             checkBox.setSelected(tableViewPedidos.getItems().get(getIndex()).getEstado().equals("Entregado"));
                             checkBox.setOnAction(event -> {
-                                if (checkBox.isSelected()){
+                                        ResultSet rsArticulos = conexion.consultar("SELECT `cb_material`,`cantidad` FROM `pedido_material` WHERE `id_pedido`='"+tableViewPedidos.getItems().get(getIndex()).getId_pedido()+"'");
+                                        if (checkBox.isSelected()){
                                     conexion.insmodelim("UPDATE `pedido` SET `estado`='Entregado' WHERE `id_pedido`='"+tableViewPedidos.getItems().get(getIndex()).getId_pedido()+"'");
+                                        try {
+                                            while (rsArticulos.next()){
+                                                ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+rsArticulos.getLong("cb_material")+"'");
+                                                ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
+                                                if (rsArticulo.next()){
+                                                    conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")+rsArticulos.getInt("cantidad"))+"' WHERE cb_material='"+rsArticulos.getLong("cb_material")+"'");
+                                                }else if (rsHerramienta.next()){
+                                                    conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")+rsArticulos.getInt("cantidad"))+"' WHERE `cb_herramienta`='"+rsHerramienta.getLong("cb_herramienta")+"'");
+                                                }
+                                        }
+
+                                    }catch (SQLException e) {
+                                            throw new RuntimeException(e);
+                                        }
                                 }else {
                                     conexion.insmodelim("UPDATE `pedido` SET `estado`='Pendiente' WHERE `id_pedido`='"+tableViewPedidos.getItems().get(getIndex()).getId_pedido()+"'");
+                                    try {
+                                        while (rsArticulos.next()){
+                                            ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+rsArticulos.getLong("cb_material")+"'");
+                                            ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
+                                            if (rsArticulo.next()){
+                                                conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")-rsArticulos.getInt("cantidad"))+"' WHERE cb_material='"+rsArticulos.getLong("cb_material")+"'");
+                                            }else if (rsHerramienta.next()){
+                                                conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")-rsArticulos.getInt("cantidad"))+"' WHERE `cb_herramienta`='"+rsHerramienta.getLong("cb_herramienta")+"'");
+                                            }
+                                        }
+
+                                    }catch (SQLException e) {
+                                        throw new RuntimeException(e);
+                                    }
                                 }
                                     }
                                     );
@@ -306,6 +335,14 @@ public class PedidosController {
                         int id = rsID.getInt("id_pedido");
                         for (Registro registro : productos){
                             conexion.insmodelim("INSERT INTO `pedido_material`(`id_pedido`,`cb_material`, `cantidad`) VALUES ('"+id+"','"+registro.getCb()+"','"+registro.getCantidad()+"')");
+                            ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+registro.getCb()+"'");
+                            ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+registro.getCb()+"'");
+                            if (rsArticulo.next()){
+                                conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")-registro.getCantidad())+"' WHERE cb_material='"+registro.getCb()+"'");
+                            }else if (rsHerramienta.next()){
+                                conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")-registro.getCantidad())+"' WHERE `cb_herramienta`='"+registro.getCb()+"'");
+                            }
+
                         }
                     }
 
