@@ -1,6 +1,7 @@
 package com.example.controldeinventario;
 
 import com.example.controldeinventario.Datos.*;
+import com.example.controldeinventario.Datos.Registro;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -391,7 +392,7 @@ public class PedidosController {
                     conexion.insmodelim("DELETE FROM `pedido_material` WHERE `id_pedido`='"+txtID.getText()+"'");
                     conexion.insmodelim("UPDATE `pedido` SET `nombre_persona`='"+txtNombre.getText()+"',`num_control`='"+txtNumControl.getText()+"',`profesor`='"+txtProfesor.getText()+"',`materia`='"+txtMateria.getText()+"' WHERE `id_pedido`='"+txtID.getText()+"'");
                     for (Registro registro : productos){
-                        conexion.insmodelim("INSERT INTO `pedido_material`(`id_pedido`, `cb_material`, `cantidad`,`estado`) VALUES ('"+txtID.getText()+"','"+registro.getCb()+"','"+registro.getCantidad()+"')");//SE OCUPA CAMBIAR ESTO
+                        conexion.insmodelim("INSERT INTO `pedido_material`(`id_pedido`, `cb_material`, `cantidad`,`estado`) VALUES ('"+txtID.getText()+"','"+registro.getCb()+"','"+registro.getCantidad()+"', '"+(registro.isEntregado() ? "Entregado" : "Pendiente")+"')");//SE OCUPA CAMBIAR ESTO/CREO YA JAAL
                         ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+registro.getCb()+"'");
                         ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+registro.getCb()+"'");
                         if (rsArticulo.next()){
@@ -408,7 +409,7 @@ public class PedidosController {
                     if (rsID.next()){
                         int id = rsID.getInt("id_pedido");
                         for (Registro registro : productos){
-                            conexion.insmodelim("INSERT INTO `pedido_material`(`id_pedido`,`cb_material`, `cantidad`) VALUES ('"+id+"','"+registro.getCb()+"','"+registro.getCantidad()+"')");//SE OCUPA CAMBIAR ESTO
+                            conexion.insmodelim("INSERT INTO `pedido_material`(`id_pedido`,`cb_material`, `cantidad`,`estado`) VALUES ('"+id+"','"+registro.getCb()+"','"+registro.getCantidad()+"', '"+(registro.isEntregado() ? "Entregado" : "Pendiente")+"')");//SE OCUPA CAMBIAR ESTO/CREO QUE YA JALA NO SE OCUPA MAS
                             ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+registro.getCb()+"'");
                             ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+registro.getCb()+"'");
                             if (rsArticulo.next()){
