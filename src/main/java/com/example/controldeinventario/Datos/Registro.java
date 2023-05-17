@@ -7,21 +7,24 @@ public class Registro {
     private Double valor;
     private String unidad_medida;
     private int cantidad;
+    private boolean entregado;
 
-    public Registro(Long cb, String nombre, String tipo, Double valor, String unidad_medida, int cantidad) {
+    public Registro(Long cb, String nombre, String tipo, Double valor, String unidad_medida, int cantidad, boolean entregado) {
         this.cb = cb;
         this.nombre = nombre;
         this.tipo = tipo;
         this.valor = valor;
         this.unidad_medida = unidad_medida;
         this.cantidad = cantidad;
+        this.entregado=entregado;
     }
 
-    public Registro(Long cb, String nombre, String tipo, int cantidad) {
+    public Registro(Long cb, String nombre, String tipo, int cantidad, boolean entregado) {
         this.cb = cb;
         this.nombre = nombre;
         this.tipo = tipo;
         this.cantidad = cantidad;
+        this.entregado=entregado;
     }
 
     public Long getCb() {
@@ -70,5 +73,13 @@ public class Registro {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public boolean isEntregado() {
+        return entregado;
+    }
+
+    public void setEntregado(boolean entregado) {
+        this.entregado = entregado;
     }
 }
