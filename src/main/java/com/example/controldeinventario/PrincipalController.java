@@ -3,6 +3,7 @@ package com.example.controldeinventario;
 import com.example.controldeinventario.Datos.Articulo;
 import com.example.controldeinventario.Datos.Herramienta;
 import com.example.controldeinventario.Datos.Pedido;
+import com.example.controldeinventario.Datos.Registro;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,36 +26,43 @@ import java.util.Date;
 
 public class PrincipalController {
     Stage ventanaSecundaria;
-    @FXML MenuItem menuItemB;
-    @FXML MenuItem menuItemIniciarSesion, menuItemCerrarSesion, menuItemCerrarPrograma;
-    @FXML MenuItem menuItemMateriales, menuItemHerramientas;
-    @FXML MenuItem menuItemPedidos;
-    @FXML MenuItem menuItemTMateriales, menuItemTHerramientas;
-    @FXML MenuItem menuItemRoles, menuItemEmpleados;
-    @FXML MenuItem menuItemRespaldarBD, menuItemRestaurarBD;
+    @FXML
+    MenuItem menuItemB;
+    @FXML
+    MenuItem menuItemIniciarSesion, menuItemCerrarSesion, menuItemCerrarPrograma;
+    @FXML
+    MenuItem menuItemMateriales, menuItemHerramientas;
+    @FXML
+    MenuItem menuItemPedidos;
+    @FXML
+    MenuItem menuItemTMateriales, menuItemTHerramientas;
+    @FXML
+    MenuItem menuItemRoles, menuItemEmpleados;
+    @FXML
+    MenuItem menuItemRespaldarBD, menuItemRestaurarBD;
 
     Conexion conexion;
 
-    @FXML protected void initialize() throws SQLException {
-        conexion=new Conexion();
+    @FXML
+    protected void initialize() throws SQLException {
+        conexion = new Conexion();
         HabilitarMenus(LoginController.resultado);
-       // Image imgSearch= new Image("",25,25,false,true);menuItemB.setGraphic(new ImageView(imgSearch));
+        // Image imgSearch= new Image("",25,25,false,true);menuItemB.setGraphic(new ImageView(imgSearch));
     }
 
 
-
-
-
-
     //Controles del menú
-    @FXML private void IngresarArticulos() throws IOException {
+    @FXML
+    private void IngresarArticulos() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Articulos.fxml"));
         Parent root = fxmlLoader.load();
         AbrirVentana(root);
 
 
     }
-    @FXML private void ExportarBD() throws IOException, SQLException {
+
+    @FXML
+    private void ExportarBD() throws IOException, SQLException {
 
         Workbook workbook = new HSSFWorkbook();
         Sheet sheet = workbook.createSheet("Materiales");
@@ -76,7 +84,6 @@ public class PrincipalController {
         Row titleRow = sheet.createRow(0);
         Row titleRow1 = sheet1.createRow(0);
         Row titleRow2 = sheet2.createRow(0);
-
 
 
         // Crear una celda para el título
@@ -105,7 +112,6 @@ public class PrincipalController {
         titleCell2.setCellStyle(titleStyle);
 
 
-
         CellStyle headerStyle = workbook.createCellStyle();
         headerStyle.setVerticalAlignment((short) 2);
 
@@ -113,7 +119,6 @@ public class PrincipalController {
         sheet.autoSizeColumn(0); // ajustar automáticamente el ancho de la columna 0
         sheet1.autoSizeColumn(0); // ajustar automáticamente el ancho de la columna 0
         sheet2.autoSizeColumn(0); // ajustar automáticamente el ancho de la columna 0
-
 
 
         Row headerRow = sheet.createRow(2);
@@ -164,7 +169,6 @@ public class PrincipalController {
             dataRow.createCell(14).setCellValue(producto.getCantidad_min());
 
 
-
             for (int i = 3; i < sheet.getRow(0).getLastCellNum(); i++) {
                 sheet.autoSizeColumn(i);
             }
@@ -178,8 +182,6 @@ public class PrincipalController {
             }
 
         }
-
-
 
 
         Row headerRow1 = sheet1.createRow(2);
@@ -226,30 +228,53 @@ public class PrincipalController {
                 sheet1.autoSizeColumn(i);
             }
         }
-            Row headerRow2 = sheet2.createRow(2);
+        Row headerRow2 = sheet2.createRow(2);
 
-            headerRow2.createCell(3).setCellValue("ID Pedido");
-            headerRow2.createCell(4).setCellValue("Nombre");
-            headerRow2.createCell(5).setCellValue("Numero de control");
-            headerRow2.createCell(6).setCellValue("Estado");
-            headerRow2.createCell(7).setCellValue("Fecha");
-            headerRow2.createCell(8).setCellValue("Profesor");
-            headerRow2.createCell(9).setCellValue("Materia");
+        headerRow2.createCell(3).setCellValue("ID Pedido");
+        headerRow2.createCell(4).setCellValue("Nombre");
+        headerRow2.createCell(5).setCellValue("Numero de control");
+        headerRow2.createCell(6).setCellValue("Estado");
+        headerRow2.createCell(7).setCellValue("Fecha");
+        headerRow2.createCell(8).setCellValue("Profesor");
+        headerRow2.createCell(9).setCellValue("Materia");
 
-            for (int i = 3; i < 10; i++) {
-                headerRow2.getCell(i).setCellStyle(headerCellStyle);
-            }
 
-            for (int i = 3; i <= 9; i++) {
-                sheet2.autoSizeColumn(i);
-            }
+        for (int i = 3; i < 10; i++) {
+            headerRow2.getCell(i).setCellStyle(headerCellStyle);
+        }
+
+        for (int i = 3; i <= 9; i++) {
+            sheet2.autoSizeColumn(i);
+        }
+
+
         int rowIndex2 = 3;
+
+
         ResultSet rsPedidos = conexion.consultar("SELECT * FROM `pedido`");
+
         while (rsPedidos.next()) {
             Pedido pedido = new Pedido(rsPedidos.getInt("id_pedido"), rsPedidos.getString("nombre_persona"), rsPedidos.getString("num_control"), rsPedidos.getString("estado"), rsPedidos.getDate("fecha"),
                     rsPedidos.getString("profesor"), rsPedidos.getString("materia"));
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
+            ResultSet rsArticulos2 = conexion.consultar("SELECT `cb_material`,`cantidad`,`estado` FROM `pedido_material` WHERE `id_pedido`='" + pedido.getId_pedido() + "'");
+            while (rsArticulos2.next()) {
+                ResultSet rsArticulo2 = conexion.consultar("SELECT `tipo`,`cantidad`,`valor`,`unidad_de_medida`,tipo_material.material FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='" + rsArticulos2.getLong("cb_material") + "'");
+                if (rsArticulo2.next()) {
+                    Registro registro = new Registro(rsArticulos2.getLong("cb_material"), rsArticulo2.getString("material"), rsArticulo2.getString("tipo"), rsArticulo2.getDouble("valor"), rsArticulo2.getString("unidad_de_medida"), rsArticulos2.getInt("cantidad"), (rsArticulos2.getString("estado").equals("Entregado")));
+
+                    String productoNombre = rsArticulo2.getString("tipo");
+
+                } else {
+                    ResultSet rsHerramienta2 = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='" + rsArticulos2.getLong("cb_material") + "'");
+                    if (rsHerramienta2.next()) {
+                        Registro registro = new Registro(rsArticulos2.getLong("cb_material"), rsHerramienta2.getString("material"), rsHerramienta2.getString("tipo"), rsArticulos2.getInt("cantidad"), (rsArticulos2.getString("estado").equals("Entregado")));
+
+
+                    }
+                }
+            }
 
             Row dataRow2 = sheet2.createRow(rowIndex2++);
             dataRow2.createCell(3).setCellValue(pedido.getId_pedido());
@@ -259,6 +284,8 @@ public class PrincipalController {
             dataRow2.createCell(7).setCellValue(dateFormat.format(pedido.getFecha()));
             dataRow2.createCell(8).setCellValue(pedido.getProfesor());
             dataRow2.createCell(9).setCellValue(pedido.getMateria());
+
+
             for (int i = 3; i < sheet1.getRow(0).getLastCellNum(); i++) {
                 sheet1.autoSizeColumn(i);
             }
@@ -271,7 +298,6 @@ public class PrincipalController {
                 sheet2.autoSizeColumn(i);
             }
         }
-
 
             // Crear el archivo de selección
         FileChooser fileChooser = new FileChooser();
