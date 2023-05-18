@@ -2,12 +2,40 @@ package com.example.controldeinventario.Datos;
 
 public class Registro {
     private Long cb;
+    private int id_registro;
     private String nombre;
     private String tipo;
     private Double valor;
     private String unidad_medida;
     private int cantidad;
     private boolean entregado;
+
+    public Registro(Long cb, int id_registro, int cantidad, boolean entregado) {
+        this.cb = cb;
+        this.id_registro = id_registro;
+        this.cantidad = cantidad;
+        this.entregado = entregado;
+    }
+
+    public Registro(Long cb, int id_registro, String nombre, String tipo, Double valor, String unidad_medida, int cantidad, boolean entregado) {
+        this.cb = cb;
+        this.id_registro = id_registro;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.valor = valor;
+        this.unidad_medida = unidad_medida;
+        this.cantidad = cantidad;
+        this.entregado = entregado;
+    }
+
+    public Registro(Long cb, int id_registro, String nombre, String tipo, int cantidad, boolean entregado) {
+        this.cb = cb;
+        this.id_registro = id_registro;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.cantidad = cantidad;
+        this.entregado = entregado;
+    }
 
     public Registro(Long cb, String nombre, String tipo, Double valor, String unidad_medida, int cantidad, boolean entregado) {
         this.cb = cb;
@@ -81,5 +109,13 @@ public class Registro {
 
     public void setEntregado(boolean entregado) {
         this.entregado = entregado;
+    }
+
+    public int getId_registro() {
+        return id_registro;
+    }
+
+    public void setId_registro(int id_registro) {
+        this.id_registro = id_registro;
     }
 }
