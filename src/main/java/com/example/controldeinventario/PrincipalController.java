@@ -253,28 +253,14 @@ public class PrincipalController {
 
         ResultSet rsPedidos = conexion.consultar("SELECT * FROM `pedido`");
 
+        ResultSet rsArticuloPedido = conexion.consultar("SELECT `tipo`,`cantidad`,`valor`,`unidad_de_medida`,tipo_material.material FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+rsArticulos.getLong("cb_material")+"'");
+        ResultSet rsHerramientaPedido = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
+
         while (rsPedidos.next()) {
             Pedido pedido = new Pedido(rsPedidos.getInt("id_pedido"), rsPedidos.getString("nombre_persona"), rsPedidos.getString("num_control"), rsPedidos.getString("estado"), rsPedidos.getDate("fecha"),
                     rsPedidos.getString("profesor"), rsPedidos.getString("materia"));
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-            ResultSet rsArticulos2 = conexion.consultar("SELECT `cb_material`,`cantidad`,`estado` FROM `pedido_material` WHERE `id_pedido`='" + pedido.getId_pedido() + "'");
-            while (rsArticulos2.next()) {
-                ResultSet rsArticulo2 = conexion.consultar("SELECT `tipo`,`cantidad`,`valor`,`unidad_de_medida`,tipo_material.material FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='" + rsArticulos2.getLong("cb_material") + "'");
-                if (rsArticulo2.next()) {
-                    Registro registro = new Registro(rsArticulos2.getLong("cb_material"), rsArticulo2.getString("material"), rsArticulo2.getString("tipo"), rsArticulo2.getDouble("valor"), rsArticulo2.getString("unidad_de_medida"), rsArticulos2.getInt("cantidad"), (rsArticulos2.getString("estado").equals("Entregado")));
-
-                    String productoNombre = rsArticulo2.getString("tipo");
-
-                } else {
-                    ResultSet rsHerramienta2 = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='" + rsArticulos2.getLong("cb_material") + "'");
-                    if (rsHerramienta2.next()) {
-                        Registro registro = new Registro(rsArticulos2.getLong("cb_material"), rsHerramienta2.getString("material"), rsHerramienta2.getString("tipo"), rsArticulos2.getInt("cantidad"), (rsArticulos2.getString("estado").equals("Entregado")));
-
-
-                    }
-                }
-            }
 
             Row dataRow2 = sheet2.createRow(rowIndex2++);
             dataRow2.createCell(3).setCellValue(pedido.getId_pedido());
