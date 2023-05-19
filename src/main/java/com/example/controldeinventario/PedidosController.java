@@ -23,6 +23,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -204,9 +205,20 @@ public class PedidosController {
                             setText(null);
                         } else {
                             checkBox.setSelected(tableViewPedidos.getItems().get(getIndex()).getEstado().equals("Entregado"));
+                            ResultSet rsEstado = conexion.consultar("SELECT * FROM `pedido_material` WHERE `id_pedido`='"+tableViewPedidos.getItems().get(getIndex()).getId_pedido()+"'");
+                            try {
+                                while (rsEstado.next()){
+                                    if (rsEstado.getString("estado").equals("Pendiente")){
+                                        checkBox.setSelected(false);
+                                    }
+                                }
+                            }catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+
                             checkBox.setOnAction(event -> {
-                                        ResultSet rsArticulos = conexion.consultar("SELECT `cb_material`,`id_pedido`,`cantidad`,`estado` FROM `pedido_material` WHERE `id_pedido`='"+tableViewPedidos.getItems().get(getIndex()).getId_pedido()+"'");
                                         if (checkBox.isSelected()){
+                                            ResultSet rsArticulos = conexion.consultar("SELECT `cb_material`,`id_pedido`,`cantidad`,`estado` FROM `pedido_material` WHERE `id_pedido`='"+tableViewPedidos.getItems().get(getIndex()).getId_pedido()+"' AND `estado`='Pendiente'");
                                             conexion.insmodelim("UPDATE `pedido` SET `estado`='Entregado' WHERE `id_pedido`='"+tableViewPedidos.getItems().get(getIndex()).getId_pedido()+"'");
                                             try {
                                                 while (rsArticulos.next()){
@@ -225,6 +237,7 @@ public class PedidosController {
                                                 throw new RuntimeException(e);
                                             }
                                         }else {
+                                            ResultSet rsArticulos = conexion.consultar("SELECT `cb_material`,`id_pedido`,`cantidad`,`estado` FROM `pedido_material` WHERE `id_pedido`='"+tableViewPedidos.getItems().get(getIndex()).getId_pedido()+"' AND `estado`='Entregado'");
                                             conexion.insmodelim("UPDATE `pedido` SET `estado`='Pendiente' WHERE `id_pedido`='"+tableViewPedidos.getItems().get(getIndex()).getId_pedido()+"'");
                                             try {
                                                 while (rsArticulos.next()){
@@ -393,14 +406,13 @@ public class PedidosController {
             }else {
                 ResultSet rsEdit = conexion.consultar("SELECT * FROM `pedido` WHERE `id_pedido`='"+txtID.getText()+"'");
                 if (rsEdit.next()){//PA EDITAR
-                  //  conexion.insmodelim("UPDATE `pedido` SET `nombre_persona`='"+txtNombre.getText()+"',`num_control`='"+txtNumControl.getText()+"',`profesor`='"+txtProfesor.getText()+"',`materia`='"+txtMateria.getText()+"' WHERE `id_pedido`='"+txtID.getText()+"'");
+                    conexion.insmodelim("UPDATE `pedido` SET `nombre_persona`='"+txtNombre.getText()+"',`num_control`='"+txtNumControl.getText()+"',`profesor`='"+txtProfesor.getText()+"',`materia`='"+txtMateria.getText()+"' WHERE `id_pedido`='"+txtID.getText()+"'");
                     ResultSet rsPMateriales= conexion.consultar("SELECT * FROM `pedido_material` WHERE `id_pedido`='"+txtID.getText()+"'");
-                    // conexion.insmodelim("DELETE FROM `pedido_material` WHERE `id_pedido`='"+txtID.getText()+"'");
+                    conexion.insmodelim("DELETE FROM `pedido_material` WHERE `id_pedido`='"+txtID.getText()+"'");
                     while (rsPMateriales.next()){
                         Registro registroBD = new Registro(rsPMateriales.getLong("cb_material"),rsPMateriales.getInt("id_registro"),rsPMateriales.getInt("cantidad"),(rsPMateriales.getString("estado")).equals("Entregado"));
-                        for (Registro registroT : productos){
-                            ActualizarCantidadesBD(registroBD,registroT);
-                        }
+                        ActualizarCantidadesBD(registroBD);
+
                     }
 
                      /*   for (Registro registroT : productos){
@@ -467,25 +479,77 @@ public class PedidosController {
             CleanTextFields();
         }
     }
-    private void ActualizarCantidadesBD(Registro registroBD, Registro registroT) throws SQLException {
-        if (registroT.getId_registro() == registroBD.getId_registro()){
-            System.out.println("ENTRAMOS AL MISMO REGISTOR");
-            ResultSet rsArticulo = conexion.consultar("SELECT `tipo`,`cantidad`,`valor`,`unidad_de_medida`,tipo_material.material FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='" + registroBD.getCb() + "'");
-            if (rsArticulo.next()) {
-                    if (!registroBD.isEntregado() && registroT.isEntregado() && registroBD.getCantidad()== registroT.getCantidad()){
-                        //  conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")+ registroBD.getCantidad())+"' WHERE `cb_material`='"+registroBD.getCb()+"'");
-                    } else if (registroBD.isEntregado() && !registroT.isEntregado() && registroBD.getCantidad()== registroT.getCantidad()) {
-                        // conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")+ registroBD.getCantidad())+"' WHERE `cb_material`='"+registroBD.getCb()+"'");
-                    } else if ((registroBD.isEntregado() && registroT.isEntregado()) || (!registroBD.isEntregado() && !registroT.isEntregado())) {
-
-                    } else if (!registroBD.isEntregado() && registroBD.getCantidad() != registroT.getCantidad()) {
-
+    private void ActualizarCantidadesBD(Registro registroBD) throws SQLException {
+        Iterator<Registro> iterator = productos.iterator();
+        while (iterator.hasNext()){
+            Registro registroT= iterator.next();
+            if (registroT.getId_registro() == registroBD.getId_registro()){
+                System.out.println("ENTRAMOS AL MISMO REGISTOR");
+                ResultSet rsArticulo = conexion.consultar("SELECT `tipo`,`cantidad`,`valor`,`unidad_de_medida`,tipo_material.material FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='" + registroBD.getCb() + "'");
+                if (rsArticulo.next()) {
+                    if (!registroBD.isEntregado() && registroT.isEntregado()){
+                        conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")+ registroT.getCantidad())+"' WHERE `cb_material`='"+registroBD.getCb()+"'");
+                    } else if ((registroBD.isEntregado() && !registroT.isEntregado()) ) {
+                        conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")- registroT.getCantidad())+"' WHERE `cb_material`='"+registroBD.getCb()+"'");
+                    } else if (registroBD.isEntregado() && registroT.isEntregado()) {
+                        conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")-(registroBD.getCantidad()- registroT.getCantidad()))+"' WHERE `cb_material`='"+registroBD.getCb()+"'");
+                    } else if (!registroBD.isEntregado() && !registroT.isEntregado()) {
+                        conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")+(registroBD.getCantidad()- registroT.getCantidad()))+"' WHERE `cb_material`='"+registroBD.getCb()+"'");
                     }
+                    conexion.insmodelim("INSERT INTO `pedido_material`( `id_pedido`, `cb_material`, `cantidad`, `estado`) VALUES ('"+txtID.getText()+"','"+registroT.getCb()+"','"+registroT.getCantidad()+"','"+(registroT.isEntregado() ? "Entregado" : "Pendiente")+"')");
+                    /*
+                    if (!registroBD.isEntregado() && registroT.isEntregado() && registroBD.getCantidad()== registroT.getCantidad()){ // P > E MARCAS UN PRODUCTO PENDIENTE COMO ENTRREGAOD -------------------------
+                        conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")+ registroT.getCantidad())+"' WHERE `cb_material`='"+registroBD.getCb()+"'");
+                    } else if (registroBD.isEntregado() && !registroT.isEntregado() && registroBD.getCantidad()== registroT.getCantidad()) {// E > P MARCAS UN PRODUCTO ENTREGADO COMO PENDIENTE -------------------------------------------------------------------
+                        conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")- registroT.getCantidad())+"' WHERE `cb_material`='"+registroBD.getCb()+"'");
+                    } else if ((!registroBD.isEntregado() && !registroT.isEntregado()) && registroT.getCantidad() == registroBD.getCantidad()) {// P > P == CANTIDAD EL REGISTRO SE QUEDA IGUAL -------------------------------------------------
+                        conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")+ registroT.getCantidad())+"' WHERE `cb_material`='"+registroBD.getCb()+"'");// SUJETO A CAMBIOS
+                    }else if ((registroBD.isEntregado() && registroT.isEntregado()) && registroT.getCantidad() == registroBD.getCantidad()) {// E > E == CANTIDAD EL REGISTRO SE QUEDA IGUAL -------------------------------------------------------------
+                        conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")+ registroT.getCantidad())+"' WHERE `cb_material`='"+registroBD.getCb()+"'");// SUJETO A CAMBIOS
 
+                    } else if (!registroBD.isEntregado() && registroT.isEntregado() && registroBD.getCantidad() != registroT.getCantidad()) {// P > E != Cantidad MARCAS UN PRODUCTO PENDIENTE COMO ENTREGADO PERO CAMBIA LA CANTIDAD
+                        conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")+registroT.getCantidad())+"' WHERE `cb_material`='"+registroBD.getCb()+"'");
+                    }else if (registroBD.isEntregado() && !registroT.isEntregado() && registroBD.getCantidad() != registroT.getCantidad()) {// E > E != Cantidad MARCAS UN PRODUCTO ENTREGADO COMO PENDIENTE PERO CAMBIA LA CANTIDAD
+                        conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")+(registroBD.getCantidad()-registroT.getCantidad()))+"' WHERE `cb_material`='"+registroBD.getCb()+"'");
+                    } else if (!registroBD.isEntregado() && !registroT.isEntregado() && registroBD.getCantidad() != registroT.getCantidad()) {// P > P != Cantidad EL PRODUCTO SIGUE PENDIENTE PERO CAMBIA LA CANTIDAD
+                        conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")-(registroBD.getCantidad()-registroT.getCantidad()))+"' WHERE `cb_material`='"+registroBD.getCb()+"'");
+                    }else if (registroBD.isEntregado() && registroT.isEntregado() && registroBD.getCantidad() != registroT.getCantidad()) {// E > E != Cantidad EL PRODUCTO SIGUE ENTREGADO PERO CAMBIA LA CANTIDAD
+                        conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")+(registroBD.getCantidad()-registroT.getCantidad()))+"' WHERE `cb_material`='"+registroBD.getCb()+"'");
+                    }
+                    conexion.insmodelim("INSERT INTO `pedido_material`( `id_pedido`, `cb_material`, `cantidad`, `estado`) VALUES ('"+txtID.getText()+"','"+registroT.getCb()+"','"+registroT.getCantidad()+"','"+(registroT.isEntregado() ? "Entregado" : "Pendiente")+"')");
+*/
+                } else {
+                    ResultSet rsHerramienta = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+registroBD.getCb()+"'");
+                    if (rsHerramienta.next()) {
+                        if ((!registroBD.isEntregado() && registroT.isEntregado()) ){
+                            conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")+ registroT.getCantidad())+"' WHERE `cb_herramienta`='"+registroBD.getCb()+"'");
+                        } else if ((registroBD.isEntregado() && !registroT.isEntregado()) ) {
+                            conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")- registroT.getCantidad())+"' WHERE `cb_herramienta`='"+registroBD.getCb()+"'");
+                        } else if (registroBD.isEntregado() && registroT.isEntregado()) {
+                            conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")-(registroBD.getCantidad()- registroT.getCantidad()))+"' WHERE `cb_herramienta`='"+registroBD.getCb()+"'");
+                        } else if (!registroBD.isEntregado() && !registroT.isEntregado()) {
+                            conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")+ (registroBD.getCantidad()-registroT.getCantidad()))+"' WHERE `cb_herramienta`='"+registroBD.getCb()+"'");
+
+                        }
+                    }
+                }
+            } else if (registroT.getId_registro()==0) {// X > P
+                System.out.println("ENTRA A NULL PLEBE");
+                ResultSet rsArticulo = conexion.consultar("SELECT `tipo`,`cantidad`,`valor`,`unidad_de_medida`,tipo_material.material FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='" + registroT.getCb() + "'");
+                ResultSet rsHerramienta = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+registroT.getCb()+"'");
+                if (rsArticulo.next()){
+                    conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")- registroT.getCantidad())+"' WHERE `cb_material`='"+registroT.getCb()+"'");
+                } else if (rsHerramienta.next()) {
+                    conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")- registroT.getCantidad())+"' WHERE `cb_herramienta`='"+registroT.getCb()+"'");
+                }
+                conexion.insmodelim("INSERT INTO `pedido_material`( `id_pedido`, `cb_material`, `cantidad`, `estado`) VALUES ('"+txtID.getText()+"','"+registroT.getCb()+"','"+registroT.getCantidad()+"','"+(registroT.isEntregado() ? "Entregado" : "Pendiente")+"')");
+                iterator.remove();
             }
-        } else if (registroT.getId_registro()==0) {
-            System.out.println("ENTRA A NULL PLEBE");
         }
+
+
+
+
 
     }
     @FXML private void EditPedido() throws SQLException {
@@ -517,27 +581,30 @@ public class PedidosController {
                 }
                 ResultSet rsArticulos = conexion.consultar("SELECT * FROM `pedido_material` WHERE `id_pedido`='"+txtID.getText()+"'");
                 while (rsArticulos.next()){
+                    System.out.println(rsArticulos.getLong("cb_material"));
                     ResultSet rsArticulo = conexion.consultar("SELECT `tipo`,`cantidad`,`valor`,`unidad_de_medida`,tipo_material.material FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+rsArticulos.getLong("cb_material")+"'");
                     if (rsArticulo.next()){
                         Registro registro = new Registro(rsArticulos.getLong("cb_material"),rsArticulos.getInt("id_registro"),rsArticulo.getString("material"),rsArticulo.getString("tipo"),rsArticulo.getDouble("valor"),rsArticulo.getString("unidad_de_medida"),rsArticulos.getInt("cantidad"), (rsArticulos.getString("estado").equals("Entregado")));
                         AgregarMaterial(registro);
-                        if (registro.isEntregado()){
+                       /* if (registro.isEntregado()){
                             conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")- registro.getCantidad())+"' WHERE `cb_material`='"+registro.getCb()+"'");
                         }else {
                             conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")+ registro.getCantidad())+"' WHERE `cb_material`='"+registro.getCb()+"'");
-                        }
-                    }else {
-                        ResultSet rsHerramienta = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
-                        if (rsHerramienta.next()){
-                            Registro registro = new Registro(rsArticulos.getLong("cb_material"),rsArticulos.getInt("id_registro"),rsHerramienta.getString("material"), rsHerramienta.getString("tipo"),rsArticulos.getInt("cantidad"),(rsArticulos.getString("estado").equals("Entregado")));
-                            AgregarMaterial(registro);
-                            if (registro.isEntregado()){
-                                conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")- registro.getCantidad())+"' WHERE `cb_herramienta`='"+registro.getCb()+"'");
-                            }else {
-                                conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")+ registro.getCantidad())+"' WHERE `cb_herramienta`='"+registro.getCb()+"'");
-                            }
-                        }
+                        }*/
+                        continue;
                     }
+                    ResultSet rsHerramienta = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
+                    if (rsHerramienta.next()){
+                        Registro registro = new Registro(rsArticulos.getLong("cb_material"),rsArticulos.getInt("id_registro"),rsHerramienta.getString("material"), rsHerramienta.getString("tipo"),rsArticulos.getInt("cantidad"),(rsArticulos.getString("estado").equals("Entregado")));
+                        AgregarMaterial(registro);
+                     /*   if (registro.isEntregado()){
+                            conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")- registro.getCantidad())+"' WHERE `cb_herramienta`='"+registro.getCb()+"'");
+                        }else {
+                            conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")+ registro.getCantidad())+"' WHERE `cb_herramienta`='"+registro.getCb()+"'");
+                        }*/
+                        continue;
+                    }
+
                 }
             }
             ActivateBtn(true,false,true,false,false,true);
@@ -685,7 +752,7 @@ public class PedidosController {
             }else {
                 ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+txtBusquedaID.getText()+"'");
                 if (rsHerramienta.next()){
-                    Registro registro = new Registro(rsHerramienta.getLong("cb_herramienta"),rsHerramienta.getString("material"),rsHerramienta.getString("tipo"), 1,(rsArticulo.getString("estado").equals("Entregado")));
+                    Registro registro = new Registro(rsHerramienta.getLong("cb_herramienta"),rsHerramienta.getString("material"),rsHerramienta.getString("tipo"), 1,false);
                     AgregarMaterial(registro);
 
                     txtBusquedaID.setText("");
