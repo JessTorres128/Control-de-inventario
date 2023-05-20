@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
+import javafx.scene.paint.Material;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -61,7 +62,7 @@ public class PrincipalController {
 
 
     }
-
+                      //   E      X     C      E     L     L
     @FXML
     private void ExportarBD() throws IOException, SQLException {
 
@@ -126,6 +127,7 @@ public class PrincipalController {
 
 
         Row headerRow = sheet.createRow(2);
+
         headerRow.createCell(3).setCellValue("Codigo");
         headerRow.createCell(4).setCellValue("Armario");
         headerRow.createCell(5).setCellValue("Gaveta");
@@ -138,15 +140,16 @@ public class PrincipalController {
         headerRow.createCell(12).setCellValue("Caracteristicas");
         headerRow.createCell(13).setCellValue("Cantidad");
         headerRow.createCell(14).setCellValue("Cantidad minima");
+        headerRow.createCell(15).setCellValue("Tipo de material");
 
 
 
-        for (int i = 3; i < 15; i++) {
+        for (int i = 3; i < 16; i++) {
             headerRow.getCell(i).setCellStyle(headerCellStyle);
         }
         // Después de crear todas las celdas
         // ajustar automáticamente el ancho de las columnas de 0 a 2
-        for (int i = 3; i <= 14; i++) {
+        for (int i = 3; i <= 15; i++) {
             sheet.autoSizeColumn(i);
         }
 
@@ -172,6 +175,7 @@ public class PrincipalController {
             dataRow.createCell(12).setCellValue(producto.getCaracteristicas());
             dataRow.createCell(13).setCellValue(producto.getCantidad());
             dataRow.createCell(14).setCellValue(producto.getCantidad_min());
+            dataRow.createCell(15).setCellValue(rsArticulos.getString("tipo_material"));
 
             if (producto.getCantidad() < producto.getCantidad_min()){
                 dataRow.getCell(3).setCellStyle(dataStyleColor);
@@ -186,13 +190,14 @@ public class PrincipalController {
                 dataRow.getCell(12).setCellStyle(dataStyleColor);
                 dataRow.getCell(13).setCellStyle(dataStyleColor);
                 dataRow.getCell(14).setCellStyle(dataStyleColor);
+                dataRow.getCell(15).setCellStyle(dataStyleColor);
             }
 
             for (int i = 3; i < sheet.getRow(0).getLastCellNum(); i++) {
                 sheet.autoSizeColumn(i);
             }
 
-            for (int i = 3; i <= 14; i++) {
+            for (int i = 3; i <= 15; i++) {
                 sheet.autoSizeColumn(i);
             }
 
@@ -282,41 +287,40 @@ public class PrincipalController {
 
         ResultSet rsPedidos = conexion.consultar("SELECT * FROM `pedido`");
 
-        //ResultSet rsArticuloPedido = conexion.consultar("SELECT `tipo`,`cantidad`,`valor`,`unidad_de_medida`,tipo_material.material FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+rsArticulos.getLong("cb_material")+"'");
 
-       // ResultSet rsHerramientaPedido = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
-
-        //ResultSet rsHerramientaPedido = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
-
+       //ResultSet rsHerramientaPedido = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
 
         while (rsPedidos.next()) {
-            Pedido pedido = new Pedido(rsPedidos.getInt("id_pedido"), rsPedidos.getString("nombre_persona"), rsPedidos.getString("num_control"), rsPedidos.getString("estado"), rsPedidos.getDate("fecha"),
-                    rsPedidos.getString("profesor"), rsPedidos.getString("materia"));
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+                Pedido pedido = new Pedido(rsPedidos.getInt("id_pedido"), rsPedidos.getString("nombre_persona"), rsPedidos.getString("num_control"), rsPedidos.getString("estado"), rsPedidos.getDate("fecha"),
+                        rsPedidos.getString("profesor"), rsPedidos.getString("materia"));
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 
-            Row dataRow2 = sheet2.createRow(rowIndex2++);
-            dataRow2.createCell(3).setCellValue(pedido.getId_pedido());
-            dataRow2.createCell(4).setCellValue(pedido.getNombre_persona());
-            dataRow2.createCell(5).setCellValue(pedido.getNum_control());
-            dataRow2.createCell(6).setCellValue(pedido.getEstado());
-            dataRow2.createCell(7).setCellValue(dateFormat.format(pedido.getFecha()));
-            dataRow2.createCell(8).setCellValue(pedido.getProfesor());
-            dataRow2.createCell(9).setCellValue(pedido.getMateria());
+                Row dataRow2 = sheet2.createRow(rowIndex2++);
+                dataRow2.createCell(3).setCellValue(pedido.getId_pedido());
+                dataRow2.createCell(4).setCellValue(pedido.getNombre_persona());
+                dataRow2.createCell(5).setCellValue(pedido.getNum_control());
+                dataRow2.createCell(6).setCellValue(pedido.getEstado());
+                dataRow2.createCell(7).setCellValue(dateFormat.format(pedido.getFecha()));
+                dataRow2.createCell(8).setCellValue(pedido.getProfesor());
+                dataRow2.createCell(9).setCellValue(pedido.getMateria());
 
 
-            for (int i = 3; i < sheet1.getRow(0).getLastCellNum(); i++) {
-                sheet1.autoSizeColumn(i);
+
+                for (int i = 3; i < sheet1.getRow(0).getLastCellNum(); i++) {
+                    sheet1.autoSizeColumn(i);
+                }
+
+                for (int i = 3; i <= 14; i++) {
+                    sheet2.autoSizeColumn(i);
+                }
+
+                for (int i = 3; i < sheet1.getRow(0).getLastCellNum(); i++) {
+                    sheet2.autoSizeColumn(i);
+                }
             }
 
-            for (int i = 3; i <= 14; i++) {
-                sheet2.autoSizeColumn(i);
-            }
-
-            for (int i = 3; i < sheet1.getRow(0).getLastCellNum(); i++) {
-                sheet2.autoSizeColumn(i);
-            }
-        }
 
             // Crear el archivo de selección
         FileChooser fileChooser = new FileChooser();
