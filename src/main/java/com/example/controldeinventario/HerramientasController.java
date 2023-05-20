@@ -108,26 +108,31 @@ public class HerramientasController {
 
     @FXML private void SaveHerramienta() throws SQLException {
         if (VerifyTxt(txtCaracteristicas, cbHerramienta,txtStock,txtTipo,txtStockMin)){
-            ResultSet resultSetIDHerramienta = conexion.consultar("SELECT `id_material` FROM `tipo_material` WHERE `material`='"+cbHerramienta.getSelectionModel().getSelectedItem()+"' AND `tipo_material`='Herramienta' LIMIT 1");
-            if (resultSetIDHerramienta.next()){
-                int id = resultSetIDHerramienta.getInt("id_material");
-                ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `herramienta` WHERE `cb_herramienta`='"+txtCB.getText()+"' LIMIT 1");
-                if (resultSetUpdate.next()){
-                    conexion.insmodelim("UPDATE `herramienta` SET `id_herramienta`='"+id+"',`tipo`='"+txtTipo.getText()+"',`caracteristicas`='"+txtCaracteristicas.getText()+"',`frecuencia_de_uso`='"+((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText()+"',`cantidad`='"+txtStock.getText()+"',`cantidad_min`='"+txtStockMin.getText()+"' WHERE `cb_herramienta`='"+txtCB.getText()+"'");
-                    Exito("Actualizado con exito");
-                }else {
-                    conexion.insmodelim("INSERT INTO `herramienta`(`cb_herramienta`,`id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+txtCB.getText()+"','"+id+"','"+txtTipo.getText()+"','"+txtCaracteristicas.getText()+"','"+((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText()+"','"+txtStock.getText()+"','"+txtStockMin.getText()+"')");
-
-                }
-                tabPaneHerramientas.getSelectionModel().select(tabSearch);
-                tabSearch.setDisable(false);
-                tabNew.setDisable(true);
-                ActivateBtn(false,true,false,true,false,false);
-                ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material;"));
-                Exito(cbHerramienta.getSelectionModel().getSelectedItem()+" "+txtTipo.getText()+" agregado");
+            if (!txtStock.getText().matches("^\\d+$\n") || !txtStockMin.getText().matches("^\\d+$\n")){
+                Error("Cantidades incorrectas");
             }else {
-                Error("Selecciona el material");
+                ResultSet resultSetIDHerramienta = conexion.consultar("SELECT `id_material` FROM `tipo_material` WHERE `material`='"+cbHerramienta.getSelectionModel().getSelectedItem()+"' AND `tipo_material`='Herramienta' LIMIT 1");
+                if (resultSetIDHerramienta.next()){
+                    int id = resultSetIDHerramienta.getInt("id_material");
+                    ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `herramienta` WHERE `cb_herramienta`='"+txtCB.getText()+"' LIMIT 1");
+                    if (resultSetUpdate.next()){
+                        conexion.insmodelim("UPDATE `herramienta` SET `id_herramienta`='"+id+"',`tipo`='"+txtTipo.getText()+"',`caracteristicas`='"+txtCaracteristicas.getText()+"',`frecuencia_de_uso`='"+((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText()+"',`cantidad`='"+txtStock.getText()+"',`cantidad_min`='"+txtStockMin.getText()+"' WHERE `cb_herramienta`='"+txtCB.getText()+"'");
+                        Exito("Actualizado con exito");
+                    }else {
+                        conexion.insmodelim("INSERT INTO `herramienta`(`cb_herramienta`,`id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+txtCB.getText()+"','"+id+"','"+txtTipo.getText()+"','"+txtCaracteristicas.getText()+"','"+((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText()+"','"+txtStock.getText()+"','"+txtStockMin.getText()+"')");
+
+                    }
+                    tabPaneHerramientas.getSelectionModel().select(tabSearch);
+                    tabSearch.setDisable(false);
+                    tabNew.setDisable(true);
+                    ActivateBtn(false,true,false,true,false,false);
+                    ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material;"));
+                    Exito(cbHerramienta.getSelectionModel().getSelectedItem()+" "+txtTipo.getText()+" agregado");
+                }else {
+                    Error("Selecciona el material");
+                }
             }
+
         }else {
             Error("Faltan campos por rellenar");
         }
