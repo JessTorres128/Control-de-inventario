@@ -87,15 +87,21 @@ public class ConsultarMaterialController {
             if (rbMaterial.isSelected()){
                 Articulo articulo= (Articulo) tableViewMats.getSelectionModel().getSelectedItem();
                 registro = new Registro(articulo.getCodigo_barras(),articulo.getMaterial(),articulo.getTipo(),articulo.getValor(), articulo.getUnidad_medida(),1,false);
-                pedidosController.AgregarMaterial(registro);
+                if (articulo.getCantidad()!=0){
+                    pedidosController.AgregarMaterial(registro);
+                }else {
+                    Error("No hay cantidad de este material");
+                }
             }else {
                 Herramienta herramienta = (Herramienta) tableViewMats.getSelectionModel().getSelectedItem();
                 registro = new Registro(herramienta.getCb_herramienta(),herramienta.getHerramienta(), herramienta.getTipo(), 1,false);
-                pedidosController.AgregarMaterial(registro);
+                if (herramienta.getCantidad()!=0){
+                    pedidosController.AgregarMaterial(registro);
+                }else {
+                    Error("No hay cantidad de este material");
+                }
             }
-            if (pedidosController.VerificarCantidad(registro.getCb(),registro.getCantidad()+1)){
 
-            }
 
 
         }
@@ -175,6 +181,12 @@ public class ConsultarMaterialController {
     public void cerrarVentana() {
         Stage stage = (Stage) btnSalir.getScene().getWindow();
         stage.close();
+    }
+    private void Error(String mensaje){
+        Alert alert= new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(mensaje);
+        alert.setTitle("Error");
+        alert.show();
     }
 }
 

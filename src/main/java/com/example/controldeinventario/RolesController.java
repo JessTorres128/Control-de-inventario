@@ -45,7 +45,7 @@ public class RolesController {
     @FXML TableColumn<Tipo_Usuario,String>  col_restaurarbd= new TableColumn<>("Restaurar BD");
     @FXML TableColumn<Tipo_Usuario,String>  col_respaldarbd= new TableColumn<>("Respaldar BD");
     @FXML protected void initialize() throws SQLException {
-        ActivateBtn(false,true,false,true,false,false);
+        ActivateBtn(false,true,false,true, false);
         conexion = new Conexion();
         col_id.setCellValueFactory(new PropertyValueFactory<>("id_rol"));
         col_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre_rol"));
@@ -99,7 +99,7 @@ public class RolesController {
     }
 
     @FXML private void NewRol() throws SQLException {
-        ActivateBtn(false,false,true,false,false,true);
+        ActivateBtn(false,false,true,false, true);
         tabPaneVentana.getSelectionModel().select(tabNew);
         tabNew.setDisable(false);
         tabSearch.setDisable(true);
@@ -130,15 +130,17 @@ public class RolesController {
             tabPaneVentana.getSelectionModel().select(tabSearch);
             tabSearch.setDisable(false);
             tabNew.setDisable(true);
-            ActivateBtn(false,true,false,true,false,false);
+            ActivateBtn(false,true,false,true, false);
             ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_usuario`"));
             ClearCheckBox();
 
+        }else {
+            Error("Dale un nombre al rol antes de continuar");
         }
     }
     @FXML private void EditRol() throws SQLException {
         if (tableTUsuarios.getSelectionModel().getSelectedItem() != null){
-            Tipo_Usuario tipoUsuario= (Tipo_Usuario) tableTUsuarios.getSelectionModel().getSelectedItem();
+            Tipo_Usuario tipoUsuario= tableTUsuarios.getSelectionModel().getSelectedItem();
             tabPaneVentana.getSelectionModel().select(tabNew);
             tabSearch.setDisable(true);
             tabNew.setDisable(false);
@@ -158,7 +160,7 @@ public class RolesController {
             check_restaurar_bd.setSelected(VerificarString(tipoUsuario.getRestaurar_bd()));
             check_respaldar_bd.setSelected(VerificarString(tipoUsuario.getRespaldar_bd()));
             txtNombre_rol.setText(tipoUsuario.getNombre_rol());
-            ActivateBtn(true,false,true,false,false,true);
+            ActivateBtn(true,false,true,false, true);
         }else {
             Error("Selecciona un registro pa");
         }
@@ -183,7 +185,7 @@ public class RolesController {
     @FXML private void CancelRol() throws SQLException {
         txtId_rol.setText("");
         CleanTextFields();
-        ActivateBtn(false,true,false,true,false,false);
+        ActivateBtn(false,true,false,true, false);
         tabPaneVentana.getSelectionModel().select(tabSearch);
         tabSearch.setDisable(false);
         tabNew.setDisable(true);
@@ -250,7 +252,7 @@ public class RolesController {
         }
     }
 
-    private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit, boolean delete) throws SQLException {
+    private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean delete) throws SQLException {
         if (LoginController.resultado.getInt("crud_roles")==0){
             btnNew.setDisable(true);
             btnEdit.setDisable(true);
@@ -262,7 +264,7 @@ public class RolesController {
         }
         btnSave.setDisable(save);
         btnCancel.setDisable(cancel);
-        btnExit.setDisable(exit);
+        btnExit.setDisable(false);
     }
 
     private int VerificarCheckBox(CheckBox cb){

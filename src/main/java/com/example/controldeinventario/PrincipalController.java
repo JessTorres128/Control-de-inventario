@@ -4,6 +4,7 @@ import com.example.controldeinventario.Datos.Articulo;
 import com.example.controldeinventario.Datos.Herramienta;
 import com.example.controldeinventario.Datos.Pedido;
 import com.example.controldeinventario.Datos.Registro;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,7 +36,7 @@ public class PrincipalController {
     @FXML
     MenuItem menuItemPedidos;
     @FXML
-    MenuItem menuItemTMateriales, menuItemTHerramientas;
+    MenuItem menuItemTMateriales;
     @FXML
     MenuItem menuItemRoles, menuItemEmpleados;
     @FXML
@@ -373,8 +374,9 @@ public class PrincipalController {
         Parent root = fxmlLoader.load();
         AbrirVentana(root);
     }
-    public void CerrarVentana(){
-        ventanaSecundaria.close();
+    @FXML public void CerrarVentana(){
+        Platform.exit();
+        System.exit(0);
     }
     private void AbrirVentana(Parent root){
         ventanaSecundaria = new Stage();

@@ -93,10 +93,11 @@ public class PedidosController {
                             btnMinus.setOnAction(event -> {
                                 if (!productos.get(getIndex()).isEntregado()){
                                     Registro r = productos.get(getIndex());
-                                    r.setCantidad(r.getCantidad()-1);
-                                    if (r.getCantidad() <=0){
+
+                                    if ((r.getCantidad()-1) <=0 && r.getId_registro() ==0){
                                         productos.remove(getIndex());
-                                    }else {
+                                    }else if ((r.getCantidad()-1)>=1){
+                                        r.setCantidad(r.getCantidad()-1);
                                         productos.set(getIndex(),r);
                                     }
                                 }else {
@@ -133,7 +134,7 @@ public class PedidosController {
                                     try {
                                         if (VerificarCantidad(r.getCb(),r.getCantidad()+1)){
                                             r.setCantidad(r.getCantidad()+1);
-                                            if (r.getCantidad() <=0){
+                                            if (r.getCantidad() <=0 && r.getId_registro()==0){
                                                 productos.remove(getIndex());
                                             }else {
                                                 productos.set(getIndex(),r);
@@ -168,7 +169,7 @@ public class PedidosController {
                             setGraphic(null);
                             setText(null);
                         }else {
-                            btnDlte.setDisable(productos.get(getIndex()).isEntregado());
+                            btnDlte.setDisable(productos.get(getIndex()).isEntregado() || productos.get(getIndex()).getId_registro() !=0);
                             btnDlte.setOnAction(event -> {
                                 if (!productos.get(getIndex()).isEntregado()){
                                     productos.remove(getIndex());
@@ -708,20 +709,30 @@ public class PedidosController {
         if (txtBusquedaID.getText().matches("\\d{10}")){
             ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+txtBusquedaID.getText()+"'");
             if (rsArticulo.next()){
-                Registro registro = new Registro(rsArticulo.getLong("cb_material"),rsArticulo.getString("material"),rsArticulo.getString("tipo"),rsArticulo.getDouble("valor"), rsArticulo.getString("unidad_de_medida"),1,(rsArticulo.getString("estado").equals("Entregado")));
-                AgregarMaterial(registro);
+                if (rsArticulo.getInt("cantidad") != 0){
+                    Registro registro = new Registro(rsArticulo.getLong("cb_material"),rsArticulo.getString("material"),rsArticulo.getString("tipo"),rsArticulo.getDouble("valor"), rsArticulo.getString("unidad_de_medida"),1,false);
+                    AgregarMaterial(registro);
+                    txtBusquedaID.setText("");
+                }else {
+                    Error("No hay ninguna cantidad de este articulo");
 
+                }
 
-                txtBusquedaID.setText("");
             }else {
                 ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+txtBusquedaID.getText()+"'");
                 if (rsHerramienta.next()){
-                    Registro registro = new Registro(rsHerramienta.getLong("cb_herramienta"),rsHerramienta.getString("material"),rsHerramienta.getString("tipo"), 1,false);
-                    AgregarMaterial(registro);
+                    if (rsHerramienta.getInt("cantidad") !=0){
+                        Registro registro = new Registro(rsHerramienta.getLong("cb_herramienta"),rsHerramienta.getString("material"),rsHerramienta.getString("tipo"), 1,false);
+                        AgregarMaterial(registro);
 
-                    txtBusquedaID.setText("");
+                        txtBusquedaID.setText("");
+                    }else {
+                        Error("No hay ninguna existencia de esta herramienta");
+                    }
+
                 }
             }
+            txtBusquedaID.setText("");
         }
     }
 
