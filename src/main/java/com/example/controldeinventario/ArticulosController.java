@@ -59,7 +59,8 @@ public class ArticulosController {
     @FXML TabPane tabV;
     @FXML Tab tabSearch, tabNew;
     @FXML RadioButton rbCodigoBarras, rbArmario, rbMaterial;
-    @FXML RadioButton rbBajo, rbMedio,rbAlto;
+    @FXML RadioButton rbBajo, rbMedio,rbAlto, rbSinUtilizar;
+    @FXML CheckBox checkBoxNA1,checkBoxNA2,checkBoxNA3,checkBoxNA4;
     ToggleGroup toggleGroupBusqueda = new ToggleGroup();
     ToggleGroup toggleGroupFrecuencia = new ToggleGroup();
     @FXML TableView<Articulo> tableViewArticulos;
@@ -107,6 +108,7 @@ public class ArticulosController {
         rbBajo.setToggleGroup(toggleGroupFrecuencia);
         rbMedio.setToggleGroup(toggleGroupFrecuencia);
         rbAlto.setToggleGroup(toggleGroupFrecuencia);
+        rbSinUtilizar.setToggleGroup(toggleGroupFrecuencia);
 
 
         conexion = new Conexion();
@@ -215,10 +217,28 @@ public class ArticulosController {
             txtValor.setText(String.valueOf(articulo.getValor()));
             txtUnidadMedida.setText(articulo.getUnidad_medida());
             txtCaracteristicas.setText(articulo.getCaracteristicas());
+            if (txtArmario.getText().equals("N/A")){
+                checkBoxNA1.setSelected(true);
+                txtArmario.setDisable(true);
+            }
+            if (txtGaveta.getText().equals("N/A")){
+                checkBoxNA2.setSelected(true);
+                txtGaveta.setDisable(true);
+            }
+            if (txtSubCompartimento.getText().equals("N/A")){
+                checkBoxNA3.setSelected(true);
+                txtSubCompartimento.setDisable(true);
+            }
+            if (txtValor.getText().equals("N/A") && txtUnidadMedida.getText().equals("N/A")){
+                checkBoxNA4.setSelected(true);
+                txtValor.setDisable(true);
+                txtUnidadMedida.setDisable(true);
+            }
             switch (articulo.getF_uso()) {
                 case "Bajo" -> toggleGroupFrecuencia.selectToggle(rbBajo);
                 case "Medio" -> toggleGroupFrecuencia.selectToggle(rbMedio);
                 case "Alto" -> toggleGroupFrecuencia.selectToggle(rbAlto);
+                case "Sin utilizar" -> toggleGroupFrecuencia.selectToggle(rbSinUtilizar);
             }
             txtStock.setText(String.valueOf(articulo.getCantidad()));
             txtStockMin.setText(String.valueOf(articulo.getCantidad_min()));
@@ -401,12 +421,56 @@ public class ArticulosController {
         }
         return bd;
     }
+    @FXML private void CheckBoxChange1(){
+        if (checkBoxNA1.isSelected()){
+            txtArmario.setText("N/A");
+            txtArmario.setDisable(true);
+        }else{
+            txtArmario.setText("");
+            txtArmario.setDisable(false);
+        }
+    }
+    @FXML private void CheckBoxChange2(){
+        if (checkBoxNA2.isSelected()) {
+            txtGaveta.setText("N/A");
+            txtGaveta.setDisable(true);
+        }else {
+            txtGaveta.setText("");
+            txtGaveta.setDisable(false);
+        }
+    }
+    @FXML private void CheckBoxChange3(){
+        if (checkBoxNA3.isSelected()) {
+            txtSubCompartimento.setText("N/A");
+            txtSubCompartimento.setDisable(true);
+        }else {
+            txtSubCompartimento.setText("");
+            txtSubCompartimento.setDisable(false);
+        }
+    }
+    @FXML private void CheckBoxChange4(){
+        if (checkBoxNA4.isSelected()) {
+            txtValor.setText("N/A");
+            txtValor.setDisable(true);
+            txtUnidadMedida.setText("N/A");
+            txtUnidadMedida.setDisable(true);
+        }else {
+            txtValor.setText("");
+            txtValor.setDisable(false);
+            txtUnidadMedida.setText("");
+            txtUnidadMedida.setDisable(false);
+        }
+    }
     private void CleanTextFields(){
         txtCaracteristicas.setText("");
         txtArmario.setText("");
         txtGaveta.setText("");
         txtSubCompartimento.setText("");
         txtTipo.setText("");
+        checkBoxNA1.setSelected(false);
+        checkBoxNA2.setSelected(false);
+        checkBoxNA3.setSelected(false);
+        checkBoxNA4.setSelected(false);
         txtNumParte.setText("");
         txtValor.setText("");
         txtUnidadMedida.setText("");
