@@ -8,7 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #543383;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.PrincipalController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #543383;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.PrincipalController">
    <children>
       <MenuBar layoutY="1.0" prefHeight="28.0" prefWidth="1280.0" style="-fx-background-color: white; -fx-opacity: 0.9;">
         <menus>
@@ -16,7 +16,7 @@
               <items>
                 <MenuItem fx:id="menuItemIniciarSesion" mnemonicParsing="false" onAction="#IngresarLogin" text="Iniciar sesión" />
                   <MenuItem fx:id="menuItemCerrarSesion" mnemonicParsing="false" onAction="#IngresarLogin" text="Cerrar sesión" />
-                  <MenuItem fx:id="menuItemCerrarPrograma" mnemonicParsing="false" text="Salir de la aplicación" />
+                  <MenuItem fx:id="menuItemCerrarPrograma" mnemonicParsing="false" onAction="#CerrarVentana" text="Salir de la aplicación" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Almacén">
@@ -33,7 +33,6 @@
             <Menu mnemonicParsing="false" text="Tipos">
               <items>
                   <MenuItem fx:id="menuItemTMateriales" mnemonicParsing="false" onAction="#IngresarTipos" text="Materiales" />
-                <MenuItem fx:id="menuItemTHerramientas" mnemonicParsing="false" text="Herramienta" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Usuarios">

@@ -34,7 +34,6 @@ public class EmpleadosController {
     @FXML TextField txtID, txtNombre, txtUsername;
     @FXML PasswordField txtPass, txtConfirmarPass;
     @FXML ComboBox<String> cbRoles;
-    @FXML Button btnBuscarRol;
     @FXML RadioButton rbMasculino, rbFemenino;
 
     TableColumn<Usuario,Integer> tableColumnID = new TableColumn<>("ID");

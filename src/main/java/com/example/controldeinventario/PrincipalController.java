@@ -4,6 +4,7 @@ import com.example.controldeinventario.Datos.Articulo;
 import com.example.controldeinventario.Datos.Herramienta;
 import com.example.controldeinventario.Datos.Pedido;
 import com.example.controldeinventario.Datos.Registro;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,7 +36,7 @@ public class PrincipalController {
     @FXML
     MenuItem menuItemPedidos;
     @FXML
-    MenuItem menuItemTMateriales, menuItemTHerramientas;
+    MenuItem menuItemTMateriales;
     @FXML
     MenuItem menuItemRoles, menuItemEmpleados;
     @FXML
@@ -77,6 +78,9 @@ public class PrincipalController {
         headerCellStyle.setFont(headerFont);
 
         CellStyle dataStyle = workbook.createCellStyle();
+        CellStyle dataStyleColor = workbook.createCellStyle();
+        dataStyleColor.setFillForegroundColor(IndexedColors.RED.getIndex()); // Cambia "RED" al color deseado
+        dataStyleColor.setFillPattern((short) 1);
         dataStyle.setAlignment((short) 2);
         dataStyle.setVerticalAlignment((short) 2);
 
@@ -136,6 +140,7 @@ public class PrincipalController {
         headerRow.createCell(14).setCellValue("Cantidad minima");
 
 
+
         for (int i = 3; i < 15; i++) {
             headerRow.getCell(i).setCellStyle(headerCellStyle);
         }
@@ -168,6 +173,20 @@ public class PrincipalController {
             dataRow.createCell(13).setCellValue(producto.getCantidad());
             dataRow.createCell(14).setCellValue(producto.getCantidad_min());
 
+            if (producto.getCantidad() < producto.getCantidad_min()){
+                dataRow.getCell(3).setCellStyle(dataStyleColor);
+                dataRow.getCell(4).setCellStyle(dataStyleColor);
+                dataRow.getCell(5).setCellStyle(dataStyleColor);
+                dataRow.getCell(6).setCellStyle(dataStyleColor);
+                dataRow.getCell(7).setCellStyle(dataStyleColor);
+                dataRow.getCell(8).setCellStyle(dataStyleColor);
+                dataRow.getCell(9).setCellStyle(dataStyleColor);
+                dataRow.getCell(10).setCellStyle(dataStyleColor);
+                dataRow.getCell(11).setCellStyle(dataStyleColor);
+                dataRow.getCell(12).setCellStyle(dataStyleColor);
+                dataRow.getCell(13).setCellStyle(dataStyleColor);
+                dataRow.getCell(14).setCellStyle(dataStyleColor);
+            }
 
             for (int i = 3; i < sheet.getRow(0).getLastCellNum(); i++) {
                 sheet.autoSizeColumn(i);
@@ -216,6 +235,16 @@ public class PrincipalController {
             dataRow1.createCell(8).setCellValue(herramienta.getCantidad());
             dataRow1.createCell(9).setCellValue(herramienta.getCantidad_min());
 
+
+            if (herramienta.getCantidad() < herramienta.getCantidad_min()){
+                dataRow1.getCell(3).setCellStyle(dataStyleColor);
+                dataRow1.getCell(4).setCellStyle(dataStyleColor);
+                dataRow1.getCell(5).setCellStyle(dataStyleColor);
+                dataRow1.getCell(6).setCellStyle(dataStyleColor);
+                dataRow1.getCell(7).setCellStyle(dataStyleColor);
+                dataRow1.getCell(8).setCellStyle(dataStyleColor);
+                dataRow1.getCell(9).setCellStyle(dataStyleColor);
+            }
             for (int i = 3; i < sheet1.getRow(0).getLastCellNum(); i++) {
                 sheet1.autoSizeColumn(i);
             }
@@ -254,7 +283,11 @@ public class PrincipalController {
         ResultSet rsPedidos = conexion.consultar("SELECT * FROM `pedido`");
 
         //ResultSet rsArticuloPedido = conexion.consultar("SELECT `tipo`,`cantidad`,`valor`,`unidad_de_medida`,tipo_material.material FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+rsArticulos.getLong("cb_material")+"'");
+
        // ResultSet rsHerramientaPedido = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
+
+        //ResultSet rsHerramientaPedido = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
+
 
         while (rsPedidos.next()) {
             Pedido pedido = new Pedido(rsPedidos.getInt("id_pedido"), rsPedidos.getString("nombre_persona"), rsPedidos.getString("num_control"), rsPedidos.getString("estado"), rsPedidos.getDate("fecha"),
@@ -345,8 +378,9 @@ public class PrincipalController {
         Parent root = fxmlLoader.load();
         AbrirVentana(root);
     }
-    public void CerrarVentana(){
-        ventanaSecundaria.close();
+    @FXML public void CerrarVentana(){
+        Platform.exit();
+        System.exit(0);
     }
     private void AbrirVentana(Parent root){
         ventanaSecundaria = new Stage();
