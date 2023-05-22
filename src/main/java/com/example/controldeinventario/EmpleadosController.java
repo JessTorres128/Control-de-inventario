@@ -172,7 +172,7 @@ public class EmpleadosController {
     @FXML private void DeleteEmpleado() throws SQLException {
         if (tableViewUsuarios.getSelectionModel().getSelectedItem() != null){
             Usuario usuario= (Usuario) tableViewUsuarios.getSelectionModel().getSelectedItem();
-            if (ConfirmarBorrar("Deseas borrar a"+usuario.getNombre_completo())){
+            if (ConfirmarBorrar("Deseas borrar a "+usuario.getNombre_completo())){
                 conexion.insmodelim("DELETE FROM `usuario` WHERE `id_user`='"+usuario.getId_user()+"'");
                 Exito("Registro borrado exitosamente");
                 ActualizarTabla(conexion.consultar("SELECT * FROM `usuario`"));
