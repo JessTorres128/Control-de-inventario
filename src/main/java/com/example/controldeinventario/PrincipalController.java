@@ -286,7 +286,11 @@ public class PrincipalController {
 
 
         ResultSet rsPedidos = conexion.consultar("SELECT * FROM `pedido`");
+/*pal="";
+for(hjhdkj.next()){
+    pal+=hjjdhaj[0]+ " " +hjdhakjdak[1]+", "
 
+}*/
 
        //ResultSet rsHerramientaPedido = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
 
@@ -305,6 +309,7 @@ public class PrincipalController {
                 dataRow2.createCell(7).setCellValue(dateFormat.format(pedido.getFecha()));
                 dataRow2.createCell(8).setCellValue(pedido.getProfesor());
                 dataRow2.createCell(9).setCellValue(pedido.getMateria());
+               // dataRow2.createCell(10).setCellValue(pal);
 
 
 
