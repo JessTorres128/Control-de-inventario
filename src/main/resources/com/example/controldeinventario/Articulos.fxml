@@ -19,7 +19,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="776.0" prefWidth="1155.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ArticulosController">
+<HBox prefHeight="776.0" prefWidth="1155.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ArticulosController">
    <children>
       <TabPane fx:id="tabV" prefHeight="710.0" prefWidth="1021.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -165,10 +165,10 @@
                                     <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
                                  </unSelectedColor>
                               </JFXRadioButton>
-                              <JFXCheckBox fx:id="checkBoxNA1" layoutX="266.0" layoutY="195.0" onAction="#CheckBoxChange1" text="No aplica" />
-                              <JFXCheckBox fx:id="checkBoxNA2" layoutX="240.0" layoutY="259.0" onAction="#CheckBoxChange2" text="No aplica" />
-                              <JFXCheckBox fx:id="checkBoxNA3" layoutX="241.0" layoutY="322.0" onAction="#CheckBoxChange3" text="No aplica" />
-                              <JFXCheckBox fx:id="checkBoxNA4" layoutX="549.0" layoutY="258.0" onAction="#CheckBoxChange4" text="No aplica" />
+                              <JFXCheckBox fx:id="checkBoxNA1" checkedColor="#472b6e" layoutX="266.0" layoutY="195.0" onAction="#CheckBoxChange1" text="No aplica" unCheckedColor="#472b6e" />
+                              <JFXCheckBox fx:id="checkBoxNA2" checkedColor="#472b6e" layoutX="240.0" layoutY="259.0" onAction="#CheckBoxChange2" text="No aplica" unCheckedColor="#472b6e" />
+                              <JFXCheckBox fx:id="checkBoxNA3" checkedColor="#472b6e" layoutX="241.0" layoutY="322.0" onAction="#CheckBoxChange3" text="No aplica" unCheckedColor="#472b6e" />
+                              <JFXCheckBox fx:id="checkBoxNA4" checkedColor="#472b6e" layoutX="549.0" layoutY="258.0" onAction="#CheckBoxChange4" text="No aplica" unCheckedColor="#472b6e" />
                            </children>
                         </AnchorPane>
                      </children>
