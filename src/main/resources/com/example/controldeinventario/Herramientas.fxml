@@ -81,7 +81,7 @@
                <content>
                   <VBox prefHeight="531.0" prefWidth="525.0">
                      <children>
-                        <AnchorPane prefHeight="501.0" prefWidth="566.0" style="-fx-background-color: #f1edf8;">
+                        <AnchorPane prefHeight="501.0" prefWidth="566.0" style="-fx-background-color: white;">
                            <children>
                               <TextField fx:id="txtCB" editable="false" layoutX="39.0" layoutY="450.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
                               <ComboBox fx:id="cbHerramienta" layoutX="130.0" layoutY="141.0" prefWidth="150.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
