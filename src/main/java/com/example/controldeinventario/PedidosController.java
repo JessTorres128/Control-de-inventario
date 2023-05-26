@@ -582,6 +582,21 @@ public class PedidosController {
         if (tableViewPedidos.getSelectionModel().getSelectedItem() != null){
             Pedido pedido = tableViewPedidos.getSelectionModel().getSelectedItem();
             if (ConfirmarBorrar("Deseas borrar este pedido?")){
+                ResultSet rsMateriales = conexion.consultar("SELECT * FROM `pedido_material` WHERE `id_pedido`='"+pedido.getId_pedido()+"'");
+                while (rsMateriales.next()){
+                    if (rsMateriales.getString("estado").equals("Pendiente")){
+                        ResultSet rsArticulo = conexion.consultar("SELECT `tipo`,`cantidad`,`valor`,`unidad_de_medida`,tipo_material.material FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+rsMateriales.getLong("cb_material")+"'");
+                        if (rsArticulo.next()){
+                            conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")+rsMateriales.getInt("cantidad"))+"' WHERE `cb_material`='"+rsMateriales.getLong("cb_material")+"'");
+                            continue;
+                        }
+                        ResultSet rsHerramienta = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsMateriales.getLong("cb_material")+"'");
+                        if (rsHerramienta.next()){
+                            conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")+rsMateriales.getInt("cantidad"))+"' WHERE `cb_herramienta`='"+rsMateriales.getLong("cb_material")+"'");
+                        }
+                    }
+
+                }
                 conexion.insmodelim("DELETE FROM `pedido_material` WHERE `id_pedido`='"+pedido.getId_pedido()+"'");
                 conexion.insmodelim("DELETE FROM `pedido` WHERE `id_pedido`='"+pedido.getId_pedido()+"'");
                 Exito("Pedido borrado exitosamente");
