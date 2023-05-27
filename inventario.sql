@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2023 at 06:51 AM
+-- Generation Time: May 26, 2023 at 10:59 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -44,9 +44,8 @@ CREATE TABLE `herramienta` (
 INSERT INTO `herramienta` (`cb_herramienta`, `id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES
 ('1', 4, 'inglesa', 'dsadsadsadsadsa', 'Medio', 111, 11),
 ('2090219315', 4, 'wertyu', 'fgghjkuiyutrdff', 'Bajo', 99, 4),
-('3979478150', 4, 'rrrrrr', 'vdvdfvf', 'Alto', 70, 1),
-('4786689832', 5, 'iyutre', 'uhgfds', 'Alto', 12, 1),
-('7879655027', 3, 'fdgfdgf', 'vfdfvfvfv', 'Bajo', 11, 1);
+('3979478150', 4, 'rrrrrr', 'vdvdfvf', 'Alto', 64, 1),
+('4786689832', 5, 'iyutre', 'uhgfds', 'Alto', 12, 1);
 
 -- --------------------------------------------------------
 
@@ -62,7 +61,7 @@ CREATE TABLE `material` (
   `id_material` int(10) NOT NULL,
   `tipo` varchar(60) NOT NULL,
   `numero_parte` varchar(60) NOT NULL,
-  `valor` float NOT NULL,
+  `valor` float DEFAULT NULL,
   `unidad_de_medida` varchar(10) NOT NULL,
   `caracteristicas` varchar(200) NOT NULL,
   `frecuencia_de_uso` varchar(20) NOT NULL,
@@ -75,13 +74,13 @@ CREATE TABLE `material` (
 --
 
 INSERT INTO `material` (`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES
-('1234567890', 'D', 'D6', 'B', 2, 'Diodo', '432432AJD', 0, 'N/A', '7W / 9V', 'Medio', 101, 20),
-('1592483282', 'd', 'd2', 'a', 1, 'tttt', '5432fdfsd', 23, 'fdsfdfds', 'gfdgdfgdfgdfgdf', 'Alto', 116, 54),
+('1234567890', 'D', 'D6', 'B', 2, 'Diodo', '432432AJD', 0, 'N/A', '7W / 9V', 'Medio', 0, 20),
+('1592483282', 'd', 'd2', 'a', 1, 'tttt', '5432fdfsd', 23, 'fdsfdfds', 'gfdgdfgdfgdfgdf', 'Alto', 56, 54),
 ('2841715231', 'd', 'd4', '43535', 1, 'gfhgf', '654654ytrh', 34324, 'ohms', 'jhgfxdfds', 'Bajo', 11, 1),
-('3007874738', 'r4', 'd1', '5', 8, 'gfdgfdgdf', '54534gfdg', 123, 'Volts', 'hgfhgfbgfb', 'Alto', 101, 10),
-('4737075182', 'D', 'D5', 'B', 1, 'Grande', '543543', 100, 'Ohms', 'ACABO DE EDITAR ESTO', 'Medio', 102, 20),
-('6343343238', '3B', 'A', 'A4', 2, 'azul', '543534yhgf', 120, 'ohms', 'de todo un poco', 'Bajo', 11, 5),
-('75009809', '3A', 'A', '2B', 1, 'Refresco', '12', 20, 'gr', 'Coca Cola', 'Medio', 7000, 500);
+('3007874738', 'r4', 'd1', '5', 8, 'gfdgfdgdf', '54534gfdg', 123, 'Volts', 'hgfhgfbgfb', 'Alto', 7, 10),
+('3721416545', 'A5', 'B', 'B5', 1, 'A5', '32', 55, 'ohms', 'tabla blanca', 'Medio', 15, 20),
+('4737075182', 'D', 'D5', 'B', 1, 'Grande', '543543', 100, 'Ohms', 'ACABO DE EDITAR ESTO', 'Medio', 100, 20),
+('6166654638', 'N/A', 'N/A', 'N/A', 2, 'fdsfdsf', 'fsdfdsfds', 12, 'fdgfd', 'fdsfds', 'Bajo', 12, 21);
 
 -- --------------------------------------------------------
 
@@ -104,21 +103,23 @@ CREATE TABLE `pedido` (
 --
 
 INSERT INTO `pedido` (`id_pedido`, `nombre_persona`, `num_control`, `estado`, `fecha`, `profesor`, `materia`) VALUES
-(1, 'Jesse Anthony Torres Rodriguez', '20cg0165', 'Entregado', '2023-05-03 10:26:02', 'Pando', 'Lenguajes de interfaz'),
+(1, 'Jesse Anthony Torres Rodriguez', '20cg0165', 'Pendiente', '2023-05-03 10:26:02', 'Pando', 'Lenguajes de interfaz'),
 (2, 'fdsfsdfdsf', 'fdsfdsf', 'Entregado', '2023-05-03 22:51:13', 'fdsfdsf', 'fdsfds'),
 (3, 'fdsfdsf', 'dsadsad', 'Entregado', '2023-05-04 13:18:08', 'fdsds', 'fdsfds'),
-(4, 'fdsfdsfsddfsfdsfds', 'fdsfdsf', 'Entregado', '2023-05-04 13:19:27', 'fdsfdsfdsfdsfds', 'fdsfdsfdsdsffds'),
+(4, 'fdsfdsfsddfsfdsfds', 'fdsfdsf', 'Pendiente', '2023-05-04 13:19:27', 'fdsfdsfdsfdsfds', 'fdsfdsfdsdsffds'),
 (6, 'gfdgdfgdfg', 'gfdgfd', 'Entregado', '2023-05-09 16:51:09', 'gfdgdfg', 'gfdgdfg'),
 (7, 'fdsfdsfds', 'N/A', 'Entregado', '2023-05-09 16:51:34', 'fdsfds', 'fdsfsd'),
 (8, 'fdsfdsfdsfsdf', 'N/A', 'Entregado', '2023-05-09 16:51:49', 'N/A', 'N/A'),
-(9, 'fdfdsf', 'N/A', 'Entregado', '2023-05-09 16:54:44', 'N/A', 'N/A'),
-(10, 'luis', '20CG0180', 'Entregado', '2023-05-11 18:00:54', 'pando', 'pando'),
+(10, 'luis', '20CG0180', 'Pendiente', '2023-05-11 18:00:54', 'pando', 'pando'),
 (11, 'dsadasdsad', 'N/A', 'Entregado', '2023-05-11 18:41:45', 'dsad', 'dsadas'),
 (12, 'fdsfsdf', 'fdsfdsf', 'Entregado', '2023-05-11 18:42:17', 'N/A', 'N/A'),
 (13, 'joel', 'N/A', 'Entregado', '2023-05-11 18:44:48', 'N/A', 'N/A'),
 (14, 'rewrewrwe', '43243', 'Entregado', '2023-05-11 18:50:22', 'N/A', 'N/A'),
-(15, 'jess', 'N/A', 'Entregado', '2023-05-14 20:05:09', 'N/A', 'N/A'),
-(16, 'wery', 'N/A', 'Entregado', '2023-05-14 20:11:18', 'N/A', 'N/A');
+(15, 'jess', 'N/A', 'Pendiente', '2023-05-14 20:05:09', 'N/A', 'N/A'),
+(16, 'wery', 'N/A', 'Entregado', '2023-05-14 20:11:18', 'N/A', 'N/A'),
+(17, 'jesss', 'N/A', 'Pendiente', '2023-05-18 20:56:30', 'N/A', 'N/A'),
+(18, 'dsadsadas', 'N/A', 'Pendiente', '2023-05-20 13:15:43', 'N/A', 'N/A'),
+(19, 'Jose Juan', '20cg0206', 'Pendiente', '2023-05-26 13:28:23', 'Lilia', 'Ing software');
 
 -- --------------------------------------------------------
 
@@ -139,32 +140,30 @@ CREATE TABLE `pedido_material` (
 --
 
 INSERT INTO `pedido_material` (`id_registro`, `id_pedido`, `cb_material`, `cantidad`, `estado`) VALUES
-(11, 2, '1592483282', 3, 'Entregado'),
-(12, 4, '6343343238', 1, 'Entregado'),
-(13, 4, '7879655027', 1, 'Entregado'),
-(14, 6, '3007874738', 3, 'Entregado'),
-(15, 6, '4737075182', 1, 'Entregado'),
-(16, 7, '4737075182', 3, 'Entregado'),
-(17, 8, '6343343238', 1, 'Entregado'),
-(18, 8, '4737075182', 1, 'Entregado'),
-(19, 9, '1592483282', 3, 'Entregado'),
-(20, 9, '4737075182', 3, 'Entregado'),
-(21, 9, '3007874738', 1, 'Entregado'),
-(22, 10, '1234567890', 1, 'Entregado'),
-(23, 10, '4737075182', 2, 'Entregado'),
-(24, 10, '6343343238', 1, 'Entregado'),
-(25, 11, '3007874738', 1, 'Entregado'),
-(26, 12, '1234567890', 1, 'Entregado'),
-(27, 13, '2841715231', 3, 'Entregado'),
-(28, 13, '75009809', 3, 'Entregado'),
-(29, 14, '4737075182', 1, 'Entregado'),
-(30, 14, '1592483282', 1, 'Entregado'),
-(31, 14, '6343343238', 1, 'Entregado'),
-(32, 15, '1592483282', 13, 'Entregado'),
-(33, 15, '3979478150', 3, 'Entregado'),
-(34, 16, '3979478150', 11, 'Entregado'),
-(35, 1, '1592483282', 4, 'Entregado'),
-(36, 1, '3979478150', 3, 'Entregado');
+(16, 7, '4737075182', 3, 'Pendiente'),
+(17, 8, '6343343238', 1, 'Pendiente'),
+(18, 8, '4737075182', 1, 'Pendiente'),
+(25, 11, '3007874738', 1, 'Pendiente'),
+(26, 12, '1234567890', 1, 'Pendiente'),
+(27, 13, '2841715231', 3, 'Pendiente'),
+(28, 13, '75009809', 3, 'Pendiente'),
+(29, 14, '4737075182', 1, 'Pendiente'),
+(30, 14, '1592483282', 1, 'Pendiente'),
+(31, 14, '6343343238', 1, 'Pendiente'),
+(34, 16, '3979478150', 11, 'Pendiente'),
+(48, 2, '1592483282', 3, 'Pendiente'),
+(49, 4, '6343343238', 1, 'Pendiente'),
+(120, 6, '3007874738', 3, 'Pendiente'),
+(121, 6, '4737075182', 1, 'Pendiente'),
+(124, 17, '3007874738', 4, 'Pendiente'),
+(125, 17, '4737075182', 3, 'Pendiente'),
+(126, 15, '1592483282', 13, 'Pendiente'),
+(170, 10, '1234567890', 1, 'Entregado'),
+(171, 10, '1', 11, 'Entregado'),
+(172, 10, '4737075182', 2, 'Pendiente'),
+(173, 10, '6343343238', 1, 'Pendiente'),
+(174, 18, '1234567890', 11, 'Pendiente'),
+(175, 19, '3721416545', 5, 'Pendiente');
 
 -- --------------------------------------------------------
 
@@ -251,7 +250,8 @@ INSERT INTO `usuario` (`id_user`, `nombre_completo`, `sexo`, `username`, `passwo
 (1, '', '', 'admin', 'admin', 'Administrador'),
 (2, 'jose el pro', 'Femenino', 'Jose', 'jose123', 'Becario'),
 (3, 'joel', 'F', 'joel224', 'joel224', 'Contador'),
-(4, 'Invitado', 'M', 'Invitado', 'Invitado', 'Invitado');
+(4, 'Invitado', 'M', 'Invitado', 'Invitado', 'Invitado'),
+(6, 'Perla Martinez', 'F', 'Perla', '1234', 'Becario');
 
 --
 -- Indexes for dumped tables
@@ -308,31 +308,31 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `pedido`
 --
 ALTER TABLE `pedido`
-  MODIFY `id_pedido` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_pedido` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `pedido_material`
 --
 ALTER TABLE `pedido_material`
-  MODIFY `id_registro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_registro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
 
 --
 -- AUTO_INCREMENT for table `tipo_material`
 --
 ALTER TABLE `tipo_material`
-  MODIFY `id_material` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_material` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tipo_usuario`
 --
 ALTER TABLE `tipo_usuario`
-  MODIFY `id_rol` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_rol` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
