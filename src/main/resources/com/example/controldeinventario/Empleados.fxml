@@ -17,7 +17,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="500.0" prefWidth="792.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.EmpleadosController">
+<HBox prefHeight="500.0" prefWidth="792.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.EmpleadosController">
    <children>
       <TabPane fx:id="tabPaneVentana" prefWidth="550.0">
          <tabs>
@@ -87,15 +87,14 @@
                                     <Font size="25.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txtID" editable="false" layoutX="137.0" layoutY="63.0" prefHeight="27.0" prefWidth="75.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
-                              <Label layoutX="26.0" layoutY="68.0" text="ID del empleado" />
+                              <TextField fx:id="txtID" editable="false" layoutX="137.0" layoutY="63.0" prefHeight="27.0" prefWidth="75.0" style="-fx-background-color: white;" />
                               <Label layoutX="26.0" layoutY="110.0" text="Nombre completo" />
                               <TextField fx:id="txtNombre" layoutX="137.0" layoutY="105.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
                               <Label layoutX="26.0" layoutY="152.0" text="Nombre de usuario" />
                               <TextField fx:id="txtUsername" layoutX="137.0" layoutY="147.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
-                              <Label layoutX="227.0" layoutY="310.0" text="Confirma la contraseña" />
-                              <PasswordField fx:id="txtConfirmarPass" layoutX="363.0" layoutY="305.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
-                              <JFXRadioButton fx:id="rbMasculino" layoutX="357.0" layoutY="68.0" selected="true" text="M">
+                              <Label layoutX="40.0" layoutY="334.0" text="Confirmar contraseña" />
+                              <PasswordField fx:id="txtConfirmarPass" layoutX="176.0" layoutY="329.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <JFXRadioButton fx:id="rbMasculino" layoutX="357.0" layoutY="110.0" selected="true" text="M">
                                  <unSelectedColor>
                                     <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
                                  </unSelectedColor>
@@ -103,7 +102,7 @@
                                     <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
                                  </selectedColor>
                               </JFXRadioButton>
-                              <JFXRadioButton fx:id="rbFemenino" layoutX="413.0" layoutY="68.0" text="F">
+                              <JFXRadioButton fx:id="rbFemenino" layoutX="413.0" layoutY="110.0" text="F">
                                  <unSelectedColor>
                                     <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
                                  </unSelectedColor>
@@ -111,11 +110,11 @@
                                     <Color red="0.3294117748737335" green="0.20000000298023224" blue="0.5137255191802979" />
                                  </selectedColor>
                               </JFXRadioButton>
-                              <Label layoutX="314.0" layoutY="68.0" text="Sexo" />
-                              <Label layoutX="284.0" layoutY="267.0" text="Contraseña" />
-                              <PasswordField fx:id="txtPass" layoutX="363.0" layoutY="262.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
-                              <JFXComboBox fx:id="cbRoles" focusColor="#543383" layoutX="357.0" layoutY="110.0" prefHeight="26.0" prefWidth="138.0" unFocusColor="#543383" />
-                              <Label layoutX="314.0" layoutY="110.0" text="Roles" />
+                              <Label layoutX="314.0" layoutY="110.0" text="Sexo" />
+                              <Label layoutX="97.0" layoutY="291.0" text="Contraseña" />
+                              <PasswordField fx:id="txtPass" layoutX="176.0" layoutY="286.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <JFXComboBox fx:id="cbRoles" focusColor="#543383" layoutX="357.0" layoutY="147.0" prefHeight="26.0" prefWidth="138.0" unFocusColor="#543383" />
+                              <Label layoutX="314.0" layoutY="147.0" text="Roles" />
                            </children>
                         </AnchorPane>
                         <HBox prefHeight="47.0" prefWidth="540.0">

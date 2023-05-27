@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -94,57 +94,63 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="74.0" prefWidth="685.0" spacing="20.0">
                            <children>
-                              <TextField fx:id="txtID" editable="false" prefHeight="26.0" prefWidth="68.0" promptText="ID" style="-fx-background-color: white; -fx-border-color: #543383;">
-                                 <HBox.margin>
-                                    <Insets right="31.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <TextField fx:id="txtNumControl" prefHeight="26.0" prefWidth="167.0" promptText="Número de control" style="-fx-background-color: white; -fx-border-color: #543383;">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </TextField>
-                              <CheckBox fx:id="checkBoxNA1" mnemonicParsing="false" onAction="#CheckBoxChange1" text="No aplica">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </CheckBox>
-                              <TextField fx:id="txtFecha" editable="false" prefHeight="26.0" prefWidth="176.0" promptText="Fecha" style="-fx-background-color: white; -fx-border-color: #543383;">
+                              <TextField fx:id="txtID" editable="false" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: white;">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin>
                               </TextField>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="52.0" prefWidth="685.0" spacing="20.0">
-                           <children>
-                              <TextField fx:id="txtProfesor" prefHeight="27.0" prefWidth="249.0" promptText="Profesor" style="-fx-background-color: white; -fx-border-color: #543383;">
+                              <TextField fx:id="txtNumControl" prefHeight="26.0" prefWidth="100.0" promptText="Num. Control" style="-fx-background-color: white; -fx-border-color: #543383;">
                                  <HBox.margin>
-                                    <Insets left="30.0" />
+                                    <Insets left="-160.0" />
                                  </HBox.margin>
                               </TextField>
-                              <CheckBox fx:id="checkBoxNA2" mnemonicParsing="false" onAction="#CheckBoxChange2" prefHeight="18.0" prefWidth="99.0" text="No aplica">
+                              <JFXCheckBox fx:id="checkBoxNA1" checkedColor="#472b6e" onAction="#CheckBoxChange1" text="N/A" unCheckedColor="#472b6e">
+                                 <HBox.margin>
+                                    <Insets right="140.0" />
+                                 </HBox.margin>
+                              </JFXCheckBox>
+                              <TextField fx:id="txtFecha" editable="false" prefHeight="26.0" prefWidth="176.0" promptText="Fecha" style="-fx-background-color: white; -fx-border-color: #543383;">
+                                 <HBox.margin>
+                                    <Insets left="50.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="52.0" prefWidth="600.0" spacing="20.0">
+                           <children>
+                              <TextField fx:id="txtProfesor" prefHeight="27.0" prefWidth="298.0" promptText="Profesor" style="-fx-background-color: white; -fx-border-color: #543383;">
+                                 <HBox.margin>
+                                    <Insets right="-10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <JFXCheckBox fx:id="checkBoxNA2" checkedColor="#472b6e" onAction="#CheckBoxChange2" text="N/A" unCheckedColor="#472b6e" />
+                              <TextField fx:id="txtMateria" prefHeight="27.0" prefWidth="170.0" promptText="Materia" style="-fx-background-color: white; -fx-border-color: #543383;">
+                                 <HBox.margin>
+                                    <Insets right="-10.0" />
+                                 </HBox.margin></TextField>
+                              <JFXCheckBox fx:id="checkBoxNA3" checkedColor="#472b6e" onAction="#CheckBoxChange3" text="N/A" unCheckedColor="#472b6e">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
-                              </CheckBox>
-                              <TextField fx:id="txtMateria" promptText="Materia" style="-fx-background-color: white; -fx-border-color: #543383;" />
-                              <CheckBox fx:id="checkBoxNA3" mnemonicParsing="false" onAction="#CheckBoxChange3" text="No aplica" />
+                              </JFXCheckBox>
                            </children>
                         </HBox>
-                        <TextField fx:id="txtNombre" prefHeight="27.0" prefWidth="529.0" promptText="Nombre del alumno" style="-fx-background-color: white; -fx-border-color: #543383;">
+                        <TextField fx:id="txtNombre" prefHeight="27.0" prefWidth="250.0" promptText="Nombre del alumno" style="-fx-background-color: white; -fx-border-color: #543383;">
                            <VBox.margin>
-                              <Insets left="85.0" right="215.0" />
+                              <Insets left="85.0" right="390.0" />
                            </VBox.margin>
                         </TextField>
                         <HBox alignment="CENTER" prefHeight="54.0" prefWidth="685.0" spacing="20.0">
                            <children>
-                              <TextField fx:id="txtBusquedaID" onKeyTyped="#EscaneoBusqueda" prefHeight="26.0" prefWidth="475.0" promptText="Busqueda (por id)" style="-fx-background-color: white; -fx-border-color: #543383;">
+                              <TextField fx:id="txtBusquedaID" onKeyTyped="#EscaneoBusqueda" prefHeight="26.0" prefWidth="170.0" promptText="Busqueda (por id)" style="-fx-background-color: white; -fx-border-color: #543383;">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </TextField>
-                              <Button mnemonicParsing="false" onAction="#BuscarProducto" style="-fx-background-color: #543383;" text="Agregar Producto" textFill="WHITE" />
+                              <Button mnemonicParsing="false" onAction="#BuscarProducto" style="-fx-background-color: #543383;" text="Agregar Producto" textFill="WHITE">
+                                 <HBox.margin>
+                                    <Insets right="305.0" />
+                                 </HBox.margin></Button>
                            </children>
                         </HBox>
                         <TableView fx:id="tableViewPedidoMaterial" prefHeight="358.0" prefWidth="685.0" />

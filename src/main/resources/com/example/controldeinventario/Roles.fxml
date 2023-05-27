@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="517.0" prefWidth="700.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.RolesController">
+<HBox prefHeight="517.0" prefWidth="700.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.RolesController">
    <children>
       <TabPane fx:id="tabPaneVentana" prefHeight="500.0" prefWidth="570.0">
          <tabs>
@@ -77,24 +77,22 @@
                                  <VBox.margin>
                                     <Insets left="10.0" top="5.0" />
                                  </VBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
                               </Label>
                               <HBox prefHeight="39.0" prefWidth="539.0" spacing="10.0">
                                  <children>
-                                    <Label text="ID Tipo de usuario">
-                                       <padding>
-                                          <Insets left="15.0" />
-                                       </padding>
+                                    <TextField fx:id="txtId_rol" editable="false" prefHeight="26.0" prefWidth="37.0" style="-fx-background-color: white;" />
+                                    <Label text="Nombre del tipo de usuario">
                                        <HBox.margin>
-                                          <Insets top="5.0" />
+                                          <Insets left="-40.0" top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField fx:id="txtId_rol" editable="false" prefHeight="26.0" prefWidth="37.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
-                                    <Label text="Nombre tipo de usuario">
+                                    <TextField fx:id="txtNombre_rol" prefHeight="26.0" prefWidth="184.0" style="-fx-background-color: white; -fx-border-color: #543383;">
                                        <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txtNombre_rol" prefHeight="26.0" prefWidth="184.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                                          <Insets right="30.0" />
+                                       </HBox.margin></TextField>
                                  </children>
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -107,7 +105,7 @@
                         </VBox>
                         <Label text="Roles del empleado [Acciones que puede realizar dentro del sistema]">
                            <VBox.margin>
-                              <Insets left="15.0" />
+                              <Insets bottom="10.0" left="15.0" />
                            </VBox.margin>
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
