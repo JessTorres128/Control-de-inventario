@@ -159,7 +159,7 @@ public class PrincipalController {
 
         while (rsArticulos.next()) {
             Articulo producto = new Articulo(rsArticulos.getLong("cb_material"), rsArticulos.getString("tipo_de_armario"), rsArticulos.getString("gaveta"), rsArticulos.getString("sub_compartimento"), rsArticulos.getString("material"),
-                    rsArticulos.getString("tipo"), rsArticulos.getString("numero_parte"), rsArticulos.getDouble("valor"), rsArticulos.getString("unidad_de_medida"), rsArticulos.getString("caracteristicas"), rsArticulos.getString("frecuencia_de_uso"),
+                    rsArticulos.getString("tipo"), rsArticulos.getString("numero_parte"), rsArticulos.getString("valor"), rsArticulos.getString("unidad_de_medida"), rsArticulos.getString("caracteristicas"), rsArticulos.getString("frecuencia_de_uso"),
                     rsArticulos.getInt("cantidad"), rsArticulos.getInt("cantidad_min"));
 
             Row dataRow = sheet.createRow(rowIndex++);

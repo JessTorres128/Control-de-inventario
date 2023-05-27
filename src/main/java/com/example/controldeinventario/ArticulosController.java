@@ -74,7 +74,7 @@ public class ArticulosController {
     TableColumn <Articulo,String> colMaterial=new TableColumn<>("Material");
     TableColumn <Articulo,String> colTipo=new TableColumn<>("Tipo");
     TableColumn <Articulo, String> colNumParte=new TableColumn<>("Número de parte");
-    TableColumn <Articulo, Double> colValor=new TableColumn<>("Valor");
+    TableColumn <Articulo, String> colValor=new TableColumn<>("Valor");
     TableColumn <Articulo,String> colUMedida=new TableColumn<>("Unidad de medida");
     TableColumn <Articulo, String> colCaracteristicas=new TableColumn<>("Caracteristicas");
     TableColumn <Articulo, String> colFUso=new TableColumn<>("Frecuencia de uso");
@@ -161,7 +161,7 @@ public class ArticulosController {
         while (rsArticulos.next()){
             cont++;
             Articulo a=new Articulo(rsArticulos.getLong("cb_material"), rsArticulos.getString("tipo_de_armario"), rsArticulos.getString("gaveta"), rsArticulos.getString("sub_compartimento"), rsArticulos.getString("material"),
-                    rsArticulos.getString("tipo"), rsArticulos.getString("numero_parte"), rsArticulos.getDouble("valor"), rsArticulos.getString("unidad_de_medida"), rsArticulos.getString("caracteristicas"), rsArticulos.getString("frecuencia_de_uso"),
+                    rsArticulos.getString("tipo"), rsArticulos.getString("numero_parte"), rsArticulos.getString("valor"), rsArticulos.getString("unidad_de_medida"), rsArticulos.getString("caracteristicas"), rsArticulos.getString("frecuencia_de_uso"),
                     rsArticulos.getInt("cantidad"), rsArticulos.getInt("cantidad_min"));
             tableViewArticulos.getItems().add(a);
         }
@@ -196,7 +196,7 @@ public class ArticulosController {
                     ResultSet resultado2 = conexion.consultar("SELECT * FROM `material` WHERE `cb_material`='"+txtCodigoBarras.getText()+"' LIMIT 1");
                     if (resultado2.next()){
                         System.out.println(txtValor.getText());
-                        conexion.insmodelim("UPDATE `material` SET `tipo_de_armario`='" + txtArmario.getText() + "', `gaveta`='" + txtGaveta.getText() + "', `sub_compartimento`='" + txtSubCompartimento.getText() + "', `id_material`='"+id+"', `tipo`='" + txtTipo.getText() + "', `numero_parte`='" + txtNumParte.getText() + "', `valor`='" + (txtValor.getText().equals("N/A") ? "NULL" : txtValor.getText()) + "', `unidad_de_medida`='" + txtUnidadMedida.getText() + "', `caracteristicas`='" + txtCaracteristicas.getText() + "', `frecuencia_de_uso`='" + ((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText() + "', `cantidad`='" + txtStock.getText() + "', `cantidad_min`='" + txtStockMin.getText() + "' WHERE `cb_material`='"+txtCodigoBarras.getText()+"'");
+                        conexion.insmodelim("UPDATE `material` SET `tipo_de_armario`='" + txtArmario.getText() + "', `gaveta`='" + txtGaveta.getText() + "', `sub_compartimento`='" + txtSubCompartimento.getText() + "', `id_material`='"+id+"', `tipo`='" + txtTipo.getText() + "', `numero_parte`='" + txtNumParte.getText() + "', `valor`='" + (txtValor.getText().equals("N/A") ? "N/A" : txtValor.getText()) + "', `unidad_de_medida`='" + txtUnidadMedida.getText() + "', `caracteristicas`='" + txtCaracteristicas.getText() + "', `frecuencia_de_uso`='" + ((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText() + "', `cantidad`='" + txtStock.getText() + "', `cantidad_min`='" + txtStockMin.getText() + "' WHERE `cb_material`='"+txtCodigoBarras.getText()+"'");
                         Exito("Actualizado con exito");
 
                     }else {

@@ -20,7 +20,7 @@ public class ConsultarMaterialController {
     TableColumn <Articulo,String> colMaterial=new TableColumn<>("Material");
     TableColumn <Articulo,String> colTipo=new TableColumn<>("Tipo");
     TableColumn <Articulo, String> colNumParte=new TableColumn<>("Número de parte");
-    TableColumn <Articulo, Double> colValor=new TableColumn<>("Valor");
+    TableColumn <Articulo, String> colValor=new TableColumn<>("Valor");
     TableColumn <Articulo,String> colUMedida=new TableColumn<>("Unidad de medida");
     TableColumn <Articulo, String> colCaracteristicas=new TableColumn<>("Caracteristicas");
     TableColumn <Articulo, String> colFUso=new TableColumn<>("Frecuencia de uso");
@@ -147,7 +147,7 @@ public class ConsultarMaterialController {
         if (rbMaterial.isSelected()){
             while (rsMats.next()){
                 Articulo material=new Articulo(rsMats.getLong("cb_material"), rsMats.getString("tipo_de_armario"), rsMats.getString("gaveta"), rsMats.getString("sub_compartimento"), rsMats.getString("material"),
-                        rsMats.getString("tipo"), rsMats.getString("numero_parte"), rsMats.getDouble("valor"), rsMats.getString("unidad_de_medida"), rsMats.getString("caracteristicas"), rsMats.getString("frecuencia_de_uso"),
+                        rsMats.getString("tipo"), rsMats.getString("numero_parte"), rsMats.getString("valor"), rsMats.getString("unidad_de_medida"), rsMats.getString("caracteristicas"), rsMats.getString("frecuencia_de_uso"),
                         rsMats.getInt("cantidad"), rsMats.getInt("cantidad_min"));
                 tableViewMats.getItems().add(material);
 

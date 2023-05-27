@@ -5,7 +5,7 @@ public class Registro {
     private int id_registro;
     private String nombre;
     private String tipo;
-    private Double valor;
+    private String valor;
     private String unidad_medida;
     private int cantidad;
     private boolean entregado;
@@ -17,7 +17,7 @@ public class Registro {
         this.entregado = entregado;
     }
 
-    public Registro(Long cb, int id_registro, String nombre, String tipo, Double valor, String unidad_medida, int cantidad, boolean entregado) {
+    public Registro(Long cb, int id_registro, String nombre, String tipo, String valor, String unidad_medida, int cantidad, boolean entregado) {
         this.cb = cb;
         this.id_registro = id_registro;
         this.nombre = nombre;
@@ -37,7 +37,7 @@ public class Registro {
         this.entregado = entregado;
     }
 
-    public Registro(Long cb, String nombre, String tipo, Double valor, String unidad_medida, int cantidad, boolean entregado) {
+    public Registro(Long cb, String nombre, String tipo, String valor, String unidad_medida, int cantidad, boolean entregado) {
         this.cb = cb;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -79,11 +79,11 @@ public class Registro {
         this.tipo = tipo;
     }
 
-    public Double getValor() {
+    public String getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(String valor) {
         this.valor = valor;
     }
 

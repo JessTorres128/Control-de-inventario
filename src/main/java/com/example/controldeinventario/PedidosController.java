@@ -549,7 +549,7 @@ public class PedidosController {
                     System.out.println(rsArticulos.getLong("cb_material"));
                     ResultSet rsArticulo = conexion.consultar("SELECT `tipo`,`cantidad`,`valor`,`unidad_de_medida`,tipo_material.material FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+rsArticulos.getLong("cb_material")+"'");
                     if (rsArticulo.next()){
-                        Registro registro = new Registro(rsArticulos.getLong("cb_material"),rsArticulos.getInt("id_registro"),rsArticulo.getString("material"),rsArticulo.getString("tipo"),rsArticulo.getDouble("valor"),rsArticulo.getString("unidad_de_medida"),rsArticulos.getInt("cantidad"), (rsArticulos.getString("estado").equals("Entregado")));
+                        Registro registro = new Registro(rsArticulos.getLong("cb_material"),rsArticulos.getInt("id_registro"),rsArticulo.getString("material"),rsArticulo.getString("tipo"),rsArticulo.getString("valor"),rsArticulo.getString("unidad_de_medida"),rsArticulos.getInt("cantidad"), (rsArticulos.getString("estado").equals("Entregado")));
                         AgregarMaterial(registro);
                        /* if (registro.isEntregado()){
                             conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")- registro.getCantidad())+"' WHERE `cb_material`='"+registro.getCb()+"'");
@@ -725,7 +725,7 @@ public class PedidosController {
             ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE cb_material='"+txtBusquedaID.getText()+"'");
             if (rsArticulo.next()){
                 if (rsArticulo.getInt("cantidad") != 0){
-                    Registro registro = new Registro(rsArticulo.getLong("cb_material"),rsArticulo.getString("material"),rsArticulo.getString("tipo"),rsArticulo.getDouble("valor"), rsArticulo.getString("unidad_de_medida"),1,false);
+                    Registro registro = new Registro(rsArticulo.getLong("cb_material"),rsArticulo.getString("material"),rsArticulo.getString("tipo"),rsArticulo.getString("valor"), rsArticulo.getString("unidad_de_medida"),1,false);
                     AgregarMaterial(registro);
                     txtBusquedaID.setText("");
                 }else {
