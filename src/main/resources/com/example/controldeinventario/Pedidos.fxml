@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 
-<HBox prefHeight="687.0" prefWidth="900.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.PedidosController">
+<HBox prefHeight="687.0" prefWidth="1021.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.PedidosController">
    <children>
-      <TabPane fx:id="tabPaneVentana" prefHeight="600.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPaneVentana" prefHeight="666.0" prefWidth="894.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="tabSearch" closable="false" text="Buscar">
             <content>
@@ -76,7 +76,7 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                            <children>
-                              <TableView fx:id="tableViewPedidos" prefHeight="444.0" prefWidth="685.0">
+                              <TableView fx:id="tableViewPedidos" prefHeight="444.0" prefWidth="710.0">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>
@@ -96,7 +96,7 @@
                            <children>
                               <TextField fx:id="txtID" editable="false" prefHeight="26.0" prefWidth="68.0" promptText="ID" style="-fx-background-color: white; -fx-border-color: #543383;">
                                  <HBox.margin>
-                                    <Insets right="20.0" />
+                                    <Insets right="31.0" />
                                  </HBox.margin>
                               </TextField>
                               <TextField fx:id="txtNumControl" prefHeight="26.0" prefWidth="167.0" promptText="Número de control" style="-fx-background-color: white; -fx-border-color: #543383;">
@@ -132,9 +132,9 @@
                               <CheckBox fx:id="checkBoxNA3" mnemonicParsing="false" onAction="#CheckBoxChange3" text="No aplica" />
                            </children>
                         </HBox>
-                        <TextField fx:id="txtNombre" prefHeight="27.0" prefWidth="529.0" promptText="Nombre" style="-fx-background-color: white; -fx-border-color: #543383;">
+                        <TextField fx:id="txtNombre" prefHeight="27.0" prefWidth="529.0" promptText="Nombre del alumno" style="-fx-background-color: white; -fx-border-color: #543383;">
                            <VBox.margin>
-                              <Insets left="30.0" right="90.0" />
+                              <Insets left="85.0" right="215.0" />
                            </VBox.margin>
                         </TextField>
                         <HBox alignment="CENTER" prefHeight="54.0" prefWidth="685.0" spacing="20.0">
@@ -157,9 +157,9 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </HBox.margin>
       </TabPane>
-      <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #543383;">
+      <VBox alignment="TOP_CENTER" prefHeight="647.0" prefWidth="256.0" style="-fx-background-color: #543383;">
          <HBox.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            <Insets bottom="20.0" left="70.0" right="20.0" top="20.0" />
          </HBox.margin>
          <children>
             <Label />

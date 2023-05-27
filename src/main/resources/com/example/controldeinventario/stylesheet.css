@@ -14,6 +14,12 @@
 	-fx-background-radius: 0 0 0 0;
 }
 
+.button-with-image {
+    -fx-background-image: url('..\..\..\img\cancel.png');
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
 
 .tab .tab-label {
  	-fx-alignment: CENTER;

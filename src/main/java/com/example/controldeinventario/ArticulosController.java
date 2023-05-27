@@ -40,6 +40,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
@@ -56,6 +57,8 @@ public class ArticulosController {
     KeyCombination keyCombination= new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
     @FXML
     Button btnNew, btnSave, btnEdit, btnCancel, btnExit, btnDelete;
+
+
     @FXML TabPane tabV;
     @FXML Tab tabSearch, tabNew;
     @FXML RadioButton rbCodigoBarras, rbArmario, rbMaterial;
@@ -79,7 +82,14 @@ public class ArticulosController {
     TableColumn <Articulo,Integer> colCantidadMin=new TableColumn<>("Cantidad minima");
 
 
+
+
     @FXML protected void initialize() throws SQLException {
+
+
+
+
+
 
         Platform.runLater(() -> {
             txtBusqueda.requestFocus();
