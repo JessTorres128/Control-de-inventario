@@ -8,14 +8,14 @@ public class Articulo {
     public String material;
     public String tipo;
     public String numero_parte;
-    public Double valor;
+    public String valor;
     public String unidad_medida;
     public String caracteristicas;
     public String f_uso;
     public int cantidad;
     public int cantidad_min;
 
-    public Articulo(Long codigo_barras, String tipo_de_armario, String gaveta, String sub_compartimento, String material, String tipo, String numero_parte, Double valor, String unidad_medida, String caracteristicas, String f_uso, int cantidad, int cantidad_min) {
+    public Articulo(Long codigo_barras, String tipo_de_armario, String gaveta, String sub_compartimento, String material, String tipo, String numero_parte, String valor, String unidad_medida, String caracteristicas, String f_uso, int cantidad, int cantidad_min) {
         this.codigo_barras = codigo_barras;
         this.tipo_de_armario = tipo_de_armario;
         this.gaveta = gaveta;
@@ -55,8 +55,15 @@ public class Articulo {
     public void setTipo(String tipo) {this.tipo = tipo;}
     public String getNumero_parte() {return numero_parte;}
     public void setNumero_parte(String numero_parte) {this.numero_parte = numero_parte;}
-    public double getValor() {return valor;}
-    public void setValor(double valor) {this.valor = valor;}
+
+    public String getValor() {
+        return valor;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
+
     public String getUnidad_medida() {return unidad_medida;}
     public void setUnidad_medida(String unidad_medida) {this.unidad_medida = unidad_medida;}
     public String getCaracteristicas() {return caracteristicas;}

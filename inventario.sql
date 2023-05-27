@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2023 at 10:59 PM
+-- Generation Time: May 28, 2023 at 01:58 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -61,7 +61,7 @@ CREATE TABLE `material` (
   `id_material` int(10) NOT NULL,
   `tipo` varchar(60) NOT NULL,
   `numero_parte` varchar(60) NOT NULL,
-  `valor` float DEFAULT NULL,
+  `valor` varchar(30) DEFAULT NULL,
   `unidad_de_medida` varchar(10) NOT NULL,
   `caracteristicas` varchar(200) NOT NULL,
   `frecuencia_de_uso` varchar(20) NOT NULL,
@@ -74,13 +74,15 @@ CREATE TABLE `material` (
 --
 
 INSERT INTO `material` (`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES
-('1234567890', 'D', 'D6', 'B', 2, 'Diodo', '432432AJD', 0, 'N/A', '7W / 9V', 'Medio', 0, 20),
-('1592483282', 'd', 'd2', 'a', 1, 'tttt', '5432fdfsd', 23, 'fdsfdfds', 'gfdgdfgdfgdfgdf', 'Alto', 56, 54),
-('2841715231', 'd', 'd4', '43535', 1, 'gfhgf', '654654ytrh', 34324, 'ohms', 'jhgfxdfds', 'Bajo', 11, 1),
-('3007874738', 'r4', 'd1', '5', 8, 'gfdgfdgdf', '54534gfdg', 123, 'Volts', 'hgfhgfbgfb', 'Alto', 7, 10),
-('3721416545', 'A5', 'B', 'B5', 1, 'A5', '32', 55, 'ohms', 'tabla blanca', 'Medio', 15, 20),
-('4737075182', 'D', 'D5', 'B', 1, 'Grande', '543543', 100, 'Ohms', 'ACABO DE EDITAR ESTO', 'Medio', 100, 20),
-('6166654638', 'N/A', 'N/A', 'N/A', 2, 'fdsfdsf', 'fsdfdsfds', 12, 'fdgfd', 'fdsfds', 'Bajo', 12, 21);
+('1234567890', 'D', 'D6', 'B', 2, 'Diodo', '432432AJD', '0', 'N/A', '7W / 9V', 'Medio', 0, 20),
+('1592483282', 'd', 'd2', 'a', 1, 'tttt', '5432fdfsd', '23', 'fdsfdfds', 'gfdgdfgdfgdfgdf', 'Alto', 55, 54),
+('2841715231', 'd', 'd4', '43535', 1, 'gfhgf', '654654ytrh', '34324', 'ohms', 'jhgfxdfds', 'Bajo', 11, 1),
+('3007874738', 'r4', 'd1', '5', 8, 'gfdgfdgdf', '54534gfdg', '123', 'Volts', 'hgfhgfbgfb', 'Alto', 6, 10),
+('3721416545', 'A5', 'B', 'B5', 1, 'A5', '32', '55', 'ohms', 'tabla blanca', 'Medio', 15, 20),
+('4737075182', 'D', 'D5', 'B', 1, 'Grande', '543543', '100', 'Ohms', 'ACABO DE EDITAR ESTO', 'Medio', 100, 20),
+('6166654638', 'N/A', 'N/A', 'N/A', 2, 'fdsfdsf', 'fsdfdsfds', '12', 'fdgfd', 'fdsfds', 'Bajo', 12, 21),
+('6547971605', 'a', 'N/A', 'N/A', 2, '45fd', 'rt435tr', '10.50', 'ohms', 'pppppp', 'Bajo', 200, 1),
+('9904772926', 'N/A', 'N/A', 'N/A', 2, '4343', '13213AC2', 'N/A', 'N/A', 'holaaaaaaaaaa n/a', 'Bajo', 100, 10);
 
 -- --------------------------------------------------------
 
@@ -151,7 +153,6 @@ INSERT INTO `pedido_material` (`id_registro`, `id_pedido`, `cb_material`, `canti
 (30, 14, '1592483282', 1, 'Pendiente'),
 (31, 14, '6343343238', 1, 'Pendiente'),
 (34, 16, '3979478150', 11, 'Pendiente'),
-(48, 2, '1592483282', 3, 'Pendiente'),
 (49, 4, '6343343238', 1, 'Pendiente'),
 (120, 6, '3007874738', 3, 'Pendiente'),
 (121, 6, '4737075182', 1, 'Pendiente'),
@@ -163,7 +164,9 @@ INSERT INTO `pedido_material` (`id_registro`, `id_pedido`, `cb_material`, `canti
 (172, 10, '4737075182', 2, 'Pendiente'),
 (173, 10, '6343343238', 1, 'Pendiente'),
 (174, 18, '1234567890', 11, 'Pendiente'),
-(175, 19, '3721416545', 5, 'Pendiente');
+(175, 19, '3721416545', 5, 'Pendiente'),
+(178, 2, '1592483282', 4, 'Pendiente'),
+(179, 2, '3007874738', 1, 'Pendiente');
 
 -- --------------------------------------------------------
 
@@ -314,7 +317,7 @@ ALTER TABLE `pedido`
 -- AUTO_INCREMENT for table `pedido_material`
 --
 ALTER TABLE `pedido_material`
-  MODIFY `id_registro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
+  MODIFY `id_registro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
 
 --
 -- AUTO_INCREMENT for table `tipo_material`
