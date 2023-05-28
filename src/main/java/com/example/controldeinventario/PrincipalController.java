@@ -262,27 +262,9 @@ public class PrincipalController {
                 sheet1.autoSizeColumn(i);
             }
         }
-        Row headerRow2 = sheet2.createRow(2);
-
-        headerRow2.createCell(3).setCellValue("ID Pedido");
-        headerRow2.createCell(4).setCellValue("Nombre");
-        headerRow2.createCell(5).setCellValue("Numero de control");
-        headerRow2.createCell(6).setCellValue("Estado");
-        headerRow2.createCell(7).setCellValue("Fecha");
-        headerRow2.createCell(8).setCellValue("Profesor");
-        headerRow2.createCell(9).setCellValue("Materia");
 
 
-        for (int i = 3; i < 10; i++) {
-            headerRow2.getCell(i).setCellStyle(headerCellStyle);
-        }
-
-        for (int i = 3; i <= 9; i++) {
-            sheet2.autoSizeColumn(i);
-        }
-
-
-        int rowIndex2 = 3;
+        int rowIndex2 = 2;
 
 
         ResultSet rsPedidos = conexion.consultar("SELECT * FROM `pedido`");
@@ -295,6 +277,24 @@ for(hjhdkj.next()){
        //ResultSet rsHerramientaPedido = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
 
         while (rsPedidos.next()) {
+            Row headerRow2 = sheet2.createRow(rowIndex2++);
+
+            headerRow2.createCell(3).setCellValue("ID Pedido");
+            headerRow2.createCell(4).setCellValue("Nombre");
+            headerRow2.createCell(5).setCellValue("Numero de control");
+            headerRow2.createCell(6).setCellValue("Estado");
+            headerRow2.createCell(7).setCellValue("Fecha");
+            headerRow2.createCell(8).setCellValue("Profesor");
+            headerRow2.createCell(9).setCellValue("Materia");
+
+
+            for (int i = 3; i < 10; i++) {
+                headerRow2.getCell(i).setCellStyle(headerCellStyle);
+            }
+
+            for (int i = 3; i <= 9; i++) {
+                sheet2.autoSizeColumn(i);
+            }
 
                 Pedido pedido = new Pedido(rsPedidos.getInt("id_pedido"), rsPedidos.getString("nombre_persona"), rsPedidos.getString("num_control"), rsPedidos.getString("estado"), rsPedidos.getDate("fecha"),
                         rsPedidos.getString("profesor"), rsPedidos.getString("materia"));
@@ -309,6 +309,39 @@ for(hjhdkj.next()){
                 dataRow2.createCell(7).setCellValue(dateFormat.format(pedido.getFecha()));
                 dataRow2.createCell(8).setCellValue(pedido.getProfesor());
                 dataRow2.createCell(9).setCellValue(pedido.getMateria());
+                ResultSet rsPedido = conexion.consultar("SELECT * FROM `pedido_material` WHERE `id_pedido`='"+pedido.getId_pedido()+"'");
+                Row filaInfoP = sheet2.createRow(rowIndex2++);
+                filaInfoP.createCell(3).setCellValue("Código de barras");
+                filaInfoP.createCell(4).setCellValue("Cantidad");
+                filaInfoP.createCell(5).setCellValue("Material");
+                filaInfoP.createCell(6).setCellValue("Tipo");
+                filaInfoP.createCell(7).setCellValue("Valor");
+                filaInfoP.createCell(8).setCellValue("Unidad de medida");
+                filaInfoP.createCell(9).setCellValue("Estado");
+                while (rsPedido.next()){
+                    Row filaMaterialP = sheet2.createRow(rowIndex2++);
+                    ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE `cb_material`='"+rsPedido.getLong("cb_material")+"'");
+                    ResultSet rsHerramientaDN = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE `cb_herramienta`='"+rsPedido.getLong("cb_material")+"'");
+                    if (rsArticulo.next()){
+                        filaMaterialP.createCell(3).setCellValue(rsPedido.getLong("cb_material"));
+                        filaMaterialP.createCell(4).setCellValue(rsPedido.getInt("cantidad"));
+                        filaMaterialP.createCell(5).setCellValue(rsArticulo.getString("material"));
+                        filaMaterialP.createCell(6).setCellValue(rsArticulo.getString("tipo"));
+                        filaMaterialP.createCell(7).setCellValue(rsArticulo.getString("valor"));
+                        filaMaterialP.createCell(8).setCellValue(rsArticulo.getString("unidad_de_medida"));
+                        filaMaterialP.createCell(9).setCellValue(rsPedido.getString("estado"));
+                    }else if (rsHerramientaDN.next()){
+                        filaMaterialP.createCell(3).setCellValue(rsPedido.getLong("cb_material"));
+                        filaMaterialP.createCell(4).setCellValue(rsPedido.getLong("cantidad"));
+                        filaMaterialP.createCell(5).setCellValue(rsHerramientaDN.getString("material"));
+                        filaMaterialP.createCell(6).setCellValue(rsHerramientaDN.getString("tipo"));
+                        filaMaterialP.createCell(7).setCellValue("N/A");
+                        filaMaterialP.createCell(8).setCellValue("N/A");
+                        filaMaterialP.createCell(9).setCellValue(rsPedido.getString("estado"));
+                    }
+
+
+                }
                // dataRow2.createCell(10).setCellValue(pal);
 
 
@@ -324,6 +357,7 @@ for(hjhdkj.next()){
                 for (int i = 3; i < sheet1.getRow(0).getLastCellNum(); i++) {
                     sheet2.autoSizeColumn(i);
                 }
+                rowIndex2++;
             }
 
 
