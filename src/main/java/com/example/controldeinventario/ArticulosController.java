@@ -40,6 +40,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ArticulosController {
     @FXML ImageView imgCodeBar = new ImageView();
+    @FXML RadioButton rbCBPequeño, rbCBMedio, rbCBGrande;
     @FXML Label lblContador;
     @FXML TextField txtBusqueda;
     @FXML ComboBox<String> cbMaterial = new ComboBox<>();
@@ -57,6 +58,7 @@ public class ArticulosController {
     @FXML RadioButton rbBajo, rbMedio,rbAlto, rbSinUtilizar;
     @FXML CheckBox checkBoxNA1,checkBoxNA2,checkBoxNA3,checkBoxNA4;
     ToggleGroup toggleGroupBusqueda = new ToggleGroup();
+    ToggleGroup toogleGroupCBSize = new ToggleGroup();
     ToggleGroup toggleGroupFrecuencia = new ToggleGroup();
     @FXML TableView<Articulo> tableViewArticulos;
     TableColumn <Articulo,Long> colCB=new TableColumn<>("Codigo de barras");
@@ -106,6 +108,9 @@ public class ArticulosController {
         rbCodigoBarras.setToggleGroup(toggleGroupBusqueda);
         rbArmario.setToggleGroup(toggleGroupBusqueda);
         rbMaterial.setToggleGroup(toggleGroupBusqueda);
+        rbCBPequeño.setToggleGroup(toogleGroupCBSize);
+        rbCBMedio.setToggleGroup(toogleGroupCBSize);
+        rbCBGrande.setToggleGroup(toogleGroupCBSize);
 
         rbBajo.setToggleGroup(toggleGroupFrecuencia);
         rbMedio.setToggleGroup(toggleGroupFrecuencia);
@@ -309,20 +314,54 @@ public class ArticulosController {
         Document documento = new Document(PageSize.A4);
         PdfWriter.getInstance(documento, new FileOutputStream("CodigoDeBarras.pdf"));
         documento.open();
-
-        PdfPTable pdfPTableCB = new PdfPTable(4);
-        pdfPTableCB.setWidthPercentage(100);
-        BufferedImage image = ImageIO.read(new File("code39.png"));
-        com.itextpdf.text.Image barcode = com.itextpdf.text.Image.getInstance(image, null);
-        barcode.scaleToFit(150, 50);
-        for (int i = 0; i < 40; i++) {
-            PdfPCell cell = new PdfPCell(barcode);
-            cell.setPadding(5);
-            cell.setBorder(com.itextpdf.text.Rectangle.NO_BORDER);
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            pdfPTableCB.addCell(cell);
+        if (rbCBPequeño.isSelected()){
+            PdfPTable pdfPTableCB = new PdfPTable(8);
+            pdfPTableCB.setWidthPercentage(100);
+            BufferedImage image = ImageIO.read(new File("code39.png"));
+            com.itextpdf.text.Image barcode = com.itextpdf.text.Image.getInstance(image, null);
+            //Para modificar el tamaño se edita estos valores
+            barcode.scaleToFit(100, 30);
+            for (int i = 0; i < 40; i++) {
+                PdfPCell cell = new PdfPCell(barcode);
+                cell.setPadding(5);
+                cell.setBorder(com.itextpdf.text.Rectangle.NO_BORDER);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                pdfPTableCB.addCell(cell);
+            }
+            documento.add(pdfPTableCB);
+        } else if (rbCBMedio.isSelected()) {
+            PdfPTable pdfPTableCB = new PdfPTable(4);
+            pdfPTableCB.setWidthPercentage(100);
+            BufferedImage image = ImageIO.read(new File("code39.png"));
+            com.itextpdf.text.Image barcode = com.itextpdf.text.Image.getInstance(image, null);
+            //Para modificar el tamaño se edita estos valores
+            barcode.scaleToFit(150, 50);
+            for (int i = 0; i < 40; i++) {
+                PdfPCell cell = new PdfPCell(barcode);
+                cell.setPadding(5);
+                cell.setBorder(com.itextpdf.text.Rectangle.NO_BORDER);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                pdfPTableCB.addCell(cell);
+            }
+            documento.add(pdfPTableCB);
+        } else if (rbCBGrande.isSelected()) {
+            PdfPTable pdfPTableCB = new PdfPTable(2);
+            pdfPTableCB.setWidthPercentage(100);
+            BufferedImage image = ImageIO.read(new File("code39.png"));
+            com.itextpdf.text.Image barcode = com.itextpdf.text.Image.getInstance(image, null);
+            //Para modificar el tamaño se edita estos valores
+            barcode.scaleToFit(200, 100);
+            for (int i = 0; i < 20; i++) {
+                PdfPCell cell = new PdfPCell(barcode);
+                cell.setPadding(5);
+                cell.setBorder(com.itextpdf.text.Rectangle.NO_BORDER);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                pdfPTableCB.addCell(cell);
+            }
+            documento.add(pdfPTableCB);
         }
-        documento.add(pdfPTableCB);
+
+
         documento.close();
         Desktop.getDesktop().browse(new File("CodigoDeBarras.pdf").toURI());
 
