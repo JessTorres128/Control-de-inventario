@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2023 at 01:58 AM
+-- Generation Time: Jul 13, 2023 at 07:53 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -20,6 +20,17 @@ SET time_zone = "+00:00";
 --
 -- Database: `inventario`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `alumnos`
+--
+
+CREATE TABLE `alumnos` (
+  `num_control` varchar(8) NOT NULL,
+  `nombre_alumno` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -50,6 +61,20 @@ INSERT INTO `herramienta` (`cb_herramienta`, `id_herramienta`, `tipo`, `caracter
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `materia`
+--
+
+CREATE TABLE `materia` (
+  `id_materia` int(20) NOT NULL,
+  `num_control` varchar(8) NOT NULL,
+  `hora_inicio` time NOT NULL,
+  `hora_fin` time NOT NULL,
+  `profesor` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `material`
 --
 
@@ -76,6 +101,7 @@ CREATE TABLE `material` (
 INSERT INTO `material` (`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES
 ('1234567890', 'D', 'D6', 'B', 2, 'Diodo', '432432AJD', '0', 'N/A', '7W / 9V', 'Medio', 0, 20),
 ('1592483282', 'd', 'd2', 'a', 1, 'tttt', '5432fdfsd', '23', 'fdsfdfds', 'gfdgdfgdfgdfgdf', 'Alto', 55, 54),
+('1969771104', 'N/A', 'N/A', 'N/A', 8, 'fe23', '34fd', 'N/A', 'N/A', 'trtr', 'Medio', 12, 1),
 ('2841715231', 'd', 'd4', '43535', 1, 'gfhgf', '654654ytrh', '34324', 'ohms', 'jhgfxdfds', 'Bajo', 11, 1),
 ('3007874738', 'r4', 'd1', '5', 8, 'gfdgfdgdf', '54534gfdg', '123', 'Volts', 'hgfhgfbgfb', 'Alto', 6, 10),
 ('3721416545', 'A5', 'B', 'B5', 1, 'A5', '32', '55', 'ohms', 'tabla blanca', 'Medio', 15, 20),
@@ -261,10 +287,22 @@ INSERT INTO `usuario` (`id_user`, `nombre_completo`, `sexo`, `username`, `passwo
 --
 
 --
+-- Indexes for table `alumnos`
+--
+ALTER TABLE `alumnos`
+  ADD PRIMARY KEY (`num_control`);
+
+--
 -- Indexes for table `herramienta`
 --
 ALTER TABLE `herramienta`
   ADD PRIMARY KEY (`cb_herramienta`);
+
+--
+-- Indexes for table `materia`
+--
+ALTER TABLE `materia`
+  ADD PRIMARY KEY (`id_materia`);
 
 --
 -- Indexes for table `material`
@@ -306,6 +344,12 @@ ALTER TABLE `usuario`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `materia`
+--
+ALTER TABLE `materia`
+  MODIFY `id_materia` int(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pedido`

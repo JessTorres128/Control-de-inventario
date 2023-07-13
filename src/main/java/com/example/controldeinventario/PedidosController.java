@@ -781,6 +781,16 @@ public class PedidosController {
 
         return confirmar.get();
     }
+    @FXML private void NumControlSearch() throws SQLException {
+        if (txtNumControl.getText().matches("\\d{2}[cC][gG]\\d{4}")){
+            ResultSet rsNumControl = conexion.consultar("SELECT * FROM `alumnos` WHERE `num_control`='"+txtNumControl.getText()+"'");
+            if (rsNumControl.next()){
+                txtNombre.setText(rsNumControl.getString("nombre_alumno"));
+                
+            }
+
+        }
+    }
     @FXML private void CheckBoxChange1(){
         if (checkBoxNA1.isSelected()){
             txtNumControl.setText("N/A");
