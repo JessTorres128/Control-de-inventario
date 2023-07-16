@@ -18,6 +18,8 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,7 +28,7 @@ import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PedidosController {
-    ZoneId zonaHoraria = ZoneId.of("America/Mazatlan");
+    ZoneId zonaHoraria = ZoneId.of("UTC-6");
     DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     ToggleGroup toggleGroupBusqueda = new ToggleGroup();
     @FXML TabPane tabPaneVentana;
@@ -359,6 +361,8 @@ public class PedidosController {
         tabSearch.setDisable(true);
         CleanTextFields();
         txtFecha.setText(zonedDateTime.format(formato));
+
+
     }
 
     @FXML private void SavePedido() throws SQLException {
@@ -412,7 +416,7 @@ public class PedidosController {
                         }
                     }*/
                     Exito("Pedido actualizado correctamente");
-                }else {
+                }else {//AQUI SE GUARDA EL ALUMNO Y LA MATERIA, junto con el profesor y la hora
                     conexion.insmodelim("INSERT INTO `pedido`(`nombre_persona`, `num_control`, `estado`, `fecha`, `profesor`, `materia`) VALUES " +
                             "('"+txtNombre.getText()+"','"+txtNumControl.getText()+"','Pendiente','"+txtFecha.getText()+"','"+txtProfesor.getText()+"','"+txtMateria.getText()+"')");
                     ResultSet rsID= conexion.consultar("SELECT `id_pedido` FROM pedido ORDER BY `id_pedido` DESC LIMIT 1;");
@@ -426,10 +430,30 @@ public class PedidosController {
                                 conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsArticulo.getInt("cantidad")-registro.getCantidad())+"' WHERE cb_material='"+registro.getCb()+"'");
                             }else if (rsHerramienta.next()){
                                 conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")-registro.getCantidad())+"' WHERE `cb_herramienta`='"+registro.getCb()+"'");
+
                             }
 
                         }
                     }
+                    if (txtNumControl.getText().matches("\\d{2}[cC][gG]\\d{4}")){
+                        LocalTime fechaHora = LocalDateTime.parse(txtFecha.getText(), formato).toLocalTime();
+                        LocalTime horaInicio = fechaHora.withMinute(0).withSecond(0);
+                        LocalTime horaFin = fechaHora.withHour(fechaHora.getHour()+1).withMinute(0).withSecond(0);
+                        //System.out.println(fechaHora);
+                        //System.out.println(horaInicio);
+                        //System.out.println(horaFin);
+                        ResultSet rsAlumno= conexion.consultar("SELECT * FROM `alumnos` WHERE `num_control`='"+txtNumControl.getText()+"'");
+                        if (!rsAlumno.next()){
+                            conexion.insmodelim("INSERT INTO `alumnos`(`num_control`, `nombre_alumno`) VALUES ('"+txtNumControl+"','"+txtNombre+"')");
+                            conexion.insmodelim("INSERT INTO `materia`(`num_control`, `hora_inicio`, `hora_fin`, `profesor`) VALUES ('"+txtNumControl.getText()+"','"+horaInicio+"','"+horaFin+"','"+txtProfesor.getText()+"')");
+                        }else {
+                            ResultSet rsMateria= conexion.consultar("SELECT * FROM `materia` WHERE `num_control`='"+txtNumControl.getText()+"'");//FALTA
+                            if (!rsMateria.next()){
+
+                            }
+                        }
+                    }
+
 
                     Exito("Pedido agregado correctamente");
                 }
@@ -783,10 +807,11 @@ public class PedidosController {
     }
     @FXML private void NumControlSearch() throws SQLException {
         if (txtNumControl.getText().matches("\\d{2}[cC][gG]\\d{4}")){
+            System.out.println("entra a busqueda, num de control valido");
             ResultSet rsNumControl = conexion.consultar("SELECT * FROM `alumnos` WHERE `num_control`='"+txtNumControl.getText()+"'");
             if (rsNumControl.next()){
                 txtNombre.setText(rsNumControl.getString("nombre_alumno"));
-                
+
             }
 
         }
