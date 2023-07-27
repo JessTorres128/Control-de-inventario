@@ -18,13 +18,9 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PedidosController {
@@ -435,8 +431,19 @@ public class PedidosController {
 
                         }
                     }
-                    if (txtNumControl.getText().matches("\\d{2}[cC][gG]\\d{4}")){
+                    if (txtNumControl.getText().matches("\\d{2}[cC][gG]\\d{4}")) {
                         LocalTime fechaHora = LocalDateTime.parse(txtFecha.getText(), formato).toLocalTime();
+                        Map<DayOfWeek, String> daysOfWeek = new HashMap<>();
+                        daysOfWeek.put(DayOfWeek.MONDAY, "Lunes");
+                        daysOfWeek.put(DayOfWeek.TUESDAY, "Martes");
+                        daysOfWeek.put(DayOfWeek.WEDNESDAY, "Miércoles");
+                        daysOfWeek.put(DayOfWeek.THURSDAY, "Jueves");
+                        daysOfWeek.put(DayOfWeek.FRIDAY, "Viernes");
+                        daysOfWeek.put(DayOfWeek.SATURDAY, "Sábado");
+                        daysOfWeek.put(DayOfWeek.SUNDAY, "Domingo");
+
+                        String diaSemanaEspañol = daysOfWeek.get(LocalDateTime.parse(txtFecha.getText(), formato).toLocalDate().getDayOfWeek());
+                        System.out.println(diaSemanaEspañol);
                         LocalTime horaInicio = fechaHora.withMinute(0).withSecond(0);
                         LocalTime horaFin = fechaHora.withHour(fechaHora.getHour()+1).withMinute(0).withSecond(0);
                         //System.out.println(fechaHora);
@@ -445,7 +452,7 @@ public class PedidosController {
                         ResultSet rsAlumno= conexion.consultar("SELECT * FROM `alumnos` WHERE `num_control`='"+txtNumControl.getText()+"'");
                         if (!rsAlumno.next()){
                             conexion.insmodelim("INSERT INTO `alumnos`(`num_control`, `nombre_alumno`) VALUES ('"+txtNumControl+"','"+txtNombre+"')");
-                            conexion.insmodelim("INSERT INTO `materia`(`num_control`, `hora_inicio`, `hora_fin`, `profesor`) VALUES ('"+txtNumControl.getText()+"','"+horaInicio+"','"+horaFin+"','"+txtProfesor.getText()+"')");
+                            conexion.insmodelim("INSERT INTO `materia`(`num_control`, `dia`, `hora_inicio`, `hora_fin`, `profesor`) VALUES ('"+txtNumControl.getText()+"','"+diaSemanaEspañol+"','"+horaInicio+"','"+horaFin+"','"+txtProfesor.getText()+"')");
                         }else {
                             ResultSet rsMateria= conexion.consultar("SELECT * FROM `materia` WHERE `num_control`='"+txtNumControl.getText()+"'");//FALTA
                             if (!rsMateria.next()){

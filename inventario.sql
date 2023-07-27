@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2023 at 07:53 PM
+-- Generation Time: Jul 27, 2023 at 02:08 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -67,10 +67,19 @@ INSERT INTO `herramienta` (`cb_herramienta`, `id_herramienta`, `tipo`, `caracter
 CREATE TABLE `materia` (
   `id_materia` int(20) NOT NULL,
   `num_control` varchar(8) NOT NULL,
+  `dia` varchar(20) NOT NULL,
   `hora_inicio` time NOT NULL,
   `hora_fin` time NOT NULL,
-  `profesor` varchar(100) NOT NULL
+  `profesor` varchar(100) NOT NULL,
+  `nom_materia` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `materia`
+--
+
+INSERT INTO `materia` (`id_materia`, `num_control`, `dia`, `hora_inicio`, `hora_fin`, `profesor`, `nom_materia`) VALUES
+(1, '20cg0175', '', '14:00:00', '15:00:00', 'Julian', '');
 
 -- --------------------------------------------------------
 
@@ -349,7 +358,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `materia`
 --
 ALTER TABLE `materia`
-  MODIFY `id_materia` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_materia` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pedido`
