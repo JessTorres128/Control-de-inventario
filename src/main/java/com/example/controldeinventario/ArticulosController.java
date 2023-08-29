@@ -1,5 +1,6 @@
 package com.example.controldeinventario;
-
+import com.example.controldeinventario.Datos.Herramienta;
+import org.apache.poi.ss.usermodel.*;
 import com.example.controldeinventario.Datos.Articulo;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -26,6 +27,11 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.krysalis.barcode4j.impl.code39.Code39Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.krysalis.barcode4j.tools.UnitConv;
@@ -569,6 +575,112 @@ public class ArticulosController {
         }else {
             ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;"));
         }
+    }
+
+    @FXML private void ExcelReader(){
+        try {//592
+            FileInputStream fis = new FileInputStream("C:\\Users\\jesse\\Desktop\\inventario.xls");
+            Workbook workbook = new HSSFWorkbook(fis);
+            Sheet sheet = workbook.getSheetAt(0);
+            int cont = 1000000000;
+            int columnIndexToRead = 2;
+            for (Row row : sheet) {
+                Long cb = GenerateNumber();
+                Cell tipodeArmario = row.getCell(columnIndexToRead);
+                Cell gaveta = row.getCell(columnIndexToRead+1);
+                Cell sub = row.getCell(columnIndexToRead+2);
+                Cell material = row.getCell(columnIndexToRead+3);
+                Cell tipo = row.getCell(columnIndexToRead+4);
+                Cell nparte = row.getCell(columnIndexToRead+5);
+                Cell valor = row.getCell(columnIndexToRead+6);
+                Cell u_medida = row.getCell(columnIndexToRead+7);
+                Cell caracteristicas = row.getCell(columnIndexToRead+8);
+                Cell f_uso = row.getCell(columnIndexToRead+9);
+                Cell cantidad = row.getCell(columnIndexToRead+10);
+
+                if (!tipodeArmario.getStringCellValue().equals("HERRAMIENTA") && !gaveta.getStringCellValue().equals("HERRAMIENTA") && !sub.getStringCellValue().equals("HERRAMIENTA") && tipodeArmario != null && !tipodeArmario.getStringCellValue().equals("TIPO DE ARMARIO") && gaveta != null && sub != null){
+                    Articulo articulo= new Articulo(10L,"fdsf","fdfd","gfdgdf","gfdg","gfdgdf","gfdgdfg","fdfds","gfdgf","fdfdsfds","fdsfdsf",12,21);
+                    if (valor.getCellType() == valor.CELL_TYPE_STRING && nparte.getCellType() == nparte.CELL_TYPE_STRING) {
+                            articulo = new Articulo((long) cont, tipodeArmario.getStringCellValue(), gaveta.getStringCellValue(),
+                                    sub.getStringCellValue(), material.getStringCellValue(), tipo.getStringCellValue(), nparte.getStringCellValue(),
+                                    valor.getStringCellValue(), u_medida.getStringCellValue(), caracteristicas.getStringCellValue(), f_uso.getStringCellValue(),
+                                    (int) cantidad.getNumericCellValue(), 0);
+
+                    } else if (valor.getCellType() == valor.CELL_TYPE_NUMERIC && nparte.getCellType() == nparte.CELL_TYPE_NUMERIC) {
+                        articulo = new Articulo((long) cont, tipodeArmario.getStringCellValue(), gaveta.getStringCellValue(),
+                                sub.getStringCellValue(), material.getStringCellValue(), tipo.getStringCellValue(), String.valueOf(nparte.getNumericCellValue()),
+                                String.valueOf(valor.getNumericCellValue()), u_medida.getStringCellValue(), caracteristicas.getStringCellValue(), f_uso.getStringCellValue(),
+                                (int) cantidad.getNumericCellValue(), 0);
+                    }else if (valor.getCellType() == valor.CELL_TYPE_STRING && nparte.getCellType() == nparte.CELL_TYPE_NUMERIC) {
+                        articulo = new Articulo((long) cont, tipodeArmario.getStringCellValue(), gaveta.getStringCellValue(),
+                                sub.getStringCellValue(), material.getStringCellValue(), tipo.getStringCellValue(), String.valueOf(nparte.getNumericCellValue()),
+                                valor.getStringCellValue(), u_medida.getStringCellValue(), caracteristicas.getStringCellValue(), f_uso.getStringCellValue(),
+                                (int) cantidad.getNumericCellValue(), 0);
+                    }else if (valor.getCellType() == valor.CELL_TYPE_NUMERIC && nparte.getCellType() == nparte.CELL_TYPE_STRING) {
+                        articulo = new Articulo((long) cont, tipodeArmario.getStringCellValue(), gaveta.getStringCellValue(),
+                                sub.getStringCellValue(), material.getStringCellValue(), tipo.getStringCellValue(), String.valueOf(nparte.getStringCellValue()),
+                                String.valueOf(valor.getNumericCellValue()), u_medida.getStringCellValue(), caracteristicas.getStringCellValue(), f_uso.getStringCellValue(),
+                                (int) cantidad.getNumericCellValue(), 0);
+                    }
+
+                    System.out.println(articulo.getCodigo_barras());
+                    System.out.println(articulo.getTipo_de_armario());
+                    System.out.println(articulo.getGaveta());
+                    System.out.println(articulo.getSub_compartimento());
+                    System.out.println(articulo.getMaterial());
+                    System.out.println(articulo.getTipo());
+                    System.out.println(articulo.getNumero_parte());
+                    System.out.println(articulo.getValor());
+                    System.out.println(articulo.getUnidad_medida());
+                    System.out.println(articulo.getCaracteristicas());
+                    System.out.println(articulo.getF_uso());
+                    System.out.println(articulo.getCantidad());
+                    ResultSet resultSet= conexion.consultar("SELECT * FROM `tipo_material` WHERE `material`='"+articulo.getMaterial()+"' LIMIT 1");
+                    if (resultSet.next()){
+                        conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+articulo.getCodigo_barras()+"','"+articulo.getTipo_de_armario()+"','"+articulo.getGaveta()+"','"+articulo.getSub_compartimento()+"','"+resultSet.getInt("id_material")+"','"+articulo.getTipo()+"','"+articulo.getNumero_parte()+"','"+articulo.getValor()+"','"+articulo.getUnidad_medida()+"','"+articulo.getCaracteristicas()+"','"+articulo.getF_uso()+"','"+articulo.getCantidad()+"','"+articulo.getCantidad_min()+"')");
+
+                    }else {
+                        conexion.insmodelim("INSERT INTO `tipo_material`(`material`, `tipo_material`) VALUES ('"+articulo.getMaterial()+"','Material Consumible')");
+                        ResultSet resultSet1 = conexion.consultar("SELECT `id_material` FROM `tipo_material` ORDER BY `id_material` DESC LIMIT 1;");
+                        if(resultSet1.next()){
+                            conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+articulo.getCodigo_barras()+"','"+articulo.getTipo_de_armario()+"','"+articulo.getGaveta()+"','"+articulo.getSub_compartimento()+"','"+resultSet1.getInt("id_material")+"','"+articulo.getTipo()+"','"+articulo.getNumero_parte()+"','"+articulo.getValor()+"','"+articulo.getUnidad_medida()+"','"+articulo.getCaracteristicas()+"','"+articulo.getF_uso()+"','"+articulo.getCantidad()+"','"+articulo.getCantidad_min()+"')");
+
+                        }
+                    }
+
+                } if (tipodeArmario.getStringCellValue().equals("HERRAMIENTA") && gaveta.getStringCellValue().equals("HERRAMIENTA") && sub.getStringCellValue().equals("HERRAMIENTA")) {
+                    Herramienta herramienta = new Herramienta((long) cont,material.getStringCellValue(),tipo.getStringCellValue(),caracteristicas.getStringCellValue(),f_uso.getStringCellValue(),(int) cantidad.getNumericCellValue(),0);
+
+                    ResultSet resultSet3= conexion.consultar("SELECT * FROM `tipo_material` WHERE `material`='"+herramienta.getHerramienta()+"' LIMIT 1");
+                    if (resultSet3.next()){
+                        conexion.insmodelim("INSERT INTO `herramienta`(`cb_herramienta`, `id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+herramienta.getCb_herramienta()+"','"+resultSet3.getInt("id_material")+"','"+herramienta.getTipo()+"','"+herramienta.getCaracteristicas()+"','"+herramienta.getFrecuencia_de_uso()+"','"+herramienta.getCantidad()+"','0')");
+
+                    }else {
+                        conexion.insmodelim("INSERT INTO `tipo_material`(`material`, `tipo_material`) VALUES ('"+herramienta.getHerramienta()+"','Herramienta')");
+                        ResultSet resultSet4 = conexion.consultar("SELECT `id_material` FROM `tipo_material` ORDER BY `id_material` DESC LIMIT 1;");
+                        if(resultSet4.next()){
+                            conexion.insmodelim("INSERT INTO `herramienta`(`cb_herramienta`, `id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+herramienta.getCb_herramienta()+"','"+resultSet4.getInt("id_material")+"','"+herramienta.getTipo()+"','"+herramienta.getCaracteristicas()+"','"+herramienta.getFrecuencia_de_uso()+"','"+herramienta.getCantidad()+"','0')");
+
+                        }
+                    }
+                }
+                cont++;
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    @FXML private  void Comprobacion() throws SQLException {
+        int cont = 1000000000;
+        ResultSet resultSet = conexion.consultar("SELECT `cb_material` FROM `material` WHERE 1");
+        while (resultSet.next()){
+            cont++;
+            if (resultSet.getInt("cb_material") != cont){
+                System.out.println(cont);
+                cont++;
+            }
+        }
+
     }
 }
 
