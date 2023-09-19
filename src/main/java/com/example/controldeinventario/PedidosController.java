@@ -1,6 +1,7 @@
 package com.example.controldeinventario;
 
 import com.example.controldeinventario.Datos.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,6 +38,7 @@ public class PedidosController {
     @FXML Button btnNew, btnSave, btnEdit, btnDelete, btnCancel, btnExit;
     @FXML TextField txtID, txtNumControl, txtFecha, txtProfesor, txtMateria, txtBusquedaID, txtNombre;
     @FXML CheckBox checkBoxNA1,checkBoxNA2,checkBoxNA3;
+    @FXML CheckBox checkBoxPendiente, checkBoxEntregado;
     public static ObservableList<Registro> productos = FXCollections.observableArrayList();
     @FXML
     TableView<Registro> tableViewPedidoMaterial = new TableView<>();
@@ -308,6 +310,10 @@ public class PedidosController {
 
 
     @FXML protected void initialize() throws SQLException {
+        Platform.runLater(() -> {
+            txtBusqueda.requestFocus();
+            txtBusqueda.selectEnd();
+        });
         ActivateBtn(false,true,false,true, false);
         rbID.setToggleGroup(toggleGroupBusqueda);
         rbMaterial.setToggleGroup(toggleGroupBusqueda);
@@ -347,7 +353,10 @@ public class PedidosController {
     }
 
     @FXML private void NewPedido() throws SQLException {
-
+        Platform.runLater(() -> {
+            txtNumControl.requestFocus();
+            txtNumControl.selectEnd();
+        });
         productos.clear();
         ZonedDateTime zonedDateTime = ZonedDateTime.now(zonaHoraria);
 
@@ -651,6 +660,7 @@ public class PedidosController {
 
     @FXML private void Busqueda() throws SQLException {
         String busqueda = txtBusqueda.getText();
+        String estado = DarEstado();
         String criterio = "";
         if (rbID.isSelected() || rbNumControl.isSelected() || rbProfesor.isSelected()){
             if (rbID.isSelected() && !busqueda.equals("")){
@@ -661,9 +671,9 @@ public class PedidosController {
                 criterio="profesor";
             }
             if (!busqueda.equals("") && !criterio.equals("")){
-                ActualizarTabla(conexion.consultar("SELECT * FROM `pedido` WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
+                ActualizarTabla(conexion.consultar("SELECT * FROM `pedido` WHERE `"+criterio+"` LIKE '%"+busqueda+"%' AND `estado` LIKE '%"+estado+"%'"));
             }else {
-                ActualizarTabla(conexion.consultar("SELECT * FROM `pedido`"));
+                ActualizarTabla(conexion.consultar("SELECT * FROM `pedido` WHERE `estado` LIKE '%"+estado+"%'"));
             }
         }else {// PAl rato
             tableViewPedidos.getItems().clear();
@@ -702,6 +712,14 @@ public class PedidosController {
         }
 
     }
+
+    private String DarEstado(){
+        if (checkBoxEntregado.isSelected() && checkBoxPendiente.isSelected()){return "";}
+        else if (checkBoxEntregado.isSelected() && !checkBoxPendiente.isSelected()){return "Entregado";}
+        else if (!checkBoxEntregado.isSelected() && checkBoxPendiente.isSelected()){return "Pendiente";}
+        return "";
+    }
+
 
     private void ActualizarTabla(ResultSet rsPedido) throws SQLException {
         int cont=0;
@@ -832,6 +850,10 @@ public class PedidosController {
                 if (rsMateria.next()){
                     txtProfesor.setText(rsMateria.getString("profesor"));
                     txtMateria.setText(rsMateria.getString("nom_materia"));
+                    Platform.runLater(() -> {
+                        txtBusquedaID.requestFocus();
+                        txtBusquedaID.selectEnd();
+                    });
                 }
             }
 

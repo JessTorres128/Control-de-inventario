@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="600.0" spacing="5.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.BorrarController">
+   <children>
+      <Label text="Borrar">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Label>
+      <Label text="Aquí se pueden borrar los datos enteros de las tablas, se debe de manejar con precaución" />
+      <Label alignment="CENTER" prefHeight="58.0" prefWidth="600.0" text="Seleccione los datos que se desean borrar, esta acción no se puede cambiar, tambien borrar &#10;algunos de estos datos implica borrar otros datos relacionados para mantener la funcionalidad &#10;del programa, recuerde tener una copia de seguridad de los datos&#10;" textAlignment="CENTER" />
+      <HBox prefHeight="152.0" prefWidth="600.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="300.0" spacing="15.0">
+               <children>
+                  <JFXCheckBox fx:id="checkBoxUsuarios" checkedColor="#472b6e" onAction="#CheckBoxChange" text="Usuarios" unCheckedColor="#472b6e" />
+                  <JFXCheckBox fx:id="checkBoxRoles" checkedColor="#472b6e" onAction="#CheckBoxChange" text="Roles" unCheckedColor="#472b6e" />
+                  <JFXCheckBox fx:id="checkBoxPedidos" checkedColor="#472b6e" onAction="#CheckBoxChange" text="Pedidos" unCheckedColor="#472b6e" />
+                  <JFXCheckBox fx:id="checkBoxHerramientas" checkedColor="#472b6e" onAction="#CheckBoxChange" text="Herramientas" unCheckedColor="#472b6e" />
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="300.0" spacing="15.0">
+               <children>
+                  <JFXCheckBox fx:id="checkBoxAlumnos" checkedColor="#472b6e" onAction="#CheckBoxChange" text="Alumnos" unCheckedColor="#472b6e" />
+                  <JFXCheckBox fx:id="checkBoxHorarios" checkedColor="#472b6e" onAction="#CheckBoxChange" text="Horarios" unCheckedColor="#472b6e" />
+                  <JFXCheckBox fx:id="checkBoxMateriales" checkedColor="#472b6e" onAction="#CheckBoxChange" text="Materiales" unCheckedColor="#472b6e" />
+                  <JFXCheckBox fx:id="checkBoxTipos_Material" checkedColor="#472b6e" onAction="#CheckBoxChange" text="Tipos de material" unCheckedColor="#472b6e" />
+               </children>
+            </VBox>
+         </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <JFXButton onAction="#Borrar" text="Borrar">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin></JFXButton>
+   </children>
+</VBox>

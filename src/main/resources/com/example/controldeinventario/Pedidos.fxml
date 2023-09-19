@@ -23,7 +23,7 @@
             <content>
                   <VBox>
                      <children>
-                        <VBox prefHeight="77.0" prefWidth="685.0">
+                        <VBox prefHeight="77.0" prefWidth="685.0" spacing="5.0">
                            <children>
                               <Label text="Criterios de búsqueda" />
                               <HBox prefHeight="30.0" prefWidth="634.0" spacing="30.0">
@@ -70,6 +70,20 @@
                            <VBox.margin>
                               <Insets left="20.0" top="5.0" />
                            </VBox.margin>
+                        </VBox>
+                        <VBox prefHeight="94.0" prefWidth="754.0" spacing="5.0">
+                           <VBox.margin>
+                              <Insets left="20.0" top="5.0" />
+                           </VBox.margin>
+                           <children>
+                              <Label text="Mostrar pedidos" />
+                              <HBox prefHeight="34.0" prefWidth="754.0" spacing="30.0">
+                                 <children>
+                                    <JFXCheckBox fx:id="checkBoxPendiente" checkedColor="#472b6e" onAction="#Busqueda" selected="true" text="Pendiente" unCheckedColor="#472b6e" />
+                                    <JFXCheckBox fx:id="checkBoxEntregado" checkedColor="#472b6e" onAction="#Busqueda" selected="true" text="Entregado" unCheckedColor="#472b6e" />
+                                 </children>
+                              </HBox>
+                           </children>
                         </VBox>
                         <VBox prefHeight="519.0" prefWidth="685.0">
                            <VBox.margin>

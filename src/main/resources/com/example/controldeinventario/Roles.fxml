@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="517.0" prefWidth="700.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.RolesController">
+<HBox prefHeight="517.0" prefWidth="700.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.RolesController">
    <children>
       <TabPane fx:id="tabPaneVentana" prefHeight="500.0" prefWidth="570.0">
          <tabs>
@@ -135,8 +135,8 @@
                               </VBox>
                               <VBox prefHeight="200.0" prefWidth="186.0" spacing="35.0">
                                  <children>
-                                    <JFXCheckBox fx:id="check_restaurar_bd" checkedColor="#543383" text="Restaurar la base de datos" unCheckedColor="#543383" />
-                                    <JFXCheckBox fx:id="check_respaldar_bd" checkedColor="#543383" text="Respaldar la base de datos" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_generar_bd" checkedColor="#543383" text="Restaurar la base de datos" unCheckedColor="#543383" />
+                                    <JFXCheckBox fx:id="check_eliminar_bd" checkedColor="#543383" text="Respaldar la base de datos" unCheckedColor="#543383" />
                                  </children>
                               </VBox>
                            </children>

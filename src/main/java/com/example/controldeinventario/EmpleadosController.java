@@ -110,24 +110,64 @@ public class EmpleadosController {
     }
 
     @FXML private void SaveEmpleado() throws SQLException {
-        if (VerifyTxt(txtPass, txtConfirmarPass, cbRoles,txtNombre,txtUsername)){
-            ResultSet rsUser = conexion.consultar("SELECT `username` FROM `usuario` WHERE `username`='"+txtUsername.getText()+"' LIMIT 1");
-            if (!rsUser.next()){
-                ResultSet resultSetRol = conexion.consultar("SELECT `nombre_rol` FROM `tipo_usuario` WHERE `nombre_rol`='"+cbRoles.getSelectionModel().getSelectedItem()+"' LIMIT 1");
-                if (resultSetRol.next()){
-                    ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `usuario` WHERE `id_user`='"+txtID.getText()+"' LIMIT 1");
-                    if (resultSetUpdate.next()){
-                        conexion.insmodelim("UPDATE `usuario` SET `nombre_completo`='"+txtNombre.getText()+"',`sexo`='"+((RadioButton) toggleGroupSexo.getSelectedToggle()).getText()+"',`username`='"+txtUsername.getText()+"',`password`='"+txtPass.getText()+"',`nombre_rol`='"+cbRoles.getSelectionModel().getSelectedItem()+"' WHERE `id_user`='"+txtID.getText()+"'");
-                        Exito("Actualizado con exito");
+        if (VerifyTxt(txtPass, txtConfirmarPass, cbRoles,txtUsername)){
+            ResultSet resultSetRol = conexion.consultar("SELECT `nombre_rol` FROM `tipo_usuario` WHERE `nombre_rol`='"+cbRoles.getSelectionModel().getSelectedItem()+"' LIMIT 1");
+            if (!resultSetRol.next()){
+                Error("Selecciona el rol");
+            }else {
+                if (!txtID.getText().isEmpty()){
+                    ResultSet rsUsuario = conexion.consultar("SELECT `username` FROM `usuario` WHERE `id_user`='"+txtID.getText()+"'");
+                    if (!rsUsuario.next()){
+                        Error("Error desconocido, operación cancelada");
+                    }else {
+                        ResultSet rsUser= conexion.consultar("SELECT * FROM `usuario` WHERE `username`='"+txtUsername.getText()+"' AND `username` <> '"+rsUsuario.getString("username")+"';");
+                        if (rsUser.next()){//Editar
+                            Error("Ya existe un usuario con este username");
+                        }else {
+                            if (txtID.getText().equals("1") || txtID.getText().equals("2")){
+                                conexion.insmodelim("UPDATE `usuario` SET `nombre_completo`='"+txtNombre.getText()+"',`sexo`='"+((RadioButton) toggleGroupSexo.getSelectedToggle()).getText()+"',`username`='"+txtUsername.getText()+"',`password`='"+txtPass.getText()+"' WHERE `id_user`='"+txtID.getText()+"'");
+                                Exito("No se puede cambiar los roles del administrador/invitado, pero los otros datos fueron actualizados con exito");
+                            }else {
+                                conexion.insmodelim("UPDATE `usuario` SET `nombre_completo`='"+txtNombre.getText()+"',`sexo`='"+((RadioButton) toggleGroupSexo.getSelectedToggle()).getText()+"',`username`='"+txtUsername.getText()+"',`password`='"+txtPass.getText()+"',`nombre_rol`='"+cbRoles.getSelectionModel().getSelectedItem()+"' WHERE `id_user`='"+txtID.getText()+"'");
+                                Exito("Actualizado con exito");
+                            }
+
+                            tabPaneVentana.getSelectionModel().select(tabSearch);
+                            tabSearch.setDisable(false);
+                            tabNew.setDisable(true);
+                            ActivateBtn(false,true,false,true,false,false);
+                            ActualizarTabla(conexion.consultar("SELECT * FROM `usuario`"));
+                        }
+                    }
+                }else {//Insertar
+                    ResultSet rsUser = conexion.consultar("SELECT * FROM `usuario` WHERE `username`='"+txtUsername.getText()+"';");
+                    if (rsUser.next()){
+                        Error("Ya existe un usuario con ese username");
                     }else {
                         conexion.insmodelim("INSERT INTO `usuario`(`nombre_completo`, `sexo`, `username`, `password`, `nombre_rol`) VALUES ('"+txtNombre.getText()+"','"+((RadioButton) toggleGroupSexo.getSelectedToggle()).getText()+"','"+txtUsername.getText()+"','"+txtPass.getText()+"','"+cbRoles.getSelectionModel().getSelectedItem()+"')");
                         Exito(txtNombre.getText()+" agregado");
+                        tabPaneVentana.getSelectionModel().select(tabSearch);
+                        tabSearch.setDisable(false);
+                        tabNew.setDisable(true);
+                        ActivateBtn(false,true,false,true,false,false);
+                        ActualizarTabla(conexion.consultar("SELECT `username` FROM `usuario`"));
                     }
-                    tabPaneVentana.getSelectionModel().select(tabSearch);
-                    tabSearch.setDisable(false);
-                    tabNew.setDisable(true);
-                    ActivateBtn(false,true,false,true,false,false);
-                    ActualizarTabla(conexion.consultar("SELECT * FROM `usuario`"));
+
+                }
+
+            }
+            /*
+            ResultSet rsUser = conexion.consultar("SELECT `username` FROM `usuario` WHERE `username`='"+txtUsername.getText()+"' LIMIT 1");
+            if (!rsUser.next()){
+               // ResultSet resultSetRol = conexion.consultar("SELECT `nombre_rol` FROM `tipo_usuario` WHERE `nombre_rol`='"+cbRoles.getSelectionModel().getSelectedItem()+"' LIMIT 1");
+                if (true){
+                    ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `usuario` WHERE `id_user`='"+txtID.getText()+"' LIMIT 1");
+                    if (resultSetUpdate.next()){
+
+                    }else {
+
+                    }
+
 
                 }else {
                     Error("Selecciona el rol");
@@ -135,7 +175,7 @@ public class EmpleadosController {
             }else {
                 Error("Ya existe un usuario con este username");
             }
-
+*/
         }else {
             Error("Faltan campos por rellenar");
         }

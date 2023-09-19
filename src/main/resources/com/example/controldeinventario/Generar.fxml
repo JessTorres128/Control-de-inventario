@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.GenerarController">
+   <children>
+      <Label text="Generar">
+         <VBox.margin>
+            <Insets left="5.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <VBox prefHeight="68.0" prefWidth="590.0">
+         <children>
+            <Label text="Formato" />
+            <HBox prefHeight="60.0" prefWidth="590.0">
+               <children>
+                  <JFXComboBox fx:id="cbFormato" focusColor="#472b6e" onAction="#TurnOff" prefHeight="26.0" prefWidth="139.0" unFocusColor="#472b6e" />
+               </children>
+            </HBox>
+         </children>
+         <VBox.margin>
+            <Insets left="10.0" top="5.0" />
+         </VBox.margin>
+      </VBox>
+      <AnchorPane prefHeight="200.0" prefWidth="600.0">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <children>
+            <VBox fx:id="excel" layoutY="5.7220458984375E-6">
+               <children>
+                  <Label text="Seleccione los campos que desea incluir en el Excel">
+                     <VBox.margin>
+                        <Insets left="25.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox prefHeight="194.0" prefWidth="590.0" spacing="20.0">
+                     <children>
+                        <VBox prefHeight="194.0" prefWidth="200.0" spacing="25.0">
+                           <children>
+                              <JFXCheckBox fx:id="checkBoxAlumnos" checkedColor="#472b6e" text="Alumnos" unCheckedColor="#472b6e" />
+                              <JFXCheckBox fx:id="checkBoxHerramienta" checkedColor="#472b6e" text="Herramienta" unCheckedColor="#472b6e" />
+                              <JFXCheckBox fx:id="checkBoxMaterial" checkedColor="#472b6e" text="Material" unCheckedColor="#472b6e" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="200.0" spacing="25.0">
+                           <children>
+                              <JFXCheckBox fx:id="checkBoxPedidos" checkedColor="#472b6e" text="Pedidos" unCheckedColor="#472b6e" />
+                              <JFXCheckBox fx:id="checkBoxHorarios" checkedColor="#472b6e" text="Horarios" unCheckedColor="#472b6e" />
+                              <JFXCheckBox fx:id="checkBoxUsuarios" checkedColor="#472b6e" text="Usuarios" unCheckedColor="#472b6e" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="200.0" spacing="25.0">
+                           <children>
+                              <JFXCheckBox fx:id="checkBoxTiposMaterial" checkedColor="#472b6e" text="Tipos de material" unCheckedColor="#472b6e" />
+                              <JFXCheckBox fx:id="checkBoxTiposUsuarios" checkedColor="#472b6e" text="Tipos de usuarios" unCheckedColor="#472b6e" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <JFXButton onAction="#GenerarExcel" text="Generar" />
+               </children>
+            </VBox>
+            <HBox fx:id="pdf" prefHeight="200.0" prefWidth="600.0" visible="false" />
+            <VBox fx:id="imagencb" layoutX="10.0" layoutY="10.0" visible="false">
+               <children>
+                  <Label text="Seleccione los campos que desea generear el cb" />
+                  <TableView fx:id="tableViewCategoria" prefHeight="200.0" prefWidth="600.0" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

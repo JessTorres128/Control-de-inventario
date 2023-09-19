@@ -62,6 +62,14 @@
                                           <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
                                        </unSelectedColor>
                                     </JFXRadioButton>
+                                    <JFXRadioButton fx:id="rbTipo" text="Tipo">
+                                       <selectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </selectedColor>
+                                       <unSelectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </unSelectedColor>
+                                    </JFXRadioButton>
                                  </children>
                                  <VBox.margin>
                                     <Insets left="15.0" />
@@ -97,7 +105,7 @@
                      <children>
                         <AnchorPane prefHeight="624.0" prefWidth="986.0" style="-fx-background-color: white;">
                            <children>
-                              <TextField fx:id="txtCodigoBarras" editable="false" layoutX="46.0" layoutY="560.0" prefHeight="27.0" prefWidth="164.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <TextField fx:id="txtCodigoBarras" layoutX="46.0" layoutY="560.0" prefHeight="27.0" prefWidth="164.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
                               <TextField fx:id="txtGaveta" layoutX="171.0" layoutY="255.0" minHeight="20.0" prefHeight="25.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
                               <ComboBox fx:id="cbMaterial" layoutX="755.0" layoutY="128.0" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
                               <JFXTextArea fx:id="txtCaracteristicas" focusColor="#543383" layoutX="171.0" layoutY="129.0" prefHeight="11.0" prefWidth="168.0" style="-fx-background-color: white; -fx-border-color: #543383;" text="Luz estrobo 75 destelos por minuto de 6 a 12 VCD" unFocusColor="WHITE" />

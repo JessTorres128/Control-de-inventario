@@ -98,6 +98,7 @@ public class HerramientasController {
         while (resultSet.next()){
             cbHerramienta.getItems().add((String) resultSet.getObject("material"));
         }
+        cbHerramienta.getSelectionModel().select(0);
         ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material;"));
         ActivateBtn(false,true,false,true,false,false);
     }

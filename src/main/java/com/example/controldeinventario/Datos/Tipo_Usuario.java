@@ -15,10 +15,10 @@ public class Tipo_Usuario {
     public String delete_t_articulo;
     public String crud_roles;
     public String crud_empleados;
-    public String restaurar_bd;
-    public String respaldar_bd;
+    public String generar_bd;
+    public String eliminar_bd;
 
-    public Tipo_Usuario(int id_rol, String nombre_rol, String create_material, String update_material, String delete_material, String create_herramienta, String update_herramienta, String delete_herramienta, String crud_pedido, String create_t_articulo, String update_t_articulo, String delete_t_articulo, String crud_roles, String crud_empleados, String restaurar_bd, String respaldar_bd) {
+    public Tipo_Usuario(int id_rol, String nombre_rol, String create_material, String update_material, String delete_material, String create_herramienta, String update_herramienta, String delete_herramienta, String crud_pedido, String create_t_articulo, String update_t_articulo, String delete_t_articulo, String crud_roles, String crud_empleados, String generar_bd, String eliminar_bd) {
         this.id_rol = id_rol;
         this.nombre_rol = nombre_rol;
         this.create_material = create_material;
@@ -33,8 +33,8 @@ public class Tipo_Usuario {
         this.delete_t_articulo = delete_t_articulo;
         this.crud_roles = crud_roles;
         this.crud_empleados = crud_empleados;
-        this.restaurar_bd = restaurar_bd;
-        this.respaldar_bd = respaldar_bd;
+        this.generar_bd = generar_bd;
+        this.eliminar_bd = eliminar_bd;
     }
 
     public int getId_rol() {
@@ -149,19 +149,19 @@ public class Tipo_Usuario {
         this.crud_empleados = crud_empleados;
     }
 
-    public String getRestaurar_bd() {
-        return restaurar_bd;
+    public String getGenerar_bd() {
+        return generar_bd;
     }
 
-    public void setRestaurar_bd(String restaurar_bd) {
-        this.restaurar_bd = restaurar_bd;
+    public void setGenerar_bd(String generar_bd) {
+        this.generar_bd = generar_bd;
     }
 
-    public String getRespaldar_bd() {
-        return respaldar_bd;
+    public String getEliminar_bd() {
+        return eliminar_bd;
     }
 
-    public void setRespaldar_bd(String respaldar_bd) {
-        this.respaldar_bd = respaldar_bd;
+    public void setEliminar_bd(String eliminar_bd) {
+        this.eliminar_bd = eliminar_bd;
     }
 }
