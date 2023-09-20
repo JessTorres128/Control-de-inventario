@@ -80,12 +80,12 @@ public class TipoArticuloController {
 
     @FXML private void SaveTipoArticulo() throws SQLException {
         if (!txtNombre.getText().isEmpty()){
-            ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `tipo_material` WHERE `id_material`='"+txtID.getText()+"' LIMIT 1");
+            ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `tipo_material` WHERE `id_material`= ? LIMIT 1", txtID.getText());
             if (resultSetUpdate.next()){
-                conexion.insmodelim("UPDATE `tipo_material` SET `material`='"+txtNombre.getText()+"',`tipo_material`='"+((RadioButton) toggleGroupTMaterial.getSelectedToggle()).getText()+"' WHERE `id_material`='"+txtID.getText()+"'");
+                conexion.insmodelim("UPDATE `tipo_material` SET `material`= ?,`tipo_material`= ? WHERE `id_material`= ?", txtNombre.getText(), ((RadioButton) toggleGroupTMaterial.getSelectedToggle()).getText(), txtID.getText());
 
             }else {
-                conexion.insmodelim("INSERT INTO `tipo_material`(`material`, `tipo_material`) VALUES ('"+txtNombre.getText()+"','"+((RadioButton) toggleGroupTMaterial.getSelectedToggle()).getText()+"')");
+                conexion.insmodelim("INSERT INTO `tipo_material`(`material`, `tipo_material`) VALUES (?, ?)",txtNombre.getText(),((RadioButton) toggleGroupTMaterial.getSelectedToggle()).getText());
             }
             tabPaneVentana.getSelectionModel().select(tabSearch);
             tabSearch.setDisable(false);
@@ -118,11 +118,11 @@ public class TipoArticuloController {
         if (tableViewTMateriales.getSelectionModel().getSelectedItem() != null){
             TipoArticulo tipoArticulo= tableViewTMateriales.getSelectionModel().getSelectedItem();
             if (ConfirmarBorrar("Deseas borrar "+tipoArticulo.getNombre()+", realizar esta accion \n tambien borrará a los registros que tengan este tipo de articulo")){
-                conexion.insmodelim("DELETE FROM `tipo_material` WHERE `id_material`='"+tipoArticulo.getId()+"'");
+                conexion.insmodelim("DELETE FROM `tipo_material` WHERE `id_material`= ?", tipoArticulo.getId());
                 if (tipoArticulo.getT_material().equals("Herramienta")){
-                    conexion.insmodelim("SELECT * FROM `herramienta` WHERE `id_herramienta`='"+tipoArticulo.getId()+"'");
+                    conexion.insmodelim("SELECT * FROM `herramienta` WHERE `id_herramienta`= ?",tipoArticulo.getId());
                 }else {
-                    conexion.insmodelim("DELETE FROM `material` WHERE `id_material`='"+tipoArticulo.getId()+"'");
+                    conexion.insmodelim("DELETE FROM `material` WHERE `id_material`= ?",tipoArticulo.getId());
                 }
                 Exito("Registro borrado exitosamente");
                 Busqueda();

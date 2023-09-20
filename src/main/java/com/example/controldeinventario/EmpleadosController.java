@@ -80,7 +80,7 @@ public class EmpleadosController {
             tableViewUsuarios.getItems().add(usuario);
             cont++;
         }
-        lblContador.setText("Se cargaron "+cont+" herramientas");
+        lblContador.setText("Se cargaron "+cont+" empleados");
 
     }
     @FXML private void Busqueda() throws SQLException {
@@ -111,24 +111,24 @@ public class EmpleadosController {
 
     @FXML private void SaveEmpleado() throws SQLException {
         if (VerifyTxt(txtPass, txtConfirmarPass, cbRoles,txtUsername)){
-            ResultSet resultSetRol = conexion.consultar("SELECT `nombre_rol` FROM `tipo_usuario` WHERE `nombre_rol`='"+cbRoles.getSelectionModel().getSelectedItem()+"' LIMIT 1");
+            ResultSet resultSetRol = conexion.consultar("SELECT `nombre_rol` FROM `tipo_usuario` WHERE `nombre_rol`= ? LIMIT 1", cbRoles.getSelectionModel().getSelectedItem());
             if (!resultSetRol.next()){
                 Error("Selecciona el rol");
             }else {
                 if (!txtID.getText().isEmpty()){
-                    ResultSet rsUsuario = conexion.consultar("SELECT `username` FROM `usuario` WHERE `id_user`='"+txtID.getText()+"'");
+                    ResultSet rsUsuario = conexion.consultar("SELECT `username` FROM `usuario` WHERE `id_user`= ?",txtID.getText());
                     if (!rsUsuario.next()){
                         Error("Error desconocido, operación cancelada");
                     }else {
-                        ResultSet rsUser= conexion.consultar("SELECT * FROM `usuario` WHERE `username`='"+txtUsername.getText()+"' AND `username` <> '"+rsUsuario.getString("username")+"';");
+                        ResultSet rsUser= conexion.consultar("SELECT * FROM `usuario` WHERE `username`= ? AND `username` <> ?;", txtUsername.getText(),rsUsuario.getString("username"));
                         if (rsUser.next()){//Editar
                             Error("Ya existe un usuario con este username");
                         }else {
                             if (txtID.getText().equals("1") || txtID.getText().equals("2")){
-                                conexion.insmodelim("UPDATE `usuario` SET `nombre_completo`='"+txtNombre.getText()+"',`sexo`='"+((RadioButton) toggleGroupSexo.getSelectedToggle()).getText()+"',`username`='"+txtUsername.getText()+"',`password`='"+txtPass.getText()+"' WHERE `id_user`='"+txtID.getText()+"'");
+                                conexion.insmodelim("UPDATE `usuario` SET `nombre_completo`= ?,`sexo`= ?,`username`= ?,`password`= ? WHERE `id_user`= ?", txtNombre.getText(), ((RadioButton) toggleGroupSexo.getSelectedToggle()).getText(), txtUsername.getText(), txtPass.getText(), txtID.getText());
                                 Exito("No se puede cambiar los roles del administrador/invitado, pero los otros datos fueron actualizados con exito");
                             }else {
-                                conexion.insmodelim("UPDATE `usuario` SET `nombre_completo`='"+txtNombre.getText()+"',`sexo`='"+((RadioButton) toggleGroupSexo.getSelectedToggle()).getText()+"',`username`='"+txtUsername.getText()+"',`password`='"+txtPass.getText()+"',`nombre_rol`='"+cbRoles.getSelectionModel().getSelectedItem()+"' WHERE `id_user`='"+txtID.getText()+"'");
+                                conexion.insmodelim("UPDATE `usuario` SET `nombre_completo`= ?,`sexo`= ?,`username`= ?,`password`= ?,`nombre_rol`= ? WHERE `id_user`= ?",txtNombre.getText(), ((RadioButton) toggleGroupSexo.getSelectedToggle()).getText(), txtUsername.getText(), txtPass.getText(), cbRoles.getSelectionModel().getSelectedItem(), txtID.getText());
                                 Exito("Actualizado con exito");
                             }
 
@@ -140,23 +140,23 @@ public class EmpleadosController {
                         }
                     }
                 }else {//Insertar
-                    ResultSet rsUser = conexion.consultar("SELECT * FROM `usuario` WHERE `username`='"+txtUsername.getText()+"';");
+                    ResultSet rsUser = conexion.consultar("SELECT * FROM `usuario` WHERE `username`= ?;",txtUsername.getText());
                     if (rsUser.next()){
                         Error("Ya existe un usuario con ese username");
                     }else {
-                        conexion.insmodelim("INSERT INTO `usuario`(`nombre_completo`, `sexo`, `username`, `password`, `nombre_rol`) VALUES ('"+txtNombre.getText()+"','"+((RadioButton) toggleGroupSexo.getSelectedToggle()).getText()+"','"+txtUsername.getText()+"','"+txtPass.getText()+"','"+cbRoles.getSelectionModel().getSelectedItem()+"')");
+                        conexion.insmodelim("INSERT INTO `usuario`(`nombre_completo`, `sexo`, `username`, `password`, `nombre_rol`) VALUES (?, ?, ?, ?, ?)",txtNombre.getText(),((RadioButton) toggleGroupSexo.getSelectedToggle()).getText(),txtUsername.getText(),txtPass.getText(),cbRoles.getSelectionModel().getSelectedItem());
                         Exito(txtNombre.getText()+" agregado");
                         tabPaneVentana.getSelectionModel().select(tabSearch);
                         tabSearch.setDisable(false);
                         tabNew.setDisable(true);
                         ActivateBtn(false,true,false,true,false,false);
-                        ActualizarTabla(conexion.consultar("SELECT `username` FROM `usuario`"));
+                        ActualizarTabla(conexion.consultar("SELECT * FROM `usuario`"));
                     }
 
                 }
 
             }
-            /*
+            /*NADA DE ESTO FUNCIONA
             ResultSet rsUser = conexion.consultar("SELECT `username` FROM `usuario` WHERE `username`='"+txtUsername.getText()+"' LIMIT 1");
             if (!rsUser.next()){
                // ResultSet resultSetRol = conexion.consultar("SELECT `nombre_rol` FROM `tipo_usuario` WHERE `nombre_rol`='"+cbRoles.getSelectionModel().getSelectedItem()+"' LIMIT 1");
@@ -184,7 +184,7 @@ public class EmpleadosController {
     @FXML private void EditEmpleado() throws SQLException {
         if (tableViewUsuarios.getSelectionModel().getSelectedItem() != null){
             Usuario usuario= tableViewUsuarios.getSelectionModel().getSelectedItem();
-            ResultSet rsUsuario = conexion.consultar("SELECT * FROM `usuario` WHERE `id_user`='"+usuario.getId_user()+"'");
+            ResultSet rsUsuario = conexion.consultar("SELECT * FROM `usuario` WHERE `id_user`= ?",String.valueOf(usuario.getId_user()));
             if (rsUsuario.next()){
                 usuario = new Usuario(rsUsuario.getInt("id_user"), rsUsuario.getString("nombre_completo")
                         ,rsUsuario.getString("sexo"), rsUsuario.getString("username"), rsUsuario.getString("password"), rsUsuario.getString("nombre_rol"));
@@ -213,7 +213,7 @@ public class EmpleadosController {
         if (tableViewUsuarios.getSelectionModel().getSelectedItem() != null){
             Usuario usuario= (Usuario) tableViewUsuarios.getSelectionModel().getSelectedItem();
             if (ConfirmarBorrar("Deseas borrar a "+usuario.getNombre_completo())){
-                conexion.insmodelim("DELETE FROM `usuario` WHERE `id_user`='"+usuario.getId_user()+"'");
+                conexion.insmodelim("DELETE FROM `usuario` WHERE `id_user`= ?",String.valueOf(usuario.getId_user()));
                 Exito("Registro borrado exitosamente");
                 ActualizarTabla(conexion.consultar("SELECT * FROM `usuario`"));
             }

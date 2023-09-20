@@ -56,8 +56,8 @@ public class RolesController {
         col_u_herramienta.setCellValueFactory(new PropertyValueFactory<>("update_herramienta"));
         col_d_herramienta.setCellValueFactory(new PropertyValueFactory<>("delete_herramienta"));
         col_pedidos.setCellValueFactory(new PropertyValueFactory<>("crud_pedido"));
-        col_d_t_articulo.setCellValueFactory(new PropertyValueFactory<>("create_t_articulo"));
-        col_d_t_articulo.setCellValueFactory(new PropertyValueFactory<>("update_t_articulo"));
+        col_c_t_articulo.setCellValueFactory(new PropertyValueFactory<>("create_t_articulo"));
+        col_u_t_articulo.setCellValueFactory(new PropertyValueFactory<>("update_t_articulo"));
         col_d_t_articulo.setCellValueFactory(new PropertyValueFactory<>("delete_t_articulo"));
         col_roles.setCellValueFactory(new PropertyValueFactory<>("crud_roles"));
         col_empleados.setCellValueFactory(new PropertyValueFactory<>("crud_empleados"));
@@ -69,7 +69,6 @@ public class RolesController {
         rbID.setToggleGroup(toggleGroupBusqueda);
         rbNombre.setToggleGroup(toggleGroupBusqueda);
 
-        conexion = new Conexion();
         ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_usuario`"));
 
     }
@@ -95,7 +94,7 @@ public class RolesController {
             Tipo_Usuario t = new Tipo_Usuario(rsRoles.getInt("id_rol"),rsRoles.getString("nombre_rol"),VerificarBoolean(rsRoles.getInt("create_material") == 1),VerificarBoolean(rsRoles.getInt("update_material") == 1),VerificarBoolean(rsRoles.getInt("delete_material") == 1),VerificarBoolean(rsRoles.getInt("create_herramienta") == 1),VerificarBoolean(rsRoles.getInt("update_herramienta") == 1),VerificarBoolean(rsRoles.getInt("delete_herramienta") == 1),VerificarBoolean(rsRoles.getInt("crud_pedido") == 1),VerificarBoolean(rsRoles.getInt("create_t_articulo") == 1),VerificarBoolean(rsRoles.getInt("update_t_articulo") == 1),VerificarBoolean(rsRoles.getInt("delete_t_articulo") == 1),VerificarBoolean(rsRoles.getInt("crud_roles") == 1),VerificarBoolean(rsRoles.getInt("crud_empleados") == 1),VerificarBoolean(rsRoles.getInt("generar_bd") == 1),VerificarBoolean(rsRoles.getInt("eliminar_bd") == 1));
             tableTUsuarios.getItems().add(t);
         }
-        lblContRegistros.setText("Se cargaron "+cont+" articulos");
+        lblContRegistros.setText("Se cargaron "+cont+" roles");
     }
 
     @FXML private void NewRol() throws SQLException {
@@ -108,24 +107,20 @@ public class RolesController {
 
     @FXML private void SaveRol() throws SQLException {
         if (!txtNombre_rol.getText().isEmpty()){
-            ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `tipo_usuario` WHERE `id_rol` = '"+txtId_rol.getText()+"' LIMIT 1");
+            ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `tipo_usuario` WHERE `id_rol` = ? LIMIT 1", txtId_rol.getText());
             if (resultSetUpdate.next()){
-                conexion.insmodelim("UPDATE `tipo_usuario` SET `nombre_rol`='"+txtNombre_rol.getText()+"',`create_material`='"+VerificarCheckBox(check_create_material)+"',`update_material`='"+VerificarCheckBox(check_update_material)+"'," +
-                        "`delete_material`='"+VerificarCheckBox(check_delete_material)+"',`create_herramienta`='"+VerificarCheckBox(check_create_herramienta)+"',`update_herramienta`='"+VerificarCheckBox(check_update_herramienta)+"',`delete_herramienta`='"+VerificarCheckBox(check_delete_herramienta)+"'," +
-                        "`crud_pedido`='"+VerificarCheckBox(check_crud_pedido)+"',`create_t_articulo`='"+VerificarCheckBox(check_create_t_articulo)+"',`update_t_articulo`='"+VerificarCheckBox(check_update_t_articulo)+"',`delete_t_articulo`='"+VerificarCheckBox(check_delete_t_articulo)+"'," +
-                        ",`crud_roles`='"+VerificarCheckBox(check_crud_roles)+"'," +
-                        "`crud_empleados`='"+VerificarCheckBox(check_crud_empleados)+"',`generar_bd`='"+VerificarCheckBox(check_generar_bd)+"',`eliminar_bd`='"+VerificarCheckBox(check_eliminar_bd)+"' WHERE `id_rol`='"+resultSetUpdate.getInt("id_rol")+"'");
+                conexion.insmodelim("UPDATE `tipo_usuario` SET `nombre_rol`= ?,`create_material`= ?,`update_material`= ?," +
+                        "`delete_material`= ?,`create_herramienta`= ?,`update_herramienta`= ?,`delete_herramienta`= ?," +
+                        "`crud_pedido`= ?,`create_t_articulo`= ?,`update_t_articulo`= ?,`delete_t_articulo`= ?," +
+                        "`crud_roles`= ?," +
+                        "`crud_empleados`= ?,`generar_bd`= ?,`eliminar_bd`= ? WHERE `id_rol`= ?", txtNombre_rol.getText(), VerificarCheckBox(check_create_material), VerificarCheckBox(check_update_material), VerificarCheckBox(check_delete_material), VerificarCheckBox(check_create_herramienta), VerificarCheckBox(check_update_herramienta), VerificarCheckBox(check_delete_herramienta), VerificarCheckBox(check_crud_pedido), VerificarCheckBox(check_create_t_articulo), VerificarCheckBox(check_update_t_articulo), VerificarCheckBox(check_delete_t_articulo), VerificarCheckBox(check_crud_roles), VerificarCheckBox(check_crud_empleados), VerificarCheckBox(check_generar_bd),+VerificarCheckBox(check_eliminar_bd), resultSetUpdate.getInt("id_rol"));
                 ResultSet resultSetEmpleados= conexion.consultar("SELECT * FROM `usuario` WHERE `nombre_rol`='"+resultSetUpdate.getString("nombre_rol")+"'");
                 while(resultSetEmpleados.next()){
-                    conexion.insmodelim("UPDATE `usuario` SET `nombre_rol`='"+txtNombre_rol.getText()+"' WHERE `id_user`='"+resultSetEmpleados.getInt("id_user")+"'");
+                    conexion.insmodelim("UPDATE `usuario` SET `nombre_rol`= ? WHERE `id_user`= ?", txtNombre_rol.getText(), resultSetEmpleados.getInt("id_user"));
                 }
             }else {
                 conexion.insmodelim("INSERT INTO `tipo_usuario`(`nombre_rol`, `create_material`, `update_material`, `delete_material`, `create_herramienta`, `update_herramienta`, `delete_herramienta`, `crud_pedido`, `create_t_articulo`, `update_t_articulo`, `delete_t_articulo`, `crud_roles`, `crud_empleados`, `generar_bd`, `eliminar_bd`) VALUES " +
-                        "('"+txtNombre_rol.getText()+"','"+VerificarCheckBox(check_create_material)+"','"+VerificarCheckBox(check_update_material)+"'," +
-                        "'"+VerificarCheckBox(check_delete_material)+"','"+VerificarCheckBox(check_create_herramienta)+"','"+VerificarCheckBox(check_update_herramienta)+"','"+VerificarCheckBox(check_delete_herramienta)+"'," +
-                        "'"+VerificarCheckBox(check_crud_pedido)+"','"+VerificarCheckBox(check_create_t_articulo)+"','"+VerificarCheckBox(check_update_t_articulo)+"','"+VerificarCheckBox(check_delete_t_articulo)+"'," +
-                        "'"+VerificarCheckBox(check_crud_roles)+"'," +
-                        "'"+VerificarCheckBox(check_crud_empleados)+"','"+VerificarCheckBox(check_generar_bd)+"','"+VerificarCheckBox(check_eliminar_bd)+"')");
+                        "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", txtNombre_rol.getText(), VerificarCheckBox(check_create_material), VerificarCheckBox(check_update_material), VerificarCheckBox(check_delete_material), VerificarCheckBox(check_create_herramienta), VerificarCheckBox(check_update_herramienta), VerificarCheckBox(check_delete_herramienta), VerificarCheckBox(check_crud_pedido), VerificarCheckBox(check_create_t_articulo), VerificarCheckBox(check_update_t_articulo), VerificarCheckBox(check_delete_t_articulo), VerificarCheckBox(check_crud_roles), VerificarCheckBox(check_crud_empleados), VerificarCheckBox(check_generar_bd),+VerificarCheckBox(check_eliminar_bd));
             }
             tabPaneVentana.getSelectionModel().select(tabSearch);
             tabSearch.setDisable(false);
@@ -181,8 +176,8 @@ public class RolesController {
             }else {
                 Tipo_Usuario t = tableTUsuarios.getSelectionModel().getSelectedItem();
                 if (ConfirmarBorrar("Deseas borrar a "+t.getNombre_rol()+", realizar esta accion \n tambien borrará a los usuarios que tengan este rol")){
-                    conexion.insmodelim("DELETE FROM `tipo_usuario` WHERE `id_rol`='"+t.getId_rol()+"'");
-                    conexion.insmodelim("DELETE FROM `usuario` WHERE `nombre_rol`='"+t.getNombre_rol()+"'");
+                    conexion.insmodelim("DELETE FROM `tipo_usuario` WHERE `id_rol`= ?", t.getId_rol());
+                    conexion.insmodelim("DELETE FROM `usuario` WHERE `nombre_rol`= ?",t.getNombre_rol());
                     Exito("Registro borrado exitosamente");
                     ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_usuario`"));
 

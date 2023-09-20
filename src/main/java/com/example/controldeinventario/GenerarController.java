@@ -297,7 +297,7 @@ public class GenerarController {
                 dataRow2.createCell(7).setCellValue(dateFormat.format(pedido.getFecha()));
                 dataRow2.createCell(8).setCellValue(pedido.getProfesor());
                 dataRow2.createCell(9).setCellValue(pedido.getMateria());
-                ResultSet rsPedido = conexion.consultar("SELECT * FROM `pedido_material` WHERE `id_pedido`='"+pedido.getId_pedido()+"'");
+                ResultSet rsPedido = conexion.consultar("SELECT * FROM `pedido_material` WHERE `id_pedido`= ?",String.valueOf(pedido.getId_pedido()));
                 Row filaInfoP = pedidos.createRow(rowIndex2++);
                 filaInfoP.createCell(3).setCellValue("Código de barras");
                 filaInfoP.createCell(4).setCellValue("Cantidad");
@@ -308,8 +308,8 @@ public class GenerarController {
                 filaInfoP.createCell(9).setCellValue("Estado");
                 while (rsPedido.next()){
                     Row filaMaterialP = pedidos.createRow(rowIndex2++);
-                    ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE `cb_material`='"+rsPedido.getLong("cb_material")+"'");
-                    ResultSet rsHerramientaDN = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE `cb_herramienta`='"+rsPedido.getLong("cb_material")+"'");
+                    ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE `cb_material`= ?",String.valueOf(rsPedido.getLong("cb_material")));
+                    ResultSet rsHerramientaDN = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE `cb_herramienta`= ?",String.valueOf(rsPedido.getLong("cb_material")));
                     if (rsArticulo.next()){
                         filaMaterialP.createCell(3).setCellValue(rsPedido.getLong("cb_material"));
                         filaMaterialP.createCell(4).setCellValue(rsPedido.getInt("cantidad"));

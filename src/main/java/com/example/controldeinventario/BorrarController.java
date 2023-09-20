@@ -62,14 +62,14 @@ public class BorrarController {
                 ResultSet rsPendientes = conexion.consultar("SELECT * FROM `pedido_material` WHERE `estado`='Pendiente'");
                 while (rsPendientes.next()){
                    // System.out.println("cantidad pendiente: "+rsPendientes.getInt("cantidad"));
-                    ResultSet rsMat = conexion.consultar("SELECT * FROM `material` WHERE `cb_material`='"+rsPendientes.getString("cb_material")+"'");
-                    ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` WHERE `cb_herramienta`='"+rsPendientes.getString("cb_material")+"'");
+                    ResultSet rsMat = conexion.consultar("SELECT * FROM `material` WHERE `cb_material`= ?",rsPendientes.getString("cb_material"));
+                    ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` WHERE `cb_herramienta`= ?", rsPendientes.getString("cb_material"));
                     if (rsMat.next()){
                        // System.out.println("cantidad material: "+rsMat.getInt("cantidad"));
-                        conexion.insmodelim("UPDATE `material` SET `cantidad`='"+(rsPendientes.getInt("cantidad")+rsMat.getInt("cantidad"))+"' WHERE `cb_material`='"+rsMat.getString("cb_material")+"'");
+                        conexion.insmodelim("UPDATE `material` SET `cantidad`= ? WHERE `cb_material`= ?", String.valueOf((rsPendientes.getInt("cantidad")+rsMat.getInt("cantidad"))), rsMat.getString("cb_material"));
                     } else if (rsHerramienta.next()) {
                        // System.out.println("cantidad herramienta: "+rsHerramienta.getInt("cantidad"));
-                        conexion.insmodelim("UPDATE `herramienta` SET `cantidad`='"+(rsHerramienta.getInt("cantidad")+rsPendientes.getInt("cantidad"))+"' WHERE `cb_herramienta`='"+rsHerramienta.getString("cb_herramienta")+"'");
+                        conexion.insmodelim("UPDATE `herramienta` SET `cantidad`= ? WHERE `cb_herramienta`= ? ", String.valueOf((rsHerramienta.getInt("cantidad")+rsPendientes.getInt("cantidad"))), rsHerramienta.getString("cb_herramienta"));
                     }
                 }
                 conexion.insmodelim("DELETE FROM `pedido` WHERE 1");

@@ -118,15 +118,15 @@ public class HerramientasController {
             if (!txtStock.getText().matches("^\\d+$\n") || !txtStockMin.getText().matches("^\\d+$\n")){
                 Error("Cantidades incorrectas");
             }else {
-                ResultSet resultSetIDHerramienta = conexion.consultar("SELECT `id_material` FROM `tipo_material` WHERE `material`='"+cbHerramienta.getSelectionModel().getSelectedItem()+"' AND `tipo_material`='Herramienta' LIMIT 1");
+                ResultSet resultSetIDHerramienta = conexion.consultar("SELECT `id_material` FROM `tipo_material` WHERE `material`= ? AND `tipo_material`='Herramienta' LIMIT 1", cbHerramienta.getSelectionModel().getSelectedItem());
                 if (resultSetIDHerramienta.next()){
                     int id = resultSetIDHerramienta.getInt("id_material");
-                    ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `herramienta` WHERE `cb_herramienta`='"+txtCB.getText()+"' LIMIT 1");
+                    ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `herramienta` WHERE `cb_herramienta`= ? LIMIT 1", txtCB.getText());
                     if (resultSetUpdate.next()){
-                        conexion.insmodelim("UPDATE `herramienta` SET `id_herramienta`='"+id+"',`tipo`='"+txtTipo.getText()+"',`caracteristicas`='"+txtCaracteristicas.getText()+"',`frecuencia_de_uso`='"+((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText()+"',`cantidad`='"+txtStock.getText()+"',`cantidad_min`='"+txtStockMin.getText()+"' WHERE `cb_herramienta`='"+txtCB.getText()+"'");
+                        conexion.insmodelim("UPDATE `herramienta` SET `id_herramienta`= ?,`tipo`= ?,`caracteristicas`= ?,`frecuencia_de_uso`= ?,`cantidad`= ?,`cantidad_min`= ? WHERE `cb_herramienta`= ?",String.valueOf(id), txtTipo.getText(), txtCaracteristicas.getText(), ((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText(), txtStock.getText(), txtStockMin.getText(), txtCB.getText());
                         Exito("Actualizado con exito");
                     }else {
-                        conexion.insmodelim("INSERT INTO `herramienta`(`cb_herramienta`,`id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+txtCB.getText()+"','"+id+"','"+txtTipo.getText()+"','"+txtCaracteristicas.getText()+"','"+((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText()+"','"+txtStock.getText()+"','"+txtStockMin.getText()+"')");
+                        conexion.insmodelim("INSERT INTO `herramienta`(`cb_herramienta`,`id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES (?, ?, ?, ?, ?, ?, ?)",txtCB.getText(),String.valueOf(id),txtTipo.getText(),txtCaracteristicas.getText(),((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText(),txtStock.getText(),txtStockMin.getText());
 
                     }
                     tabPaneHerramientas.getSelectionModel().select(tabSearch);
@@ -170,7 +170,7 @@ public class HerramientasController {
         if (tableViewHerramientas.getSelectionModel().getSelectedItem() != null){
             Herramienta h = tableViewHerramientas.getSelectionModel().getSelectedItem();
             if (ConfirmarBorrar("Deseas borrar "+h.getHerramienta()+" "+h.getTipo())){
-                conexion.insmodelim("DELETE FROM `herramienta` WHERE `cb_herramienta`='"+h.getCb_herramienta()+"'");
+                conexion.insmodelim("DELETE FROM `herramienta` WHERE `cb_herramienta`= ?",String.valueOf(h.getCb_herramienta()));
                 Exito("Registro borrado exitosamente");
                 ActualizarTabla(conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material;"));
             }
@@ -360,14 +360,14 @@ public class HerramientasController {
                 "FROM herramienta\n" +
                 "LEFT JOIN material\n" +
                 "ON herramienta.id_herramienta = material.cb_material\n" +
-                "WHERE herramienta.id_herramienta = '"+num+"' OR material.cb_material = '"+num+"'\n" +
+                "WHERE herramienta.id_herramienta = ? OR material.cb_material = ?\n" +
                 "UNION\n" +
                 "SELECT material.cb_material\n" +
                 "FROM material\n" +
                 "LEFT JOIN herramienta\n" +
                 "ON herramienta.id_herramienta = material.cb_material\n" +
-                "WHERE herramienta.id_herramienta = '"+num+"' OR material.cb_material = '"+num+"'\n" +
-                "AND herramienta.id_herramienta IS NULL;");
+                "WHERE herramienta.id_herramienta = ? OR material.cb_material = ?\n" +
+                "AND herramienta.id_herramienta IS NULL;",String.valueOf(num),String.valueOf(num),String.valueOf(num),String.valueOf(num));
 
         // ResultSet resultSet = conexion.consultar("SELECT `cb_material` FROM `material` WHERE `cb_material`='"+num+"'");
         boolean bd=false;

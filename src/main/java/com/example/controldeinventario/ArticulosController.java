@@ -205,10 +205,11 @@ public class ArticulosController {
                             Error("Selecciona el material");
                         }else {
                             if (edit){
-                                conexion.insmodelim("UPDATE `material` SET `cb_material`='"+txtCodigoBarras.getText()+"', `tipo_de_armario`='" + txtArmario.getText() + "', `gaveta`='" + txtGaveta.getText() + "', `sub_compartimento`='" + txtSubCompartimento.getText() + "', `id_material`='"+resultado.getInt("id_material")+"', `tipo`='" + txtTipo.getText() + "', `numero_parte`='" + txtNumParte.getText() + "', `valor`='" + (txtValor.getText().equals("N/A") ? "N/A" : txtValor.getText()) + "', `unidad_de_medida`='" + txtUnidadMedida.getText() + "', `caracteristicas`='" + txtCaracteristicas.getText() + "', `frecuencia_de_uso`='" + ((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText() + "', `cantidad`='" + txtStock.getText() + "', `cantidad_min`='" + txtStockMin.getText() + "' WHERE `cb_material`='"+txtCodigoBarras.getText()+"'");
+                                conexion.insmodelim("UPDATE `material` SET `cb_material`= ?, `tipo_de_armario`= ?, `gaveta`= ?, `sub_compartimento`= ?, `id_material`= ?, `tipo`= ?, `numero_parte`= ?, `valor`= ?, `unidad_de_medida`= ?, `caracteristicas`= ?, `frecuencia_de_uso`= ?, `cantidad`= ?, `cantidad_min`= ? WHERE `cb_material`= ? ",txtCodigoBarras.getText(), txtArmario.getText(), txtGaveta.getText(), txtSubCompartimento.getText(),String.valueOf(resultado.getInt("id_material")), txtTipo.getText(), txtNumParte.getText(),(txtValor.getText().equals("N/A") ? "N/A" : txtValor.getText()),txtUnidadMedida.getText(),txtCaracteristicas.getText(),((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText(),txtStock.getText(),txtStockMin.getText(),txtCodigoBarras.getText());
+                              //  conexion.insmodelim("UPDATE `material` SET `cb_material`='"++"', `tipo_de_armario`='" +  + "', `gaveta`='" +  + "', `sub_compartimento`='" +  + "', `id_material`='"++"', `tipo`='" +  + "', `numero_parte`='" +  + "', `valor`='" +  + "', `unidad_de_medida`='" +  + "', `caracteristicas`='" +  + "', `frecuencia_de_uso`='" +  + "', `cantidad`='" +  + "', `cantidad_min`='" +  + "' WHERE `cb_material`='"++"'");
                                 Exito("Actualizado con exito");
                             }else {
-                                conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+txtCodigoBarras.getText()+"','"+txtArmario.getText()+"','"+txtGaveta.getText()+"','"+txtSubCompartimento.getText()+"','"+resultado.getInt("id_material")+"','"+txtTipo.getText()+"','"+txtNumParte.getText()+"','"+txtValor.getText()+"','"+txtUnidadMedida.getText()+"','"+txtCaracteristicas.getText()+"','"+((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText()+"','"+txtStock.getText()+"','"+txtStockMin.getText()+"')");
+                                conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",txtCodigoBarras.getText(),txtArmario.getText(), txtGaveta.getText(), txtSubCompartimento.getText(), resultado.getString("id_material"), txtTipo.getText(), txtNumParte.getText(), txtValor.getText(), txtUnidadMedida.getText(), txtCaracteristicas.getText(), ((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText(), txtStock.getText(), txtStockMin.getText());
                                 Exito("Lo logro señor");
                             }
                             tabV.getSelectionModel().select(tabSearch);
@@ -292,7 +293,7 @@ public class ArticulosController {
         if (tableViewArticulos.getSelectionModel().getSelectedItem() != null){
             Articulo articulo = tableViewArticulos.getSelectionModel().getSelectedItem();
             if (ConfirmarBorrar("Deseas borrar "+articulo.getMaterial()+" "+articulo.getTipo())){
-                conexion.insmodelim("DELETE FROM `material` WHERE `cb_material`='"+articulo.getCodigo_barras()+"'");
+                conexion.insmodelim("DELETE FROM `material` WHERE `cb_material`= ?",String.valueOf(articulo.getCodigo_barras()));
                 Exito("Registro borrado exitosamente");
                 ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;"));
             }
@@ -313,7 +314,7 @@ public class ArticulosController {
         code39Bean.doQuietZone(true);
         ResultSet rsMaterial= conexion.consultar("SELECT `material` FROM `tipo_material` WHERE 1;");
         while (rsMaterial.next()){
-            ResultSet resultSet = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE tipo_material.material='"+rsMaterial.getString("material")+"';");
+            ResultSet resultSet = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE tipo_material.material= ?;", rsMaterial.getString("material"));
             Document documento = new Document(PageSize.A4.rotate(), 10f, 10f, 0f, 0f);
             if (rsMaterial.getString("material").equals("N/A")){
                 PdfWriter pdfWriter=PdfWriter.getInstance(documento, new FileOutputStream("Libro_NA_material.pdf"));
@@ -560,14 +561,14 @@ public class ArticulosController {
                 "FROM herramienta\n" +
                 "LEFT JOIN material\n" +
                 "ON herramienta.id_herramienta = material.cb_material\n" +
-                "WHERE herramienta.id_herramienta = '"+num+"' OR material.cb_material = '"+num+"'\n" +
+                "WHERE herramienta.id_herramienta = ? OR material.cb_material = ?\n" +
                 "UNION\n" +
                 "SELECT material.cb_material\n" +
                 "FROM material\n" +
                 "LEFT JOIN herramienta\n" +
                 "ON herramienta.id_herramienta = material.cb_material\n" +
-                "WHERE herramienta.id_herramienta = '"+num+"' OR material.cb_material = '"+num+"'\n" +
-                "AND herramienta.id_herramienta IS NULL;");
+                "WHERE herramienta.id_herramienta = ? OR material.cb_material = ?\n" +
+                "AND herramienta.id_herramienta IS NULL;",String.valueOf(num),String.valueOf(num),String.valueOf(num),String.valueOf(num));
 
         // ResultSet resultSet = conexion.consultar("SELECT `cb_material` FROM `material` WHERE `cb_material`='"+num+"'");
         boolean bd=false;
@@ -670,7 +671,7 @@ public class ArticulosController {
             criterio="tipo";
         }
         if (!busqueda.equals("")){
-            ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
+            ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE `"+criterio+"` LIKE '%"+busqueda+"%'")); // Puede fallar
         }else {
             ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;"));
         }
@@ -696,14 +697,13 @@ public class ArticulosController {
                 Cell caracteristicas = row.getCell(columnIndexToRead+8);
                 Cell f_uso = row.getCell(columnIndexToRead+9);
                 Cell cantidad = row.getCell(columnIndexToRead+10);
-
                 if (!tipodeArmario.getStringCellValue().equals("HERRAMIENTA") && !gaveta.getStringCellValue().equals("HERRAMIENTA") && !sub.getStringCellValue().equals("HERRAMIENTA") && tipodeArmario != null && !tipodeArmario.getStringCellValue().equals("TIPO DE ARMARIO") && gaveta != null && sub != null){
                     Articulo articulo= new Articulo(10L,"fdsf","fdfd","gfdgdf","gfdg","gfdgdf","gfdgdfg","fdfds","gfdgf","fdfdsfds","fdsfdsf",12,21);
                     if (valor.getCellType() == valor.CELL_TYPE_STRING && nparte.getCellType() == nparte.CELL_TYPE_STRING) {
-                            articulo = new Articulo((long) cont, tipodeArmario.getStringCellValue(), gaveta.getStringCellValue(),
-                                    sub.getStringCellValue(), material.getStringCellValue(), tipo.getStringCellValue(), nparte.getStringCellValue(),
-                                    valor.getStringCellValue(), u_medida.getStringCellValue(), caracteristicas.getStringCellValue(), f_uso.getStringCellValue(),
-                                    (int) cantidad.getNumericCellValue(), 0);
+                        articulo = new Articulo((long) cont, tipodeArmario.getStringCellValue(), gaveta.getStringCellValue(),
+                                sub.getStringCellValue(), material.getStringCellValue(), tipo.getStringCellValue(), nparte.getStringCellValue(),
+                                valor.getStringCellValue(), u_medida.getStringCellValue(), caracteristicas.getStringCellValue(), f_uso.getStringCellValue(),
+                                (int) cantidad.getNumericCellValue(), 0);
 
                     } else if (valor.getCellType() == valor.CELL_TYPE_NUMERIC && nparte.getCellType() == nparte.CELL_TYPE_NUMERIC) {
                         articulo = new Articulo((long) cont, tipodeArmario.getStringCellValue(), gaveta.getStringCellValue(),
@@ -735,15 +735,15 @@ public class ArticulosController {
                     System.out.println(articulo.getF_uso());
                     System.out.println(articulo.getCantidad());
 
-                    ResultSet resultSet= conexion.consultar("SELECT * FROM `tipo_material` WHERE `material`='"+articulo.getMaterial()+"' LIMIT 1");
+                    ResultSet resultSet= conexion.consultar("SELECT * FROM `tipo_material` WHERE `material`= ? LIMIT 1", articulo.getMaterial());
                     if (resultSet.next()){
-                        conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+articulo.getCodigo_barras()+"','"+articulo.getTipo_de_armario()+"','"+articulo.getGaveta()+"','"+articulo.getSub_compartimento()+"','"+resultSet.getInt("id_material")+"','"+articulo.getTipo()+"','"+articulo.getNumero_parte()+"','"+articulo.getValor()+"','"+articulo.getUnidad_medida()+"','"+articulo.getCaracteristicas()+"','"+articulo.getF_uso()+"','"+articulo.getCantidad()+"','"+articulo.getCantidad_min()+"')");
+                        conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",String.valueOf(articulo.getCodigo_barras()), articulo.getTipo_de_armario(), articulo.getGaveta(), articulo.getSub_compartimento(), String.valueOf(resultSet.getInt("id_material")), articulo.getTipo(), articulo.getNumero_parte(), articulo.getValor(), articulo.getUnidad_medida(), articulo.getCaracteristicas(), articulo.getF_uso(), String.valueOf(articulo.getCantidad()), String.valueOf(articulo.getCantidad_min()));
 
                     }else {
-                        conexion.insmodelim("INSERT INTO `tipo_material`(`material`, `tipo_material`) VALUES ('"+articulo.getMaterial()+"','Material Consumible')");
+                        conexion.insmodelim("INSERT INTO `tipo_material`(`material`, `tipo_material`) VALUES (?,'Material Consumible')", articulo.getMaterial());
                         ResultSet resultSet1 = conexion.consultar("SELECT `id_material` FROM `tipo_material` ORDER BY `id_material` DESC LIMIT 1;");
                         if(resultSet1.next()){
-                            conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+articulo.getCodigo_barras()+"','"+articulo.getTipo_de_armario()+"','"+articulo.getGaveta()+"','"+articulo.getSub_compartimento()+"','"+resultSet1.getInt("id_material")+"','"+articulo.getTipo()+"','"+articulo.getNumero_parte()+"','"+articulo.getValor()+"','"+articulo.getUnidad_medida()+"','"+articulo.getCaracteristicas()+"','"+articulo.getF_uso()+"','"+articulo.getCantidad()+"','"+articulo.getCantidad_min()+"')");
+                            conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",String.valueOf(articulo.getCodigo_barras()), articulo.getTipo_de_armario(), articulo.getGaveta(), articulo.getSub_compartimento(), String.valueOf(resultSet1.getInt("id_material")), articulo.getTipo(), articulo.getNumero_parte(), articulo.getValor(), articulo.getUnidad_medida(), articulo.getCaracteristicas(), articulo.getF_uso(), String.valueOf(articulo.getCantidad()), String.valueOf(articulo.getCantidad_min()));
 
                         }
                     }
@@ -751,19 +751,21 @@ public class ArticulosController {
                 } if (tipodeArmario.getStringCellValue().equals("HERRAMIENTA") && gaveta.getStringCellValue().equals("HERRAMIENTA") && sub.getStringCellValue().equals("HERRAMIENTA")) {
                     Herramienta herramienta = new Herramienta((long) cont,material.getStringCellValue(),tipo.getStringCellValue(),caracteristicas.getStringCellValue(),f_uso.getStringCellValue(),(int) cantidad.getNumericCellValue(),0);
 
-                    ResultSet resultSet3= conexion.consultar("SELECT * FROM `tipo_material` WHERE `material`='"+herramienta.getHerramienta()+"' LIMIT 1");
+                    ResultSet resultSet3= conexion.consultar("SELECT * FROM `tipo_material` WHERE `material`= ? LIMIT 1",herramienta.getHerramienta());
                     if (resultSet3.next()){
-                        conexion.insmodelim("INSERT INTO `herramienta`(`cb_herramienta`, `id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+herramienta.getCb_herramienta()+"','"+resultSet3.getInt("id_material")+"','"+herramienta.getTipo()+"','"+herramienta.getCaracteristicas()+"','"+herramienta.getFrecuencia_de_uso()+"','"+herramienta.getCantidad()+"','0')");
+                        conexion.insmodelim("INSERT INTO `herramienta`(`cb_herramienta`, `id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES (?, ?, ?, ?, ?, ?, '0')",String.valueOf(herramienta.getCb_herramienta()), String.valueOf(resultSet3.getInt("id_material")), herramienta.getTipo(), herramienta.getCaracteristicas(), herramienta.getFrecuencia_de_uso(), String.valueOf(herramienta.getCantidad()));
 
                     }else {
-                        conexion.insmodelim("INSERT INTO `tipo_material`(`material`, `tipo_material`) VALUES ('"+herramienta.getHerramienta()+"','Herramienta')");
+                        conexion.insmodelim("INSERT INTO `tipo_material`(`material`, `tipo_material`) VALUES ( ?,'Herramienta')", herramienta.getHerramienta());
                         ResultSet resultSet4 = conexion.consultar("SELECT `id_material` FROM `tipo_material` ORDER BY `id_material` DESC LIMIT 1;");
                         if(resultSet4.next()){
-                            conexion.insmodelim("INSERT INTO `herramienta`(`cb_herramienta`, `id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES ('"+herramienta.getCb_herramienta()+"','"+resultSet4.getInt("id_material")+"','"+herramienta.getTipo()+"','"+herramienta.getCaracteristicas()+"','"+herramienta.getFrecuencia_de_uso()+"','"+herramienta.getCantidad()+"','0')");
+                            conexion.insmodelim("INSERT INTO `herramienta`(`cb_herramienta`, `id_herramienta`, `tipo`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES (?, ?, ?, ?, ?, ?,'0')", String.valueOf(herramienta.getCb_herramienta()), String.valueOf(resultSet4.getInt("id_material")), herramienta.getTipo(), herramienta.getCaracteristicas(), herramienta.getFrecuencia_de_uso(), String.valueOf(herramienta.getCantidad()));
 
                         }
                     }
                 }
+
+
                 cont++;
             }
         }catch (Exception e){
