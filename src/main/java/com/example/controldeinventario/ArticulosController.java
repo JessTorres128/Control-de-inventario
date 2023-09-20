@@ -53,6 +53,7 @@ public class ArticulosController {
     @FXML TextField txtCodigoBarras, txtArmario,txtGaveta,txtSubCompartimento,txtTipo,txtNumParte,txtValor,txtUnidadMedida,txtStock,txtStockMin;
     Conexion conexion;
     boolean edit= false;
+    long cbedit = 0L;
     KeyCombination keyCombination= new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
     @FXML
     Button btnNew, btnSave, btnEdit, btnCancel, btnExit, btnDelete;
@@ -178,7 +179,7 @@ public class ArticulosController {
         tabV.getSelectionModel().select(tabNew);
         tabNew.setDisable(false);
         tabSearch.setDisable(true);
-        txtCodigoBarras.setText(String.valueOf(cb));
+       // txtCodigoBarras.setText(String.valueOf(cb));
         CleanTextFields();
         CheckBoxChange1();
         CheckBoxChange2();
@@ -196,30 +197,68 @@ public class ArticulosController {
 
                     Error("Cantidades incorrectas, revise que contenga solamente números");
                 }else {
-                    ResultSet rsHerramienta = conexion.consultar("SELECT `cb_herramienta` FROM `herramienta` WHERE `cb_herramienta`=''");
-                    if (rsHerramienta.next()){
-                        Error("Ya existe este cb en una herramienta");
-                    }else {
-                        ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `tipo_material` WHERE `material`='"+cbMaterial.getSelectionModel().getSelectedItem()+"' AND `tipo_material` LIKE '%Material%' LIMIT 1");
-                        if (!resultado.next()){
-                            Error("Selecciona el material");
-                        }else {
-                            if (edit){
-                                conexion.insmodelim("UPDATE `material` SET `cb_material`= ?, `tipo_de_armario`= ?, `gaveta`= ?, `sub_compartimento`= ?, `id_material`= ?, `tipo`= ?, `numero_parte`= ?, `valor`= ?, `unidad_de_medida`= ?, `caracteristicas`= ?, `frecuencia_de_uso`= ?, `cantidad`= ?, `cantidad_min`= ? WHERE `cb_material`= ? ",txtCodigoBarras.getText(), txtArmario.getText(), txtGaveta.getText(), txtSubCompartimento.getText(),String.valueOf(resultado.getInt("id_material")), txtTipo.getText(), txtNumParte.getText(),(txtValor.getText().equals("N/A") ? "N/A" : txtValor.getText()),txtUnidadMedida.getText(),txtCaracteristicas.getText(),((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText(),txtStock.getText(),txtStockMin.getText(),txtCodigoBarras.getText());
-                              //  conexion.insmodelim("UPDATE `material` SET `cb_material`='"++"', `tipo_de_armario`='" +  + "', `gaveta`='" +  + "', `sub_compartimento`='" +  + "', `id_material`='"++"', `tipo`='" +  + "', `numero_parte`='" +  + "', `valor`='" +  + "', `unidad_de_medida`='" +  + "', `caracteristicas`='" +  + "', `frecuencia_de_uso`='" +  + "', `cantidad`='" +  + "', `cantidad_min`='" +  + "' WHERE `cb_material`='"++"'");
-                                Exito("Actualizado con exito");
+                    if (txtCodigoBarras.getText().equals(String.valueOf(cbedit))){
+                       /* ResultSet res= conexion.consultar("SELECT herramienta.cb_herramienta FROM herramienta\n" +
+                                "                LEFT JOIN material\n" +
+                                "                ON herramienta.cb_herramienta = material.cb_material\n" +
+                                "                WHERE herramienta.cb_herramienta = ? OR material.cb_material = ?\n" +
+                                "                UNION\n" +
+                                "                SELECT material.cb_material\n" +
+                                "                FROM material\n" +
+                                "                LEFT JOIN herramienta\n" +
+                                "                ON herramienta.cb_herramienta = material.cb_material\n" +
+                                "                WHERE herramienta.cb_herramienta = ? OR material.cb_material = ?\n" +
+                                "                AND herramienta.cb_herramienta IS NULL;",txtCodigoBarras.getText(),txtCodigoBarras.getText(),txtCodigoBarras.getText(),txtCodigoBarras.getText());
+                        if (res.next()){
+                            Error("Ya existe un articulo con este código de barras");
+                        }else {*/
+                            ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `tipo_material` WHERE `material`='"+cbMaterial.getSelectionModel().getSelectedItem()+"' AND `tipo_material` LIKE '%Material%' LIMIT 1");
+                            if (!resultado.next()){
+                                Error("Selecciona el material");
                             }else {
-                                conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",txtCodigoBarras.getText(),txtArmario.getText(), txtGaveta.getText(), txtSubCompartimento.getText(), resultado.getString("id_material"), txtTipo.getText(), txtNumParte.getText(), txtValor.getText(), txtUnidadMedida.getText(), txtCaracteristicas.getText(), ((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText(), txtStock.getText(), txtStockMin.getText());
-                                Exito("Lo logro señor");
-                            }
-                            tabV.getSelectionModel().select(tabSearch);
-                            tabSearch.setDisable(false);
-                            tabNew.setDisable(true);
-                            ActivateBtn(false,true,false,true,false,false);
-                            ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;"));
-                            edit=false;
+                                if (edit){
+                                    conexion.insmodelim("UPDATE `material` SET `cb_material`= ?, `tipo_de_armario`= ?, `gaveta`= ?, `sub_compartimento`= ?, `id_material`= ?, `tipo`= ?, `numero_parte`= ?, `valor`= ?, `unidad_de_medida`= ?, `caracteristicas`= ?, `frecuencia_de_uso`= ?, `cantidad`= ?, `cantidad_min`= ? WHERE `cb_material`= ? ",txtCodigoBarras.getText(), txtArmario.getText(), txtGaveta.getText(), txtSubCompartimento.getText(),String.valueOf(resultado.getInt("id_material")), txtTipo.getText(), txtNumParte.getText(),(txtValor.getText().equals("N/A") ? "N/A" : txtValor.getText()),txtUnidadMedida.getText(),txtCaracteristicas.getText(),((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText(),txtStock.getText(),txtStockMin.getText(),cbedit);
+                                    //  conexion.insmodelim("UPDATE `material` SET `cb_material`='"++"', `tipo_de_armario`='" +  + "', `gaveta`='" +  + "', `sub_compartimento`='" +  + "', `id_material`='"++"', `tipo`='" +  + "', `numero_parte`='" +  + "', `valor`='" +  + "', `unidad_de_medida`='" +  + "', `caracteristicas`='" +  + "', `frecuencia_de_uso`='" +  + "', `cantidad`='" +  + "', `cantidad_min`='" +  + "' WHERE `cb_material`='"++"'");
+                                    Exito("Actualizado con exito");
+                                }else {
+                                    conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",txtCodigoBarras.getText(),txtArmario.getText(), txtGaveta.getText(), txtSubCompartimento.getText(), resultado.getString("id_material"), txtTipo.getText(), txtNumParte.getText(), txtValor.getText(), txtUnidadMedida.getText(), txtCaracteristicas.getText(), ((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText(), txtStock.getText(), txtStockMin.getText());
+                                    Exito("Lo logro señor");
+                                }
+
+                            //}
                         }
-                    }
+                    }else {
+                        ResultSet res= conexion.consultar("SELECT herramienta.cb_herramienta FROM herramienta\n" +
+                                "                LEFT JOIN material\n" +
+                                "                ON herramienta.cb_herramienta = material.cb_material\n" +
+                                "                WHERE herramienta.cb_herramienta = ? OR material.cb_material = ?\n" +
+                                "                UNION\n" +
+                                "                SELECT material.cb_material\n" +
+                                "                FROM material\n" +
+                                "                LEFT JOIN herramienta\n" +
+                                "                ON herramienta.cb_herramienta = material.cb_material\n" +
+                                "                WHERE herramienta.cb_herramienta = ? OR material.cb_material = ?\n" +
+                                "                AND herramienta.cb_herramienta IS NULL;",txtCodigoBarras.getText(),txtCodigoBarras.getText(),txtCodigoBarras.getText(),txtCodigoBarras.getText());
+                        if (res.next()){
+                            Error("Ya existe un articulo con este código de barras");
+                        }else {
+                            ResultSet resultado = conexion.consultar("SELECT `id_material` FROM `tipo_material` WHERE `material`='"+cbMaterial.getSelectionModel().getSelectedItem()+"' AND `tipo_material` LIKE '%Material%' LIMIT 1");
+                            if (!resultado.next()){
+                                Error("Selecciona el material");
+                            }else {
+                                if (edit){
+                                    conexion.insmodelim("UPDATE `material` SET `cb_material`= ?, `tipo_de_armario`= ?, `gaveta`= ?, `sub_compartimento`= ?, `id_material`= ?, `tipo`= ?, `numero_parte`= ?, `valor`= ?, `unidad_de_medida`= ?, `caracteristicas`= ?, `frecuencia_de_uso`= ?, `cantidad`= ?, `cantidad_min`= ? WHERE `cb_material`= ? ",txtCodigoBarras.getText(), txtArmario.getText(), txtGaveta.getText(), txtSubCompartimento.getText(),String.valueOf(resultado.getInt("id_material")), txtTipo.getText(), txtNumParte.getText(),(txtValor.getText().equals("N/A") ? "N/A" : txtValor.getText()),txtUnidadMedida.getText(),txtCaracteristicas.getText(),((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText(),txtStock.getText(),txtStockMin.getText(),cbedit);
+                                    //  conexion.insmodelim("UPDATE `material` SET `cb_material`='"++"', `tipo_de_armario`='" +  + "', `gaveta`='" +  + "', `sub_compartimento`='" +  + "', `id_material`='"++"', `tipo`='" +  + "', `numero_parte`='" +  + "', `valor`='" +  + "', `unidad_de_medida`='" +  + "', `caracteristicas`='" +  + "', `frecuencia_de_uso`='" +  + "', `cantidad`='" +  + "', `cantidad_min`='" +  + "' WHERE `cb_material`='"++"'");
+                                    Exito("Actualizado con exito");
+                                }else {
+                                    conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",txtCodigoBarras.getText(),txtArmario.getText(), txtGaveta.getText(), txtSubCompartimento.getText(), resultado.getString("id_material"), txtTipo.getText(), txtNumParte.getText(), txtValor.getText(), txtUnidadMedida.getText(), txtCaracteristicas.getText(), ((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText(), txtStock.getText(), txtStockMin.getText());
+                                    Exito("Lo logro señor");
+                                }
+
+                            }
+                        }
+                    }// otra cosa
+
 
 
 
@@ -227,6 +266,13 @@ public class ArticulosController {
 
 
                 }
+                tabV.getSelectionModel().select(tabSearch);
+                tabSearch.setDisable(false);
+                tabNew.setDisable(true);
+                ActivateBtn(false,true,false,true,false,false);
+                ActualizarTabla(conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;"));
+                edit=false;
+                cbedit = 0L;
 
             }else {Error("Faltan campos por rellenar");}
         }
@@ -278,6 +324,7 @@ public class ArticulosController {
             txtStockMin.setText(String.valueOf(articulo.getCantidad_min()));
             ActivateBtn(true,false,true,false,false,true);
             edit = true;
+            cbedit = articulo.getCodigo_barras();
         }else {Error("Selecciona un registro pa");}
 
     }
@@ -500,14 +547,20 @@ public class ArticulosController {
     }
 
 
-    private Long GenerateNumber() throws SQLException {
+   @FXML private Long GenerateNumber() throws SQLException {
         boolean bd=false;
         Random random=new Random();
+        //long numero = 1000000002L;
+
         long numero = (long)(random.nextDouble()*10000000000L);
-        while(!String.valueOf(numero).matches("\\d{10}") && !bd){
-            numero = (long)(random.nextDouble()*10000000000L);
+        /*if (!String.valueOf(numero).matches("\\d{10}")){
+
+        }*/
+        while(!bd){
             bd= VerifyCB(numero);
+            numero = (long)(random.nextDouble()*10000000000L);
         }
+        txtCodigoBarras.setText(String.valueOf(numero));
         return numero;
     }
     private void ActivateBtn(boolean New, boolean save, boolean edit, boolean cancel, boolean exit, boolean delete) throws SQLException {
@@ -557,23 +610,22 @@ public class ArticulosController {
     }
 
     private boolean VerifyCB(long num) throws SQLException {
-        ResultSet res= conexion.consultar("SELECT herramienta.id_herramienta\n" +
-                "FROM herramienta\n" +
-                "LEFT JOIN material\n" +
-                "ON herramienta.id_herramienta = material.cb_material\n" +
-                "WHERE herramienta.id_herramienta = ? OR material.cb_material = ?\n" +
-                "UNION\n" +
-                "SELECT material.cb_material\n" +
-                "FROM material\n" +
-                "LEFT JOIN herramienta\n" +
-                "ON herramienta.id_herramienta = material.cb_material\n" +
-                "WHERE herramienta.id_herramienta = ? OR material.cb_material = ?\n" +
-                "AND herramienta.id_herramienta IS NULL;",String.valueOf(num),String.valueOf(num),String.valueOf(num),String.valueOf(num));
+        ResultSet res= conexion.consultar("SELECT herramienta.cb_herramienta FROM herramienta\n" +
+                "                LEFT JOIN material\n" +
+                "                ON herramienta.cb_herramienta = material.cb_material\n" +
+                "                WHERE herramienta.cb_herramienta = ? OR material.cb_material = ?\n" +
+                "                UNION\n" +
+                "                SELECT material.cb_material\n" +
+                "                FROM material\n" +
+                "                LEFT JOIN herramienta\n" +
+                "                ON herramienta.cb_herramienta = material.cb_material\n" +
+                "                WHERE herramienta.cb_herramienta = ? OR material.cb_material = ?\n" +
+                "                AND herramienta.cb_herramienta IS NULL;",String.valueOf(num),String.valueOf(num),String.valueOf(num),String.valueOf(num));
 
         // ResultSet resultSet = conexion.consultar("SELECT `cb_material` FROM `material` WHERE `cb_material`='"+num+"'");
-        boolean bd=false;
+        boolean bd=true;
         if (res.next()){
-            bd=true;
+            bd=false;
         }else {
             return bd;
         }
