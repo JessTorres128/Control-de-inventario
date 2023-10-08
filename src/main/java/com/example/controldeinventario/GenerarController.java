@@ -1,69 +1,235 @@
 package com.example.controldeinventario;
 
 import com.example.controldeinventario.Datos.*;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.util.Callback;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.krysalis.barcode4j.impl.code39.Code39Bean;
+import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
+import org.krysalis.barcode4j.tools.UnitConv;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class GenerarController {
+    ObservableList<String> listaCbs = FXCollections.observableArrayList();
     public ObservableList<TipoArticulo> registros = FXCollections.observableArrayList();
     Conexion conexion;
-    @FXML ComboBox<String> cbFormato;
-    @FXML  CheckBox checkBoxMaterial, checkBoxHerramienta, checkBoxAlumnos, checkBoxPedidos, checkBoxHorarios, checkBoxTiposMaterial, checkBoxTiposUsuarios, checkBoxUsuarios;
-    @FXML HBox pdf;
-    @FXML VBox excel,imagencb;
-    TableColumn<TipoArticulo,String> tableColumnNo= new TableColumn<>();
-    TableColumn<TipoArticulo,String> tableColumnName= new TableColumn<>();
-    TableColumn<TipoArticulo,String> tableColumnCat= new TableColumn<>();
-    @FXML TableView<TipoArticulo> tableViewCategoria;
-    @FXML protected void initialize() throws SQLException {
+    @FXML
+    ComboBox<String> cbFormato;
+
+
+
+
+    CheckBoxTreeItem<String> rootItem = new  CheckBoxTreeItem<>("Todo");
+    CheckBoxTreeItem<String> rootItem1 = new CheckBoxTreeItem<>("Materiales");
+    CheckBoxTreeItem<String> rootItem2 = new CheckBoxTreeItem<>("Herramientas");
+    @FXML TreeView<String> treeViewCBs = new TreeView<>();
+    @FXML
+    CheckBox checkBoxMaterial, checkBoxHerramienta, checkBoxPedidos, checkBoxTiposMaterial, checkBoxUsuarios;
+    @FXML
+    HBox pdf;
+    @FXML
+    VBox excel, imagencb;
+    TableColumn<TipoArticulo, Integer> tableColumnNo = new TableColumn<>("No");
+    TableColumn<TipoArticulo, String> tableColumnName = new TableColumn<>("Tipo de material");
+    TableColumn<TipoArticulo, String> tableColumnCat = new TableColumn<>("Categoría");
+    TableColumn<TipoArticulo, String> tableColumnCheck = new TableColumn<>("Seleccion");
+    @FXML
+    TableView<TipoArticulo> tableViewCategoria;
+
+
+    Callback<TableColumn<TipoArticulo, String>, TableCell<TipoArticulo, String>> celdaCheck =
+            objectStringTableColumn -> {
+                return new TableCell<TipoArticulo, String>() {
+                    CheckBox checkBox = new CheckBox("");
+
+                    @Override
+                    protected void updateItem(String s, boolean b) {
+                        if (b) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                            checkBox.setSelected(registros.get(getIndex()).getSeleccion());
+                            checkBox.setOnAction(event -> {
+                                        ObservableList<TipoArticulo> productosRESP = FXCollections.observableArrayList();
+                                        productosRESP.clear();
+                                        productosRESP.addAll(registros);
+                                registros.clear();
+                                registros.addAll(productosRESP);
+
+                                        if (checkBox.isSelected()) {
+                                            checkBox.setDisable(registros.get(getIndex()).getSeleccion());
+                                            checkBox.setDisable(false);
+                                            registros.get(getIndex()).setSeleccion(true);
+
+                                        } else {
+                                            registros.get(getIndex()).setSeleccion(false);
+
+                                        }
+                                    }
+                            );
+                            setGraphic(checkBox);
+                            setText(null);
+
+
+                            setGraphic(checkBox);
+                            setText(null);
+                        }
+
+
+                    }
+                };
+            };
+    Callback<TableColumn<TipoArticulo, Integer>, TableCell<TipoArticulo, Integer>> celdaNo =
+            objectStringTableColumn -> {
+                return new TableCell<TipoArticulo, Integer>() {
+                    @Override
+                    protected void updateItem(Integer s, boolean b) {
+                        if (b) {
+                            setText(null);
+                        } else {
+                            int index = getIndex() + 1;
+                            setText(String.valueOf(index));
+                        }
+
+
+                    }
+                };
+            };
+
+    @FXML
+    protected void initialize() throws SQLException {
         conexion = new Conexion();
         cbFormato.getItems().clear();
-        cbFormato.getItems().addAll("Excel","PDF","JPG");
+        cbFormato.getItems().addAll("Excel", "PDF", "JPG");
         cbFormato.getSelectionModel().select(0);
 
-        tableColumnName.setCellValueFactory(new PropertyValueFactory<TipoArticulo,String>("nombre"));
-        tableColumnName.setCellValueFactory(new PropertyValueFactory<TipoArticulo,String>("nombre"));
-        tableColumnCat.setCellValueFactory(new PropertyValueFactory<TipoArticulo,String>("t_material"));
-        tableViewCategoria.getColumns().addAll(tableColumnName,tableColumnCat);
+        tableColumnNo.setCellFactory(celdaNo);
+        tableColumnName.setCellValueFactory(new PropertyValueFactory<TipoArticulo, String>("nombre"));
+        tableColumnCat.setCellValueFactory(new PropertyValueFactory<TipoArticulo, String>("t_material"));
+        tableColumnCheck.setCellFactory(celdaCheck);
+
+        rootItem.getChildren().addAll(rootItem1,rootItem2);
+        tableViewCategoria.getColumns().addAll(tableColumnNo, tableColumnName, tableColumnCat, tableColumnCheck);
         tableViewCategoria.setItems(registros);
+        rootItem.setExpanded(true);
+        //treeViewCBs= new TreeView<>(rootItem);
+        treeViewCBs.setRoot(rootItem);
+        ResultSet rsTMat = conexion.consultar("SELECT * FROM `tipo_material`;");
+        while (rsTMat.next()){
+            if (rsTMat.getString("tipo_material").equals("Material Fijo")||rsTMat.getString("tipo_material").equals("Material Consumible")){
+
+
+                ResultSet rsMaterial = conexion.consultar("SELECT `cb_material`,`tipo`,`numero_parte` FROM `material` WHERE `id_material`="+rsTMat.getInt("id_material"));
+                if (rsMaterial.next()){
+                    rsMaterial.previous();
+                    CheckBoxTreeItem<String> tmat = new CheckBoxTreeItem(rsTMat.getString("material"));
+                    rootItem1.getChildren().add(tmat);
+                    while (rsMaterial.next()){
+                        CheckBoxTreeItem<String> mat = new CheckBoxTreeItem(rsMaterial.getString("cb_material")+" "+rsMaterial.getString("tipo")+" "+rsMaterial.getString("numero_parte"));
+                        tmat.getChildren().add(mat);
+                    }
+                }
+
+
+            }else {
+
+
+                ResultSet rsHerramienta = conexion.consultar("SELECT `cb_herramienta`,`tipo` FROM `herramienta` WHERE `id_herramienta`="+rsTMat.getInt("id_material"));
+                if (rsHerramienta.next()){
+                    rsHerramienta.previous();
+                    CheckBoxTreeItem<String> therra = new CheckBoxTreeItem(rsTMat.getString("material"));
+                    rootItem2.getChildren().add(therra);
+                    while (rsHerramienta.next()){
+                        CheckBoxTreeItem<String> herra = new CheckBoxTreeItem(rsHerramienta.getString("cb_herramienta")+" "+rsHerramienta.getString("tipo"));
+                        therra.getChildren().add(herra);
+                    }
+                }
+
+            }
+        }
+
+
+
+        treeViewCBs.setCellFactory(CheckBoxTreeCell.<String>forTreeView());
         ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material`"));
     }
 
     private void ActualizarTabla(ResultSet rsCategoria) throws SQLException {
         tableViewCategoria.getItems().clear();
-        while (rsCategoria.next()){
-            TipoArticulo tipoArticulo = new TipoArticulo(rsCategoria.getInt("id_material"),rsCategoria.getString("material"),rsCategoria.getString("tipo_material"));
+        while (rsCategoria.next()) {
+            TipoArticulo tipoArticulo = new TipoArticulo(rsCategoria.getInt("id_material"), rsCategoria.getString("material"), rsCategoria.getString("tipo_material"));
             tableViewCategoria.getItems().add(tipoArticulo);
         }
 
     }
-    @FXML private void TurnOff(){
+
+    @FXML
+    private void TurnOff() {
         excel.setVisible(cbFormato.getSelectionModel().getSelectedItem().equals("Excel"));
         pdf.setVisible(cbFormato.getSelectionModel().getSelectedItem().equals("PDF"));
         imagencb.setVisible(cbFormato.getSelectionModel().getSelectedItem().equals("JPG"));
     }
 
-    @FXML protected void GenerarExcel(boolean bmaterial, boolean bherramienta, boolean bpedido, boolean balumnos, boolean bhorarios, boolean btmateriales, boolean broles, boolean busuarios) throws SQLException {
-        Workbook excel = new HSSFWorkbook();
+    @FXML
+    private void GenerarExcelCBool() throws SQLException {
+        boolean bmaterial = false;
+        boolean bherramienta = false;
+        boolean bpedido = false;
+        boolean balumnos = false;
+        boolean bhorarios = false;
+        boolean btmateriales = false;
+        boolean broles = false;
+        boolean busuarios = false;
+
+        if (checkBoxMaterial.isSelected()) {
+            bmaterial = true;
+        }
+        if (checkBoxHerramienta.isSelected()) {
+            bherramienta = true;
+        }
+        if (checkBoxPedidos.isSelected()) {
+            bpedido = true;
+        }
+        if (checkBoxTiposMaterial.isSelected()) {
+            btmateriales = true;
+        }
+        if (checkBoxUsuarios.isSelected()) {
+            busuarios = true;
+        }
+        GenerarExcel(bmaterial, bherramienta, bpedido, balumnos, bhorarios, btmateriales, broles, busuarios);
+    }
+
+    protected void GenerarExcel(boolean bmaterial, boolean bherramienta, boolean bpedido, boolean balumnos, boolean bhorarios, boolean btmateriales, boolean broles, boolean busuarios) throws SQLException {
+        Conexion conexion1 = new Conexion();
+        Workbook excel = new XSSFWorkbook();
         Font headerFont = excel.createFont();
         headerFont.setFontName("Arial");
         headerFont.setFontHeightInPoints((short) 12);
@@ -74,20 +240,20 @@ public class GenerarController {
         CellStyle dataStyle = excel.createCellStyle();
         CellStyle dataStyleColor = excel.createCellStyle();
         dataStyleColor.setFillForegroundColor(IndexedColors.RED.getIndex()); // Cambia "RED" al color deseado
-        dataStyleColor.setFillPattern((short) 1);
-        dataStyle.setAlignment((short) 2);
-        dataStyle.setVerticalAlignment((short) 2);
+        dataStyleColor.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        dataStyle.setAlignment(HorizontalAlignment.CENTER);
+        dataStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
         CellStyle titleStyle = excel.createCellStyle();
         Font titleFont = excel.createFont();
 
         titleFont.setFontHeightInPoints((short) 16);
         titleStyle.setFont(titleFont);
-        titleStyle.setAlignment((short) 2);
+        titleStyle.setAlignment(HorizontalAlignment.CENTER);
 
         CellStyle headerStyle = excel.createCellStyle();
-        headerStyle.setVerticalAlignment((short) 2);
-        if (checkBoxMaterial.isSelected()){
+        headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        if (bmaterial) {
             Sheet material = excel.createSheet("Material");
             Row titleRow = material.createRow(0);
             Cell titleCell = titleRow.createCell(3);
@@ -111,22 +277,22 @@ public class GenerarController {
             headerRow.createCell(10).setCellValue("Valor");
             headerRow.createCell(11).setCellValue("Unidad de medida");
             headerRow.createCell(12).setCellValue("Caracteristicas");
-            headerRow.createCell(13).setCellValue("Cantidad");
-            headerRow.createCell(14).setCellValue("Cantidad minima");
-            headerRow.createCell(15).setCellValue("Tipo de material");
+            headerRow.createCell(13).setCellValue("Frecuencia de uso");
+            headerRow.createCell(14).setCellValue("Cantidad");
+            headerRow.createCell(15).setCellValue("Cantidad minima");
+            headerRow.createCell(16).setCellValue("Tipo de material");
 
 
-
-            for (int i = 3; i < 16; i++) {
+            for (int i = 3; i < 17; i++) {
                 headerRow.getCell(i).setCellStyle(headerCellStyle);
             }
-            for (int i = 3; i <= 15; i++) {
+            for (int i = 3; i <= 16; i++) {
                 material.autoSizeColumn(i);
             }
 
 
             int rowIndex = 3;
-            ResultSet rsArticulos = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;");
+            ResultSet rsArticulos = conexion1.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material;");
 
             while (rsArticulos.next()) {
                 Articulo producto = new Articulo(rsArticulos.getLong("cb_material"), rsArticulos.getString("tipo_de_armario"), rsArticulos.getString("gaveta"), rsArticulos.getString("sub_compartimento"), rsArticulos.getString("material"),
@@ -144,11 +310,12 @@ public class GenerarController {
                 dataRow.createCell(10).setCellValue(producto.getValor());
                 dataRow.createCell(11).setCellValue(producto.getUnidad_medida());
                 dataRow.createCell(12).setCellValue(producto.getCaracteristicas());
-                dataRow.createCell(13).setCellValue(producto.getCantidad());
-                dataRow.createCell(14).setCellValue(producto.getCantidad_min());
-                dataRow.createCell(15).setCellValue(rsArticulos.getString("tipo_material"));
+                dataRow.createCell(13).setCellValue(producto.getF_uso());
+                dataRow.createCell(14).setCellValue(producto.getCantidad());
+                dataRow.createCell(15).setCellValue(producto.getCantidad_min());
+                dataRow.createCell(16).setCellValue(rsArticulos.getString("tipo_material"));
 
-                if (producto.getCantidad() < producto.getCantidad_min()){
+                if (producto.getCantidad() < producto.getCantidad_min()) {
                     dataRow.getCell(3).setCellStyle(dataStyleColor);
                     dataRow.getCell(4).setCellStyle(dataStyleColor);
                     dataRow.getCell(5).setCellStyle(dataStyleColor);
@@ -162,6 +329,7 @@ public class GenerarController {
                     dataRow.getCell(13).setCellStyle(dataStyleColor);
                     dataRow.getCell(14).setCellStyle(dataStyleColor);
                     dataRow.getCell(15).setCellStyle(dataStyleColor);
+                    dataRow.getCell(16).setCellStyle(dataStyleColor);
                 }
 
                 for (int i = 3; i < material.getRow(0).getLastCellNum(); i++) {
@@ -179,7 +347,7 @@ public class GenerarController {
             }
         }
 
-        if (checkBoxHerramienta.isSelected()){
+        if (bherramienta) {
             Sheet herramienta = excel.createSheet("Herramientas");
             Row titleRow = herramienta.createRow(0);
             Cell titleCell = titleRow.createCell(0);
@@ -208,7 +376,7 @@ public class GenerarController {
                 herramienta.autoSizeColumn(i);
             }
             int rowIndex = 3;
-            ResultSet rsHerramienta = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material;");
+            ResultSet rsHerramienta = conexion1.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material;");
             while (rsHerramienta.next()) {
                 Herramienta herramientas = new Herramienta(rsHerramienta.getLong("cb_herramienta"), rsHerramienta.getString("material"), rsHerramienta.getString("tipo"), rsHerramienta.getString("caracteristicas"), rsHerramienta.getString("frecuencia_de_uso"),
                         rsHerramienta.getInt("cantidad"), rsHerramienta.getInt("cantidad_min"));
@@ -223,7 +391,7 @@ public class GenerarController {
                 dataRow.createCell(9).setCellValue(herramientas.getCantidad_min());
 
 
-                if (herramientas.getCantidad() < herramientas.getCantidad_min()){
+                if (herramientas.getCantidad() < herramientas.getCantidad_min()) {
                     dataRow.getCell(3).setCellStyle(dataStyleColor);
                     dataRow.getCell(4).setCellStyle(dataStyleColor);
                     dataRow.getCell(5).setCellStyle(dataStyleColor);
@@ -246,7 +414,7 @@ public class GenerarController {
             }
         }
 
-        if (checkBoxPedidos.isSelected()){
+        if (bpedido) {
             Sheet pedidos = excel.createSheet("Pedidos");
             Row titleRow = pedidos.createRow(0);
             Cell titleCell = titleRow.createCell(0);
@@ -259,7 +427,7 @@ public class GenerarController {
             int rowIndex2 = 2;
 
 
-            ResultSet rsPedidos = conexion.consultar("SELECT * FROM `pedido`");
+            ResultSet rsPedidos = conexion1.consultar("SELECT * FROM `pedido`");
 
 
             //ResultSet rsHerramientaPedido = conexion.consultar("SELECT tipo_material.material,`tipo`,`cantidad` FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE cb_herramienta='"+rsArticulos.getLong("cb_material")+"'");
@@ -297,7 +465,7 @@ public class GenerarController {
                 dataRow2.createCell(7).setCellValue(dateFormat.format(pedido.getFecha()));
                 dataRow2.createCell(8).setCellValue(pedido.getProfesor());
                 dataRow2.createCell(9).setCellValue(pedido.getMateria());
-                ResultSet rsPedido = conexion.consultar("SELECT * FROM `pedido_material` WHERE `id_pedido`= ?",String.valueOf(pedido.getId_pedido()));
+                ResultSet rsPedido = conexion1.consultar("SELECT * FROM `pedido_material` WHERE `id_pedido`= ?", String.valueOf(pedido.getId_pedido()));
                 Row filaInfoP = pedidos.createRow(rowIndex2++);
                 filaInfoP.createCell(3).setCellValue("Código de barras");
                 filaInfoP.createCell(4).setCellValue("Cantidad");
@@ -306,11 +474,11 @@ public class GenerarController {
                 filaInfoP.createCell(7).setCellValue("Valor");
                 filaInfoP.createCell(8).setCellValue("Unidad de medida");
                 filaInfoP.createCell(9).setCellValue("Estado");
-                while (rsPedido.next()){
+                while (rsPedido.next()) {
                     Row filaMaterialP = pedidos.createRow(rowIndex2++);
-                    ResultSet rsArticulo = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE `cb_material`= ?",String.valueOf(rsPedido.getLong("cb_material")));
-                    ResultSet rsHerramientaDN = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE `cb_herramienta`= ?",String.valueOf(rsPedido.getLong("cb_material")));
-                    if (rsArticulo.next()){
+                    ResultSet rsArticulo = conexion1.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE `cb_material`= ?", String.valueOf(rsPedido.getLong("cb_material")));
+                    ResultSet rsHerramientaDN = conexion1.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE `cb_herramienta`= ?", String.valueOf(rsPedido.getLong("cb_material")));
+                    if (rsArticulo.next()) {
                         filaMaterialP.createCell(3).setCellValue(rsPedido.getLong("cb_material"));
                         filaMaterialP.createCell(4).setCellValue(rsPedido.getInt("cantidad"));
                         filaMaterialP.createCell(5).setCellValue(rsArticulo.getString("material"));
@@ -318,7 +486,7 @@ public class GenerarController {
                         filaMaterialP.createCell(7).setCellValue(rsArticulo.getString("valor"));
                         filaMaterialP.createCell(8).setCellValue(rsArticulo.getString("unidad_de_medida"));
                         filaMaterialP.createCell(9).setCellValue(rsPedido.getString("estado"));
-                    }else if (rsHerramientaDN.next()){
+                    } else if (rsHerramientaDN.next()) {
                         filaMaterialP.createCell(3).setCellValue(rsPedido.getLong("cb_material"));
                         filaMaterialP.createCell(4).setCellValue(rsPedido.getLong("cantidad"));
                         filaMaterialP.createCell(5).setCellValue(rsHerramientaDN.getString("material"));
@@ -331,7 +499,6 @@ public class GenerarController {
 
                 }
                 // dataRow2.createCell(10).setCellValue(pal);
-
 
 
                 for (int i = 3; i < pedidos.getRow(0).getLastCellNum(); i++) {
@@ -349,19 +516,56 @@ public class GenerarController {
             }
         }
 
-        if (checkBoxAlumnos.isSelected()){//FALTAN A PARTIR DE AQUI
 
-        }
-        if (checkBoxHorarios.isSelected()){
+        if (btmateriales) {
+            Sheet tiposdeMat = excel.createSheet("Tipos de articulos");
+            Row titleRow = tiposdeMat.createRow(0);
+            Cell titleCell = titleRow.createCell(0);
+            titleCell.setCellValue("Tipos de materiales");
+            CellRangeAddress titleRange = new CellRangeAddress(0, 0, 0, 11);
+            tiposdeMat.addMergedRegion(titleRange);
+            titleCell.setCellStyle(titleStyle);
+            tiposdeMat.autoSizeColumn(0);
 
-        }
-        if (checkBoxTiposMaterial.isSelected()){
+            int rowIndex = 3;
+            Row headerRow1 = tiposdeMat.createRow(2);
 
-        }
-        if (checkBoxTiposUsuarios.isSelected()){
+            headerRow1.createCell(3).setCellValue("No");
+            headerRow1.createCell(4).setCellValue("Material");
+            headerRow1.createCell(5).setCellValue("Categoría");
 
+            for (int i = 3; i < 6; i++) {
+                headerRow1.getCell(i).setCellStyle(headerCellStyle);
+            }
+
+            for (int i = 3; i <= 6; i++) {
+                tiposdeMat.autoSizeColumn(i);
+            }
+            ResultSet rsTMat = conexion.consultar("SELECT * FROM `tipo_material`");
+            int cont = 1;
+            while (rsTMat.next()) {
+                TipoArticulo tipoArticulo = new TipoArticulo(cont, rsTMat.getString("material"), rsTMat.getString("tipo_material"));
+                Row dataRow = tiposdeMat.createRow(rowIndex++);
+                dataRow.createCell(3).setCellValue(cont);
+                dataRow.createCell(4).setCellValue(tipoArticulo.getNombre());
+                dataRow.createCell(5).setCellValue(tipoArticulo.getT_material());
+                cont++;
+                for (int i = 3; i < tiposdeMat.getRow(0).getLastCellNum(); i++) {
+                    tiposdeMat.autoSizeColumn(i);
+                }
+
+                for (int i = 3; i <= 14; i++) {
+                    tiposdeMat.autoSizeColumn(i);
+                }
+
+                for (int i = 3; i < tiposdeMat.getRow(0).getLastCellNum(); i++) {
+                    tiposdeMat.autoSizeColumn(i);
+                }
+
+            }
         }
-        if (checkBoxUsuarios.isSelected()){
+
+        if (busuarios) {
             Sheet usuarios = excel.createSheet("Usuarios");
             Row titleRow = usuarios.createRow(0);
             Cell titleCell = titleRow.createCell(0);
@@ -388,12 +592,12 @@ public class GenerarController {
             for (int i = 3; i <= 9; i++) {
                 usuarios.autoSizeColumn(i);
             }
-            ResultSet rsUsers = conexion.consultar("SELECT * FROM `usuario`");
+            ResultSet rsUsers = conexion1.consultar("SELECT * FROM `usuario`");
             int cont = 1;
-            while(rsUsers.next()){
+            while (rsUsers.next()) {
 
-                Usuario usuario= new Usuario(rsUsers.getInt("id_user"),rsUsers.getString("nombre_completo"),rsUsers.getString("sexo"),
-                        rsUsers.getString("username"),rsUsers.getString("password"),rsUsers.getString("nombre_rol"));
+                Usuario usuario = new Usuario(rsUsers.getInt("id_user"), rsUsers.getString("nombre_completo"), rsUsers.getString("sexo"),
+                        rsUsers.getString("username"), rsUsers.getString("password"), rsUsers.getString("nombre_rol"));
 
                 Row dataRow = usuarios.createRow(rowIndex++);
                 dataRow.createCell(3).setCellValue(cont);
@@ -419,15 +623,10 @@ public class GenerarController {
         }
 
 
-
-
-
-
-
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar archivo Excel");
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Excel", "*.xls"),
+               // new FileChooser.ExtensionFilter("Excel", "*.xls"),
                 new FileChooser.ExtensionFilter("Excel", "*.xlsx")
         );
         File file = fileChooser.showSaveDialog(null);
@@ -440,5 +639,331 @@ public class GenerarController {
             }
         }
     }
+
+    @FXML
+    private void GenerarPDF() throws SQLException, DocumentException, IOException {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Selecciona una carpeta para guardar el archivo");
+        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+        File selectedDirectory = directoryChooser.showDialog(HelloApplication.primarystage);
+
+        if (selectedDirectory != null) {
+            System.out.println("Carpeta seleccionada: " + selectedDirectory.getAbsolutePath());
+            System.out.println(tableViewCategoria.getItems().size());
+            File nuevaCarpeta = new File(selectedDirectory.getAbsolutePath() + File.separator + "imgcb");
+            if (nuevaCarpeta.mkdir()) {
+                System.out.println("Nueva carpeta creada en: " + nuevaCarpeta.getAbsolutePath());
+            } else {
+                System.err.println("No se pudo crear la nueva carpeta.");
+            }
+                for (TipoArticulo articulo : registros) {
+                if (articulo.getSeleccion()) {
+                    if (articulo.getT_material().equals("Material Consumible") || articulo.getT_material().equals("Material Fijo")) {
+                        GenerarLibro(articulo.getNombre(), "Material", selectedDirectory.getAbsolutePath());
+                    } else {
+                        GenerarLibro(articulo.getNombre(), "Herramienta", selectedDirectory.getAbsolutePath());
+                    }
+                }
+            }
+        } else {
+            System.out.println("El usuario canceló la selección de carpeta.");
+        }
+    }
+
+     /*
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecciona una carpeta para guardar el archivo");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        File selectedDirectory = fileChooser.showSaveDialog(HelloApplication.primarystage);
+
+        if (selectedDirectory != null) {
+            // El usuario seleccionó una carpeta, ahora puedes guardar el archivo en esa carpeta
+            String nombreArchivo = "miarchivo.txt"; // Nombre del archivo
+            File archivoAGuardar = new File(selectedDirectory, nombreArchivo);
+
+            try (FileOutputStream archivoSalida = new FileOutputStream(archivoAGuardar)) {
+                String datos = "Hola, este es mi archivo personalizado.";
+                byte[] bytes = datos.getBytes();
+                archivoSalida.write(bytes);
+
+                System.out.println("Archivo guardado en: " + archivoAGuardar.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("El usuario canceló la selección de carpeta.");
+        }
+
+*/
+
+
+
+
+
+
+
+    private void GenerarLibro(String material, String tmat, String ruta) throws SQLException, IOException, DocumentException {
+        Code39Bean code39Bean = new Code39Bean();
+        final int dpi = 150;
+        code39Bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi));
+        code39Bean.setWideFactor(3);
+        code39Bean.doQuietZone(true);
+        ResultSet resultSet;
+        PdfPTable pdfPTableCB;
+        Document documento = new Document(PageSize.A4.rotate(), 10f, 10f, 0f, 0f);
+        boolean esmat;
+        if (tmat.equals("Material")){
+            resultSet = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE tipo_material.material= ?;", material);
+            esmat=true;
+
+
+            if (material.equals("N/A")) {
+                PdfWriter pdfWriter = PdfWriter.getInstance(documento, new FileOutputStream(new File(ruta,"Libro_NA_material.pdf")));
+            } else {
+                PdfWriter pdfWriter = PdfWriter.getInstance(documento, new FileOutputStream(new File(ruta,"Libro_" + material + ".pdf")));
+            }
+            // pdfWriter.addPageDictEntry(PdfName.ROTATE, PdfPage.LANDSCAPE);
+            documento.open();
+            pdfPTableCB = new PdfPTable(7);
+            pdfPTableCB.setWidthPercentage(100);
+            PdfPCell cellCB = new PdfPCell(Phrase.getInstance("Código"));
+            cellCB.setPadding(5);
+            cellCB.setBorder(Rectangle.ALIGN_CENTER);
+            cellCB.setHorizontalAlignment(Element.ALIGN_CENTER);
+            pdfPTableCB.addCell(cellCB);
+            PdfPCell cellMat = new PdfPCell(Phrase.getInstance("Material"));
+            cellMat.setPadding(5);
+            cellMat.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
+            cellMat.setHorizontalAlignment(Element.ALIGN_CENTER);
+            pdfPTableCB.addCell(cellMat);
+            PdfPCell cellTipo = new PdfPCell(Phrase.getInstance("Tipo"));
+            cellTipo.setPadding(5);
+            cellTipo.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
+            cellTipo.setHorizontalAlignment(Element.ALIGN_CENTER);
+            pdfPTableCB.addCell(cellTipo);
+            PdfPCell cellNParte = new PdfPCell(Phrase.getInstance("Número de parte"));
+            cellNParte.setPadding(5);
+            cellNParte.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
+            cellNParte.setHorizontalAlignment(Element.ALIGN_CENTER);
+            pdfPTableCB.addCell(cellNParte);
+            PdfPCell cellValor = new PdfPCell(Phrase.getInstance("Valor"));
+            cellValor.setPadding(5);
+            cellValor.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
+            cellValor.setHorizontalAlignment(Element.ALIGN_CENTER);
+            pdfPTableCB.addCell(cellValor);
+            PdfPCell cellUM = new PdfPCell(Phrase.getInstance("Unidad de medida"));
+            cellUM.setPadding(5);
+            cellUM.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
+            cellUM.setHorizontalAlignment(Element.ALIGN_CENTER);
+            pdfPTableCB.addCell(cellUM);
+            PdfPCell cellCar = new PdfPCell(Phrase.getInstance("Caracteristicas"));
+            cellCar.setPadding(5);
+            cellCar.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
+            cellCar.setHorizontalAlignment(Element.ALIGN_CENTER);
+            pdfPTableCB.addCell(cellCar);
+
+            while (resultSet.next()) {
+                String cb = resultSet.getString("cb_material");
+                OutputStream out = new FileOutputStream(new File(ruta+File.separator+"imgcb",cb + ".png"));
+                BitmapCanvasProvider canvas = new BitmapCanvasProvider(out, "image/png", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+                code39Bean.generateBarcode(canvas, cb);
+                canvas.finish();
+                javafx.scene.image.Image image = null;
+                try {
+                    image = new javafx.scene.image.Image(new FileInputStream(new File(ruta+File.separator+"imgcb",cb + ".png")));
+                    cellCB.setImage(com.itextpdf.text.Image.getInstance(ruta+File.separator+"imgcb"+File.separator+cb+".png"));
+                    cellCB.setPaddingTop(5);
+                    pdfPTableCB.addCell(cellCB);
+                    cellMat.setPhrase(Phrase.getInstance(resultSet.getString("material")));
+                    cellMat.setPaddingTop(5);
+                    pdfPTableCB.addCell(cellMat);
+                    cellTipo.setPhrase(Phrase.getInstance(resultSet.getString("tipo")));
+                    cellTipo.setPaddingTop(5);
+                    pdfPTableCB.addCell(cellTipo);
+                    cellNParte.setPhrase(Phrase.getInstance(resultSet.getString("numero_parte")));
+                    cellNParte.setPaddingTop(5);
+                    pdfPTableCB.addCell(cellNParte);
+                    cellValor.setPhrase(Phrase.getInstance(resultSet.getString("valor")));
+                    cellValor.setPaddingTop(5);
+                    pdfPTableCB.addCell(cellValor);
+                    cellUM.setPhrase(Phrase.getInstance(resultSet.getString("unidad_de_medida")));
+                    cellUM.setPaddingTop(5);
+                    pdfPTableCB.addCell(cellUM);
+                    cellCar.setPhrase(Phrase.getInstance(resultSet.getString("caracteristicas")));
+                    cellCar.setPaddingTop(5);
+                    pdfPTableCB.addCell(cellCar);
+                } catch (FileNotFoundException | BadElementException e) {
+                    e.printStackTrace();
+                }
+            }
+        }else {
+            resultSet = conexion.consultar("SELECT * FROM `herramienta` INNER JOIN tipo_material ON herramienta.id_herramienta = tipo_material.id_material WHERE tipo_material.material= ?;", material);
+            esmat=false;
+
+            if (material.equals("N/A")) {
+                PdfWriter pdfWriter = PdfWriter.getInstance(documento, new FileOutputStream(new File(ruta,"Libro_NA_material.pdf")));
+            } else {
+                PdfWriter pdfWriter = PdfWriter.getInstance(documento, new FileOutputStream(new File(ruta,"Libro_" + material + ".pdf")));
+            }
+            // pdfWriter.addPageDictEntry(PdfName.ROTATE, PdfPage.LANDSCAPE);
+            documento.open();
+            pdfPTableCB = new PdfPTable(4);
+            pdfPTableCB.setWidthPercentage(100);
+            PdfPCell cellCB = new PdfPCell(Phrase.getInstance("Código"));
+            cellCB.setPadding(5);
+            cellCB.setBorder(Rectangle.ALIGN_CENTER);
+            cellCB.setHorizontalAlignment(Element.ALIGN_CENTER);
+            pdfPTableCB.addCell(cellCB);
+            PdfPCell cellMat = new PdfPCell(Phrase.getInstance("Material"));
+            cellMat.setPadding(5);
+            cellMat.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
+            cellMat.setHorizontalAlignment(Element.ALIGN_CENTER);
+            pdfPTableCB.addCell(cellMat);
+            PdfPCell cellTipo = new PdfPCell(Phrase.getInstance("Tipo"));
+            cellTipo.setPadding(5);
+            cellTipo.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
+            cellTipo.setHorizontalAlignment(Element.ALIGN_CENTER);
+            pdfPTableCB.addCell(cellTipo);
+            PdfPCell cellCar = new PdfPCell(Phrase.getInstance("Caracteristicas"));
+            cellCar.setPadding(5);
+            cellCar.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
+            cellCar.setHorizontalAlignment(Element.ALIGN_CENTER);
+            pdfPTableCB.addCell(cellCar);
+
+            while (resultSet.next()) {
+                String cb =resultSet.getString("cb_herramienta");
+                OutputStream out = new FileOutputStream(new File(ruta+File.separator+"imgcb",cb + ".png"));
+                BitmapCanvasProvider canvas = new BitmapCanvasProvider(out, "image/png", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+                code39Bean.generateBarcode(canvas, cb);
+                canvas.finish();
+                javafx.scene.image.Image image = null;
+                try {
+                    image = new javafx.scene.image.Image(new FileInputStream(new File(ruta+File.separator+"imgcb",cb + ".png")));
+                    cellCB.setImage(com.itextpdf.text.Image.getInstance(ruta+File.separator+"imgcb"+File.separator+cb+".png"));
+                    cellCB.setPaddingTop(5);
+                    pdfPTableCB.addCell(cellCB);
+                    cellMat.setPhrase(Phrase.getInstance(resultSet.getString("material")));
+                    cellMat.setPaddingTop(5);
+                    pdfPTableCB.addCell(cellMat);
+                    cellTipo.setPhrase(Phrase.getInstance(resultSet.getString("tipo")));
+                    cellTipo.setPaddingTop(5);
+                    pdfPTableCB.addCell(cellTipo);
+                    cellCar.setPhrase(Phrase.getInstance(resultSet.getString("caracteristicas")));
+                    cellCar.setPaddingTop(5);
+                    pdfPTableCB.addCell(cellCar);
+                } catch (FileNotFoundException | BadElementException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+
+
+        }
+
+            documento.add(pdfPTableCB);
+            documento.close();
+            if (material.equals("N/A")) {
+                Desktop.getDesktop().browse(new File(ruta,"Libro_NA_material.pdf").toURI());
+            } else {
+                Desktop.getDesktop().browse(new File(ruta,"Libro_" + material + ".pdf").toURI());
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+    @FXML private void GenerarCbs() throws IOException {
+        listaCbs.clear();
+        VerArbol(treeViewCBs.getRoot(),listaCbs);
+        System.out.println(listaCbs);
+        if (listaCbs.isEmpty()){
+            System.out.println("No hay nada perrillo");
+        }else {
+
+
+
+
+
+
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle("Selecciona una carpeta para guardar el archivo");
+            directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+            File selectedDirectory = directoryChooser.showDialog(HelloApplication.primarystage);
+
+            if (selectedDirectory != null) {
+                System.out.println("Carpeta seleccionada: " + selectedDirectory.getAbsolutePath());
+                System.out.println(tableViewCategoria.getItems().size());
+                File nuevaCarpeta = new File(selectedDirectory.getAbsolutePath() + File.separator + "imgcb");
+                if (nuevaCarpeta.mkdir()) {
+                    System.out.println("Nueva carpeta creada en: " + nuevaCarpeta.getAbsolutePath());
+                } else {
+                    System.err.println("No se pudo crear la nueva carpeta.");
+                }
+                for (String articulo : listaCbs){
+                    String[] articulosep = articulo.split(" ");
+                    articulo = articulosep[0];
+                    System.out.println(articulo);
+                    Code39Bean code39Bean = new Code39Bean();
+                    final int dpi = 150;
+                    code39Bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi));
+                    code39Bean.setWideFactor(3);
+                    code39Bean.doQuietZone(true);
+                    OutputStream out = new FileOutputStream(new File(selectedDirectory+File.separator+"imgcb",articulo + ".png"));
+                    BitmapCanvasProvider canvas = new BitmapCanvasProvider(out, "image/png", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+                    code39Bean.generateBarcode(canvas, articulo);
+                    canvas.finish();
+                    javafx.scene.image.Image image = null;
+                    try {
+                        image = new javafx.scene.image.Image(new FileInputStream("code39.png"));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
+                }
+
+
+            } else {
+                System.out.println("El usuario canceló la selección de carpeta.");
+            }
+        }
+    }
+
+
+
+
+    private void VerArbol(TreeItem<String> item, List<String> listacbs){
+        if (item instanceof CheckBoxTreeItem) {
+            CheckBoxTreeItem<String> checkBoxItem = (CheckBoxTreeItem<String>) item;
+            if (checkBoxItem.isSelected() && checkBoxItem.isLeaf()) {
+                listacbs.add(checkBoxItem.getValue());
+            }
+        }
+
+        if (!item.isLeaf()) {
+            for (TreeItem<String> child : item.getChildren()) {
+                VerArbol(child, listacbs);
+            }
+        }
+    }
+
+
+
+
 
 }

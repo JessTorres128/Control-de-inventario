@@ -729,7 +729,7 @@ public class ArticulosController {
         }
     }
 
-    @FXML private void ExcelReader(){
+   /* @FXML private void ExcelReader(){
         try {//592
             FileInputStream fis = new FileInputStream("C:\\Users\\jesse\\Desktop\\inventario.xls");
             Workbook workbook = new HSSFWorkbook(fis);
@@ -749,6 +749,7 @@ public class ArticulosController {
                 Cell caracteristicas = row.getCell(columnIndexToRead+8);
                 Cell f_uso = row.getCell(columnIndexToRead+9);
                 Cell cantidad = row.getCell(columnIndexToRead+10);
+
                 if (!tipodeArmario.getStringCellValue().equals("HERRAMIENTA") && !gaveta.getStringCellValue().equals("HERRAMIENTA") && !sub.getStringCellValue().equals("HERRAMIENTA") && tipodeArmario != null && !tipodeArmario.getStringCellValue().equals("TIPO DE ARMARIO") && gaveta != null && sub != null){
                     Articulo articulo= new Articulo(10L,"fdsf","fdfd","gfdgdf","gfdg","gfdgdf","gfdgdfg","fdfds","gfdgf","fdfdsfds","fdsfdsf",12,21);
                     if (valor.getCellType() == valor.CELL_TYPE_STRING && nparte.getCellType() == nparte.CELL_TYPE_STRING) {
@@ -824,6 +825,8 @@ public class ArticulosController {
             System.out.println(e.getMessage());
         }
     }
+    */
+
     @FXML private  void Comprobacion() throws SQLException {
         int cont = 1000000000;
         ResultSet resultSet = conexion.consultar("SELECT `cb_material` FROM `material` WHERE 1");

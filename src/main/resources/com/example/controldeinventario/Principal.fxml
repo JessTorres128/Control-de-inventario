@@ -44,7 +44,7 @@
             <Menu mnemonicParsing="false" text="Mantenimiento">
               <items>
                 <MenuItem fx:id="menuItemRestaurarBD" mnemonicParsing="false" onAction="#IngresarGenerar" text="Generar(exportar bd)" />
-                  <MenuItem fx:id="menuItemGenerarBD" mnemonicParsing="false" text="Respaldar BD" />
+                  <MenuItem fx:id="menuItemGenerarBD" mnemonicParsing="false" onAction="#IngresarRestaurar" text="Restaurar BD" />
                   <MenuItem fx:id="menuItemEliminarBD" mnemonicParsing="false" onAction="#IngresarBorrar" text="Eliminar" />
               </items>
             </Menu>

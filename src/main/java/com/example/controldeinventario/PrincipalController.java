@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -66,7 +67,7 @@ public class PrincipalController {
     @FXML
     private void ExportarBD() throws IOException, SQLException {
 
-        Workbook workbook = new HSSFWorkbook();
+        Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Materiales");
         Sheet sheet1 = workbook.createSheet("Herramientas");
         Sheet sheet2 = workbook.createSheet("Pedidos");
@@ -81,9 +82,9 @@ public class PrincipalController {
         CellStyle dataStyle = workbook.createCellStyle();
         CellStyle dataStyleColor = workbook.createCellStyle();
         dataStyleColor.setFillForegroundColor(IndexedColors.RED.getIndex()); // Cambia "RED" al color deseado
-        dataStyleColor.setFillPattern((short) 1);
-        dataStyle.setAlignment((short) 2);
-        dataStyle.setVerticalAlignment((short) 2);
+        dataStyleColor.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        dataStyle.setAlignment(HorizontalAlignment.CENTER);
+        dataStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
         // Crear una fila para el título
         Row titleRow = sheet.createRow(0);
@@ -111,14 +112,15 @@ public class PrincipalController {
 
         titleFont.setFontHeightInPoints((short) 16);
         titleStyle.setFont(titleFont);
-        titleStyle.setAlignment((short) 2);
+        titleStyle.setAlignment(HorizontalAlignment.CENTER);
+//        titleStyle.setAlignment((short) 2);
         titleCell.setCellStyle(titleStyle);
         titleCell1.setCellStyle(titleStyle);
         titleCell2.setCellStyle(titleStyle);
 
 
         CellStyle headerStyle = workbook.createCellStyle();
-        headerStyle.setVerticalAlignment((short) 2);
+        headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
 
         sheet.autoSizeColumn(0); // ajustar automáticamente el ancho de la columna 0
@@ -181,6 +183,11 @@ public class PrincipalController {
     }
     @FXML private void IngresarGenerar() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Generar.fxml"));
+        Parent root = fxmlLoader.load();
+        AbrirVentana(root);
+    }
+    @FXML private void IngresarRestaurar() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Restaurar.fxml"));
         Parent root = fxmlLoader.load();
         AbrirVentana(root);
     }

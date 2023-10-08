@@ -28,6 +28,9 @@ public class BorrarController {
             if (ConfirmarBorrar("Deseas hacer una copia de seguridad de estos registros?")){
                 GenerarController generarController = new GenerarController();
                 generarController.GenerarExcel(checkBoxMateriales.isSelected(), checkBoxHerramientas.isSelected(),checkBoxPedidos.isSelected(),checkBoxAlumnos.isSelected(), checkBoxHorarios.isSelected(), checkBoxTipos_Material.isSelected(),checkBoxRoles.isSelected(),checkBoxUsuarios.isSelected());
+            }else if (ConfirmarBorrar("Deseas hacer una copia de seguridad de estos registros?")){
+                GenerarController generarController = new GenerarController();
+                generarController.GenerarExcel(checkBoxMateriales.isSelected(), checkBoxHerramientas.isSelected(),checkBoxPedidos.isSelected(),checkBoxAlumnos.isSelected(), checkBoxHorarios.isSelected(), checkBoxTipos_Material.isSelected(),checkBoxRoles.isSelected(),checkBoxUsuarios.isSelected());
             }
             if (checkBoxUsuarios.isSelected()){
                 conexion.insmodelim("DELETE FROM `usuario` WHERE 1");
