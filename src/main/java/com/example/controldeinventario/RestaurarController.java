@@ -4,8 +4,9 @@ import com.example.controldeinventario.Datos.Articulo;
 import com.example.controldeinventario.Datos.Herramienta;
 import com.example.controldeinventario.Datos.TipoArticulo;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -15,12 +16,12 @@ import javafx.stage.FileChooser;
 import org.apache.poi.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -65,7 +66,7 @@ public class RestaurarController {
                 cbMat.setDisable(false);
                 cbHerramienta.setDisable(false);
                 btnCargar.setDisable(false);
-
+                Exito("Archivo cargado");
 
 
 
@@ -85,6 +86,7 @@ public class RestaurarController {
         } else if (ruta.endsWith(".xlsx")) {
             return new XSSFWorkbook(new FileInputStream(ruta));
         }else {
+            Error("El archivo no es valido");
             throw new IllegalArgumentException("El archivo no es valido");
         }
     }
@@ -157,6 +159,8 @@ public class RestaurarController {
                             }
                     }
                 }
+                }else {
+                    Error("No se ha cargado la información necesaria");
                 }
             }
             if (cbHerramienta.isSelected()){
@@ -211,13 +215,12 @@ public class RestaurarController {
                             }
                         }
                     }
+                }else {
+                    Error("No se ha cargado la información necesaria");
                 }
             }
 
-            Sheet sheet = workbook.getSheetAt(0);
 
-            int columnIndexToRead = 2;
-            for (Row row : sheet) {
 
 
 
@@ -306,7 +309,107 @@ public class RestaurarController {
 
 
                 cont++;*/
-            }
+
+
+
+    }
+    @FXML private void GenerarPlantilla() throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+        Font headerFont = workbook.createFont();
+        headerFont.setFontName("Arial");
+        headerFont.setFontHeightInPoints((short) 12);
+
+        CellStyle headerCellStyle = workbook.createCellStyle();
+        headerCellStyle.setFont(headerFont);
+
+        CellStyle dataStyle = workbook.createCellStyle();
+        CellStyle dataStyleColor = workbook.createCellStyle();
+        dataStyle.setAlignment(HorizontalAlignment.CENTER);
+        dataStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        CellStyle titleStyle = workbook.createCellStyle();
+        Font titleFont = workbook.createFont();
+
+        titleFont.setFontHeightInPoints((short) 16);
+        titleStyle.setFont(titleFont);
+        titleStyle.setAlignment(HorizontalAlignment.CENTER);
+
+        CellStyle headerStyle = workbook.createCellStyle();
+        headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        Sheet material = workbook.createSheet("Materiales");
+        Row titleRow = material.createRow(0);
+        Cell titleCell = titleRow.createCell(3);
+        titleCell.setCellValue("Inventario de Materiales");
+        CellRangeAddress rango = new CellRangeAddress(0, 0, 3, 15);
+        material.addMergedRegion(rango);
+
+        titleCell.setCellStyle(titleStyle);
+        material.autoSizeColumn(0);
+
+        //SETUPPPPP------------------------------------------------------------------------------------------------------------------------------------------------
+        Row headerRow = material.createRow(2);
+
+        headerRow.createCell(3).setCellValue("Codigo");
+        headerRow.createCell(4).setCellValue("Armario");
+        headerRow.createCell(5).setCellValue("Gaveta");
+        headerRow.createCell(6).setCellValue("Sub_compartimiento");
+        headerRow.createCell(7).setCellValue("Material");
+        headerRow.createCell(8).setCellValue("Tipo");
+        headerRow.createCell(9).setCellValue("Numero de parte");
+        headerRow.createCell(10).setCellValue("Valor");
+        headerRow.createCell(11).setCellValue("Unidad de medida");
+        headerRow.createCell(12).setCellValue("Caracteristicas");
+        headerRow.createCell(13).setCellValue("Frecuencia de uso");
+        headerRow.createCell(14).setCellValue("Cantidad");
+        headerRow.createCell(15).setCellValue("Cantidad minima");
+        headerRow.createCell(16).setCellValue("Tipo de material");
+
+
+        for (int i = 3; i < 17; i++) {
+            headerRow.getCell(i).setCellStyle(headerCellStyle);
+        }
+        for (int i = 3; i <= 16; i++) {
+            material.autoSizeColumn(i);
+        }
+
+
+
+        Sheet herramienta = workbook.createSheet("Herramientas");
+        Row titleRow1 = herramienta.createRow(0);
+        Cell titleCell1 = titleRow1.createCell(0);
+        titleCell1.setCellValue("Inventario de herramientas");
+        CellRangeAddress titleRange = new CellRangeAddress(0, 0, 0, 11);
+        herramienta.addMergedRegion(titleRange);
+        titleCell1.setCellStyle(titleStyle);
+        herramienta.autoSizeColumn(0);
+        //SETUP---------------------------------------------------------------------------------------------------------------------------------------------
+
+        Row headerRow1 = herramienta.createRow(2);
+
+        headerRow1.createCell(3).setCellValue("CB Herramienta");
+        headerRow1.createCell(4).setCellValue("Herramienta");
+        headerRow1.createCell(5).setCellValue("Tipo");
+        headerRow1.createCell(6).setCellValue("Caracteristicas");
+        headerRow1.createCell(7).setCellValue("Frecuencia de uso");
+        headerRow1.createCell(8).setCellValue("Cantidad");
+        headerRow1.createCell(9).setCellValue("Cantidad minima");
+
+        for (int i = 3; i < 10; i++) {
+            headerRow1.getCell(i).setCellStyle(headerCellStyle);
+        }
+
+        for (int i = 3; i <= 9; i++) {
+            herramienta.autoSizeColumn(i);
+        }
+        File file = new File(System.getProperty("user.home") + "/Desktop/Plantilla.xlsx");
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            workbook.write(outputStream);
+            Exito("El excel se ha creado con exito");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
 
     }
@@ -322,6 +425,23 @@ public class RestaurarController {
     @FXML private void CheckBoxChange(){
         hboxMat.setDisable(!cbMat.isSelected());
         hboxHerra.setDisable(!cbHerramienta.isSelected());
+    }
+
+
+
+
+
+    private void Error(String mensaje){
+        Alert alert= new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(mensaje);
+        alert.setTitle("Error");
+        alert.show();
+    }
+    private void Exito(String mensaje){
+        Alert alert= new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText(mensaje);
+        alert.setTitle("Exito");
+        alert.show();
     }
 }
 

@@ -634,6 +634,7 @@ public class GenerarController {
 
             try (FileOutputStream outputStream = new FileOutputStream(file)) {
                 excel.write(outputStream);
+                Exito("El excel se ha creado con exito");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -666,6 +667,7 @@ public class GenerarController {
                     }
                 }
             }
+                Exito("PDFs creados exitosamente");
         } else {
             System.out.println("El usuario canceló la selección de carpeta.");
         }
@@ -889,6 +891,7 @@ public class GenerarController {
         VerArbol(treeViewCBs.getRoot(),listaCbs);
         System.out.println(listaCbs);
         if (listaCbs.isEmpty()){
+            Error("No se ha seleccionado nada");
             System.out.println("No hay nada perrillo");
         }else {
 
@@ -936,6 +939,7 @@ public class GenerarController {
 
 
                 }
+                Exito("Imagenes generadas exitosamente");
 
 
             } else {
@@ -962,6 +966,18 @@ public class GenerarController {
         }
     }
 
+    private void Error(String mensaje){
+        Alert alert= new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(mensaje);
+        alert.setTitle("Error");
+        alert.show();
+    }
+    private void Exito(String mensaje){
+        Alert alert= new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText(mensaje);
+        alert.setTitle("Exito");
+        alert.show();
+    }
 
 
 

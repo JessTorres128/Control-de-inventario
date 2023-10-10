@@ -36,7 +36,7 @@
             <Insets />
          </VBox.margin>
          <children>
-            <VBox fx:id="excel" layoutY="5.7220458984375E-6" visible="false">
+            <VBox fx:id="excel" layoutY="5.7220458984375E-6">
                <children>
                   <Label text="Seleccione los campos que desea incluir en el Excel">
                      <VBox.margin>
@@ -79,7 +79,7 @@
                      </children>
                   </VBox>
                </children></HBox>
-            <VBox fx:id="imagencb" layoutX="10.0" layoutY="10.0">
+            <VBox fx:id="imagencb" layoutX="10.0" layoutY="10.0" visible="false">
                <children>
                   <Label text="Seleccione los campos que desea generear el cb" />
                   <TreeView fx:id="treeViewCBs" prefHeight="200.0" prefWidth="590.0" />
