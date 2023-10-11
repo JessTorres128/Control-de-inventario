@@ -37,6 +37,8 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HerramientasController {
+
+
     @FXML ImageView imgCodeBar = new ImageView();
     Conexion conexion;
     @FXML TabPane tabPaneHerramientas;
