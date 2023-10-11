@@ -14,6 +14,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -21,13 +22,13 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="776.0" prefWidth="1155.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ArticulosController">
+<HBox prefHeight="815.0" prefWidth="1155.0" style="-fx-background-color: white; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.ArticulosController">
    <children>
       <TabPane fx:id="tabV" prefHeight="710.0" prefWidth="1021.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab fx:id="tabSearch" text="Buscar">
                <content>
-                  <VBox>
+                  <VBox prefHeight="708.0" prefWidth="983.0">
                      <children>
                         <VBox prefHeight="102.0" prefWidth="433.0" spacing="5.0">
                            <children>
@@ -62,6 +63,14 @@
                                           <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
                                        </unSelectedColor>
                                     </JFXRadioButton>
+                                    <JFXRadioButton fx:id="rbTipo" text="Tipo">
+                                       <selectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </selectedColor>
+                                       <unSelectedColor>
+                                          <Color red="0.27843138575553894" green="0.16862745583057404" blue="0.4313725531101227" />
+                                       </unSelectedColor>
+                                    </JFXRadioButton>
                                  </children>
                                  <VBox.margin>
                                     <Insets left="15.0" />
@@ -77,10 +86,10 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </VBox>
-                        <VBox prefHeight="558.0" prefWidth="578.0">
+                        <VBox prefHeight="567.0" prefWidth="983.0">
                            <children>
                               <TableView fx:id="tableViewArticulos" prefHeight="540.0" prefWidth="500.0" />
-                              <Label fx:id="lblContador" text="Se cargaron x registros" textFill="WHITE">
+                              <Label fx:id="lblContador" text="Se cargaron x registros">
                                  <font>
                                     <Font name="System Bold" size="13.0" />
                                  </font>
@@ -97,7 +106,7 @@
                      <children>
                         <AnchorPane prefHeight="624.0" prefWidth="986.0" style="-fx-background-color: white;">
                            <children>
-                              <TextField fx:id="txtCodigoBarras" editable="false" layoutX="46.0" layoutY="560.0" prefHeight="27.0" prefWidth="164.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
+                              <TextField fx:id="txtCodigoBarras" layoutX="46.0" layoutY="560.0" prefHeight="27.0" prefWidth="164.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
                               <TextField fx:id="txtGaveta" layoutX="171.0" layoutY="255.0" minHeight="20.0" prefHeight="25.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
                               <ComboBox fx:id="cbMaterial" layoutX="755.0" layoutY="128.0" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
                               <JFXTextArea fx:id="txtCaracteristicas" focusColor="#543383" layoutX="171.0" layoutY="129.0" prefHeight="11.0" prefWidth="168.0" style="-fx-background-color: white; -fx-border-color: #543383;" text="Luz estrobo 75 destelos por minuto de 6 a 12 VCD" unFocusColor="WHITE" />
@@ -127,8 +136,8 @@
                               </JFXRadioButton>
                               <Label layoutX="739.0" layoutY="381.0" text="Frecuencia de uso" />
                               <Label layoutX="384.0" layoutY="253.0" />
-                              <JFXButton layoutX="234.0" layoutY="461.0" onAction="#GenerateCodeBar" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #543383;" text="Generar" textFill="WHITE" />
-                              <JFXButton layoutX="234.0" layoutY="528.0" onAction="#PrintCodeBar" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #543383;" text="Imprimir" textFill="WHITE" />
+                              <JFXButton layoutX="253.0" layoutY="440.0" onAction="#GenerateCodeBar" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #543383;" text="Generar" textFill="WHITE" />
+                              <JFXButton layoutX="253.0" layoutY="507.0" onAction="#PrintCodeBar" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #543383;" text="Imprimir" textFill="WHITE" />
                               <ImageView fx:id="imgCodeBar" fitHeight="92.0" fitWidth="164.0" layoutX="46.0" layoutY="468.0" pickOnBounds="true" preserveRatio="true" />
                               <Label layoutX="82.0" layoutY="138.0" text="Caracteristicas" />
                               <Label layoutX="121.0" layoutY="259.0" text="Gaveta" />
@@ -178,6 +187,11 @@
                               </JFXRadioButton>
                               <JFXRadioButton fx:id="rbCBMedio" layoutX="106.0" layoutY="593.0" selected="true" text="Medio" />
                               <RadioButton fx:id="rbCBGrande" layoutX="182.0" layoutY="593.0" mnemonicParsing="false" text="Grande" />
+                              <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="216.0" layoutY="560.0" onMouseClicked="#GenerateNumber" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../img/restart.png" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </AnchorPane>
                      </children>

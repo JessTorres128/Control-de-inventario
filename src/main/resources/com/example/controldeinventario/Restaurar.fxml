@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.RestaurarController">
+   <children>
+      <Label text="Restaurar">
+         <VBox.margin>
+            <Insets left="20.0" top="20.0" />
+         </VBox.margin>
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label text="Bienvenido al menú de restaurar">
+         <VBox.margin>
+            <Insets left="30.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="600.0" spacing="30.0">
+         <children>
+            <JFXButton onAction="#ElegirArchivo" text="Cargar">
+               <HBox.margin>
+                  <Insets left="40.0" />
+               </HBox.margin>
+            </JFXButton>
+            <Label fx:id="lblArchivo" text="Sin cargar archivo" />
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </HBox>
+      <JFXCheckBox fx:id="cbMat" onAction="#CheckBoxChange" text="Material">
+         <VBox.margin>
+            <Insets left="40.0" />
+         </VBox.margin>
+      </JFXCheckBox>
+      <VBox prefHeight="80.0" prefWidth="600.0">
+         <children>
+            <HBox fx:id="hboxMat" alignment="CENTER" prefHeight="33.0" prefWidth="600.0" spacing="10.0">
+               <children>
+                  <Label text="Número de hoja">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txtNHojaMat" prefHeight="26.0" prefWidth="40.0" />
+                  <Label text="Número de columna">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txtNColMat" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <JFXCheckBox fx:id="cbHerramienta" onAction="#CheckBoxChange" text="Herramienta">
+         <VBox.margin>
+            <Insets left="40.0" />
+         </VBox.margin>
+      </JFXCheckBox>
+      <VBox prefHeight="62.0" prefWidth="600.0">
+         <children>
+            <HBox fx:id="hboxHerra" alignment="CENTER" prefHeight="71.0" prefWidth="600.0" spacing="20.0">
+               <children>
+                  <Label text="Número de hoja" />
+                  <TextField fx:id="txtNHojaHerra" />
+                  <Label text="Número de columna" />
+                  <TextField fx:id="txtNColHerra" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <JFXButton fx:id="btnCargar" onAction="#Cargar" text="Cargar">
+         <VBox.margin>
+            <Insets left="25.0" top="20.0" />
+         </VBox.margin>
+      </JFXButton>
+      <HBox alignment="CENTER_LEFT">
+         <VBox.margin>
+            <Insets left="20.0" top="10.0" />
+         </VBox.margin>
+         <children>
+            <Label text="Si no tiene la plantilla de excel puede generarla " />
+            <Hyperlink onAction="#GenerarPlantilla" text="aquí" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

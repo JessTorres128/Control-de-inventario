@@ -80,12 +80,12 @@ public class TipoArticuloController {
 
     @FXML private void SaveTipoArticulo() throws SQLException {
         if (!txtNombre.getText().isEmpty()){
-            ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `tipo_material` WHERE `id_material`='"+txtID.getText()+"' LIMIT 1");
+            ResultSet resultSetUpdate = conexion.consultar("SELECT * FROM `tipo_material` WHERE `id_material`= ? LIMIT 1", txtID.getText());
             if (resultSetUpdate.next()){
-                conexion.insmodelim("UPDATE `tipo_material` SET `material`='"+txtNombre.getText()+"',`tipo_material`='"+((RadioButton) toggleGroupTMaterial.getSelectedToggle()).getText()+"' WHERE `id_material`='"+txtID.getText()+"'");
+                conexion.insmodelim("UPDATE `tipo_material` SET `material`= ?,`tipo_material`= ? WHERE `id_material`= ?", txtNombre.getText(), ((RadioButton) toggleGroupTMaterial.getSelectedToggle()).getText(), txtID.getText());
 
             }else {
-                conexion.insmodelim("INSERT INTO `tipo_material`(`material`, `tipo_material`) VALUES ('"+txtNombre.getText()+"','"+((RadioButton) toggleGroupTMaterial.getSelectedToggle()).getText()+"')");
+                conexion.insmodelim("INSERT INTO `tipo_material`(`material`, `tipo_material`) VALUES (?, ?)",txtNombre.getText(),((RadioButton) toggleGroupTMaterial.getSelectedToggle()).getText());
             }
             tabPaneVentana.getSelectionModel().select(tabSearch);
             tabSearch.setDisable(false);
@@ -118,11 +118,11 @@ public class TipoArticuloController {
         if (tableViewTMateriales.getSelectionModel().getSelectedItem() != null){
             TipoArticulo tipoArticulo= tableViewTMateriales.getSelectionModel().getSelectedItem();
             if (ConfirmarBorrar("Deseas borrar "+tipoArticulo.getNombre()+", realizar esta accion \n tambien borrará a los registros que tengan este tipo de articulo")){
-                conexion.insmodelim("DELETE FROM `tipo_material` WHERE `id_material`='"+tipoArticulo.getId()+"'");
+                conexion.insmodelim("DELETE FROM `tipo_material` WHERE `id_material`= ?", tipoArticulo.getId());
                 if (tipoArticulo.getT_material().equals("Herramienta")){
-                    conexion.insmodelim("SELECT * FROM `herramienta` WHERE `id_herramienta`='"+tipoArticulo.getId()+"'");
+                    conexion.insmodelim("SELECT * FROM `herramienta` WHERE `id_herramienta`= ?",tipoArticulo.getId());
                 }else {
-                    conexion.insmodelim("DELETE FROM `material` WHERE `id_material`='"+tipoArticulo.getId()+"'");
+                    conexion.insmodelim("DELETE FROM `material` WHERE `id_material`= ?",tipoArticulo.getId());
                 }
                 Exito("Registro borrado exitosamente");
                 Busqueda();
@@ -151,30 +151,39 @@ public class TipoArticuloController {
     @FXML private void Busqueda() throws SQLException {
         String busqueda= txtBusqueda.getText();
         String criterio="";
-        BusquedaCheckRegistros();
-        if (radioButtonID.isSelected() && !busqueda.equals("")){
+        //BusquedaCheckRegistros();
+        if (radioButtonID.isSelected() && !busqueda.isEmpty()){
             criterio="id_material";
-        } else if (radioButtonNombre.isSelected() && !busqueda.equals("")) {
+        } else if (radioButtonNombre.isSelected() && !busqueda.isEmpty()) {
             criterio="material";
         }
-        if (checkBoxHerramienta.isSelected() && checkBoxMaterial.isSelected() && !busqueda.equals("")){
+        if (checkBoxHerramienta.isSelected() && checkBoxMaterial.isSelected() && !busqueda.isEmpty()){
             ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
-        } else if (!checkBoxHerramienta.isSelected() && !checkBoxMaterial.isSelected() && !busqueda.equals("")) {
-            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE `"+criterio+"` LIKE '%"+busqueda+"%'"));
-        } else if (checkBoxMaterial.isSelected() && !busqueda.equals("") && !checkBoxHerramienta.isSelected()) {
+        } else if (!checkBoxHerramienta.isSelected() && !checkBoxMaterial.isSelected()) {
+            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE 0"));
+        } else if (checkBoxMaterial.isSelected() && !busqueda.isEmpty() && !checkBoxHerramienta.isSelected()) {
             ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE `"+criterio+"` LIKE '%"+busqueda+"%' AND tipo_material LIKE '%Material%'"));
-        } else if (checkBoxHerramienta.isSelected() && !checkBoxMaterial.isSelected() && !busqueda.equals("")) {
+        } else if (checkBoxHerramienta.isSelected() && !checkBoxMaterial.isSelected() && !busqueda.isEmpty()) {
             ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE `"+criterio+"` LIKE '%"+busqueda+"%' AND tipo_material='Herramienta'"));
+        } else if (checkBoxMaterial.isSelected() && busqueda.isEmpty() && !checkBoxHerramienta.isSelected()) {
+            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE tipo_material LIKE '%Material%'"));
+        } else if (checkBoxHerramienta.isSelected() && !checkBoxMaterial.isSelected() && busqueda.isEmpty()) {
+            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE tipo_material='Herramienta'"));
+        }else {
+            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE 1;"));
         }
     }
     @FXML private void BusquedaCheckRegistros() throws SQLException {
-        if (checkBoxHerramienta.isSelected() && !checkBoxMaterial.isSelected()){
-            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE tipo_material='Herramienta'"));
+        if (checkBoxMaterial.isSelected() && checkBoxHerramienta.isSelected()){
+          //  ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material`"));
+        } else if (checkBoxHerramienta.isSelected() && !checkBoxMaterial.isSelected()){
+            //ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE tipo_material='Herramienta'"));
         } else if (!checkBoxHerramienta.isSelected() && checkBoxMaterial.isSelected()) {
-            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE tipo_material LIKE '%Material%'"));
+           // ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE tipo_material LIKE '%Material%'"));
         }else {
-            ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material`"));
+           // ActualizarTabla(conexion.consultar("SELECT * FROM `tipo_material` WHERE 0;"));
         }
+        Busqueda();
     }
 
     public boolean ConfirmarBorrar(String mensaje) {
