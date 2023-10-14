@@ -10,37 +10,35 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.RestaurarController">
+<VBox prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.RestaurarController">
    <children>
       <Label text="Restaurar">
          <VBox.margin>
-            <Insets left="20.0" top="20.0" />
+            <Insets left="20.0" />
          </VBox.margin>
          <font>
-            <Font name="System Bold" size="16.0" />
+            <Font name="System Bold" size="25.0" />
          </font>
-      </Label>
-      <Label text="Bienvenido al menú de restaurar">
-         <VBox.margin>
-            <Insets left="30.0" top="10.0" />
-         </VBox.margin>
       </Label>
       <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="600.0" spacing="30.0">
          <children>
-            <JFXButton onAction="#ElegirArchivo" text="Cargar">
+            <JFXButton onAction="#ElegirArchivo" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #543383;" text="Cargar" textFill="WHITE">
                <HBox.margin>
-                  <Insets left="40.0" />
+                  <Insets left="40.0" top="20.0" />
                </HBox.margin>
             </JFXButton>
-            <Label fx:id="lblArchivo" text="Sin cargar archivo" />
+            <Label fx:id="lblArchivo" prefHeight="28.0" prefWidth="111.0" style="-fx-background-color: white;" text="Sin cargar archivo" textAlignment="CENTER">
+               <HBox.margin>
+                  <Insets top="20.0" />
+               </HBox.margin></Label>
          </children>
          <VBox.margin>
             <Insets />
          </VBox.margin>
       </HBox>
-      <JFXCheckBox fx:id="cbMat" onAction="#CheckBoxChange" text="Material">
+      <JFXCheckBox fx:id="cbMat" checkedColor="#543383" onAction="#CheckBoxChange" text="Material" unCheckedColor="#543383">
          <VBox.margin>
-            <Insets left="40.0" />
+            <Insets left="40.0" top="30.0" />
          </VBox.margin>
       </JFXCheckBox>
       <VBox prefHeight="80.0" prefWidth="600.0">
@@ -49,40 +47,55 @@
                <children>
                   <Label text="Número de hoja">
                      <HBox.margin>
-                        <Insets top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txtNHojaMat" prefHeight="26.0" prefWidth="40.0" />
+                  <TextField fx:id="txtNHojaMat" prefHeight="26.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
                   <Label text="Número de columna">
                      <HBox.margin>
-                        <Insets top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txtNColMat" />
+                  <TextField fx:id="txtNColMat" prefHeight="26.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: #543383;">
+                     <HBox.margin>
+                        <Insets right="210.0" />
+                     </HBox.margin></TextField>
                </children>
             </HBox>
          </children>
       </VBox>
-      <JFXCheckBox fx:id="cbHerramienta" onAction="#CheckBoxChange" text="Herramienta">
+      <JFXCheckBox fx:id="cbHerramienta" checkedColor="#543383" onAction="#CheckBoxChange" text="Herramienta" unCheckedColor="#543383">
          <VBox.margin>
-            <Insets left="40.0" />
+            <Insets left="40.0" top="10.0" />
          </VBox.margin>
       </JFXCheckBox>
       <VBox prefHeight="62.0" prefWidth="600.0">
          <children>
             <HBox fx:id="hboxHerra" alignment="CENTER" prefHeight="71.0" prefWidth="600.0" spacing="20.0">
                <children>
-                  <Label text="Número de hoja" />
-                  <TextField fx:id="txtNHojaHerra" />
-                  <Label text="Número de columna" />
-                  <TextField fx:id="txtNColHerra" />
+                  <Label text="Número de hoja">
+                     <HBox.margin>
+                        <Insets bottom="25.0" />
+                     </HBox.margin></Label>
+                  <TextField fx:id="txtNHojaHerra" prefHeight="26.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: #543383;">
+                     <HBox.margin>
+                        <Insets bottom="25.0" />
+                     </HBox.margin></TextField>
+                  <Label text="Número de columna">
+                     <HBox.margin>
+                        <Insets bottom="25.0" />
+                     </HBox.margin></Label>
+                  <TextField fx:id="txtNColHerra" prefHeight="26.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: #543383;">
+                     <HBox.margin>
+                        <Insets bottom="25.0" right="180.0" />
+                     </HBox.margin></TextField>
                </children>
             </HBox>
          </children>
       </VBox>
-      <JFXButton fx:id="btnCargar" onAction="#Cargar" text="Cargar">
+      <JFXButton fx:id="btnCargar" onAction="#Cargar" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #543383;" text="Cargar" textFill="WHITE">
          <VBox.margin>
-            <Insets left="25.0" top="20.0" />
+            <Insets left="40.0" />
          </VBox.margin>
       </JFXButton>
       <HBox alignment="CENTER_LEFT">
@@ -90,8 +103,11 @@
             <Insets left="20.0" top="10.0" />
          </VBox.margin>
          <children>
-            <Label text="Si no tiene la plantilla de excel puede generarla " />
-            <Hyperlink onAction="#GenerarPlantilla" text="aquí" />
+            <Label text="Si no tiene la plantilla de excel puede generarla desde " />
+            <Hyperlink onAction="#GenerarPlantilla" text="aquí" textFill="#543383">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Hyperlink>
          </children>
       </HBox>
    </children>
