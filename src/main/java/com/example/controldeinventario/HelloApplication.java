@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class HelloApplication extends Application {
     public static Stage primarystage;
@@ -19,6 +20,9 @@ public class HelloApplication extends Application {
         stage.setTitle("Inventario");
         stage.setScene(scene);
         stage.show();
+        Image icon = new Image(getClass().getResourceAsStream("/img/icono.png"));
+        stage.getIcons().add(icon);
+        System.out.println(getClass().getResource("/img/icono.png"));
 
 
         stage.setResizable(false);

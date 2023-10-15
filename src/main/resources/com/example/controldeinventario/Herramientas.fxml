@@ -29,10 +29,13 @@
                      <children>
                         <VBox prefHeight="119.0" prefWidth="499.0" spacing="5.0">
                            <children>
-                              <Label text="Criterios de búsqueda">
+                              <Label text="Criterios de búsqueda" textFill="#3c005f">
                                  <VBox.margin>
                                     <Insets left="30.0" top="5.0" />
                                  </VBox.margin>
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
                               </Label>
                               <HBox prefHeight="23.0" prefWidth="539.0" spacing="30.0">
                                  <VBox.margin>
@@ -117,15 +120,15 @@
                               <ImageView fx:id="imgCodeBar" fitHeight="79.0" fitWidth="146.0" layoutX="39.0" layoutY="311.0" pickOnBounds="true" preserveRatio="true" />
                               <JFXButton layoutX="233.0" layoutY="300.0" onAction="#GenerateCodeBar" prefHeight="37.0" prefWidth="85.0" style="-fx-background-color: #543383;" text="Generar" textFill="WHITE" />
                               <JFXButton layoutX="233.0" layoutY="358.0" onAction="#PrintCodeBar" prefHeight="37.0" prefWidth="85.0" style="-fx-background-color: #543383;" text="Imprimir" textFill="WHITE" />
-                              <Label layoutX="29.0" layoutY="23.0" text="Detalles de la Herramienta">
+                              <Label layoutX="29.0" layoutY="23.0" text="Detalles de la Herramienta" textFill="#3c005f">
                                  <font>
-                                    <Font size="19.0" />
+                                    <Font size="22.0" />
                                  </font>
                               </Label>
                               <Label layoutX="25.0" layoutY="91.0" text="Caracteristicas" />
-                              <Label layoutX="29.0" layoutY="268.0" text="Codigo De Barras">
+                              <Label layoutX="29.0" layoutY="268.0" text="Codigo De Barras" textFill="#3c005f">
                                  <font>
-                                    <Font size="19.0" />
+                                    <Font size="22.0" />
                                  </font>
                               </Label>
                               <Label layoutX="25.0" layoutY="146.0" text="Herramienta" />

@@ -51,6 +51,8 @@ public class PrincipalController {
         conexion = new Conexion();
         HabilitarMenus(LoginController.resultado);
         // Image imgSearch= new Image("",25,25,false,true);menuItemB.setGraphic(new ImageView(imgSearch));
+
+
     }
 
 
@@ -146,6 +148,8 @@ public class PrincipalController {
         Parent root = fxmlLoader.load();
         AbrirVentana(root);
 
+
+
     }
     @FXML private void IngresarLogin() throws IOException {
         HelloApplication.primarystage.close();
@@ -154,6 +158,7 @@ public class PrincipalController {
         HelloApplication.primarystage.setTitle("Inventario");
         HelloApplication.primarystage.setScene(scene);
         HelloApplication.primarystage.show();
+
 
         HelloApplication.primarystage.setResizable(false);
 
@@ -206,6 +211,7 @@ public class PrincipalController {
         ventanaSecundaria.initOwner(HelloApplication.primarystage);
         ventanaSecundaria.setScene(new Scene(root));
         ventanaSecundaria.show();
+
     }
     private void HabilitarMenus(ResultSet resultSetUsuario) throws SQLException {
     /*    menuItemMateriales.setDisable(resultSetUsuario.getInt("create_material") != 1 && resultSetUsuario.getInt("update_material") != 1 && resultSetUsuario.getInt("delete_material") != 1);

@@ -31,10 +31,13 @@
                      <children>
                         <VBox prefHeight="102.0" prefWidth="433.0" spacing="5.0">
                            <children>
-                              <Label text="Criterios de búsqueda" textFill="#472b6e">
+                              <Label text="Criterios de búsqueda" textFill="#3c005f">
                                  <VBox.margin>
                                     <Insets left="10.0" top="5.0" />
                                  </VBox.margin>
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
                               </Label>
                               <HBox prefHeight="22.0" prefWidth="453.0" spacing="20.0">
                                  <children>
@@ -156,15 +159,15 @@
                               <Label layoutX="690.0" layoutY="195.0" text="Cantidad" />
                               <TextField fx:id="txtStockMin" layoutX="751.0" layoutY="257.0" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: white; -fx-border-color: #543383;" />
                               <Label layoutX="651.0" layoutY="261.0" text="Cantidad mínima" />
-                              <Label layoutX="35.0" layoutY="24.0" text="Detalles del Articulo">
+                              <Label layoutX="35.0" layoutY="24.0" text="Detalles del Articulo" textFill="#3c005f">
                                  <font>
-                                    <Font size="23.0" />
+                                    <Font size="22.0" />
                                  </font>
                               </Label>
                               <Label layoutX="696.0" layoutY="132.0" text="Material" />
-                              <Label layoutX="41.0" layoutY="399.0" text="Codigo de Barras">
+                              <Label layoutX="41.0" layoutY="399.0" text="Codigo de Barras" textFill="#3c005f">
                                  <font>
-                                    <Font size="23.0" />
+                                    <Font size="22.0" />
                                  </font>
                               </Label>
                               <JFXRadioButton fx:id="rbSinUtilizar" layoutX="851.0" layoutY="407.0" text="Sin utilizar">

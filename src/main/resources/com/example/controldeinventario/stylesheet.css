@@ -124,6 +124,21 @@
     -fx-text-fill: white;
 
 }
+/* Cambia el color de fondo al pasar el cursor sobre un elemento de menú */
+
+.menu-item:hover {
+    -fx-background-color:#b6a3cf; /* Cambia el color al color deseado al pasar el cursor */
+
+}
+.menu-item:focused {
+    -fx-background-color: #b6a3cf; /* Cambia el color al deseado al soltar el botón del ratón */
+}
+.menu:hover {
+    -fx-background-color: #b6a3cf; /* Cambia el color al deseado cuando seleccionado */
+}
+.menu:showing{
+    -fx-background-color: #b6a3cf;
+}
 
 
 

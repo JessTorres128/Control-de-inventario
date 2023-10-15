@@ -41,7 +41,9 @@ Conexion conexion;
             }else{
                 System.out.println("ENCONTRO");
                 FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Principal.fxml"));
+
                 Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
+
                 HelloApplication.primarystage.setX(100);
                 HelloApplication.primarystage.setY(50);
                 HelloApplication.primarystage.setTitle("Pantalla principal");
