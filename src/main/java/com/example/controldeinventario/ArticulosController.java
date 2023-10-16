@@ -353,114 +353,33 @@ public class ArticulosController {
         Stage stage = (Stage) btnExit.getScene().getWindow();
         stage.close();
     }
-    @FXML private void GenerateCodeBar() throws IOException, SQLException, DocumentException {
+    @FXML private void GenerateCodeBar() throws IOException {
         Code39Bean code39Bean = new Code39Bean();
         final int dpi = 150;
         code39Bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi));
         code39Bean.setWideFactor(3);
         code39Bean.doQuietZone(true);
-        ResultSet rsMaterial= conexion.consultar("SELECT `material` FROM `tipo_material` WHERE 1;");
-        while (rsMaterial.next()){
-            ResultSet resultSet = conexion.consultar("SELECT * FROM `material` INNER JOIN tipo_material ON material.id_material = tipo_material.id_material WHERE tipo_material.material= ?;", rsMaterial.getString("material"));
-            Document documento = new Document(PageSize.A4.rotate(), 10f, 10f, 0f, 0f);
-            if (rsMaterial.getString("material").equals("N/A")){
-                PdfWriter pdfWriter=PdfWriter.getInstance(documento, new FileOutputStream("Libro_NA_material.pdf"));
+        OutputStream out = new  FileOutputStream("code39.png");
+        BitmapCanvasProvider canvas = new BitmapCanvasProvider(out, "image/png", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+        code39Bean.generateBarcode(canvas, txtCodigoBarras.getText());
+        canvas.finish();
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream("code39.png"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
-            }else {
-                PdfWriter pdfWriter=PdfWriter.getInstance(documento, new FileOutputStream("Libro_"+rsMaterial.getString("material")+".pdf"));
-
-            }
-
-            // pdfWriter.addPageDictEntry(PdfName.ROTATE, PdfPage.LANDSCAPE);
-            documento.open();
-            PdfPTable pdfPTableCB = new PdfPTable(7);
-
-            pdfPTableCB.setWidthPercentage(100);
-            PdfPCell cellCB = new PdfPCell(Phrase.getInstance("Código"));
-            cellCB.setPadding(5);
-            cellCB.setBorder(Rectangle.ALIGN_CENTER);
-            cellCB.setHorizontalAlignment(Element.ALIGN_CENTER);
-            pdfPTableCB.addCell(cellCB);
-            PdfPCell cellMat = new PdfPCell(Phrase.getInstance("Material"));
-            cellMat.setPadding(5);
-            cellMat.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
-            cellMat.setHorizontalAlignment(Element.ALIGN_CENTER);
-            pdfPTableCB.addCell(cellMat);
-            PdfPCell cellTipo = new PdfPCell(Phrase.getInstance("Tipo"));
-            cellTipo.setPadding(5);
-            cellTipo.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
-            cellTipo.setHorizontalAlignment(Element.ALIGN_CENTER);
-            pdfPTableCB.addCell(cellTipo);
-            PdfPCell cellNParte = new PdfPCell(Phrase.getInstance("Número de parte"));
-            cellNParte.setPadding(5);
-            cellNParte.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
-            cellNParte.setHorizontalAlignment(Element.ALIGN_CENTER);
-            pdfPTableCB.addCell(cellNParte);
-            PdfPCell cellValor = new PdfPCell(Phrase.getInstance("Valor"));
-            cellValor.setPadding(5);
-            cellValor.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
-            cellValor.setHorizontalAlignment(Element.ALIGN_CENTER);
-            pdfPTableCB.addCell(cellValor);
-            PdfPCell cellUM = new PdfPCell(Phrase.getInstance("Unidad de medida"));
-            cellUM.setPadding(5);
-            cellUM.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
-            cellUM.setHorizontalAlignment(Element.ALIGN_CENTER);
-            pdfPTableCB.addCell(cellUM);
-            PdfPCell cellCar = new PdfPCell(Phrase.getInstance("Caracteristicas"));
-            cellCar.setPadding(5);
-            cellCar.setBorder(com.itextpdf.text.Rectangle.ALIGN_CENTER);
-            cellCar.setHorizontalAlignment(Element.ALIGN_CENTER);
-            pdfPTableCB.addCell(cellCar);
-
-
-            while (resultSet.next()){
-                OutputStream out = new  FileOutputStream(resultSet.getString("cb_material")+".png");
-                BitmapCanvasProvider canvas = new BitmapCanvasProvider(out, "image/png", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
-                code39Bean.generateBarcode(canvas, resultSet.getString("cb_material"));
-                canvas.finish();
-                Image image = null;
-                try {
-                    image = new Image(new FileInputStream(resultSet.getString("cb_material")+".png"));
-                    cellCB.setImage(com.itextpdf.text.Image.getInstance(resultSet.getString("cb_material")+".png"));
-                    cellCB.setPaddingTop(5);
-                    pdfPTableCB.addCell(cellCB);
-                    cellMat.setPhrase(Phrase.getInstance(resultSet.getString("material")));
-                    cellMat.setPaddingTop(5);
-                    pdfPTableCB.addCell(cellMat);
-                    cellTipo.setPhrase(Phrase.getInstance(resultSet.getString("tipo")));
-                    cellTipo.setPaddingTop(5);
-                    pdfPTableCB.addCell(cellTipo);
-                    cellNParte.setPhrase(Phrase.getInstance(resultSet.getString("numero_parte")));
-                    cellNParte.setPaddingTop(5);
-                    pdfPTableCB.addCell(cellNParte);
-                    cellValor.setPhrase(Phrase.getInstance(resultSet.getString("valor")));
-                    cellValor.setPaddingTop(5);
-                    pdfPTableCB.addCell(cellValor);
-                    cellUM.setPhrase(Phrase.getInstance(resultSet.getString("unidad_de_medida")));
-                    cellUM.setPaddingTop(5);
-                    pdfPTableCB.addCell(cellUM);
-                    cellCar.setPhrase(Phrase.getInstance(resultSet.getString("caracteristicas")));
-                    cellCar.setPaddingTop(5);
-                    pdfPTableCB.addCell(cellCar);
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                imgCodeBar.setImage(image);
-            }
-            documento.add(pdfPTableCB);
-            documento.close();
-            if (rsMaterial.getString("material").equals("N/A")){
-                Desktop.getDesktop().browse(new File("Libro_NA_material.pdf").toURI());
-            }else {
-                Desktop.getDesktop().browse(new File("Libro_"+rsMaterial.getString("material")+".pdf").toURI());
-            }
-            }
-
-
-
+        imgCodeBar.setImage(image);
 
     }
+
+
+
+
+
+
+    
     @FXML private void PrintCodeBar() throws IOException, DocumentException {
         Document documento = new Document(PageSize.A4);
         PdfWriter.getInstance(documento, new FileOutputStream("CodigoDeBarras.pdf"));
