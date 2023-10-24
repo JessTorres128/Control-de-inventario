@@ -283,7 +283,7 @@ public class HerramientasController {
             ActivateBtn(true,false,true,false,false,true);
 
         }else {
-            Error("Selecciona un registro pa");
+            Error("Selecciona un registro");
         }
     }
     @FXML private void DeleteHerramienta() throws SQLException {
@@ -296,7 +296,7 @@ public class HerramientasController {
             }
 
         }else {
-            Error("Selecciona un registro pa");
+            Error("Selecciona un registro");
         }
     }
     @FXML private void CancelHerramienta() throws SQLException {

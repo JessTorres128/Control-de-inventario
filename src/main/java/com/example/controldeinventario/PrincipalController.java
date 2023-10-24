@@ -42,7 +42,7 @@ public class PrincipalController {
     @FXML
     MenuItem menuItemRoles, menuItemEmpleados;
     @FXML
-    MenuItem menuItemGenerarBD, menuItemEliminarBD, menuItemBorrar;
+    MenuItem menuItemGenerarBD, menuItemEliminarBD, menuItemRestaurarBD;
 
     Conexion conexion;
 
@@ -221,6 +221,8 @@ public class PrincipalController {
         menuItemRoles.setDisable(resultSetUsuario.getInt("crud_roles") != 1);
         menuItemEmpleados.setDisable(resultSetUsuario.getInt("crud_empleados") != 1);*/
         menuItemGenerarBD.setDisable(resultSetUsuario.getInt("generar_bd") != 1);
+        menuItemRestaurarBD.setDisable(resultSetUsuario.getInt("respaldar_bd") != 1);
         menuItemEliminarBD.setDisable(resultSetUsuario.getInt("eliminar_bd") != 1);
+
     }
 }

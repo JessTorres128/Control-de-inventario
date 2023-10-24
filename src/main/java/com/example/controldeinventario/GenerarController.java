@@ -623,56 +623,74 @@ public class GenerarController {
         }
 
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Guardar archivo Excel");
-        fileChooser.getExtensionFilters().addAll(
-               // new FileChooser.ExtensionFilter("Excel", "*.xls"),
-                new FileChooser.ExtensionFilter("Excel", "*.xlsx")
-        );
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
+        if (!bmaterial && !bherramienta && !bpedido && !btmateriales && !busuarios){
+            Error("No se ha seleccionado nada");
+        }else {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar archivo Excel");
+            fileChooser.getExtensionFilters().addAll(
+                    // new FileChooser.ExtensionFilter("Excel", "*.xls"),
+                    new FileChooser.ExtensionFilter("Excel", "*.xlsx")
+            );
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
 
-            try (FileOutputStream outputStream = new FileOutputStream(file)) {
-                excel.write(outputStream);
-                Exito("El excel se ha creado con exito");
-            } catch (IOException e) {
-                e.printStackTrace();
+                try (FileOutputStream outputStream = new FileOutputStream(file)) {
+                    excel.write(outputStream);
+                    Exito("El excel se ha creado con exito");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
     }
 
     @FXML
     private void GenerarPDF() throws SQLException, DocumentException, IOException {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Selecciona una carpeta para guardar el archivo");
-        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        if (VerSeleccionPDFS()){
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle("Selecciona una carpeta para guardar el archivo");
+            directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 
-        File selectedDirectory = directoryChooser.showDialog(HelloApplication.primarystage);
+            File selectedDirectory = directoryChooser.showDialog(HelloApplication.primarystage);
 
-        if (selectedDirectory != null) {
-            System.out.println("Carpeta seleccionada: " + selectedDirectory.getAbsolutePath());
-            System.out.println(tableViewCategoria.getItems().size());
-            File nuevaCarpeta = new File(selectedDirectory.getAbsolutePath() + File.separator + "imgcb");
-            if (nuevaCarpeta.mkdir()) {
-                System.out.println("Nueva carpeta creada en: " + nuevaCarpeta.getAbsolutePath());
-            } else {
-                System.err.println("No se pudo crear la nueva carpeta.");
-            }
+            if (selectedDirectory != null) {
+                System.out.println("Carpeta seleccionada: " + selectedDirectory.getAbsolutePath());
+                System.out.println(tableViewCategoria.getItems().size());
+                File nuevaCarpeta = new File(selectedDirectory.getAbsolutePath() + File.separator + "imgcb");
+                if (nuevaCarpeta.mkdir()) {
+                    System.out.println("Nueva carpeta creada en: " + nuevaCarpeta.getAbsolutePath());
+                } else {
+                    System.err.println("No se pudo crear la nueva carpeta.");
+                }
                 for (TipoArticulo articulo : registros) {
-                if (articulo.getSeleccion()) {
-                    if (articulo.getT_material().equals("Material Consumible") || articulo.getT_material().equals("Material Fijo")) {
-                        GenerarLibro(articulo.getNombre(), "Material", selectedDirectory.getAbsolutePath());
-                    } else {
-                        GenerarLibro(articulo.getNombre(), "Herramienta", selectedDirectory.getAbsolutePath());
+                    if (articulo.getSeleccion()) {
+                        if (articulo.getT_material().equals("Material Consumible") || articulo.getT_material().equals("Material Fijo")) {
+                            GenerarLibro(articulo.getNombre(), "Material", selectedDirectory.getAbsolutePath());
+                        } else {
+                            GenerarLibro(articulo.getNombre(), "Herramienta", selectedDirectory.getAbsolutePath());
+                        }
                     }
                 }
-            }
                 Exito("PDFs creados exitosamente");
-        } else {
-            System.out.println("El usuario canceló la selección de carpeta.");
+            } else {
+                System.out.println("El usuario canceló la selección de carpeta.");
+            }
+        }else {
+            Error("No se ha seleccionado ningun campo");
         }
+
     }
 
+    private boolean VerSeleccionPDFS(){
+        for (TipoArticulo articulo : registros) {
+            if (articulo.getSeleccion()){
+                return true;
+            }
+        }
+        return false;
+    }
      /*
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecciona una carpeta para guardar el archivo");

@@ -205,7 +205,7 @@ public class EmpleadosController {
             }
 
         }else {
-            Error("Selecciona un registro pa");
+            Error("Selecciona un registro");
         }
     }
 
@@ -219,7 +219,7 @@ public class EmpleadosController {
             }
 
         }else {
-            Error("Selecciona un registro pa");
+            Error("Selecciona un registro");
         }
 
 

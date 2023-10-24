@@ -94,9 +94,10 @@ public class RestaurarController {
     @FXML private void Cargar() throws IOException, SQLException {
         Workbook workbook = DetectarArchivo(ruta);
         int cont=0;
+        if (VerificarTxts(true,txtNColHerra,txtNHojaHerra,txtNHojaMat,txtNColMat)){
             if (cbMat.isSelected()){
                 System.out.println("Entra a checkbox");
-                if (VerificarTxts(txtNHojaMat,txtNColMat)){
+                if (VerificarTxts(false,txtNHojaMat,txtNColMat)){
                     int colInicial=-1;
                     Sheet sheet = workbook.getSheetAt(Integer.parseInt(txtNHojaMat.getText())-1);
                     for (Row row : sheet){
@@ -157,15 +158,15 @@ public class RestaurarController {
                                 }
 
                             }
+                        }
                     }
-                }
                 }else {
                     Error("No se ha cargado la información necesaria");
                 }
             }
             if (cbHerramienta.isSelected()){
                 System.out.println("Entra a checkbox");
-                if (VerificarTxts(txtNHojaHerra,txtNColHerra)){
+                if (VerificarTxts(false,txtNHojaHerra,txtNColHerra)){
                     int colInicial=-1;
                     Sheet sheet = workbook.getSheetAt(Integer.parseInt(txtNHojaHerra.getText())-1);
                     for (Row row : sheet){
@@ -197,7 +198,7 @@ public class RestaurarController {
                                         , (f_uso.getCellType() == CellType.NUMERIC) ? String.valueOf(f_uso.getNumericCellValue()) : f_uso.getStringCellValue()
                                         , (cantidad.getCellType() == CellType.NUMERIC) ? (int) cantidad.getNumericCellValue() : Integer.parseInt(cantidad.getStringCellValue())
                                         , (cantidad_min.getCellType() == CellType.NUMERIC) ? (int) cantidad_min.getNumericCellValue() : Integer.parseInt(cantidad_min.getStringCellValue())
-                                        );
+                                );
 
                                 ResultSet resultSet3= conexion.consultar("SELECT * FROM `tipo_material` WHERE `material`= ? LIMIT 1",herramienta.getHerramienta());
                                 if (resultSet3.next()){
@@ -219,6 +220,11 @@ public class RestaurarController {
                     Error("No se ha cargado la información necesaria");
                 }
             }
+            Exito("Se ha terminado de cargar la informacion con exito");
+        }else {
+            Error("No se ha rellenado ningun campo");
+        }
+
 
 
 
@@ -413,18 +419,29 @@ public class RestaurarController {
 
 
     }
-    private boolean VerificarTxts(TextField... txts){
-        for (TextField txt : txts){
-            if (txt.getText().isEmpty() || !txt.getText().matches("^[0-9]*$")){
-                return false;
+    private boolean VerificarTxts(boolean todos, TextField... txts){
+        if (!todos){
+            for (TextField txt : txts){
+                if (txt.getText().isEmpty() || !txt.getText().matches("^[0-9]*$")){
+                    return false;
+                }
             }
+        }else {
+            for (TextField txt : txts){
+                if (!txt.getText().isEmpty() && txt.getText().matches("^[0-9]*$")){
+                    break;
+                }
+            }
+            return false;
         }
+
         return true;
     }
 
     @FXML private void CheckBoxChange(){
         hboxMat.setDisable(!cbMat.isSelected());
         hboxHerra.setDisable(!cbHerramienta.isSelected());
+
     }
 
 

@@ -164,7 +164,7 @@ public class RolesController {
             }
 
         }else {
-            Error("Selecciona un registro pa");
+            Error("Selecciona un registro");
         }
     }
 
@@ -186,7 +186,7 @@ public class RolesController {
 
 
         }else {
-            Error("Selecciona un registro pa");
+            Error("Selecciona un registro");
         }
     }
 

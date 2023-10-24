@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -8,8 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<?import java.net.URL?>
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #543383;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.PrincipalController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #543383;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.PrincipalController">
    <children>
       <MenuBar layoutY="1.0" prefHeight="28.0" prefWidth="1280.0" style="-fx-background-color: white; -fx-opacity: 0.9;">
         <menus>
@@ -44,8 +44,8 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Mantenimiento">
               <items>
-                <MenuItem fx:id="menuItemRestaurarBD" mnemonicParsing="false" onAction="#IngresarGenerar" text="Generar (Exportar BD)" />
-                  <MenuItem fx:id="menuItemGenerarBD" mnemonicParsing="false" onAction="#IngresarRestaurar" text="Restaurar BD" />
+                <MenuItem fx:id="menuItemGenerarBD" mnemonicParsing="false" onAction="#IngresarGenerar" text="Generar (Exportar BD)" />
+                  <MenuItem fx:id="menuItemRestaurarBD" mnemonicParsing="false" onAction="#IngresarRestaurar" text="Restaurar BD" />
                   <MenuItem fx:id="menuItemEliminarBD" mnemonicParsing="false" onAction="#IngresarBorrar" text="Eliminar" />
               </items>
             </Menu>

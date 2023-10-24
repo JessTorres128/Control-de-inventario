@@ -110,7 +110,7 @@ public class TipoArticuloController {
             }
             ActivateBtn(true,false,true,false,false,true);
         }else {
-            Error("Selecciona un registro pa");
+            Error("Selecciona un registro");
         }
     }
 
@@ -130,7 +130,7 @@ public class TipoArticuloController {
             }
 
         }else {
-            Error("Selecciona un registro pa");
+            Error("Selecciona un registro");
         }
     }
 

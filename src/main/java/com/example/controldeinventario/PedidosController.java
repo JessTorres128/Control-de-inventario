@@ -372,7 +372,7 @@ public class PedidosController {
 
     @FXML private void SavePedido() throws SQLException {
         if (productos.isEmpty()){
-            Error("No has seleccionado ningun articulo :V");
+            Error("No has seleccionado ningun articulo");
         }else {
             if (!VerifyTxt(txtNumControl, txtProfesor, txtMateria , txtNombre)){
                 Error("Faltan campos por rellenar");
@@ -613,7 +613,7 @@ public class PedidosController {
             ActivateBtn(true,false,true,false, true);
 
         }else {
-            Error("Selecciona un registro pa");
+            Error("Selecciona un registro");
         }
     }
     @FXML private void DeletePedido() throws SQLException {
@@ -642,7 +642,7 @@ public class PedidosController {
             }
 
         }else {
-            Error("Selecciona un registro pa");
+            Error("Selecciona un registro");
         }
     }
     @FXML private void CanecelPedido() throws SQLException {

@@ -222,7 +222,7 @@ public class ArticulosController {
                                     Exito("Actualizado con exito");
                                 }else {
                                     conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",txtCodigoBarras.getText(),txtArmario.getText(), txtGaveta.getText(), txtSubCompartimento.getText(), resultado.getString("id_material"), txtTipo.getText(), txtNumParte.getText(), txtValor.getText(), txtUnidadMedida.getText(), txtCaracteristicas.getText(), ((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText(), txtStock.getText(), txtStockMin.getText());
-                                    Exito("Lo logro señor");
+                                    Exito("Registro ingresado correctamente");
                                 }
 
                             //}
@@ -252,7 +252,7 @@ public class ArticulosController {
                                     Exito("Actualizado con exito");
                                 }else {
                                     conexion.insmodelim("INSERT INTO `material`(`cb_material`, `tipo_de_armario`, `gaveta`, `sub_compartimento`, `id_material`, `tipo`, `numero_parte`, `valor`, `unidad_de_medida`, `caracteristicas`, `frecuencia_de_uso`, `cantidad`, `cantidad_min`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",txtCodigoBarras.getText(),txtArmario.getText(), txtGaveta.getText(), txtSubCompartimento.getText(), resultado.getString("id_material"), txtTipo.getText(), txtNumParte.getText(), txtValor.getText(), txtUnidadMedida.getText(), txtCaracteristicas.getText(), ((RadioButton) toggleGroupFrecuencia.getSelectedToggle()).getText(), txtStock.getText(), txtStockMin.getText());
-                                    Exito("Lo logro señor");
+                                    Exito("Registro ingresado correctamente");
                                 }
 
                             }
@@ -325,7 +325,7 @@ public class ArticulosController {
             ActivateBtn(true,false,true,false,false,true);
             edit = true;
             cbedit = articulo.getCodigo_barras();
-        }else {Error("Selecciona un registro pa");}
+        }else {Error("Selecciona un registro");}
 
     }
     @FXML private void CancelArticulo() throws SQLException {
@@ -346,7 +346,7 @@ public class ArticulosController {
             }
 
         }else {
-            Error("Selecciona un registro pa");
+            Error("Selecciona un registro");
         }
     }
     @FXML private void ExitArticulo(){
@@ -379,7 +379,6 @@ public class ArticulosController {
 
 
 
-    
     @FXML private void PrintCodeBar() throws IOException, DocumentException {
         Document documento = new Document(PageSize.A4);
         PdfWriter.getInstance(documento, new FileOutputStream("CodigoDeBarras.pdf"));
