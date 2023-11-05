@@ -25,10 +25,10 @@ public class BorrarController {
 
     @FXML private void Borrar() throws SQLException {
         if(CheckConfirmar()){
-            if (ConfirmarBorrar("Deseas hacer una copia de seguridad de estos registros?")){
+            if (ConfirmarBorrar("¿Desea hacer una copia de seguridad de estos registros?")){
                 GenerarController generarController = new GenerarController();
                 generarController.GenerarExcel(checkBoxMateriales.isSelected(), checkBoxHerramientas.isSelected(),checkBoxPedidos.isSelected(),checkBoxAlumnos.isSelected(), checkBoxHorarios.isSelected(), checkBoxTipos_Material.isSelected(),checkBoxRoles.isSelected(),checkBoxUsuarios.isSelected());
-            }else if (ConfirmarBorrar("Estas seguro?")){
+            }else if (ConfirmarBorrar("¿Esta seguro?")){
                 GenerarController generarController = new GenerarController();
                 generarController.GenerarExcel(checkBoxMateriales.isSelected(), checkBoxHerramientas.isSelected(),checkBoxPedidos.isSelected(),checkBoxAlumnos.isSelected(), checkBoxHorarios.isSelected(), checkBoxTipos_Material.isSelected(),checkBoxRoles.isSelected(),checkBoxUsuarios.isSelected());
             }

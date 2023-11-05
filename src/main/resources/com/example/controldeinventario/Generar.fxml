@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import java.net.URL?>
 <VBox prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.GenerarController">
    <children>
       <Label text="Generar">
@@ -117,4 +118,7 @@
          </children>
       </AnchorPane>
    </children>
+   <stylesheets>
+      <URL value="@stylesheet.css" />
+   </stylesheets>
 </VBox>

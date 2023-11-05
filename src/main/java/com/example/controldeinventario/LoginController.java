@@ -36,7 +36,7 @@ Conexion conexion;
             if(cont==0){
                 Alert alert=new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("error");
-                alert.setContentText("Datos incorrectos, compruebe los datos insertados");
+                alert.setContentText("Datos incorrectos, compruebe su usuario o contraseña");
                 alert.show();
             }else{
                 System.out.println("ENCONTRO");
@@ -46,7 +46,7 @@ Conexion conexion;
 
                 HelloApplication.primarystage.setX(100);
                 HelloApplication.primarystage.setY(50);
-                HelloApplication.primarystage.setTitle("Pantalla principal");
+                HelloApplication.primarystage.setTitle("-Instituto Tecnológico Superior de Nuevo Casas Grandes-");
                 HelloApplication.primarystage.setScene(scene);
                 HelloApplication.primarystage.setResizable(false);
             }
@@ -74,7 +74,7 @@ Conexion conexion;
                 Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
                 HelloApplication.primarystage.setX(100);
                 HelloApplication.primarystage.setY(50);
-                HelloApplication.primarystage.setTitle("Pantalla principal");
+                HelloApplication.primarystage.setTitle("-Instituto Tecnológico Superior de Nuevo Casas Grandes-");
                 HelloApplication.primarystage.setScene(scene);
                 HelloApplication.primarystage.setResizable(false);
             }

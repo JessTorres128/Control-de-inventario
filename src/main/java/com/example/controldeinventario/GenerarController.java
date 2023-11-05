@@ -675,7 +675,7 @@ public class GenerarController {
                 }
                 Exito("PDFs creados exitosamente");
             } else {
-                System.out.println("El usuario canceló la selección de carpeta.");
+                System.out.println("El usuario canceló la selección de carpeta");
             }
         }else {
             Error("No se ha seleccionado ningun campo");
@@ -910,7 +910,7 @@ public class GenerarController {
         System.out.println(listaCbs);
         if (listaCbs.isEmpty()){
             Error("No se ha seleccionado nada");
-            System.out.println("No hay nada perrillo");
+            System.out.println("No hay nada");
         }else {
 
 

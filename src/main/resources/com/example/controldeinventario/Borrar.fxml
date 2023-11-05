@@ -11,6 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
+<?import java.net.URL?>
 <VBox alignment="TOP_CENTER" prefHeight="430.0" prefWidth="623.0" spacing="5.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.BorrarController">
    <children>
       <Label text="Borrar">
@@ -91,4 +92,7 @@
          </VBox.margin>
       </JFXButton>
    </children>
+   <stylesheets>
+      <URL value="@stylesheet.css" />
+   </stylesheets>
 </VBox>

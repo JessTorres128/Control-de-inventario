@@ -195,7 +195,7 @@ public class ArticulosController {
             if (VerifyTxt(txtCaracteristicas, cbMaterial,txtArmario,txtCodigoBarras,txtGaveta,txtSubCompartimento,txtStock,txtStockMin,txtNumParte,txtTipo,txtValor,txtUnidadMedida)){
                 if (!txtStock.getText().matches("^\\d+$") || !txtStockMin.getText().matches("^\\d+$") || !txtValor.getText().matches("^(N\\/A|-?\\d*\\.?\\d+)$")){
 
-                    Error("Cantidades incorrectas, revise que contenga solamente números");
+                    Error("Cantidades incorrectas, revise que contenga unicamente números");
                 }else {
                     if (txtCodigoBarras.getText().equals(String.valueOf(cbedit))){
                        /* ResultSet res= conexion.consultar("SELECT herramienta.cb_herramienta FROM herramienta\n" +
