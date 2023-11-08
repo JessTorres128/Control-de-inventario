@@ -1,0 +1,1 @@
+java --module-path "C:\Program Files\Java\javafx-sdk-17.0.9\lib" --add-modules javafx.controls,javafx.fxml -jar Control-de-inventario.jar
