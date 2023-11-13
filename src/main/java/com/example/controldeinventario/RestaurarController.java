@@ -94,7 +94,7 @@ public class RestaurarController {
     @FXML private void Cargar() throws IOException, SQLException {
         Workbook workbook = DetectarArchivo(ruta);
         int cont=0;
-        if (VerificarTxts(true,txtNColHerra,txtNHojaHerra,txtNHojaMat,txtNColMat)){
+        if (VerificarTxts(false,txtNColHerra,txtNHojaHerra) || VerificarTxts(false,txtNHojaMat,txtNColMat)){
             if (cbMat.isSelected()){
                 System.out.println("Entra a checkbox");
                 if (VerificarTxts(false,txtNHojaMat,txtNColMat)){
