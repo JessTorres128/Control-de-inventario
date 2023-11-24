@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -10,9 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<?import java.net.URL?>
-<VBox alignment="TOP_CENTER" prefHeight="430.0" prefWidth="623.0" spacing="5.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.BorrarController">
+<VBox alignment="TOP_CENTER" prefHeight="430.0" prefWidth="623.0" spacing="5.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controldeinventario.BorrarController">
    <children>
       <Label text="Borrar">
          <font>
@@ -30,7 +29,7 @@
             <Insets />
          </VBox.margin>
       </ImageView>
-      <Label alignment="CENTER" prefHeight="58.0" prefWidth="600.0" text="Aquí se eliminan los datos enteros de las tablas, esta acción no se puede cambiar, el borrar &#10;algunos de estos datos implica borrar otros datos, para mantener la funcionalidad &#10;del programa recuerde siempre tener una copia de seguridad de la información&#10;" textAlignment="CENTER">
+      <Label alignment="CENTER" prefHeight="118.0" prefWidth="600.0" text="Aquí se eliminan los datos enteros de las tablas, esta acción no se puede cambiar, el borrar &#10;algunos de estos datos implica borrar otros datos, para mantener la funcionalidad &#10;del programa recuerde siempre tener una copia de seguridad de la información.&#10;Algunos campos no se pueden respaldar y eliminar los campos hace que se pierda la información&#10;para siempre&#10;" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

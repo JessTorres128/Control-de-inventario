@@ -2,8 +2,8 @@ package com.example.controldeinventario;
 
 import java.sql.*;
 public class Conexion {
-    private String servidor="localhost";
-    private String usuario="root";
+    private String servidor="10.250.241.234";
+    private String usuario="Prueba";
     private String password="";
     private String bd="inventario";
     public Connection conexion;

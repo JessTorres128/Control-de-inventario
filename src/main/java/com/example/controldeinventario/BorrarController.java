@@ -27,10 +27,14 @@ public class BorrarController {
         if(CheckConfirmar()){
             if (ConfirmarBorrar("¿Desea hacer una copia de seguridad de estos registros?")){
                 GenerarController generarController = new GenerarController();
-                generarController.GenerarExcel(checkBoxMateriales.isSelected(), checkBoxHerramientas.isSelected(),checkBoxPedidos.isSelected(),checkBoxAlumnos.isSelected(), checkBoxHorarios.isSelected(), checkBoxTipos_Material.isSelected(),checkBoxRoles.isSelected(),checkBoxUsuarios.isSelected());
+                if (checkBoxMateriales.isSelected() || checkBoxHerramientas.isSelected() || checkBoxPedidos.isSelected() || checkBoxTipos_Material.isSelected() || checkBoxUsuarios.isSelected()){
+                    generarController.GenerarExcel(checkBoxMateriales.isSelected(), checkBoxHerramientas.isSelected(),checkBoxPedidos.isSelected(),checkBoxAlumnos.isSelected(), checkBoxHorarios.isSelected(), checkBoxTipos_Material.isSelected(),checkBoxRoles.isSelected(),checkBoxUsuarios.isSelected());
+                }
             }else if (ConfirmarBorrar("¿Esta seguro?")){
                 GenerarController generarController = new GenerarController();
-                generarController.GenerarExcel(checkBoxMateriales.isSelected(), checkBoxHerramientas.isSelected(),checkBoxPedidos.isSelected(),checkBoxAlumnos.isSelected(), checkBoxHorarios.isSelected(), checkBoxTipos_Material.isSelected(),checkBoxRoles.isSelected(),checkBoxUsuarios.isSelected());
+                if (checkBoxMateriales.isSelected() || checkBoxHerramientas.isSelected() || checkBoxPedidos.isSelected() || checkBoxTipos_Material.isSelected() || checkBoxUsuarios.isSelected()){
+                    generarController.GenerarExcel(checkBoxMateriales.isSelected(), checkBoxHerramientas.isSelected(),checkBoxPedidos.isSelected(),checkBoxAlumnos.isSelected(), checkBoxHorarios.isSelected(), checkBoxTipos_Material.isSelected(),checkBoxRoles.isSelected(),checkBoxUsuarios.isSelected());
+                }
             }
             if (checkBoxUsuarios.isSelected()){
                 conexion.insmodelim("DELETE FROM `usuario` WHERE 1");
@@ -78,6 +82,7 @@ public class BorrarController {
                 conexion.insmodelim("DELETE FROM `pedido` WHERE 1");
                 conexion.insmodelim("DELETE FROM `pedido_material` WHERE 1");
             }
+            Exito("Registros completamente eliminados");
         }else {
             Error("No se ha seleccionado ningun campo");
         }
